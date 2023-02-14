@@ -1,6 +1,6 @@
 import vue from '@vitejs/plugin-vue';
 import { readFileSync } from 'node:fs';
-import process from 'node:process';
+import { cwd, env, stdout } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -10,12 +10,12 @@ import ifdef from './ifdef/ifdefRollupPlugin';
 
 // // https://vitejs.dev/config/
 export default ({ mode }) => {
-	const env = loadEnv(mode, process.cwd(), '');
+	const envVariables = loadEnv(mode, cwd(), '');
 
-	process.stdout.write('\n\x1b[2mv' + process.env.npm_package_version + '\x1b[22m\n');
-	process.stdout.write('\n🏁 Project : ' + process.env.npm_package_name);
-	process.stdout.write('\n🪲  Environnement : ' + mode);
-	process.stdout.write('\n🚧 DEBUG is : ' + env.OLYMPIC_DEBUG + '\n\n');
+	stdout.write('\n\x1b[2mv' + env.npm_package_version + '\x1b[22m\n');
+	stdout.write('\n🏁 Project : ' + env.npm_package_name);
+	stdout.write('\n🪲  Environnement : ' + mode);
+	stdout.write('\n🚧 DEBUG is : ' + envVariables.OLYMPIC_DEBUG + '\n\n');
 
 	return defineConfig({
 		server: {
@@ -43,7 +43,7 @@ function getAliasesFromJsConfig() {
 		return { find: key.replace('/*', ''), replacement: value[0].replace('./', '/').replace('/*', '') };
 	});
 
-	process.stdout.write('📂 ' + alias.length + ' alias loaded\n\n');
+	stdout.write('📂 ' + alias.length + ' alias loaded\n\n');
 
 	return alias;
 }
