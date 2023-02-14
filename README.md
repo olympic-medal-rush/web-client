@@ -20,7 +20,7 @@ pnpm staging # build in staging mode
 pnpm build # build in production mode
 ```
 
-## Preview build
+### Preview build
 
 ``` bash
 pnpm preview
@@ -37,3 +37,9 @@ pnpm test:unit
 ```sh
 pnpm lint
 ```
+
+### TODO
+
+- [ ] Add i18n with a Google Sheet
+- [ ] Emit WebglState events on Vue Router change
+- ...
