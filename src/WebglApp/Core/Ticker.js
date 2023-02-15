@@ -1,5 +1,5 @@
-import { state } from '@plugins/WebglApp/State';
-import { EVENTS } from '@plugins/WebglApp/utils/constants.js';
+import { EVENTS } from '@utils/constants';
+import { state } from '../State';
 
 class Ticker {
 	#playing = false;

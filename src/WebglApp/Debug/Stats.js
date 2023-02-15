@@ -1,4 +1,4 @@
-import { state } from '@plugins/WebglApp/State';
+import { state } from '../State';
 
 class Stats {
 	#stats;

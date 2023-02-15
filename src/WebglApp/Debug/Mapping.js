@@ -1,5 +1,5 @@
-import { state } from '@plugins/WebglApp/State.js';
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
+import { state } from '../State.js';
 import { PANE_TABS, PANE_TITLE } from './debugConfig.js';
 
 /** @type Record<any, any> */

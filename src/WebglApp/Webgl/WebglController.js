@@ -1,6 +1,6 @@
-import { app } from '@plugins/WebglApp/App.js';
-import { state } from '@plugins/WebglApp/State.js';
-import { globalUniforms } from '@plugins/WebglApp/utils/globalUniforms.js';
+import { globalUniforms } from '@utils/globalUniforms.js';
+import { app } from '../App.js';
+import { state } from '../State.js';
 import { MainCamera } from './MainCamera.js';
 import { MainScene } from './MainScene.js';
 import { PostProcessing } from './PostProcessing.js';

@@ -9,14 +9,14 @@
 		"paths": {
 			"@styles/*": ["./src/assets/styles/*"],
 			"@components/*": ["./src/components/*"],
-			"@plugins/*": ["./src/plugins/*"],
 			"@stores/*": ["./src/stores/*"],
 			"@views/*": ["./src/views/*"],
-			"@Core/*": ["src/plugins/WebglApp/Core/*"],
-			"@Debug/*": ["src/plugins/WebglApp/Debug/*"],
-			"@Tools/*": ["src/plugins/WebglApp/Tools/*"],
-			"@Webgl/*": ["src/plugins/WebglApp/Webgl/*"],
-			"@utils/*": ["src/plugins/WebglApp/utils/*"]
+			"@WebglApp/*": ["./src/WebglApp/*"],
+			"@Core/*": ["./src/WebglApp/Core/*"],
+			"@Debug/*": ["./src/WebglApp/Debug/*"],
+			"@Tools/*": ["./src/WebglApp/Tools/*"],
+			"@utils/*": ["./src/WebglApp/utils/*"],
+			"@Webgl/*": ["./src/WebglApp/Webgl/*"]
 		}
 	},
 	"exclude": ["node_modules", "dist/**/*"]
