@@ -1,5 +1,5 @@
 <script setup>
-import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs.prod.js';
+import { useI18n } from 'vue-i18n';
 
 // console.log('About');
 
@@ -8,7 +8,7 @@ const { t } = useI18n();
 
 <template>
 	<div class="about">
-		<h1>This is an about page</h1>
+		<h1>Game view</h1>
 		<p>{{ t('head.title') }}</p>
 	</div>
 </template>

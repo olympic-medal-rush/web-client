@@ -12,7 +12,6 @@ node_modules
 dist
 dist-ssr
 coverage
-*.locales
 
 /cypress/videos/
 /cypress/screenshots/
@@ -26,3 +25,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+src/assets/locales/*
+!src/assets/locales/.gitKeep
