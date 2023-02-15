@@ -26,7 +26,7 @@ class WebglController {
 
 	onRouteChange(name) {
 		const color = new Color();
-		if (name === 'about') color.set(0xffaadd);
+		if (name === 'game') color.set(0xffeebb);
 		else color.set(0xaaaaaa);
 
 		gsap.to(this.scene.background, {

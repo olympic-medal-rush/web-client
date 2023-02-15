@@ -41,5 +41,5 @@ pnpm lint
 ### TODO
 
 - [ ] Add i18n with a Google Sheet
-- [ ] Emit WebglState events on Vue Router change
+- [x] Emit WebglState events on Vue Router change
 - ...

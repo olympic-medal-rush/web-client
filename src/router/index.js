@@ -1,3 +1,4 @@
+import { app as webglApp } from '@WebglApp/App';
 import { state } from '@WebglApp/State';
 import { EVENTS } from '@WebglApp/utils/constants';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -12,12 +13,15 @@ const router = createRouter({
 			component: HomeView,
 		},
 		{
-			path: '/about',
-			name: 'about',
+			path: '/game',
+			name: 'game',
 			// route level code-splitting
 			// this generates a separate chunk (About.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
-			component: () => import('../views/AboutView.vue'),
+			component: () => import('../views/GameView.vue'),
+			beforeEnter: async () => {
+				await webglApp.load();
+			},
 		},
 	],
 });

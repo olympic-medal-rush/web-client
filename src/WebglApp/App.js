@@ -20,7 +20,6 @@ class App {
 		if (DEBUG) this.debug = await createDebugModules();
 
 		this.beforeLoad();
-		await this.load();
 	}
 
 	beforeLoad() {}
