@@ -1,3 +1,5 @@
+import { state } from '@WebglApp/State';
+import { EVENTS } from '@WebglApp/utils/constants';
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 
@@ -18,6 +20,10 @@ const router = createRouter({
 			component: () => import('../views/AboutView.vue'),
 		},
 	],
+});
+
+router.afterEach((to, _from) => {
+	state.emit(EVENTS.ROUTE_CHANGE, to.name);
 });
 
 export default router;
