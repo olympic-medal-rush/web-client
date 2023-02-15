@@ -1,6 +1,6 @@
 import { parse } from "csv-parse";
+import process from "node:process";
 import fs from "fs";
-import fetch from "node-fetch";
 
 const args = process.argv.slice(2);
 const spreadsheetId = args[0];
@@ -14,12 +14,13 @@ function importSpreadsheet(docId, exportDirectory, options) {
   return new Promise(function (resolve, reject) {
     options = {
       ...options,
-      languagesLine: 1,
+      languagesLine: 0,
       keyColumn: 2,
       keySeparator: ".",
     };
 
-    let url = "https://docs.google.com/spreadsheets/d/%spreadsheetId%/export?format=csv&id=%spreadsheetId%";
+    let url =
+      "https://docs.google.com/spreadsheets/d/%spreadsheetId%/export?format=csv&id=%spreadsheetId%";
     url = url.replace(/%spreadsheetId%/g, docId);
 
     fetch(url)
@@ -44,13 +45,15 @@ function importSpreadsheet(docId, exportDirectory, options) {
 
                 for (const j in languages) {
                   const lang = languages[j];
-                  if (!Object.prototype.hasOwnProperty.call(translations, lang)) translations[lang] = {};
+                  if (!Object.prototype.hasOwnProperty.call(translations, lang))
+                    translations[lang] = {};
 
                   const keys = key.split(options.keySeparator);
                   let current = translations[lang];
                   for (const k in keys) {
                     const subKey = keys[k];
-                    if (!Object.prototype.hasOwnProperty.call(current, subKey)) current[subKey] = {};
+                    if (!Object.prototype.hasOwnProperty.call(current, subKey))
+                      current[subKey] = {};
                     if (k == keys.length - 1) {
                       current[subKey] = row[j];
                     } else {
@@ -67,7 +70,11 @@ function importSpreadsheet(docId, exportDirectory, options) {
               translations[lang]["lang"] = lang.substring(0, 2);
               const content = JSON.stringify(translations[lang]);
 
-              fs.writeFileSync(exportDirectory + lang + ".json", content, "utf8");
+              fs.writeFileSync(
+                exportDirectory + lang + ".json",
+                content,
+                "utf8"
+              );
               console.log("Translation '" + lang + ".json' written");
             }
           } catch (e) {

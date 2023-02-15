@@ -3,17 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite -m development -c config/vite.config.js",
+    "dev": "pnpm translate && vite -m development -c config/vite.config.js",
     "build": "vite build -m production -c config/vite.config.js",
     "staging": "vite build -m staging -c config/vite.config.js",
     "preview": "vite preview -c config/vite.config.js",
     "test:unit": "vitest --environment jsdom --root src/",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "translate": "node bin/translate.mjs 1mf5qJUxz7tg0WNmle_UGAahXapRGeWrUklk0KTwKOUc ./src/assets/locales/"
   },
   "dependencies": {
+    "@intlify/unplugin-vue-i18n": "^0.8.2",
+    "csv-parse": "^5.3.5",
     "pinia": "^2.0.30",
     "three": "^0.149.0",
     "vue": "^3.2.47",
+    "vue-i18n": "9",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
