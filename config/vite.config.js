@@ -1,12 +1,13 @@
+// @ts-nocheck
 import vue from '@vitejs/plugin-vue';
 import { readFileSync } from 'node:fs';
 import { cwd, env, stdout } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import hotEnvMap from './hotEnvMap/hotEnvMap';
-import hotShaders from './hotShaders/hotShadersRollupPlugin';
-import ifdef from './ifdef/ifdefRollupPlugin';
+import hotEnvMap from './hotEnvMap/hotEnvMap.js';
+import hotShaders from './hotShaders/hotShadersRollupPlugin.js';
+import ifdef from './ifdef/ifdefRollupPlugin.js';
 
 // // https://vitejs.dev/config/
 export default ({ mode }) => {
