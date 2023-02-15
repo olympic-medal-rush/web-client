@@ -1,4 +1,4 @@
-import { EVENTS_MAP } from '@plugins/WebglApp/utils/constants';
+import { EVENTS_MAP } from '@utils/constants';
 
 class State {
 	/** @type State */

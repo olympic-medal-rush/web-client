@@ -1,14 +1,13 @@
-import webgl from '@plugins/WebglPlugin';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import App from './App.vue';
+import { app as webglApp } from './WebglApp/App';
 import './assets/styles/main.scss';
 import router from './router';
 
-const app = createApp(App);
+webglApp.init();
 
-app.use(createPinia());
-app.use(router);
-app.use(webgl);
-
-app.mount('#vue-app');
+const vueApp = createApp(App);
+vueApp.use(createPinia());
+vueApp.use(router);
+vueApp.mount('#vue-app');

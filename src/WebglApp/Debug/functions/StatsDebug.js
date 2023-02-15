@@ -1,10 +1,10 @@
-import { state } from '@plugins/WebglApp/State';
-import { EVENTS } from '@plugins/WebglApp/utils/constants.js';
+import { state } from '@WebglApp/State';
+import { EVENTS } from '@utils/constants';
 
 /**
  *
  * @param {*} pane
- * @param {import("@plugins/WebglApp/Webgl/Renderer.js").Renderer} instance
+ * @param {import("@WebglApp/Webgl/Renderer.js").Renderer} instance
  * @param {*} name
  * @returns
  */

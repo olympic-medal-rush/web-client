@@ -1,7 +1,7 @@
-import { app } from '@plugins/WebglApp/App';
-import { state } from '@plugins/WebglApp/State';
-import { computeEnvmap } from '@plugins/WebglApp/utils/misc.js';
-import { AmbientLight, IcosahedronGeometry, Mesh, MeshStandardMaterial, Scene } from 'three';
+import { AmbientLight, Color, IcosahedronGeometry, Mesh, MeshStandardMaterial, Scene } from 'three';
+import { computeEnvmap } from '@utils/misc';
+import { app } from '../App';
+import { state } from '../State';
 
 class MainScene extends Scene {
 	constructor() {
@@ -9,7 +9,7 @@ class MainScene extends Scene {
 		state.register(this);
 
 		// manifest.envMaps.envmap.callback = this.envMapLoaded;
-
+		this.background = new Color(0xaaaaaa);
 		this.add(new AmbientLight(0xffffff, 0.5));
 	}
 
