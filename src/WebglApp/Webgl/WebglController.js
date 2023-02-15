@@ -1,3 +1,5 @@
+import gsap from 'gsap';
+import { Color } from 'three';
 import { globalUniforms } from '@utils/globalUniforms.js';
 import { app } from '../App.js';
 import { state } from '../State.js';
@@ -21,6 +23,19 @@ class WebglController {
 	}
 
 	onResize() {}
+
+	onRouteChange(name) {
+		const color = new Color();
+		if (name === 'about') color.set(0xffaadd);
+		else color.set(0xaaaaaa);
+
+		gsap.to(this.scene.background, {
+			r: color.r,
+			g: color.g,
+			b: color.b,
+			duration: 1,
+		});
+	}
 
 	onTick({ et }) {
 		globalUniforms.uTime.value = et;

@@ -8,6 +8,8 @@ const EVENTS = {
 	ATTACH: i++,
 	RESIZE: i++,
 
+	ROUTE_CHANGE: i++,
+
 	TICK: i++,
 	RENDER: i++,
 

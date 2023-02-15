@@ -14,6 +14,7 @@ specifiers:
   eslint-config-prettier: ^8.6.0
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-vue: ^9.9.0
+  gsap: ^3.11.4
   jsdom: ^21.1.0
   pinia: ^2.0.30
   prettier: ^2.8.4
@@ -32,6 +33,7 @@ specifiers:
 dependencies:
   '@intlify/unplugin-vue-i18n': 0.8.2_vue-i18n@9.2.2
   csv-parse: 5.3.5
+  gsap: 3.11.4
   pinia: 2.0.30_hmuptsblhheur2tugfgucj7gc4
   three: 0.149.0
   vue: 3.2.47
@@ -3011,6 +3013,10 @@ packages:
   /grapheme-splitter/1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
+
+  /gsap/3.11.4:
+    resolution: {integrity: sha512-McHhEguHyExMMnjqKA8G+7TvxmlKQGMbjgwAilnFe1e4id7V/tFveRQ2YMZhTYu0oxHGWvbPltdVYQOu3z1SCA==}
+    dev: false
 
   /has-bigints/1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
