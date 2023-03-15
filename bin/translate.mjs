@@ -40,7 +40,7 @@ function importSpreadsheet(docId, exportDirectory, options) {
 								const key = row[options.keyColumn - 1];
 								row.splice(0, options.keyColumn);
 
-								if (key.trim() == '') continue;
+								if (key.trim() === '') continue;
 
 								for (const j in languages) {
 									const lang = languages[j];

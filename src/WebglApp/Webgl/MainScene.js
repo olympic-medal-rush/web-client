@@ -1,7 +1,7 @@
+import { computeEnvmap } from '@WebglApp/utils/misc.js';
 import { AmbientLight, Color, IcosahedronGeometry, Mesh, MeshStandardMaterial, Scene } from 'three';
-import { computeEnvmap } from '@utils/misc.js';
+import { state } from '../../State.js';
 import { app } from '../App.js';
-import { state } from '../State.js';
 
 class MainScene extends Scene {
 	constructor() {

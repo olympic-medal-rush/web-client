@@ -1,5 +1,5 @@
+import { state } from '@/State.js';
 import { EVENTS } from '@utils/constants.js';
-import { state } from '../State.js';
 
 class Ticker {
 	#playing = false;

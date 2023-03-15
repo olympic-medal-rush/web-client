@@ -1,4 +1,5 @@
 <script setup>
+import WebglContainer from '@components/WebglContainer.vue';
 import { RouterLink, RouterView } from 'vue-router';
 </script>
 
@@ -13,6 +14,9 @@ import { RouterLink, RouterView } from 'vue-router';
 			</div>
 		</header>
 		<main>
+			<KeepAlive>
+				<WebglContainer />
+			</KeepAlive>
 			<RouterView />
 		</main>
 		<footer></footer>

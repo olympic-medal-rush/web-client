@@ -1,9 +1,9 @@
-import { state } from '@WebglApp/State.js';
+import { state } from '@/State.js';
+import { manifest } from '@WebglApp/utils/manifest.js';
 import { Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { EVENTS } from '@utils/constants.js';
-import { manifest } from '@utils/manifest.js';
 import { AssetsLoader } from './AssetsLoader.js';
 import { AjaxImageLoader } from './CustomLoaders/AjaxImageLoader.js';
 import { AjaxJSONLoader } from './CustomLoaders/AjaxJSONLoader.js';

@@ -1,6 +1,6 @@
-import { state } from '@WebglApp/State.js';
-import { EVENTS } from '@WebglApp/utils/constants.js';
+import { state } from '@/State.js';
 import { createRouter, createWebHistory } from 'vue-router';
+import { EVENTS } from '@utils/constants.js';
 import HomeView from '../views/HomeView.vue';
 
 const router = createRouter({

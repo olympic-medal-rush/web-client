@@ -11,12 +11,13 @@
 			"@components/*": ["./src/components/*"],
 			"@stores/*": ["./src/stores/*"],
 			"@views/*": ["./src/views/*"],
+			"@utils/*": ["./src/utils/*"],
 			"@WebglApp/*": ["./src/WebglApp/*"],
 			"@Core/*": ["./src/WebglApp/Core/*"],
 			"@Debug/*": ["./src/WebglApp/Debug/*"],
 			"@Tools/*": ["./src/WebglApp/Tools/*"],
-			"@utils/*": ["./src/WebglApp/utils/*"],
-			"@Webgl/*": ["./src/WebglApp/Webgl/*"]
+			"@Webgl/*": ["./src/WebglApp/Webgl/*"],
+			"@/*": ["./src/*"]
 		}
 	},
 	"exclude": ["node_modules", "dist/**/*"]

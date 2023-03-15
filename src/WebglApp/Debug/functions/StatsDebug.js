@@ -1,5 +1,5 @@
-import { state } from '@WebglApp/State.js';
-import { EVENTS } from '@utils/constants.js';
+import { state } from 'src/State.js';
+import { EVENTS } from 'src/utils/constants.js';
 
 /**
  *

@@ -3,11 +3,8 @@ import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 import App from './App.vue';
-import { app as webglApp } from './WebglApp/App.js';
 import './assets/styles/main.scss';
 import router from './router/index.js';
-
-webglApp.init();
 
 const i18n = createI18n({
 	legacy: false,

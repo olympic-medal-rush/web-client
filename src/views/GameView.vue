@@ -7,7 +7,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-	<div class="about">
+	<div class="game">
 		<h1>Game view</h1>
 		<p>{{ t('head.title') }}</p>
 	</div>

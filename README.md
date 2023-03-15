@@ -13,6 +13,12 @@ pnpm i
 pnpm dev
 ```
 
+### Generate translations
+
+```sh
+pnpm translate
+```
+
 ### Compile and Minify for Production
 
 ``` bash
@@ -26,21 +32,10 @@ pnpm build # build in production mode
 pnpm preview
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-pnpm test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
-
 ### TODO
 
 - [ ] WebGL should be instanciated inside a Vue component when its mounted
 - [ ] Server communication should be handled by a Vue component aswell
 - [ ] Vue should dispatch server events to the WebGL
 - [ ] Make the render agnostic of the game itself
+- [ ] Update WebGL init events for better understanding

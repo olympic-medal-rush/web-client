@@ -1,8 +1,8 @@
+import { globalUniforms } from '@WebglApp/utils/globalUniforms.js';
 import gsap from 'gsap';
 import { Color } from 'three';
-import { globalUniforms } from '@utils/globalUniforms.js';
+import { state } from '../../State.js';
 import { app } from '../App.js';
-import { state } from '../State.js';
 import { MainCamera } from './MainCamera.js';
 import { MainScene } from './MainScene.js';
 import { PostProcessing } from './PostProcessing.js';
