@@ -1,6 +1,6 @@
-import { app } from '@WebglApp/App';
-import { manifest } from '@WebglApp/utils/manifest';
-import { computeEnvmap } from '@WebglApp/utils/misc';
+import { app } from '@WebglApp/App.js';
+import { manifest } from '@WebglApp/utils/manifest.js';
+import { computeEnvmap } from '@WebglApp/utils/misc.js';
 
 /**
  *

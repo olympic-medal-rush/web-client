@@ -1,9 +1,9 @@
+import { state } from '@WebglApp/State.js';
 import { Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { EVENTS } from '@utils/constants.js';
 import { manifest } from '@utils/manifest.js';
-import { state } from '../State.js';
 import { AssetsLoader } from './AssetsLoader.js';
 import { AjaxImageLoader } from './CustomLoaders/AjaxImageLoader.js';
 import { AjaxJSONLoader } from './CustomLoaders/AjaxJSONLoader.js';
@@ -12,7 +12,7 @@ import { AjaxTextureLoader } from './CustomLoaders/AjaxTextureLoader.js';
 Cache.enabled = true;
 
 class AssetsManager {
-	constructor({ blockingLoad = true, withPriority = true, withCriticals = true } = {}) {
+	constructor({ blockingLoad = true, withPriority = false, withCriticals = false } = {}) {
 		this.blockingLoad = blockingLoad;
 		this.withPriority = withPriority;
 		this.withCriticals = withCriticals;

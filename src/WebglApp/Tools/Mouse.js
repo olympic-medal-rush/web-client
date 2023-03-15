@@ -1,7 +1,7 @@
 import { Vector2 } from 'three';
-import { EVENTS } from '@utils/constants';
-import { app } from '../App';
-import { state } from '../State';
+import { EVENTS } from '@utils/constants.js';
+import { app } from '../App.js';
+import { state } from '../State.js';
 
 class Mouse {
 	constructor() {

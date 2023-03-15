@@ -40,7 +40,7 @@ pnpm lint
 
 ### TODO
 
-- [x] Add i18n with a Google Sheet
-- [x] Emit WebglState events on Vue Router change
-- [ ] Commit lint
-- ...
+- [ ] WebGL should be instanciated inside a Vue component when its mounted
+- [ ] Server communication should be handled by a Vue component aswell
+- [ ] Vue should dispatch server events to the WebGL
+- [ ] Make the render agnostic of the game itself

@@ -7,7 +7,7 @@ const spreadsheetId = args[0];
 const exportDirectory = args[1];
 
 importSpreadsheet(spreadsheetId, exportDirectory)
-	.then(() => console.log('done'))
+	.then(() => console.log('🌈 Done'))
 	.catch((e) => console.error(e));
 
 function importSpreadsheet(docId, exportDirectory, options) {

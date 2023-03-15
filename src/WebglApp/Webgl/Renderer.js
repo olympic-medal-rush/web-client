@@ -1,7 +1,7 @@
 import { WebGLRenderer, sRGBEncoding } from 'three';
-import { DEBUG } from '@utils/config';
-import { app } from '../App';
-import { state } from '../State';
+import { DEBUG } from '@utils/config.js';
+import { app } from '../App.js';
+import { state } from '../State.js';
 
 class Renderer extends WebGLRenderer {
 	constructor() {

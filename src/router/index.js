@@ -1,6 +1,5 @@
-import { app as webglApp } from '@WebglApp/App';
-import { state } from '@WebglApp/State';
-import { EVENTS } from '@WebglApp/utils/constants';
+import { state } from '@WebglApp/State.js';
+import { EVENTS } from '@WebglApp/utils/constants.js';
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 

@@ -12,15 +12,15 @@ Finally, you can set some item to be criticals if you want your to wait the load
 const manifest = {
 	images: {},
 	textures: {
-		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg`, priority: 2, callback: null },
+		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg`, priority: 2, callbacks: [] },
 		// ...
 	},
 	envMaps: {
-		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr`, critical: true, callback: null },
+		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr`, critical: true, callbacks: [] },
 		// ...
 	},
 	models: {
-		pokeball: { path: `${import.meta.env.BASE_URL}assets/models/pokeball.glb`, priority: 1, callback: null },
+		pokeball: { path: `${import.meta.env.BASE_URL}assets/models/pokeball.glb`, priority: 1, callbacks: [] },
 		// ...
 	},
 	jsons: {},

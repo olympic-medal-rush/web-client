@@ -1,5 +1,5 @@
-import { state } from '@WebglApp/State';
-import { EVENTS } from '@utils/constants';
+import { state } from '@WebglApp/State.js';
+import { EVENTS } from '@utils/constants.js';
 
 /**
  *
@@ -24,6 +24,6 @@ function createPane(pane, instance, name) {
 	return folder;
 }
 
-function debug(instance) {}
+function debug(_instance) {}
 
 export { createPane, debug };

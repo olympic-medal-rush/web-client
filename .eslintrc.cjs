@@ -19,7 +19,7 @@ module.exports = {
 		],
 		'no-var': 'error',
 		'prettier/prettier': 'warn',
-		'no-console': 'warn',
+		'no-console': ['warn', { allow: ['warn', 'error'] }],
 		'no-return-await': 'error',
 		'no-unreachable': 'warn',
 		eqeqeq: 'error',

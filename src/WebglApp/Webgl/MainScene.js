@@ -1,7 +1,7 @@
 import { AmbientLight, Color, IcosahedronGeometry, Mesh, MeshStandardMaterial, Scene } from 'three';
-import { computeEnvmap } from '@utils/misc';
-import { app } from '../App';
-import { state } from '../State';
+import { computeEnvmap } from '@utils/misc.js';
+import { app } from '../App.js';
+import { state } from '../State.js';
 
 class MainScene extends Scene {
 	constructor() {
