@@ -15,23 +15,22 @@ class App {
 	 * @param {HTMLDivElement} $webglApp
 	 * @param {HTMLDivElement} $canvasWrapper
 	 */
-	async init($webglApp, $canvasWrapper) {
+	init($webglApp, $canvasWrapper) {
 		this.$app = $webglApp;
 		this.$wrapper = $canvasWrapper;
 
 		this.core = createCoreModules();
 		this.tools = createToolsModules();
 		this.webgl = new WebglController();
-		if (DEBUG) this.debug = await createDebugModules();
-		this.debug?.mapping.init();
-
-		this.beforeLoad();
-		await this.load();
 	}
 
-	beforeLoad() {}
+	async beforeLoad() {
+		if (DEBUG) this.debug = await createDebugModules();
+		this.debug?.mapping.init();
+	}
 
 	async load() {
+		await this.beforeLoad();
 		await this.core.assetsManager.load();
 		state.emit(EVENTS.APP_LOADED);
 

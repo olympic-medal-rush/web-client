@@ -11,7 +11,5 @@ import { onMounted, ref } from 'vue';
 const webglAppContainer = ref();
 const canvasWrapper = ref();
 
-onMounted(() => {
-	app.init(webglAppContainer.value, canvasWrapper.value);
-});
+onMounted(() => app.init(webglAppContainer.value, canvasWrapper.value));
 </script>
