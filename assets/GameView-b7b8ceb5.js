@@ -1,1 +1,0 @@
-import{u as a,o as s,c as o,a as e,t as n,b as c}from"./index-956fbfd6.js";const r={class:"game"},_=e("h1",null,"Game view",-1),p={__name:"GameView",setup(l){const{t}=a();return(i,u)=>(s(),o("div",r,[_,e("p",null,n(c(t)("head.title")),1)]))}};export{p as default};
