@@ -7,8 +7,8 @@ type Event<T> = {
 
 type ConnectStatePayload = {
 	teamsPositions: Record<string, { x: number; y: number }>;
-	medals: Medal[];
-	scores: Record<string, Medal[]>;
+	medals: MedalInfo[];
+	scores: Record<string, MedalInfo[]>;
 	userId: string;
 };
 
@@ -40,18 +40,18 @@ type VoteCountPayload = {
 	left: number;
 };
 
-type Medal = {
+type MedalInfo = {
 	class: number;
 	pos: { x: number; y: number };
 };
 
 type MedalCollectionPayload = {
 	iso: string;
-	medal: Medal;
+	medal: MedalInfo;
 };
 
 type MedalApparitionPayload = {
-	medals: Medal[];
+	medals: MedalInfo[];
 };
 
 type PlayerCountPayload = {
