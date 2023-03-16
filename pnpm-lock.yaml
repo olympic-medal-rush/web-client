@@ -6,7 +6,7 @@ specifiers:
   '@trivago/prettier-plugin-sort-imports': ^4.1.1
   '@tweakpane/plugin-essentials': ^0.1.8
   '@types/three': ^0.149.0
-  '@vitejs/plugin-vue': ^4.0.0
+  '@vitejs/plugin-vue': ^4.1.0
   '@vue/compiler-sfc': ^3.2.47
   '@vue/eslint-config-prettier': ^7.1.0
   csv-parse: ^5.3.6
@@ -25,7 +25,7 @@ specifiers:
   vite: ^4.1.4
   vite-plugin-pwa: ^0.14.4
   vue: ^3.2.47
-  vue-i18n: '9'
+  vue-i18n: 9.2.2
   vue-router: ^4.1.6
 
 dependencies:
@@ -43,7 +43,7 @@ devDependencies:
   '@trivago/prettier-plugin-sort-imports': 4.1.1_ht5m4fjxbv43inzcw5hdarafmm
   '@tweakpane/plugin-essentials': 0.1.8_tweakpane@3.1.6
   '@types/three': 0.149.0
-  '@vitejs/plugin-vue': 4.0.0_vite@4.1.4+vue@3.2.47
+  '@vitejs/plugin-vue': 4.1.0_vite@4.1.4+vue@3.2.47
   '@vue/compiler-sfc': 3.2.47
   '@vue/eslint-config-prettier': 7.1.0_a7sjvsbcgg5dveitgz3whbbski
   eslint: 8.36.0
@@ -1850,8 +1850,8 @@ packages:
     resolution: {integrity: sha512-xlFXPfgJR5vIuDefhaHuUM9uUgvPaXB6GKdXy2gdEh8gBWQZ2ul24AJz3foUd8NNKlSTQuWYJpCb1/pL81m1KQ==}
     dev: true
 
-  /@vitejs/plugin-vue/4.0.0_vite@4.1.4+vue@3.2.47:
-    resolution: {integrity: sha512-e0X4jErIxAB5oLtDqbHvHpJe/uWNkdpYV83AOG2xo2tEVSzCzewgJMtREZM30wXnM5ls90hxiOtAuVU6H5JgbA==}
+  /@vitejs/plugin-vue/4.1.0_vite@4.1.4+vue@3.2.47:
+    resolution: {integrity: sha512-++9JOAFdcXI3lyer9UKUV4rfoQ3T1RN8yDqoCLar86s0xQct5yblxAE+yWgRnU5/0FOlVCpTZpYSBV/bGWrSrQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       vite: ^4.0.0

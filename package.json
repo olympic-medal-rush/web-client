@@ -17,7 +17,7 @@
     "pinia": "^2.0.33",
     "three": "^0.150.1",
     "vue": "^3.2.47",
-    "vue-i18n": "9",
+    "vue-i18n": "9.2.2",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
@@ -25,7 +25,7 @@
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@tweakpane/plugin-essentials": "^0.1.8",
     "@types/three": "^0.149.0",
-    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue": "^4.1.0",
     "@vue/compiler-sfc": "^3.2.47",
     "@vue/eslint-config-prettier": "^7.1.0",
     "eslint": "^8.36.0",
