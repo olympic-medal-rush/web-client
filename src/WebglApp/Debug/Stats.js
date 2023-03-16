@@ -1,4 +1,4 @@
-import { state } from '../../State.js';
+import { state } from '@/State.js';
 
 class Stats {
 	#stats;

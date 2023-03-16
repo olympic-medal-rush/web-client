@@ -47,6 +47,7 @@ function createPane(pane, instance, name) {
 
 	folder.addInput(instance, 'fov');
 	folder.addInput(instance, 'near');
+	folder.addInput(instance, 'far');
 
 	folder.on('change', () => instance.updateProjectionMatrix());
 
