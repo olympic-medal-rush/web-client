@@ -4,7 +4,7 @@ import { EVENTS } from '@utils/constants.js';
 import HomeView from '../views/HomeView.vue';
 
 const router = createRouter({
-	history: createWebHistory(import.meta.env.BASE_URL),
+	history: createWebHistory(import.meta.env.OLYMPIC_BASE_URL),
 	routes: [
 		{
 			path: '/',
