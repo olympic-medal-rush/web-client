@@ -1,5 +1,10 @@
 <script setup>
+import ServerController from '@/ServerController.js';
+
 // console.log('Homepage');
+
+const server = new ServerController({ host: import.meta.env.OLYMPIC_WSS });
+server.connect();
 </script>
 
 <template>

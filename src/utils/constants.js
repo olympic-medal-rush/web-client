@@ -33,6 +33,8 @@ const EVENTS_MAP = Object.fromEntries(
 );
 
 const STORE_KEYS = {
+	USER_ID: i++,
+	USER_ISO: i++,
 	// MENU_OPEN: i++,
 };
 
