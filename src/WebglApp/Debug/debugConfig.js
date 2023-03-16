@@ -1,8 +1,8 @@
-const PANE_TABS = ['WEBGL', 'GLOBAL'];
+const PANE_TABS = ['WEBGL', 'GAME'];
 
 const PANE_TITLE = 'DEBUG';
 
-const URL_PARAMS_LIST = ['orbit'];
+const URL_PARAMS_LIST = ['orbit', 'tab'];
 
 class ColorDebugHelper {
 	constructor(object, prop) {
