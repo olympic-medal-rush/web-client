@@ -42,6 +42,10 @@ export default class ServerController {
 		}
 	}
 
+	/**
+	 *
+	 * @param {ConnectStatePayload} data
+	 */
 	#onUserConnect(data) {
 		store.set(STORE_KEYS.USER_ID, data.userId);
 		// medals in game data.medals
@@ -49,18 +53,30 @@ export default class ServerController {
 		// pos teams in game data.teamsPositions
 	}
 
+	/**
+	 *
+	 * @param {JoinStatePayload} data
+	 */
 	#onUserJoin(data) {
 		this.#onUserConnect(data);
 		// count of votes data.VoteCountPayload
 		// id of current vote data.voteId
 	}
 
+	/**
+	 *
+	 * @param {VoteResultsPayload} data
+	 */
 	#onVoteResults(data) {
 		// iso: string;
 		// dir: string;
 		// nextVoteId: number;
 	}
 
+	/**
+	 *
+	 * @param {VoteCountPayload} data
+	 */
 	#onVoteCount(data) {
 		// up: number;
 		// right: number;
