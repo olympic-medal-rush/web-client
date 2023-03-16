@@ -23,6 +23,7 @@ class App {
 		this.tools = createToolsModules();
 		this.webgl = new WebglController();
 		if (DEBUG) this.debug = await createDebugModules();
+		this.debug?.mapping.init();
 
 		this.beforeLoad();
 		await this.load();
@@ -32,7 +33,8 @@ class App {
 
 	async load() {
 		await this.core.assetsManager.load();
-		this.debug?.mapping.init();
+		state.emit(EVENTS.APP_LOADED);
+
 		state.emit(EVENTS.ATTACH);
 		state.emit(EVENTS.RESIZE, this.tools.viewport.infos);
 	}

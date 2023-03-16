@@ -5,6 +5,7 @@ let i = 0;
 const EVENTS = {
 	LOADER_PROGRESS: i++,
 
+	APP_LOADED: i++,
 	ATTACH: i++,
 	RESIZE: i++,
 
