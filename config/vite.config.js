@@ -40,6 +40,7 @@ export default ({ mode }) => {
 		resolve: {
 			alias: getAliasesFromJsConfig(),
 		},
+		base: envVariables.OLYMPIC_BASE_URL,
 		envPrefix: 'OLYMPIC_',
 	});
 };
