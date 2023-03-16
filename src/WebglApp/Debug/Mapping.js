@@ -1,3 +1,4 @@
+import { app } from '@WebglApp/App.js';
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
 import { state } from '../../State.js';
 import { PANE_TABS, PANE_TITLE } from './debugConfig.js';
@@ -36,6 +37,11 @@ class Mapping {
 				return { title: tab };
 			}),
 		}).pages;
+
+		this.#globalPane.addButton({ title: 'Refresh' }).on('click', () => this.#globalPane.refresh());
+
+		const tabIndex = app.debug?.urlParams.getNumber('tab');
+		if (tabIndex) this.#tabs[tabIndex].controller_.onItemClick_();
 	}
 
 	addToParent(instance, name, parentName) {

@@ -1,9 +1,11 @@
-<script setup>
+<script async setup>
+import { app } from '@WebglApp/App.js';
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-// console.log('About');
-
 const { t } = useI18n();
+
+onMounted(() => app.load());
 </script>
 
 <template>

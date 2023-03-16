@@ -1,6 +1,4 @@
 import { globalUniforms } from '@WebglApp/utils/globalUniforms.js';
-import gsap from 'gsap';
-import { Color } from 'three';
 import { state } from '../../State.js';
 import { app } from '../App.js';
 import { MainCamera } from './MainCamera.js';
@@ -24,18 +22,7 @@ class WebglController {
 
 	onResize() {}
 
-	onRouteChange(name) {
-		const color = new Color();
-		if (name === 'game') color.set(0xffeebb);
-		else color.set(0xaaaaaa);
-
-		gsap.to(this.scene.background, {
-			r: color.r,
-			g: color.g,
-			b: color.b,
-			duration: 1,
-		});
-	}
+	onRouteChange(_name) {}
 
 	onTick({ et }) {
 		globalUniforms.uTime.value = et;
