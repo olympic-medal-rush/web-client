@@ -1,11 +1,11 @@
 class Medal {
 	/**
 	 *
-	 * @param {MedalInfo} params
+	 * @param {MedalInGame} params
 	 */
 	constructor(params) {
-		this.position = params.pos;
-		this.class = params.class;
+		this.position = params.position;
+		this.type = params.type;
 	}
 }
 

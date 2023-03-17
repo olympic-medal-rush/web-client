@@ -1,25 +1,48 @@
 type EventType = 'user_vote' | 'user_join' | 'medal_apparition' | 'medal_collection' | 'vote_results' | 'vote_count' | 'player_count' | 'new_team';
 
+enum Direction {
+	up = 0,
+	right = 1,
+	down = 2,
+	left = 3,
+}
+
+enum MedalType {
+	bronze = 0,
+	silver = 1,
+	gold = 2,
+}
+
 type Event<T> = {
 	type: EventType;
 	Payload: T;
 };
 
+type Position = {
+	x: number;
+	y: number;
+};
+
+type TeamInfos = {
+	position: Position;
+	medals?: Record<MedalType, number>;
+};
+
 type ConnectStatePayload = {
-	teamsPositions: Record<string, { x: number; y: number }>;
-	medals: MedalInfo[];
-	scores: Record<string, MedalInfo[]>;
 	userId: string;
+	teamsState: Record<string, TeamInfos>;
+	medalsInGame: MedalInGame[];
 };
 
 type JoinStatePayload = ConnectStatePayload & {
 	votes: VoteCountPayload;
+	voteProgress: number;
 	voteId: number;
 };
 
 type UserVotePayload = {
 	user: string;
-	dir: number;
+	direction: Direction;
 };
 
 type UserJoinPayload = {
@@ -29,7 +52,7 @@ type UserJoinPayload = {
 
 type VoteResultsPayload = {
 	iso: string;
-	dir: string;
+	direction: Direction;
 	nextVoteId: number;
 };
 
@@ -40,18 +63,19 @@ type VoteCountPayload = {
 	left: number;
 };
 
-type MedalInfo = {
-	class: number;
-	pos: { x: number; y: number };
+type MedalInGame = {
+	id: number;
+	type: MedalType;
+	position: Position;
 };
 
 type MedalCollectionPayload = {
 	iso: string;
-	medal: MedalInfo;
+	medal: MedalInGame;
 };
 
 type MedalApparitionPayload = {
-	medals: MedalInfo[];
+	medals: MedalInGame[];
 };
 
 type PlayerCountPayload = {
@@ -61,7 +85,7 @@ type PlayerCountPayload = {
 
 type NewTeamPayload = {
 	iso: string;
-	pos: { x: number; y: number };
+	position: Position;
 };
 
 type EventUserVote = Event<UserVotePayload>;

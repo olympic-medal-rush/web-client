@@ -1,17 +1,42 @@
+import { DIRECTIONS } from '@utils/config';
+
 class Team {
-	constructor({ iso, teamState }) {
-		// this.iso = iso;
-		// this.position = [0, 0];
-		// this.teamState = teamState;
-		this.medals = [];
+	/**
+	 *
+	 * @param {TeamInfos} params
+	 */
+	constructor({ position, medals = { 0: 0, 1: 0, 2: 0 } }) {
+		this.position = position;
+		this.medals = medals;
 	}
 
-	move(direction) {}
+	/**
+	 *
+	 * @param {Direction} direction
+	 */
+	move(direction) {
+		switch (direction) {
+			case DIRECTIONS.up:
+				this.position.y += 1;
+				break;
+			case DIRECTIONS.right:
+				this.position.x += 1;
+				break;
+			case DIRECTIONS.down:
+				this.position.y -= 1;
+				break;
+			case DIRECTIONS.left:
+				this.position.x -= 1;
+				break;
+		}
+	}
 
-	collect() {}
-
-	get score() {
-		return 0;
+	/**
+	 *
+	 * @param {import('./Medal').Medal} medal
+	 */
+	collect(medal) {
+		this.medals[medal.type]++;
 	}
 }
 
