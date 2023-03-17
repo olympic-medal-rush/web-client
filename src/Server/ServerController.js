@@ -1,5 +1,5 @@
 import { STORE_KEYS } from '@utils/constants.js';
-import { store } from './Store.js';
+import { store } from '../Store.js';
 
 export default class ServerController {
 	/** @type WebSocket */
