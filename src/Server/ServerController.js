@@ -1,3 +1,4 @@
+import { useGameStore } from '@stores/game.js';
 import { STORE_KEYS } from '@utils/constants.js';
 import { store } from '../Store.js';
 
@@ -8,6 +9,19 @@ export default class ServerController {
 
 	constructor({ host = '' }) {
 		this.#host = host;
+
+		this.domGameStore = useGameStore();
+
+		// TO DO: MAËLLE FOR EVENT TEST
+		window.addEventListener('keydown', (e) => {
+			if (e.key === 'p') {
+				const data = {
+					iso: 'FRA',
+					count: Math.floor(Math.random() * 100),
+				};
+				this.#onPlayerCount(data);
+			}
+		});
 	}
 
 	// Instantiate web socket
@@ -123,6 +137,7 @@ export default class ServerController {
 	#onPlayerCount(data) {
 		// iso: string;
 		// count: number;
+		this.domGameStore.updatePlayersCounter(data.count);
 	}
 
 	/**
