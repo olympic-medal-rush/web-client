@@ -1,4 +1,4 @@
-import { globalUniforms } from '@WebglApp/utils/globalUniforms.js';
+import { globalUniforms } from '@/webglApp/utils/globalUniforms.js';
 import { BufferGeometry, DepthTexture, Float32BufferAttribute, Mesh, OrthographicCamera, Vector2, WebGLRenderTarget } from 'three';
 import { state } from '../../State.js';
 import { app } from '../App.js';

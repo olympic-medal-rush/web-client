@@ -1,4 +1,4 @@
-import { computeEnvmap } from '@WebglApp/utils/misc.js';
+import { computeEnvmap } from '@/webglApp/utils/misc.js';
 import { AmbientLight, Color, IcosahedronGeometry, Mesh, MeshStandardMaterial, Scene } from 'three';
 import { state } from '../../State.js';
 import { app } from '../App.js';

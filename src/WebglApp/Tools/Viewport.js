@@ -1,5 +1,5 @@
 import { state } from '@/State.js';
-import { app } from '@WebglApp/App.js';
+import { app } from '@/webglApp/App.js';
 import { BREAKPOINTS } from '@utils/config.js';
 import { EVENTS } from '@utils/constants.js';
 

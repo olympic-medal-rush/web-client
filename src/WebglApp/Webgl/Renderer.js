@@ -1,5 +1,5 @@
 import { state } from '@/State.js';
-import { app } from '@WebglApp/App.js';
+import { app } from '@/webglApp/App.js';
 import { WebGLRenderer, sRGBEncoding } from 'three';
 import { DEBUG } from '@utils/config.js';
 

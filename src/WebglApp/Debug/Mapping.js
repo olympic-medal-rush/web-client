@@ -1,4 +1,4 @@
-import { app } from '@WebglApp/App.js';
+import { app } from '@/webglApp/App.js';
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
 import { state } from '../../State.js';
 import { PANE_TABS, PANE_TITLE } from './debugConfig.js';

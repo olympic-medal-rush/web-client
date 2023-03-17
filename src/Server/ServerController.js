@@ -37,7 +37,22 @@ export default class ServerController {
 				this.#onVoteResults(evt.data);
 				break;
 			case 'vote_count':
-				this.#onVoteCount();
+				this.#onVoteCount(evt.data);
+				break;
+			case 'medal_apparition':
+				this.#onMedalApparition(evt.data);
+				break;
+			case 'medal_collection':
+				this.#onMedalCollection(evt.data);
+				break;
+			case 'new_team':
+				this.#onNewTeam(evt.data);
+				break;
+			case 'player_count':
+				this.#onPlayerCount(evt.data);
+				break;
+
+			default:
 				break;
 		}
 	}
@@ -82,6 +97,41 @@ export default class ServerController {
 		// right: number;
 		// down: number;
 		// left: number;
+	}
+
+	/**
+	 *
+	 * @param {MedalApparitionPayload} data
+	 */
+	#onMedalApparition(data) {
+		// medals: MedalInfo[];
+	}
+
+	/**
+	 *
+	 * @param {MedalCollectionPayload} data
+	 */
+	#onMedalCollection(data) {
+		// iso: string;
+		// medal: MedalInfo;
+	}
+
+	/**
+	 *
+	 * @param {PlayerCountPayload} data
+	 */
+	#onPlayerCount(data) {
+		// iso: string;
+		// count: number;
+	}
+
+	/**
+	 *
+	 * @param {NewTeamPayload} data
+	 */
+	#onNewTeam(data) {
+		// iso: string;
+		// pos: { x: number; y: number };
 	}
 
 	/**

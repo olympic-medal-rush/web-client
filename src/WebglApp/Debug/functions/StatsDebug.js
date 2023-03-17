@@ -4,7 +4,7 @@ import { EVENTS } from '@utils/constants.js';
 /**
  *
  * @param {*} pane
- * @param {import("@WebglApp/Webgl/Renderer.js").Renderer} instance
+ * @param {import("@/webglApp/Webgl/Renderer.js").Renderer} instance
  * @param {*} name
  * @returns
  */

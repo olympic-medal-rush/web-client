@@ -1,4 +1,4 @@
-import { globalUniforms } from '@WebglApp/utils/globalUniforms.js';
+import { globalUniforms } from '@/webglApp/utils/globalUniforms.js';
 import { state } from '../../State.js';
 import { app } from '../App.js';
 import { MainCamera } from './MainCamera.js';

@@ -1,5 +1,5 @@
 import { state } from '@/State.js';
-import { manifest } from '@WebglApp/utils/manifest.js';
+import { manifest } from '@/webglApp/utils/manifest.js';
 import { Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';

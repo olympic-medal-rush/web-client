@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { app } from '@WebglApp/App.js';
+import { app } from '@/webglApp/App.js';
 import { onMounted, ref } from 'vue';
 
 const webglAppContainer = ref();

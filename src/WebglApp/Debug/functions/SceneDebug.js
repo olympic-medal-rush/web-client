@@ -1,10 +1,10 @@
-import { app } from '@WebglApp/App.js';
-import { manifest } from '@WebglApp/utils/manifest.js';
-import { computeEnvmap } from '@WebglApp/utils/misc.js';
+import { app } from '@/webglApp/App.js';
+import { manifest } from '@/webglApp/utils/manifest.js';
+import { computeEnvmap } from '@/webglApp/utils/misc.js';
 
 /**
  *
- * @param {import('@WebglApp/Webgl/MainScene.js').MainScene} instance
+ * @param {import('@/webglApp/Webgl/MainScene.js').MainScene} instance
  */
 function debug(instance) {
 	if (import.meta.hot) {
