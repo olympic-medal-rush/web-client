@@ -28,3 +28,4 @@ coverage
 
 src/assets/locales/*
 !src/assets/locales/.gitKeep
+
