@@ -1,4 +1,6 @@
+import { GameController } from '@game/GameController';
 import messages from '@intlify/unplugin-vue-i18n/messages';
+import ServerController from '@server/ServerController';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
@@ -20,3 +22,11 @@ vueApp.use(createPinia());
 vueApp.use(router);
 vueApp.use(i18n);
 vueApp.mount('#vue-app');
+
+const GlobalApp = {
+	vueApp,
+	server: new ServerController({ host: import.meta.env.OLYMPIC_WSS }),
+	game: new GameController(),
+};
+
+export { GlobalApp };

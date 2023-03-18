@@ -2,24 +2,18 @@ import { Medal } from './Medal';
 import { Team } from './Team';
 
 class GameController {
-	/**
-	 *
-	 * @param {ConnectStatePayload} state
-	 */
-	constructor(state) {
+	constructor() {
 		/** @type Map<string, Team> */
 		this.teams = new Map();
 		/** @type Map<number, Medal> */
 		this.medals = new Map();
-
-		this.#applyState(state);
 	}
 
 	/**
 	 *
 	 * @param {ConnectStatePayload} state
 	 */
-	#applyState(state) {
+	setState(state) {
 		state.medalsInGame.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(state.teamsState).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
 	}

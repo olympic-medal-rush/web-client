@@ -1,9 +1,8 @@
 <script setup>
-// console.log('Homepage');
-import ServerController from '@server/ServerController';
+import { GlobalApp } from '@/main';
 
-const server = new ServerController({ host: import.meta.env.OLYMPIC_WSS });
-server.connect();
+// console.log('Homepage');
+GlobalApp.server.connect();
 </script>
 
 <template>
