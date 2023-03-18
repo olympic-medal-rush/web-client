@@ -7,35 +7,43 @@ nvm use
 pnpm i
 ```
 
-### Compile and Hot-Reload for Development
+## Run dev server with hot-reload features
 
 ```sh
 pnpm dev
 ```
 
-### Generate translations
+## Generate translations
 
 ```sh
 pnpm translate
 ```
 
-### Compile and Minify for Production
+## Generate flag colors
+
+```sh
+pnpm flags
+```
+
+## Compile and Minify for Production
 
 ``` bash
 pnpm staging # build in staging mode
 pnpm build # build in production mode
 ```
 
-### Preview build
+## Preview build
 
 ``` bash
 pnpm preview
 ```
 
-### TODO
+## URLParams
 
-- [x] WebGL should be instanciated inside a Vue component when its mounted
-- [ ] Server communication should be handled by a Vue component aswell
-- [ ] Vue should dispatch server events to the WebGL
-- [ ] Make the render agnostic of the game itself
-- [ ] Update WebGL init events for better understanding
+Add params to URL to turn on/off some features.  
+Example: `www.url.com/?param1&param2`  
+
+List of params:  
+`debug`: Enable debug panes, stats, camera.  
+`orbit`: Enable OrbitControls.
+`tab`: Switch pane tab.

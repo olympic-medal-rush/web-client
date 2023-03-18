@@ -1,5 +1,5 @@
 import { parse } from 'csv-parse';
-import fs from 'fs';
+import fs from 'node:fs';
 import process from 'node:process';
 
 const args = process.argv.slice(2);
@@ -51,11 +51,8 @@ function importSpreadsheet(docId, exportDirectory, options) {
 									for (const k in keys) {
 										const subKey = keys[k];
 										if (!Object.prototype.hasOwnProperty.call(current, subKey)) current[subKey] = {};
-										if (k == keys.length - 1) {
-											current[subKey] = row[j];
-										} else {
-											current = current[subKey];
-										}
+										if (parseInt(k) === keys.length - 1) current[subKey] = row[j];
+										else current = current[subKey];
 									}
 								}
 							}

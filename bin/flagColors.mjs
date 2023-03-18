@@ -12,9 +12,12 @@ start();
 
 async function start() {
 	const countryColors = {};
+
 	const entries = Object.entries(countries.getAlpha2Codes()).sort(([, alpha3a], [, alpha3b]) => alpha3a.localeCompare(alpha3b));
 	for (const [alpha2, alpha3] of entries) countryColors[alpha3] = await getFlagColors(alpha2);
+
 	writeFileSync(`${EXPORT_DIRECTORY}flag-colors.json`, JSON.stringify(countryColors), { encoding: 'utf-8' });
+
 	console.log(`🚀 ${Object.keys(countryColors).length} flags processed.`);
 }
 
