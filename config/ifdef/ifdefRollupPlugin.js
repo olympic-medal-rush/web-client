@@ -4,7 +4,7 @@ import { parse } from './preprocessor';
 
 const noop = () => true;
 
-const EXTS = ['.cjs', '.jsx', '.js', '.mjs'].reduce((p, v) => ((p[v] = true), p), {});
+const EXTS = ['.cjs', '.jsx', '', '.mjs'].reduce((p, v) => ((p[v] = true), p), {});
 
 let test = false;
 export default function ifdefRollupPlugin(defines) {

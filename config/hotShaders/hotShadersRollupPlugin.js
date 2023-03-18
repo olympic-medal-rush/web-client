@@ -13,7 +13,7 @@ const EXTS = Object.keys(TYPES).reduce((p, v) => ((p[v] = true), p), {});
 
 const DEFAULT_EXTENSION = 'glsl';
 
-const hotShaderPath = '/config/hotShaders/hotMaterial.js';
+const hotShaderPath = '/config/hotShaders/hotMaterial';
 
 export default function hotShadersRollupPlugin({ isDev = false, warnDuplicatedImports = true, defaultExtension = DEFAULT_EXTENSION, compress = false, root = '/' } = {}) {
 	return {

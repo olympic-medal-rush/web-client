@@ -1,16 +1,16 @@
-import { app } from '@/webglApp/App.js';
+import { app } from '@webglApp/App';
 
 async function createDebugModules() {
 	await import('@styles/debug/debug.scss');
 
-	const { URLParams } = await import('./URLParams.js');
+	const { URLParams } = await import('./URLParams');
 	const urlParams = new URLParams();
 
-	const Mapping = (await import('./Mapping.js')).Mapping;
+	const Mapping = (await import('./Mapping')).Mapping;
 	const mapping = new Mapping();
 	await mapping.load();
 
-	const Stats = (await import('./Stats.js')).Stats;
+	const Stats = (await import('./Stats')).Stats;
 	const stats = new Stats();
 	await stats.load();
 

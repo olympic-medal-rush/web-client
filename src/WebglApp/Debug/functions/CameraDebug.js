@@ -1,6 +1,6 @@
-import { state } from '@/State.js';
-import { app } from '@/webglApp/App.js';
-import { EVENTS } from '@utils/constants.js';
+import { state } from '@/State';
+import { app } from '@webglApp/App';
+import { EVENTS } from '@utils/constants';
 
 function createPane(pane, instance, name) {
 	const folder = pane.addFolder({ title: name, expanded: false });
@@ -10,7 +10,7 @@ function createPane(pane, instance, name) {
 		const parent = app.$wrapper;
 		if (!instance.orbitControls) {
 			parent.style.pointerEvents = 'all';
-			const OrbitThree = await import('three/addons/controls/OrbitControls.js');
+			const OrbitThree = await import('three/addons/controls/OrbitControls');
 			instance.orbitControls = new OrbitThree.OrbitControls(instance, parent);
 			instance.orbitControls.enableDamping = true;
 			instance.orbitControls.dampingFactor = 0.15;

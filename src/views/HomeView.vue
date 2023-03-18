@@ -1,6 +1,6 @@
 <script setup>
 // console.log('Homepage');
-import ServerController from '@/server/ServerController.js';
+import ServerController from '@server/ServerController';
 
 const server = new ServerController({ host: import.meta.env.OLYMPIC_WSS });
 server.connect();

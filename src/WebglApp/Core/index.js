@@ -1,5 +1,5 @@
-import { AssetsManager } from './AssetsManager.js';
-import { Ticker } from './Ticker.js';
+import { AssetsManager } from './AssetsManager';
+import { Ticker } from './Ticker';
 
 function createCoreModules() {
 	const assetsManager = new AssetsManager();

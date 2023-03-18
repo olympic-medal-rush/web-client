@@ -1,6 +1,6 @@
-import { useGameStore } from '@stores/game.js';
-import { STORE_KEYS } from '@utils/constants.js';
-import { store } from '../Store.js';
+import { useGameStore } from '@stores/game';
+import { STORE_KEYS } from '@utils/constants';
+import { store } from '../Store';
 
 export default class ServerController {
 	/** @type WebSocket */

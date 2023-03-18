@@ -1,6 +1,6 @@
 <script async setup>
-import { app } from '@/webglApp/App.js';
 import { useGameStore } from '@stores/game';
+import { app } from '@webglApp/App';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 

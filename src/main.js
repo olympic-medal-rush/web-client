@@ -4,7 +4,7 @@ import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 import App from './App.vue';
 import './assets/styles/main.scss';
-import router from './router/index.js';
+import router from './router/index';
 
 const i18n = createI18n({
 	legacy: false,

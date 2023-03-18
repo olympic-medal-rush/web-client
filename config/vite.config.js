@@ -7,9 +7,9 @@ import { cwd, env, stdout } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import hotEnvMap from './hotEnvMap/hotEnvMap.js';
-import hotShaders from './hotShaders/hotShadersRollupPlugin.js';
-import ifdef from './ifdef/ifdefRollupPlugin.js';
+import hotEnvMap from './hotEnvMap/hotEnvMap';
+import hotShaders from './hotShaders/hotShadersRollupPlugin';
+import ifdef from './ifdef/ifdefRollupPlugin';
 
 // // https://vitejs.dev/config/
 export default ({ mode }) => {

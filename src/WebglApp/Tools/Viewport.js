@@ -1,7 +1,7 @@
-import { state } from '@/State.js';
-import { app } from '@/webglApp/App.js';
-import { BREAKPOINTS } from '@utils/config.js';
-import { EVENTS } from '@utils/constants.js';
+import { state } from '@/State';
+import { app } from '@webglApp/App';
+import { BREAKPOINTS } from '@utils/config';
+import { EVENTS } from '@utils/constants';
 
 class Viewport {
 	constructor() {

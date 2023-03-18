@@ -1,11 +1,11 @@
-import { app } from '@/webglApp/App.js';
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
-import { state } from '../../State.js';
-import { PANE_TABS, PANE_TITLE } from './debugConfig.js';
+import { app } from '@webglApp/App';
+import { state } from '../../State';
+import { PANE_TABS, PANE_TITLE } from './debugConfig';
 
 /** @type Record<any, any> */
 const mapping = Object.fromEntries(
-	Object.entries(import.meta.glob('./functions/*Debug.js', { import: '*', eager: true })).map(([key, value]) => {
+	Object.entries(import.meta.glob('./functions/*', { import: '*', eager: true })).map(([key, value]) => {
 		return [key.split('/').pop().split('.')[0].replace('Debug', ''), value];
 	}),
 );

@@ -1,8 +1,8 @@
-import { globalUniforms } from '@/webglApp/utils/globalUniforms.js';
+import { app } from '@webglApp/App';
+import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { BufferGeometry, DepthTexture, Float32BufferAttribute, Mesh, OrthographicCamera, Vector2, WebGLRenderTarget } from 'three';
-import { state } from '../../State.js';
-import { app } from '../App.js';
-import { PostProcessingMaterial } from './Materials/PostProcessing/material.js';
+import { state } from '../../State';
+import { PostProcessingMaterial } from './Materials/PostProcessing/material';
 
 class PostProcessing {
 	#material;
