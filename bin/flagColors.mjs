@@ -25,7 +25,7 @@ async function getFlagColors(alpha2) {
 	const svgBuffer = await (await fetch(API_URL + alpha2.toLowerCase() + '.svg')).arrayBuffer();
 
 	const histogram = await sharp(Buffer.from(svgBuffer))
-		.resize({ width: 1000, height: 1000, fit: 'fill' })
+		.resize({ width: 1000, height: 1000, fit: 'fill', kernel: 'nearest' })
 		.raw()
 		.toBuffer({ resolveWithObject: true })
 		.then(({ data, info }) => {
