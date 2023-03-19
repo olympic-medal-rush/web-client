@@ -23,12 +23,9 @@ async function start() {
 
 async function getFlagColors(alpha2) {
 	const svgBuffer = await (await fetch(API_URL + alpha2.toLowerCase() + '.svg')).arrayBuffer();
-	const quantizedBuffer = await sharp(Buffer.from(svgBuffer))
-		.resize({ width: 1000, height: 1000, fit: 'fill' })
-		.png({ colors: 8, compressionLevel: 0, dither: 0, kernel: sharp.kernel.cubic })
-		.toBuffer();
 
-	const histogram = await sharp(quantizedBuffer)
+	const histogram = await sharp(Buffer.from(svgBuffer))
+		.resize({ width: 1000, height: 1000, fit: 'fill' })
 		.raw()
 		.toBuffer({ resolveWithObject: true })
 		.then(({ data, info }) => {
