@@ -10,6 +10,7 @@ class GameController {
 		/** @type Map<number, Medal> */
 		this.medals = new Map();
 
+		state.on(EVENTS.CONNECT, this.setState);
 		state.on(EVENTS.CREATE_TEAM, this.addTeam);
 		state.on(EVENTS.SPAWN_MEDALS, this.addMedals);
 	}
@@ -18,10 +19,10 @@ class GameController {
 	 *
 	 * @param {ConnectStatePayload} state
 	 */
-	setState(state) {
+	setState = (state) => {
 		state.medalsInGame.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(state.teamsState).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
-	}
+	};
 
 	/**
 	 *

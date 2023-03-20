@@ -3,27 +3,35 @@
 let i = 0;
 
 const EVENTS = {
+	// APP EVENTS
 	LOADER_PROGRESS: i++,
-
 	APP_LOADED: i++,
 	ATTACH: i++,
-	RESIZE: i++,
 
+	// VUE
 	ROUTE_CHANGE: i++,
 
+	// TICKER
 	TICK: i++,
 	RENDER: i++,
 
+	// DEVICE EVENTS
+	RESIZE: i++,
 	MOUSE_MOVE: i++,
 	POINTER_UP: i++,
 	POINTER_DOWN: i++,
-
 	KEY_DOWN: i++,
 
 	// SERVER EVENTS
+	CONNECT: i++,
 	CREATE_TEAM: i++,
 	SPAWN_MEDALS: i++,
 	VOTE_RESULTS: i++,
+
+	// GAME EVENTS
+	ADD_TEAM: i++,
+	MOVE_TEAM: i++,
+	ADD_MEDALS: i++,
 };
 
 const EVENTS_MAP = Object.fromEntries(
@@ -40,7 +48,6 @@ const EVENTS_MAP = Object.fromEntries(
 const STORE_KEYS = {
 	USER_ID: i++,
 	USER_ISO: i++,
-	// MENU_OPEN: i++,
 };
 
 const DIRECTIONS = {

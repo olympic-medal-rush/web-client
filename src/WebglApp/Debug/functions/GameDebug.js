@@ -7,7 +7,8 @@ import { EVENTS } from '@utils/constants';
 
 let i = 0;
 let teamList,
-	teamMove = null;
+	teamMove,
+	teamZone = null;
 const flagsColorsArr = Object.entries(flagColors);
 const terrainSize = terrainData.data.length;
 
@@ -25,7 +26,7 @@ function createPane(pane, instance, name) {
 	folder.addButton({ title: 'Create Team' }).on('click', () => {
 		const randomIndex = Math.round(Math.random() * (flagsColorsArr.length - 1));
 		const team = flagsColorsArr[randomIndex];
-		console.log('Create Team', team);
+		console.log('Create Team', team[0]);
 		state.emit(EVENTS.CREATE_TEAM, { iso: team[0], position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } });
 	});
 
@@ -44,6 +45,7 @@ function createPane(pane, instance, name) {
 	state.on(EVENTS.CREATE_TEAM, (newTeamPayload) => {
 		teamList?.dispose();
 		teamMove?.dispose();
+		teamZone?.dispose();
 
 		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
 		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: newTeamPayload.iso });
@@ -67,6 +69,13 @@ function createPane(pane, instance, name) {
 					console.log('Move Team', teamList?.value, ev.cell.title);
 				}
 			});
+
+		teamZone = folder.addButton({ title: 'Get Zone' }).on('click', () => {
+			if (!teamList?.value) return;
+
+			const teamPos = GlobalApp.game.teams.get(teamList.value).position;
+			console.log(terrainData.mapping[terrainData.data[teamPos.y][teamPos.x]]);
+		});
 	});
 
 	return folder;
