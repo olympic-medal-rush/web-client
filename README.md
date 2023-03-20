@@ -46,4 +46,6 @@ Example: `www.url.com/?param1&param2`
 List of params:  
 `debug`: Enable debug panes, stats, camera.  
 `orbit`: Enable OrbitControls.
-`tab`: Switch pane tab.
+`tab`: Switch pane tabs
+`noServer`: Disable server connection to fake events
+`team`: Set current team if `noServer` is present (team=FRA)

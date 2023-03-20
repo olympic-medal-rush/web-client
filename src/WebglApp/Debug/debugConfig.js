@@ -2,7 +2,7 @@ const PANE_TABS = ['WEBGL', 'GAME'];
 
 const PANE_TITLE = 'DEBUG';
 
-const URL_PARAMS_LIST = ['orbit', 'tab'];
+const URL_PARAMS_LIST = ['orbit', 'tab', 'noServer', 'team'];
 
 class ColorDebugHelper {
 	constructor(object, prop) {

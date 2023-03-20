@@ -89,7 +89,8 @@ export default class ServerController {
 	 * @param {JoinStatePayload} data
 	 */
 	#onUserJoin(data) {
-		this.#onUserConnect(data);
+		console.warn('TODO: Implement onUserJoin');
+		// this.#onUserConnect(data);
 		// count of votes data.VoteCountPayload
 		// id of current vote data.voteId
 	}

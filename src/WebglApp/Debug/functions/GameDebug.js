@@ -2,8 +2,9 @@ import { state } from '@/State';
 import flagColors from '@/assets/jsons/flag_colors.json';
 import terrainData from '@/assets/jsons/terrain_data.json';
 import { GlobalApp } from '@/main';
+import { app } from '@webglApp/App';
 import { randInt } from 'three/src/math/MathUtils';
-import { EVENTS } from '@utils/constants';
+import { EVENTS, MEDAL_TYPES } from '@utils/constants';
 
 let i = 0;
 let teamList,
@@ -43,12 +44,18 @@ function createPane(pane, instance, name) {
 
 	folder.addSeparator();
 
+	createTeamsDebug(app.debug.urlParams.getString('team') || ' FRA');
+
 	// CREATE AND MOVE TEAM
 	state.on(EVENTS.CREATE_TEAM, (iso) => {
 		teamList?.dispose();
 		teamMove?.dispose();
 		teamZone?.dispose();
 
+		createTeamsDebug(iso);
+	});
+
+	function createTeamsDebug(iso) {
 		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
 		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: iso });
 
@@ -78,11 +85,28 @@ function createPane(pane, instance, name) {
 			const teamPos = GlobalApp.game.teams.get(teamList.value).position;
 			console.log(terrainData.mapping[terrainData.data[teamPos.y][teamPos.x]]);
 		});
-	});
+	}
 
 	return folder;
 }
 
-function debug(_instance) {}
+function debug(_instance) {
+	if (app.debug.urlParams.has('noServer')) {
+		GlobalApp.game.setState({
+			userId: 'userId',
+			teamsState: {
+				FRA: { position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 5, 1: 2, 2: 15 } },
+				ESP: { position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 1, 1: 2, 2: 3 } },
+				AFG: { position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 50, 1: 4, 2: 12 } },
+			},
+			medalsInGame: [
+				{ id: -4, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				{ id: -3, type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				{ id: -2, type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				{ id: -1, type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+			],
+		});
+	}
+}
 
 export { createPane, debug };
