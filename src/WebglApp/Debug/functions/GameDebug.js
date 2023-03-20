@@ -2,6 +2,7 @@ import { state } from '@/State';
 import flagColors from '@/assets/jsons/flag_colors.json';
 import terrainData from '@/assets/jsons/terrain_data.json';
 import { GlobalApp } from '@/main';
+import { app } from '@webglApp/App';
 import { randInt } from 'three/src/math/MathUtils';
 import { EVENTS } from '@utils/constants';
 
@@ -45,12 +46,16 @@ function createPane(pane, instance, name) {
 
 	// CREATE AND MOVE TEAM
 	state.on(EVENTS.CREATE_TEAM, (iso) => {
+		app.webgl.camera.playerFocus = app.webgl.players.get(iso);
+
 		teamList?.dispose();
 		teamMove?.dispose();
 		teamZone?.dispose();
 
 		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
-		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: iso });
+		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: iso }).on('change', (ev) => {
+			app.webgl.camera.playerFocus = app.webgl.players.get(ev.value);
+		});
 
 		teamMove = folder
 			.addBlade({

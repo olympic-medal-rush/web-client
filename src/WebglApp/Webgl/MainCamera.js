@@ -8,6 +8,8 @@ class MainCamera extends PerspectiveCamera {
 	constructor() {
 		super(BASE_FOV, app.tools.viewport.ratio, 1, 1000);
 		state.register(this);
+
+		this.playerFocus = null;
 	}
 
 	onAttach() {
@@ -20,9 +22,14 @@ class MainCamera extends PerspectiveCamera {
 		this.updateProjectionMatrix();
 	}
 
-	// onTick({ dt }) {
-	// 	if (this.orbitControls) return;
-	// }
+	onTick({ dt }) {
+		if (this.orbitControls || !this.playerFocus) return;
+
+		this.position.y = this.playerFocus.position.y + 2;
+		this.position.x = this.playerFocus.position.x;
+		this.position.z = this.playerFocus.position.z + 8;
+		this.lookAt(this.playerFocus.position.x, this.playerFocus.position.y + 0.5, this.playerFocus.position.z);
+	}
 }
 
 export { MainCamera };
