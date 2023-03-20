@@ -44,22 +44,21 @@ function createPane(pane, instance, name) {
 
 	folder.addSeparator();
 
-	createTeamsDebug(app.debug.urlParams.getString('team') || ' FRA');
+	const debugTeam = app.debug.urlParams.getString('team');
+	if (debugTeam) createTeamsDebug(debugTeam, true);
 
 	// CREATE AND MOVE TEAM
-	state.on(EVENTS.CREATE_TEAM, (iso) => {
-		app.webgl.camera.playerFocus = app.webgl.players.get(iso);
+	state.on(EVENTS.CREATE_TEAM, (iso) => createTeamsDebug(iso));
+
+	function createTeamsDebug(iso, init = false) {
+		app.webgl.camera.playerFocus = app.webgl.players.get(init ? debugTeam : iso);
 
 		teamList?.dispose();
 		teamMove?.dispose();
 		teamZone?.dispose();
 
-		createTeamsDebug(iso);
-	});
-
-	function createTeamsDebug(iso) {
 		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
-		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: iso }).on('change', (ev) => {
+		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: init ? debugTeam : iso }).on('change', (ev) => {
 			app.webgl.camera.playerFocus = app.webgl.players.get(ev.value);
 		});
 
@@ -110,6 +109,7 @@ function debug(_instance) {
 				{ id: -1, type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 			],
 		});
+		GlobalApp.game.teams.forEach((_team, iso) => app.webgl.scene.addPlayer(iso));
 	}
 }
 

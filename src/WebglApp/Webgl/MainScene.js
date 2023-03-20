@@ -1,5 +1,4 @@
 import { app } from '@webglApp/App';
-import { computeEnvmap } from '@webglApp/utils/misc';
 import { AmbientLight, Color, Scene } from 'three';
 import { state } from '../../State';
 import Map from './Objects/Map';
@@ -20,16 +19,15 @@ class MainScene extends Scene {
 
 		this.add(this.map);
 
-		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
-
-		app.debug?.mapping.add(this, 'Scene');
+		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
+		// app.debug?.mapping.add(this, 'Scene');
 	}
 
 	addPlayer(iso) {
-		const player = new Player(app.core.assetsManager.get('player').clone());
-		player.name = iso;
+		const player = new Player(app.core.assetsManager.get('player').clone(), iso);
+
 		app.webgl.players.set(iso, player);
-		app.webgl.camera.playerFocus = player;
+
 		this.add(player);
 	}
 }

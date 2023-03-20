@@ -1,6 +1,6 @@
+import { GlobalApp } from '@/main';
 import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
-import { EVENTS } from '@utils/constants';
 import { state } from '../../State';
 import { MainCamera } from './MainCamera';
 import { MainScene } from './MainScene';
@@ -24,9 +24,11 @@ class WebglController {
 	onAttach() {
 		app.$wrapper.prepend(this.renderer.domElement);
 
-		state.on(EVENTS.CREATE_TEAM, (iso) => this.scene.addPlayer(iso));
-
 		app.debug?.mapping.add(this, 'Game', 1);
+	}
+
+	onCreateTeam(iso) {
+		this.scene.addPlayer(iso);
 	}
 
 	onResize() {}

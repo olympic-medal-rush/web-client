@@ -23,7 +23,7 @@ const EVENTS = {
 	KEY_DOWN: i++,
 
 	// SERVER EVENTS
-	CONNECT: i++,
+	// ...
 
 	// GAME EVENTS
 	CREATE_TEAM: i++,
