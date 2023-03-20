@@ -8,6 +8,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@styles/*": ["./src/assets/styles/*"],
+			"@jsons/*": ["./src/assets/jsons/*"],
 			"@components/*": ["./src/components/*"],
 			"@stores/*": ["./src/stores/*"],
 			"@views/*": ["./src/views/*"],
