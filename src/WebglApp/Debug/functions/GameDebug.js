@@ -48,6 +48,8 @@ function createPane(pane, instance, name) {
 
 	// CREATE AND MOVE TEAM
 	state.on(EVENTS.CREATE_TEAM, (iso) => {
+		app.webgl.camera.playerFocus = app.webgl.players.get(iso);
+
 		teamList?.dispose();
 		teamMove?.dispose();
 		teamZone?.dispose();
@@ -57,7 +59,9 @@ function createPane(pane, instance, name) {
 
 	function createTeamsDebug(iso) {
 		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
-		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: iso });
+		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: iso }).on('change', (ev) => {
+			app.webgl.camera.playerFocus = app.webgl.players.get(ev.value);
+		});
 
 		teamMove = folder
 			.addBlade({
