@@ -1,3 +1,4 @@
+import { GlobalApp } from '@/main';
 import { useGameStore } from '@stores/game';
 import { STORE_KEYS } from '@utils/constants';
 import { store } from '../Store';
@@ -80,6 +81,7 @@ export default class ServerController {
 		// medals in game data.medals
 		// score bord data.scores
 		// pos teams in game data.teamsPositions
+		GlobalApp.game.setState(data);
 	}
 
 	/**
@@ -100,6 +102,7 @@ export default class ServerController {
 		// iso: string;
 		// dir: string;
 		// nextVoteId: number;
+		GlobalApp.game.voteResults(data);
 	}
 
 	/**
@@ -119,6 +122,7 @@ export default class ServerController {
 	 */
 	#onMedalApparition(data) {
 		// medals: MedalInfo[];
+		GlobalApp.game.addMedals(data);
 	}
 
 	/**
@@ -128,6 +132,7 @@ export default class ServerController {
 	#onMedalCollection(data) {
 		// iso: string;
 		// medal: MedalInfo;
+		GlobalApp.game.medalCollect(data);
 	}
 
 	/**
@@ -147,6 +152,7 @@ export default class ServerController {
 	#onNewTeam(data) {
 		// iso: string;
 		// pos: { x: number; y: number };
+		GlobalApp.game.createTeam(data);
 	}
 
 	/**

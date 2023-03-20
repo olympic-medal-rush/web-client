@@ -9,38 +9,34 @@ class GameController {
 		this.teams = new Map();
 		/** @type Map<number, Medal> */
 		this.medals = new Map();
-
-		state.on(EVENTS.CONNECT, this.setState);
-		state.on(EVENTS.CREATE_TEAM, this.addTeam);
-		state.on(EVENTS.SPAWN_MEDALS, this.addMedals);
 	}
 
 	/**
 	 *
 	 * @param {ConnectStatePayload} state
 	 */
-	setState = (state) => {
+	setState(state) {
 		state.medalsInGame.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(state.teamsState).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
-	};
+	}
 
 	/**
 	 *
 	 * @param {NewTeamPayload} newTeamPayload
 	 * @returns
 	 */
-	addTeam = (newTeamPayload) => {
+	createTeam(newTeamPayload) {
 		const team = new Team({ position: newTeamPayload.position });
 		this.teams.set(newTeamPayload.iso, team);
 
-		return team;
-	};
+		state.emit(EVENTS.CREATE_TEAM, newTeamPayload.iso);
+	}
 
 	/**
 	 *
 	 * @param {MedalApparitionPayload} medalApparitionPayload
 	 */
-	addMedals = (medalApparitionPayload) => {
+	addMedals(medalApparitionPayload) {
 		const newMedals = [];
 		medalApparitionPayload.medals.forEach((medalInGame) => {
 			const medal = new Medal(medalInGame);
@@ -48,24 +44,28 @@ class GameController {
 			newMedals.push(medal);
 		});
 
-		return newMedals;
-	};
+		state.emit(EVENTS.ADD_MEDALS, newMedals);
+	}
 
 	/**
 	 *
 	 * @param {MedalCollectionPayload} medalCollectionPayload
 	 */
-	collectMedal(medalCollectionPayload) {
+	medalCollect(medalCollectionPayload) {
 		this.teams.get(medalCollectionPayload.iso).collect(this.medals.get(medalCollectionPayload.medal.id));
 		this.medals.delete(medalCollectionPayload.medal.id);
+
+		state.emit(EVENTS.COLLECT_MEDAL, medalCollectionPayload.medal.id);
 	}
 
 	/**
 	 *
 	 * @param {VoteResultsPayload} voteResultsPayload
 	 */
-	moveTeam(voteResultsPayload) {
+	voteResults(voteResultsPayload) {
 		this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
+
+		state.emit(EVENTS.VOTE_RESULTS, { iso: voteResultsPayload.iso, direction: voteResultsPayload.direction });
 	}
 }
 

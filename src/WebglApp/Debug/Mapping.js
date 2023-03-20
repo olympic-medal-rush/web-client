@@ -38,6 +38,7 @@ class Mapping {
 			}),
 		}).pages;
 
+		this.#globalPane.addSeparator();
 		this.#globalPane.addButton({ title: 'Refresh' }).on('click', () => this.#globalPane.refresh());
 
 		const tabIndex = app.debug?.urlParams.getNumber('tab');

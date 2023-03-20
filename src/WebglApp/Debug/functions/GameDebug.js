@@ -26,8 +26,8 @@ function createPane(pane, instance, name) {
 	folder.addButton({ title: 'Create Team' }).on('click', () => {
 		const randomIndex = Math.round(Math.random() * (flagsColorsArr.length - 1));
 		const team = flagsColorsArr[randomIndex];
+		GlobalApp.game.createTeam({ iso: team[0], position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } });
 		console.log('Create Team', team[0]);
-		state.emit(EVENTS.CREATE_TEAM, { iso: team[0], position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } });
 	});
 
 	// SPAWN_MEDALS
@@ -37,18 +37,20 @@ function createPane(pane, instance, name) {
 			{ id: i++, type: 1, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 			{ id: i++, type: 2, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 		];
-		state.emit(EVENTS.SPAWN_MEDALS, { medals: newMedals });
+		GlobalApp.game.addMedals({ medals: newMedals });
 		console.log('Spawn Medals', newMedals);
 	});
 
+	folder.addSeparator();
+
 	// CREATE AND MOVE TEAM
-	state.on(EVENTS.CREATE_TEAM, (newTeamPayload) => {
+	state.on(EVENTS.CREATE_TEAM, (iso) => {
 		teamList?.dispose();
 		teamMove?.dispose();
 		teamZone?.dispose();
 
 		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
-		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: newTeamPayload.iso });
+		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: iso });
 
 		teamMove = folder
 			.addBlade({
@@ -65,7 +67,7 @@ function createPane(pane, instance, name) {
 			})
 			.on('click', (ev) => {
 				if (teamList && ev.cell.title !== '-') {
-					state.emit(EVENTS.VOTE_RESULTS, { iso: teamList.value, direction: ev.cell.title, nextVoteId: 0 });
+					GlobalApp.game.voteResults({ iso: teamList.value, direction: ev.cell.title, nextVoteId: 0 });
 					console.log('Move Team', teamList?.value, ev.cell.title);
 				}
 			});

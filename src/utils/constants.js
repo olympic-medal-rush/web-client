@@ -24,14 +24,12 @@ const EVENTS = {
 
 	// SERVER EVENTS
 	CONNECT: i++,
-	CREATE_TEAM: i++,
-	SPAWN_MEDALS: i++,
-	VOTE_RESULTS: i++,
 
 	// GAME EVENTS
-	ADD_TEAM: i++,
-	MOVE_TEAM: i++,
+	CREATE_TEAM: i++,
 	ADD_MEDALS: i++,
+	VOTE_RESULTS: i++,
+	COLLECT_MEDAL: i++,
 };
 
 const EVENTS_MAP = Object.fromEntries(
