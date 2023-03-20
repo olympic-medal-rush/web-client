@@ -1,3 +1,5 @@
+import { state } from '@/State';
+import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
 import { Team } from './Team';
 
@@ -7,6 +9,9 @@ class GameController {
 		this.teams = new Map();
 		/** @type Map<number, Medal> */
 		this.medals = new Map();
+
+		state.on(EVENTS.CREATE_TEAM, this.addTeam);
+		state.on(EVENTS.SPAWN_MEDALS, this.addMedals);
 	}
 
 	/**
@@ -23,18 +28,18 @@ class GameController {
 	 * @param {NewTeamPayload} newTeamPayload
 	 * @returns
 	 */
-	addTeam(newTeamPayload) {
+	addTeam = (newTeamPayload) => {
 		const team = new Team({ position: newTeamPayload.position });
 		this.teams.set(newTeamPayload.iso, team);
 
 		return team;
-	}
+	};
 
 	/**
 	 *
 	 * @param {MedalApparitionPayload} medalApparitionPayload
 	 */
-	addMedals(medalApparitionPayload) {
+	addMedals = (medalApparitionPayload) => {
 		const newMedals = [];
 		medalApparitionPayload.medals.forEach((medalInGame) => {
 			const medal = new Medal(medalInGame);
@@ -43,7 +48,7 @@ class GameController {
 		});
 
 		return newMedals;
-	}
+	};
 
 	/**
 	 *

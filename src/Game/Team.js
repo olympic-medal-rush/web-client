@@ -1,4 +1,4 @@
-import { DIRECTIONS } from '@utils/config';
+import { DIRECTIONS } from '@utils/constants';
 
 class Team {
 	/**

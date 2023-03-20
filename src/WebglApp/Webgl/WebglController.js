@@ -18,6 +18,8 @@ class WebglController {
 
 	onAttach() {
 		app.$wrapper.prepend(this.renderer.domElement);
+
+		app.debug?.mapping.add(this, 'Game', 1);
 	}
 
 	onResize() {}

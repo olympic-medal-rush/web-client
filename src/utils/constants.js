@@ -19,6 +19,11 @@ const EVENTS = {
 	POINTER_DOWN: i++,
 
 	KEY_DOWN: i++,
+
+	// SERVER EVENTS
+	CREATE_TEAM: i++,
+	SPAWN_MEDALS: i++,
+	VOTE_RESULTS: i++,
 };
 
 const EVENTS_MAP = Object.fromEntries(
@@ -38,6 +43,19 @@ const STORE_KEYS = {
 	// MENU_OPEN: i++,
 };
 
+const DIRECTIONS = {
+	up: 0,
+	right: 1,
+	down: 2,
+	left: 3,
+};
+
+const MEDAL_TYPES = {
+	bronze: 0,
+	silver: 1,
+	gold: 2,
+};
+
 // const cssColors = classes
 // 	.trim()
 // 	.replaceAll('{', '')
@@ -49,4 +67,4 @@ const STORE_KEYS = {
 
 // const COLORS = Object.fromEntries(cssColors);
 
-export { EVENTS, EVENTS_MAP, STORE_KEYS };
+export { EVENTS, EVENTS_MAP, STORE_KEYS, DIRECTIONS, MEDAL_TYPES };
