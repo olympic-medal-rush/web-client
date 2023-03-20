@@ -2,6 +2,8 @@ import { app } from '@webglApp/App';
 import { computeEnvmap } from '@webglApp/utils/misc';
 import { AmbientLight, Color, IcosahedronGeometry, Mesh, MeshStandardMaterial, Scene } from 'three';
 import { state } from '../../State';
+import Map from './Objects/Map';
+import Player from './Objects/Player';
 
 class MainScene extends Scene {
 	constructor() {
@@ -14,17 +16,14 @@ class MainScene extends Scene {
 	}
 
 	onAttach() {
-		this.sphere = new Mesh(new IcosahedronGeometry(1, 6), new MeshStandardMaterial({ roughness: 0.2, metalness: 0.5 }));
-		this.add(this.sphere);
+		this.map = new Map(app.core.assetsManager.get('map'));
+		this.player = new Player(app.core.assetsManager.get('player'), true);
+		this.add(this.map, this.player);
 
 		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
 
 		app.debug?.mapping.add(this, 'Scene');
 	}
-
-	// envMapLoaded = (texture) => {
-	// 	this.environment = computeEnvmap(app.webgl.renderer, texture, false);
-	// };
 }
 
 export { MainScene };
