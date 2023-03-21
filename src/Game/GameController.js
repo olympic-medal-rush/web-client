@@ -19,7 +19,8 @@ class GameController {
 		statePayload.medalsInGame.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(statePayload.teamsState).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
 
-		state.emit(EVENTS.STATE_READY);
+		// TODO: emit state update ?
+		// state.emit(EVENTS.STATE_READY);
 	}
 
 	/**

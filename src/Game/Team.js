@@ -29,6 +29,8 @@ class Team {
 				this.position.x -= 1;
 				break;
 		}
+
+		return this;
 	}
 
 	/**
@@ -37,6 +39,8 @@ class Team {
 	 */
 	collect(medal) {
 		this.medals[medal.type]++;
+
+		return this;
 	}
 }
 

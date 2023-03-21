@@ -44,11 +44,11 @@ function createPane(pane, instance, name) {
 
 	folder.addSeparator();
 
-	const debugTeam = app.debug.urlParams.getString('team');
-	if (debugTeam) createTeamsDebug(debugTeam, true);
-
 	// CREATE AND MOVE TEAM
 	state.on(EVENTS.CREATE_TEAM, (iso) => createTeamsDebug(iso));
+
+	const debugTeam = app.debug.urlParams.getString('team');
+	if (debugTeam) createTeamsDebug(debugTeam, true);
 
 	function createTeamsDebug(iso, init = false) {
 		app.webgl.camera.playerFocus = app.webgl.players.get(init ? debugTeam : iso);
@@ -77,8 +77,9 @@ function createPane(pane, instance, name) {
 			})
 			.on('click', (ev) => {
 				if (teamList && ev.cell.title !== '-') {
-					GlobalApp.game.voteResults({ iso: teamList.value, direction: ev.cell.title, nextVoteId: 0 });
-					console.log('Move Team', teamList?.value, ev.cell.title);
+					const direction = ev.cell.title;
+					GlobalApp.game.voteResults({ iso: teamList.value, direction: direction, nextVoteId: 0 });
+					console.log('Move Team', teamList?.value, direction);
 				}
 			});
 
