@@ -17,18 +17,20 @@ class Team {
 	move(direction) {
 		switch (direction) {
 			case DIRECTIONS.up:
-				this.position.y += 1;
+				this.position.y -= 1;
 				break;
 			case DIRECTIONS.right:
 				this.position.x += 1;
 				break;
 			case DIRECTIONS.down:
-				this.position.y -= 1;
+				this.position.y += 1;
 				break;
 			case DIRECTIONS.left:
 				this.position.x -= 1;
 				break;
 		}
+
+		return this;
 	}
 
 	/**

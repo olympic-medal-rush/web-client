@@ -1,4 +1,5 @@
 import { state } from '@/State';
+import { GlobalApp } from '@/main';
 import flagColors from '@jsons/flag_colors.json';
 import { app } from '@webglApp/App';
 import { Color, MeshMatcapMaterial, Object3D, Vector2 } from 'three';
@@ -18,32 +19,11 @@ export default class Player extends Object3D {
 			if (child.isMesh) child.material = material;
 		});
 
-		this.positionOnGrid = new Vector2().setX(this.position.x).setY(this.position.z);
+		const gameTeam = GlobalApp.game.teams.get(iso);
+
+		this.positionOnGrid = gameTeam.position;
 
 		this.add(this.glb);
-
-		if (app.debug) {
-			state.on(EVENTS.KEY_DOWN, (key) => {
-				if (app.webgl.camera.playerFocus?.name === this.name) {
-					switch (key) {
-						case 'ArrowUp':
-							this.positionOnGrid.y--;
-							break;
-						case 'ArrowDown':
-							this.positionOnGrid.y++;
-							break;
-						case 'ArrowLeft':
-							this.positionOnGrid.x--;
-							break;
-						case 'ArrowRight':
-							this.positionOnGrid.x++;
-							break;
-						default:
-							break;
-					}
-				}
-			});
-		}
 	}
 
 	onTick({ dt }) {

@@ -65,9 +65,9 @@ class GameController {
 	 * @param {VoteResultsPayload} voteResultsPayload
 	 */
 	voteResults(voteResultsPayload) {
-		this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
+		const movedTeam = this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
 
-		state.emit(EVENTS.VOTE_RESULTS, { iso: voteResultsPayload.iso, direction: voteResultsPayload.direction });
+		state.emit(EVENTS.VOTE_RESULTS, { iso: voteResultsPayload.iso, team: movedTeam });
 	}
 }
 
