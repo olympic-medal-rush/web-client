@@ -10,7 +10,6 @@ class MainScene extends Scene {
 		super();
 		state.register(this);
 
-		// manifest.envMaps.envmap.callback = this.envMapLoaded;
 		this.background = new Color(0xaaaaaa);
 		this.add(new AmbientLight(0xffffff, 0.5));
 	}
@@ -19,9 +18,6 @@ class MainScene extends Scene {
 		this.map = new Map(app.core.assetsManager.get('map'));
 
 		this.add(this.map);
-
-		// this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
-		// app.debug?.mapping.add(this, 'Scene');
 	}
 
 	addPlayer(iso) {

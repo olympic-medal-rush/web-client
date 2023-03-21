@@ -12,16 +12,17 @@ Finally, you can set some item to be criticals if you want your to wait the load
 const manifest = {
 	images: {},
 	textures: {
-		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg`, priority: 2, callbacks: [] },
+		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg` },
 		// ...
 	},
 	envMaps: {
-		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr`, critical: true, callbacks: [] },
+		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },
 		// ...
 	},
 	models: {
-		map: { path: `${import.meta.env.BASE_URL}assets/models/terrain.glb`, priority: 1, callbacks: [] },
-		player: { path: `${import.meta.env.BASE_URL}assets/models/player.glb`, priority: 1, callbacks: [] },
+		map: { path: `${import.meta.env.BASE_URL}assets/models/terrain.glb` },
+		player: { path: `${import.meta.env.BASE_URL}assets/models/player.glb` },
+		medal: { path: `${import.meta.env.BASE_URL}assets/models/medal.glb` },
 	},
 	jsons: {},
 };

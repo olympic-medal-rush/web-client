@@ -86,7 +86,7 @@ function createPane(pane, instance, name) {
 			if (!teamList?.value) return;
 
 			const teamPos = GlobalApp.game.teams.get(teamList.value).position;
-			console.log(terrainData.mapping[terrainData.data[teamPos.y][teamPos.x]]);
+			console.log(terrainData.mapping[terrainData.data[teamPos.y][teamPos.x]], teamPos.x, teamPos.y);
 		});
 	}
 

@@ -22,6 +22,7 @@ export default class Player extends Object3D {
 		const gameTeam = GlobalApp.game.teams.get(iso);
 
 		this.positionOnGrid = gameTeam.position;
+		this.position.setX(this.positionOnGrid.x + 0.5).setZ(this.positionOnGrid.y + 0.5);
 
 		this.add(this.glb);
 	}

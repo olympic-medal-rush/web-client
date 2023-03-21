@@ -48,4 +48,4 @@ List of params:
 `orbit`: Enable OrbitControls.
 `tab`: Switch pane tabs
 `noServer`: Disable server connection to fake events
-`team`: Set current team if `noServer` is present (team=FRA)
+`team`: Set current team (team=FRA)` if `noServer` is present
