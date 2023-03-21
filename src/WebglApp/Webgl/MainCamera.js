@@ -10,6 +10,11 @@ class MainCamera extends PerspectiveCamera {
 		state.register(this);
 
 		this.playerFocus = null;
+
+		this.position.x = 100;
+		this.position.y = 20;
+		this.position.z = 100;
+		this.lookAt(50, 2, 50);
 	}
 
 	onAttach() {

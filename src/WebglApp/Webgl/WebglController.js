@@ -31,6 +31,10 @@ class WebglController {
 		this.scene.addPlayer(iso);
 	}
 
+	onVoteResults({ iso, team }) {
+		app.webgl.camera.playerFocus.positionOnGrid = team.position;
+	}
+
 	onResize() {}
 
 	onRouteChange(_name) {}

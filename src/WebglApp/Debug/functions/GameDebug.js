@@ -4,7 +4,7 @@ import terrainData from '@/assets/jsons/terrain_data.json';
 import { GlobalApp } from '@/main';
 import { app } from '@webglApp/App';
 import { randInt } from 'three/src/math/MathUtils';
-import { EVENTS, MEDAL_TYPES } from '@utils/constants';
+import { DIRECTIONS, EVENTS, MEDAL_TYPES } from '@utils/constants';
 
 let i = 0;
 let teamList,
@@ -77,9 +77,8 @@ function createPane(pane, instance, name) {
 			})
 			.on('click', (ev) => {
 				if (teamList && ev.cell.title !== '-') {
-					const direction = ev.cell.title;
-					GlobalApp.game.voteResults({ iso: teamList.value, direction: direction, nextVoteId: 0 });
-					console.log('Move Team', teamList?.value, direction);
+					GlobalApp.game.voteResults({ iso: teamList.value, direction: DIRECTIONS[ev.cell.title.toLowerCase()], nextVoteId: 0 });
+					// console.log('Move Team', teamList?.value, ev.cell.title);
 				}
 			});
 
@@ -95,6 +94,25 @@ function createPane(pane, instance, name) {
 }
 
 function debug(_instance) {
+	state.on(EVENTS.KEY_DOWN, (key) => {
+		switch (key) {
+			case 'ArrowUp':
+				app.webgl.camera.playerFocus.positionOnGrid.y--;
+				break;
+			case 'ArrowDown':
+				app.webgl.camera.playerFocus.positionOnGrid.y++;
+				break;
+			case 'ArrowLeft':
+				app.webgl.camera.playerFocus.positionOnGrid.x--;
+				break;
+			case 'ArrowRight':
+				app.webgl.camera.playerFocus.positionOnGrid.x++;
+				break;
+			default:
+				break;
+		}
+	});
+
 	if (app.debug.urlParams.has('noServer')) {
 		GlobalApp.game.setState({
 			userId: 'userId',
