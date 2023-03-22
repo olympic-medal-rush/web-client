@@ -24,6 +24,7 @@ type Position = {
 };
 
 type TeamInfos = {
+	iso: string;
 	position: Position;
 	medals?: Record<MedalType, number>;
 };

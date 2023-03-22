@@ -5,7 +5,8 @@ class Team {
 	 *
 	 * @param {TeamInfos} params
 	 */
-	constructor({ position, medals = { 0: 0, 1: 0, 2: 0 } }) {
+	constructor({ iso, position, medals = { 0: 0, 1: 0, 2: 0 } }) {
+		this.iso = iso;
 		this.position = position;
 		this.medals = medals;
 	}

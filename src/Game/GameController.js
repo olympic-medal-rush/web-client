@@ -29,7 +29,9 @@ class GameController {
 	 * @returns
 	 */
 	createTeam(newTeamPayload) {
-		const team = new Team({ position: newTeamPayload.position });
+		if (this.teams.has(newTeamPayload.iso)) return console.error('Team already exists');
+
+		const team = new Team(newTeamPayload);
 		this.teams.set(newTeamPayload.iso, team);
 
 		state.emit(EVENTS.CREATE_TEAM, newTeamPayload.iso);
@@ -42,6 +44,8 @@ class GameController {
 	addMedals(medalApparitionPayload) {
 		const newMedals = [];
 		medalApparitionPayload.medals.forEach((medalInGame) => {
+			if (this.medals.has(medalInGame.id)) return console.error('Medal already exists');
+
 			const medal = new Medal(medalInGame);
 			this.medals.set(medalInGame.id, medal);
 			newMedals.push(medal);
@@ -55,6 +59,8 @@ class GameController {
 	 * @param {MedalCollectionPayload} medalCollectionPayload
 	 */
 	medalCollect(medalCollectionPayload) {
+		if (!this.teams.has(medalCollectionPayload.iso) || !this.medals.has(medalCollectionPayload.medal.id)) return console.error("Medal or team doesn't exist");
+
 		this.teams.get(medalCollectionPayload.iso).collect(this.medals.get(medalCollectionPayload.medal.id));
 		this.medals.delete(medalCollectionPayload.medal.id);
 
@@ -66,6 +72,8 @@ class GameController {
 	 * @param {VoteResultsPayload} voteResultsPayload
 	 */
 	voteResults(voteResultsPayload) {
+		if (!this.teams.has(voteResultsPayload.iso)) return console.error("Team doesn't exist");
+
 		const movedTeam = this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
 
 		state.emit(EVENTS.VOTE_RESULTS, { iso: voteResultsPayload.iso, team: movedTeam });
