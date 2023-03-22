@@ -11,7 +11,7 @@ let teamList,
 	teamMove,
 	teamZone = null;
 const flagsColorsArr = Object.entries(flagColors);
-const terrainSize = terrainData.data.length;
+const terrainSize = terrainData.data.length - 1;
 
 /**
  *
@@ -94,32 +94,32 @@ function createPane(pane, instance, name) {
 }
 
 function debug(_instance) {
-	state.on(EVENTS.KEY_DOWN, (key) => {
-		switch (key) {
-			case 'ArrowUp':
-				app.webgl.camera.playerFocus.positionOnGrid.y--;
-				break;
-			case 'ArrowDown':
-				app.webgl.camera.playerFocus.positionOnGrid.y++;
-				break;
-			case 'ArrowLeft':
-				app.webgl.camera.playerFocus.positionOnGrid.x--;
-				break;
-			case 'ArrowRight':
-				app.webgl.camera.playerFocus.positionOnGrid.x++;
-				break;
-			default:
-				break;
-		}
-	});
-
 	if (app.debug.urlParams.has('noServer')) {
+		state.on(EVENTS.KEY_DOWN, (key) => {
+			switch (key) {
+				case 'ArrowUp':
+					app.webgl.camera.playerFocus.positionOnGrid.y--;
+					break;
+				case 'ArrowDown':
+					app.webgl.camera.playerFocus.positionOnGrid.y++;
+					break;
+				case 'ArrowLeft':
+					app.webgl.camera.playerFocus.positionOnGrid.x--;
+					break;
+				case 'ArrowRight':
+					app.webgl.camera.playerFocus.positionOnGrid.x++;
+					break;
+				default:
+					break;
+			}
+		});
+
 		GlobalApp.game.setState({
 			userId: 'userId',
 			teamsState: {
-				FRA: { position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 5, 1: 2, 2: 15 } },
-				ESP: { position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 1, 1: 2, 2: 3 } },
-				AFG: { position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 50, 1: 4, 2: 12 } },
+				FRA: { iso: 'FRA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 5, 1: 2, 2: 15 } },
+				ESP: { iso: 'ESP', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 1, 1: 2, 2: 3 } },
+				AFG: { iso: 'AFG', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 50, 1: 4, 2: 12 } },
 			},
 			medalsInGame: [
 				{ id: -4, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
@@ -129,6 +129,7 @@ function debug(_instance) {
 			],
 		});
 		GlobalApp.game.teams.forEach((_team, iso) => app.webgl.onCreateTeam(iso));
+		app.webgl.onSpawnMedals([...GlobalApp.game.medals.values()]);
 	}
 }
 
