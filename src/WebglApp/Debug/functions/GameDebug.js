@@ -39,7 +39,7 @@ function createPane(pane, instance, name) {
 			{ id: i++, type: 2, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 		];
 		GlobalApp.game.addMedals({ medals: newMedals });
-		console.log('Spawn Medals', newMedals);
+		// console.log('Spawn Medals', newMedals);
 	});
 
 	folder.addSeparator();
@@ -128,7 +128,7 @@ function debug(_instance) {
 				{ id: -1, type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 			],
 		});
-		GlobalApp.game.teams.forEach((_team, iso) => app.webgl.scene.addPlayer(iso));
+		GlobalApp.game.teams.forEach((_team, iso) => app.webgl.onCreateTeam(iso));
 	}
 }
 

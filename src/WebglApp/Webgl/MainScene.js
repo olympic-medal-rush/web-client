@@ -19,14 +19,6 @@ class MainScene extends Scene {
 
 		this.add(this.map);
 	}
-
-	addPlayer(iso) {
-		const player = new Player(app.core.assetsManager.get('player').clone(), iso);
-
-		app.webgl.players.set(iso, player);
-
-		this.add(player);
-	}
 }
 
 export { MainScene };

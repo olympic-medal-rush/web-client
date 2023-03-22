@@ -46,8 +46,7 @@ class GameController {
 			this.medals.set(medalInGame.id, medal);
 			newMedals.push(medal);
 		});
-
-		state.emit(EVENTS.ADD_MEDALS, newMedals);
+		state.emit(EVENTS.SPAWN_MEDALS, newMedals);
 	}
 
 	/**
