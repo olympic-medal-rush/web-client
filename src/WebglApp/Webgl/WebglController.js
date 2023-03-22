@@ -57,6 +57,10 @@ class WebglController {
 		medals.forEach(this.#createMedal);
 	}
 
+	onCollectMedal(medalId) {
+		this.medals.get(medalId).removeFromParent();
+	}
+
 	#createTeam = (team) => {
 		const player = new Player(app.core.assetsManager.get('player').clone(), team.iso);
 		app.webgl.players.set(team.iso, player);

@@ -13,8 +13,14 @@ onMounted(() => app.load());
 <template>
 	<div class="game">
 		<h1>Game view</h1>
-		<p>Nombre de joueurs : {{ domGameStore.playersCounter }}</p>
 		<p>{{ t('head.title') }}</p>
+		<p>Nombre de joueurs : {{ domGameStore.playersCounter }}</p>
+		<div>
+			<h3>Scorebord</h3>
+			<ul>
+				<li v-for="team in domGameStore.scorebord" :key="team.name">{{ team.name }} => {{ team.score }}</li>
+			</ul>
+		</div>
 	</div>
 </template>
 
