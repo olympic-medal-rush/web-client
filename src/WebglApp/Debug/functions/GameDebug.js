@@ -1,10 +1,10 @@
-import { state } from '@/State.js';
+import { state } from '@/State';
 import flagColors from '@/assets/jsons/flag_colors.json';
 import terrainData from '@/assets/jsons/terrain_data.json';
-import { GlobalApp } from '@/main.js';
-import { app } from '@webglApp/App.js';
+import { GlobalApp } from '@/main';
+import { app } from '@webglApp/App';
 import { randInt } from 'three/src/math/MathUtils';
-import { DIRECTIONS, EVENTS, MEDAL_TYPES } from '@utils/constants.js';
+import { DIRECTIONS, EVENTS, MEDAL_TYPES } from '@utils/constants';
 
 /** THIS FILE OVERRIDES SERVER EVENTS
  * Nothing passes throught the ServerController */

@@ -1,4 +1,4 @@
-import { DIRECTIONS } from '@utils/constants.js';
+import { DIRECTIONS } from '@utils/constants';
 
 class Team {
 	/**

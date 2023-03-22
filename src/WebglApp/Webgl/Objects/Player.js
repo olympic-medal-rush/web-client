@@ -1,5 +1,5 @@
-import { state } from '@/State.js';
-import { GlobalApp } from '@/main.js';
+import { state } from '@/State';
+import { GlobalApp } from '@/main';
 import flagColors from '@jsons/flag_colors.json';
 import { Color, MeshMatcapMaterial, Object3D } from 'three';
 import { damp } from 'three/src/math/MathUtils';

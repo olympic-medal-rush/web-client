@@ -1,10 +1,10 @@
-import { state } from '../State.js';
-import { DEBUG } from '../utils/config.js';
-import { EVENTS } from '../utils/constants.js';
-import { createCoreModules } from './Core/index.js';
-import { createDebugModules } from './Debug/index.js';
-import { createToolsModules } from './Tools/index.js';
-import { WebglController } from './Webgl/WebglController.js';
+import { state } from '@/State';
+import { createCoreModules } from '@/webglApp/Core/index';
+import { DEBUG } from '@utils/config';
+import { EVENTS } from '@utils/constants';
+import { createDebugModules } from './Debug';
+import { createToolsModules } from './Tools';
+import { WebglController } from './Webgl/WebglController';
 
 class App {
 	/** @type App */

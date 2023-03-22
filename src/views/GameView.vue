@@ -1,8 +1,8 @@
 <script async setup>
-import { useGameStore } from '@stores/game.js';
-import { app } from '@webglApp/App.js';
+import { useGameStore } from '@stores/game';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { app } from '../webglApp/App';
 
 const { t } = useI18n();
 const domGameStore = useGameStore();

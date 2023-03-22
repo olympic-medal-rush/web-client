@@ -1,6 +1,6 @@
-import { app } from '@webglApp/App.js';
+import { app } from '@webglApp/App';
 import { PerspectiveCamera } from 'three';
-import { state } from '../../State.js';
+import { state } from '../../State';
 
 const BASE_FOV = 45;
 

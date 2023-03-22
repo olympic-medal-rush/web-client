@@ -1,12 +1,12 @@
-import { GameController } from '@game/GameController.js';
 import messages from '@intlify/unplugin-vue-i18n/messages';
-import ServerController from '@server/ServerController.js';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 import App from './App.vue';
 import './assets/styles/main.scss';
-import router from './router/index.js';
+import { GameController } from './game/GameController';
+import router from './router/index';
+import ServerController from './server/ServerController';
 
 const i18n = createI18n({
 	legacy: false,

@@ -1,4 +1,4 @@
-import { app } from '@webglApp/App.js';
+import { app } from '@webglApp/App';
 
 async function createDebugModules() {
 	await import('@styles/debug/debug.scss');

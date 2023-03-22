@@ -1,7 +1,7 @@
-import { GlobalApp } from '@/main.js';
-import { useGameStore } from '@stores/game.js';
-import { SERVER_EVENTS, STORE_KEYS } from '@utils/constants.js';
-import { store } from '../Store.js';
+import { GlobalApp } from '@/main';
+import { useGameStore } from '@stores/game';
+import { SERVER_EVENTS, STORE_KEYS } from '@utils/constants';
+import { store } from '../Store';
 
 export default class ServerController {
 	/** @type WebSocket */

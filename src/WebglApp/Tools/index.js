@@ -1,6 +1,6 @@
-import { Keyboard } from './Keyboard.js';
-import { Mouse } from './Mouse.js';
-import { Viewport } from './Viewport.js';
+import { Keyboard } from './Keyboard';
+import { Mouse } from './Mouse';
+import { Viewport } from './Viewport';
 
 function createToolsModules() {
 	const mouse = new Mouse();

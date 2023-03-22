@@ -1,13 +1,13 @@
-import { state } from '@/State.js';
-import { manifest } from '@webglApp/utils/manifest.js';
+import { state } from '@/State';
+import { manifest } from '@webglApp/utils/manifest';
 import { Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader';
 import { EVENTS } from '@utils/constants';
 import { AssetsLoader } from './AssetsLoader';
-import { AjaxImageLoader } from './CustomLoaders/AjaxImageLoader.js';
-import { AjaxJSONLoader } from './CustomLoaders/AjaxJSONLoader.js';
-import { AjaxTextureLoader } from './CustomLoaders/AjaxTextureLoader.js';
+import { AjaxImageLoader } from './CustomLoaders/AjaxImageLoader';
+import { AjaxJSONLoader } from './CustomLoaders/AjaxJSONLoader';
+import { AjaxTextureLoader } from './CustomLoaders/AjaxTextureLoader';
 
 Cache.enabled = true;
 

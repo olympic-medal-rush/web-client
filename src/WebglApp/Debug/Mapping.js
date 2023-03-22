@@ -1,7 +1,7 @@
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
-import { app } from '@webglApp/App.js';
-import { state } from '../../State.js';
-import { PANE_TABS, PANE_TITLE } from './debugConfig.js';
+import { app } from '@webglApp/App';
+import { state } from '../../State';
+import { PANE_TABS, PANE_TITLE } from './debugConfig';
 
 /** @type Record<any, any> */
 const mapping = Object.fromEntries(
