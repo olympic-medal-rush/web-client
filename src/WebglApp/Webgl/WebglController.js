@@ -4,6 +4,7 @@ import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { state } from '../../State';
 import { MainCamera } from './MainCamera';
 import { MainScene } from './MainScene';
+import Medal from './Objects/Medal';
 import Player from './Objects/Player';
 import { PostProcessing } from './PostProcessing';
 import { Renderer } from './Renderer';
@@ -12,6 +13,8 @@ class WebglController {
 	constructor() {
 		/** @type Map<string, Player> */
 		this.players = new Map();
+		/** @type Map<string, Medal> */
+		this.medals = new Map();
 
 		state.register(this);
 
@@ -28,12 +31,20 @@ class WebglController {
 	}
 
 	onCreateTeam(iso) {
-		this.scene.addPlayer(iso);
+		const player = new Player(app.core.assetsManager.get('player').clone(), iso);
+		app.webgl.players.set(iso, player);
+		this.scene.add(player);
 	}
 
-	onVoteResults({ iso, team }) {
-		app.webgl.camera.playerFocus.positionOnGrid = team.position;
+	onSpawnMedals(medals) {
+		medals.forEach((medal) => {
+			const newMedal = new Medal(app.core.assetsManager.get('medal').clone(), medal);
+			app.webgl.medals.set(medal.id, newMedal);
+			this.scene.add(newMedal);
+		});
 	}
+
+	onVoteResults({ iso, team }) {}
 
 	onResize() {}
 

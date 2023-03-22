@@ -27,7 +27,7 @@ const EVENTS = {
 
 	// GAME EVENTS
 	CREATE_TEAM: i++,
-	ADD_MEDALS: i++,
+	SPAWN_MEDALS: i++,
 	VOTE_RESULTS: i++,
 	COLLECT_MEDAL: i++,
 };

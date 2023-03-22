@@ -30,7 +30,7 @@ class MainCamera extends PerspectiveCamera {
 	onTick({ dt }) {
 		if (this.orbitControls || !this.playerFocus) return;
 
-		this.position.y = this.playerFocus.position.y + 2;
+		this.position.y = this.playerFocus.position.y + 4;
 		this.position.x = this.playerFocus.position.x;
 		this.position.z = this.playerFocus.position.z + 8;
 		this.lookAt(this.playerFocus.position.x, this.playerFocus.position.y + 0.5, this.playerFocus.position.z);
