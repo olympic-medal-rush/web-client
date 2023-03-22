@@ -34,7 +34,7 @@ class WebglController {
 	 * @param {import('@/types/env').StateReadyPayload} params
 	 */
 	onStateReady({ teams, medals }) {
-		teams.forEach((team, iso) => this.onCreateTeam(iso));
+		teams.forEach((team) => this.onCreateTeam(team));
 		[...medals.values()].forEach(this.#createMedal);
 
 		// TODO: set camera focus of first team ?
@@ -49,17 +49,17 @@ class WebglController {
 		this.camera.playerFocus = this.players.get(currentTeam.iso);
 	}
 
-	onCreateTeam(iso) {
-		this.#createTeam(iso);
+	onCreateTeam(team) {
+		this.#createTeam(team);
 	}
 
 	onSpawnMedals(medals) {
 		medals.forEach(this.#createMedal);
 	}
 
-	#createTeam = (iso) => {
-		const player = new Player(app.core.assetsManager.get('player').clone(), iso);
-		app.webgl.players.set(iso, player);
+	#createTeam = (team) => {
+		const player = new Player(app.core.assetsManager.get('player').clone(), team.iso);
+		app.webgl.players.set(team.iso, player);
 		this.scene.add(player);
 	};
 

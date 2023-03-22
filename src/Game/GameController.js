@@ -52,7 +52,7 @@ class GameController {
 		const team = new Team(newTeamPayload);
 		this.teams.set(newTeamPayload.iso, team);
 
-		state.emit(EVENTS.CREATE_TEAM, newTeamPayload.iso);
+		state.emit(EVENTS.CREATE_TEAM, team);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class GameController {
 
 	/**
 	 *
-	 * @param {*} userVotePlayload
+	 * @param {UserVotePayload} userVotePlayload
 	 */
 	userVote(userVotePlayload) {
 		GlobalApp.server.userVote(userVotePlayload);

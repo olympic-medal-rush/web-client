@@ -27,7 +27,7 @@ class MainCamera extends PerspectiveCamera {
 		this.updateProjectionMatrix();
 	}
 
-	onTick({ dt }) {
+	onTick() {
 		if (this.orbitControls || !this.playerFocus) return;
 
 		this.position.y = this.playerFocus.position.y + 4;

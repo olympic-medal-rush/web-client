@@ -36,6 +36,11 @@ export default class ServerController {
 		this.#routeEvent(Object.assign(new Event(), eventData));
 	};
 
+	#send(eventId, payload) {
+		const event = new Event(eventId, payload);
+		this.#connection.send(JSON.stringify(event));
+	}
+
 	/**
 	 * Route WebSocket events listeners
 	 *
@@ -172,11 +177,6 @@ export default class ServerController {
 		// window.localStorage.setItem('USER_ISO', iso);
 
 		this.#send(SERVER_EVENTS.USER_JOIN, userJoinPayload);
-	}
-
-	#send(eventId, payload) {
-		const event = new Event(eventId, payload);
-		this.#connection.send(JSON.stringify(event));
 	}
 }
 
