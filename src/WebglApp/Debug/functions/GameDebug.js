@@ -46,6 +46,19 @@ function createPane(pane, instance, name) {
 		// console.log('Spawn Medals', newMedals);
 	});
 
+	folder.addButton({ title: 'Collect Medal' }).on('click', () => {
+		const rendomMedal = Array.from(GlobalApp.game.medals);
+		if (rendomMedal.length > 0) {
+			const medalCollect = {
+				iso: app.webgl.camera.playerFocus.name,
+				medal: rendomMedal[Math.floor(Math.random() * rendomMedal.length)][1],
+			};
+			GlobalApp.game.medalCollect(medalCollect);
+		} else {
+			alert('There are no more medals at play');
+		}
+	});
+
 	folder.addSeparator();
 
 	// CREATE AND MOVE TEAM
