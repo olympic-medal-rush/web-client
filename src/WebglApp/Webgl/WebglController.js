@@ -1,12 +1,12 @@
-import { app } from '@webglApp/App';
-import { globalUniforms } from '@webglApp/utils/globalUniforms';
-import { state } from '../../State';
-import { MainCamera } from './MainCamera';
-import { MainScene } from './MainScene';
-import Medal from './Objects/Medal';
-import Player from './Objects/Player';
-import { PostProcessing } from './PostProcessing';
-import { Renderer } from './Renderer';
+import { app } from '@webglApp/App.js';
+import { globalUniforms } from '@webglApp/utils/globalUniforms.js';
+import { state } from '../../State.js';
+import { MainCamera } from './MainCamera.js';
+import { MainScene } from './MainScene.js';
+import Medal from './Objects/Medal.js';
+import Player from './Objects/Player.js';
+import { PostProcessing } from './PostProcessing.js';
+import { Renderer } from './Renderer.js';
 
 class WebglController {
 	constructor() {

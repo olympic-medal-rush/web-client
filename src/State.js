@@ -1,4 +1,4 @@
-import { EVENTS_MAP } from '@utils/constants';
+import { EVENTS_MAP } from '@utils/constants.js';
 
 class State {
 	/** @type State */

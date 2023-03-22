@@ -1,9 +1,7 @@
-import { GlobalApp } from '@/main';
-import { app } from '@webglApp/App';
+import { app } from '@webglApp/App.js';
 import { AmbientLight, Color, Scene } from 'three';
-import { state } from '../../State';
-import Map from './Objects/Map';
-import Player from './Objects/Player';
+import { state } from '../../State.js';
+import Map from './Objects/Map.js';
 
 class MainScene extends Scene {
 	constructor() {

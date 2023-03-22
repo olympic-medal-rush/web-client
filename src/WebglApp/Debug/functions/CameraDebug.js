@@ -1,6 +1,6 @@
-import { state } from '@/State';
-import { app } from '@webglApp/App';
-import { EVENTS } from '@utils/constants';
+import { state } from '@/State.js';
+import { app } from '@webglApp/App.js';
+import { EVENTS } from '@utils/constants.js';
 
 function createPane(pane, instance, name) {
 	const folder = pane.addFolder({ title: name, expanded: false });

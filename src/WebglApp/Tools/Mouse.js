@@ -1,7 +1,7 @@
-import { state } from '@/State';
-import { app } from '@webglApp/App';
+import { state } from '@/State.js';
+import { app } from '@webglApp/App.js';
 import { Vector2 } from 'three';
-import { EVENTS } from '@utils/constants';
+import { EVENTS } from '@utils/constants.js';
 
 class Mouse {
 	constructor() {

@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/client" />
 import { Medal } from '@game/Medal';
 import { Team } from '@game/Team';
 

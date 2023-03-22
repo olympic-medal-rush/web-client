@@ -1,8 +1,5 @@
 <script setup>
-import { GlobalApp } from '@/main';
-
 // console.log('Homepage');
-GlobalApp.server.connect();
 </script>
 
 <template>

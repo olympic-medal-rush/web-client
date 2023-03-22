@@ -1,4 +1,4 @@
-import { URL_PARAMS_LIST } from './debugConfig';
+import { URL_PARAMS_LIST } from './debugConfig.js';
 
 class URLParams {
 	params = new Map();

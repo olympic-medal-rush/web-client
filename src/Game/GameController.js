@@ -1,8 +1,8 @@
-import { state } from '@/State';
-import { GlobalApp } from '@/main';
-import { EVENTS } from '@utils/constants';
-import { Medal } from './Medal';
-import { Team } from './Team';
+import { state } from '@/State.js';
+import { GlobalApp } from '@/main.js';
+import { EVENTS } from '@utils/constants.js';
+import { Medal } from './Medal.js';
+import { Team } from './Team.js';
 
 class GameController {
 	constructor() {

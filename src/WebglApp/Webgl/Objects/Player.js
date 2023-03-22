@@ -1,10 +1,8 @@
-import { state } from '@/State';
-import { GlobalApp } from '@/main';
+import { state } from '@/State.js';
+import { GlobalApp } from '@/main.js';
 import flagColors from '@jsons/flag_colors.json';
-import { app } from '@webglApp/App';
-import { Color, MeshMatcapMaterial, Object3D, Vector2 } from 'three';
+import { Color, MeshMatcapMaterial, Object3D } from 'three';
 import { damp } from 'three/src/math/MathUtils';
-import { EVENTS } from '@utils/constants';
 
 export default class Player extends Object3D {
 	constructor(glb, iso) {

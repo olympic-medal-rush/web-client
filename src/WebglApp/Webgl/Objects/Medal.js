@@ -1,5 +1,5 @@
 import { MeshMatcapMaterial, Object3D } from 'three';
-import { MEDAL_COLORS } from '@utils/config';
+import { MEDAL_COLORS } from '@utils/config.js';
 
 export default class Medal extends Object3D {
 	constructor(model, data) {

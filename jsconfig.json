@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"types": ["vite/client"],
+		"types": ["vite/client", "vite-plugin-pwa/client"],
 		"checkJs": true,
 		"moduleResolution": "bundler",
 		"target": "ES2022",

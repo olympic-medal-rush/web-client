@@ -16,7 +16,6 @@ class ColorDebugHelper {
 		this.object[this.prop].set(hexString);
 	}
 }
-
 // Usage: folder.addInput(new ColorDebugHelper(instance.uniforms.uSkyColor, 'value'), 'value', { label: 'uSkyColor' });
 
 export { PANE_TABS, PANE_TITLE, URL_PARAMS_LIST, ColorDebugHelper };
