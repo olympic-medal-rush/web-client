@@ -6,10 +6,14 @@ import { app } from '@webglApp/App';
 import { randInt } from 'three/src/math/MathUtils';
 import { DIRECTIONS, EVENTS, MEDAL_TYPES } from '@utils/constants';
 
+/** THIS FILE OVERRIDES SERVER EVENTS
+ * Nothing passes throught the ServerController */
+
 let i = 0;
 let teamList,
 	teamMove,
 	teamZone = null;
+let lastIso = null;
 const flagsColorsArr = Object.entries(flagColors);
 const terrainSize = terrainData.data.length - 1;
 
@@ -45,21 +49,22 @@ function createPane(pane, instance, name) {
 	folder.addSeparator();
 
 	// CREATE AND MOVE TEAM
-	state.on(EVENTS.CREATE_TEAM, (iso) => createTeamsDebug(iso));
+	state.on(EVENTS.CREATE_TEAM, () => createTeamsDebug());
+	state.on(EVENTS.STATE_READY, () => createTeamsDebug());
 
-	const debugTeam = app.debug.urlParams.getString('team');
-	if (debugTeam) createTeamsDebug(debugTeam, true);
+	const debugTeam = app.debug.urlParams.getString('team') || 'FRA';
+	lastIso = debugTeam;
+	// if (debugTeam) createTeamsDebug();
 
-	function createTeamsDebug(iso, init = false) {
-		app.webgl.camera.playerFocus = app.webgl.players.get(init ? debugTeam : iso);
-
+	function createTeamsDebug() {
 		teamList?.dispose();
 		teamMove?.dispose();
 		teamZone?.dispose();
 
 		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
-		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: init ? debugTeam : iso }).on('change', (ev) => {
+		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: lastIso }).on('change', (ev) => {
 			app.webgl.camera.playerFocus = app.webgl.players.get(ev.value);
+			lastIso = ev.value;
 		});
 
 		teamMove = folder
@@ -128,8 +133,20 @@ function debug(_instance) {
 				{ id: -1, type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 			],
 		});
-		GlobalApp.game.teams.forEach((_team, iso) => app.webgl.onCreateTeam(iso));
-		app.webgl.onSpawnMedals([...GlobalApp.game.medals.values()]);
+
+		const debugTeam = app.debug.urlParams.getString('team') || 'FRA';
+
+		GlobalApp.game.userJoin({
+			iso: debugTeam,
+			voteId: 1,
+			voteProgress: 0.5,
+			votes: {
+				down: 25,
+				left: 25,
+				right: 25,
+				up: 25,
+			},
+		});
 	}
 }
 

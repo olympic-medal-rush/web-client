@@ -1,6 +1,6 @@
 import { GlobalApp } from '@/main';
 import { useGameStore } from '@stores/game';
-import { STORE_KEYS } from '@utils/constants';
+import { SERVER_EVENTS, STORE_KEYS } from '@utils/constants';
 import { store } from '../Store';
 
 export default class ServerController {
@@ -11,9 +11,12 @@ export default class ServerController {
 	constructor({ host = '' }) {
 		this.#host = host;
 
+		this.#connection = new WebSocket(`wss://${this.#host}/ws`);
+		this.#connection.onmessage = this.#onMessage;
+
 		this.domGameStore = useGameStore();
 
-		// TO DO: MAËLLE FOR EVENT TEST
+		// TODO: MAËLLE FOR EVENT TEST
 		window.addEventListener('keydown', (e) => {
 			if (e.key === 'p') {
 				const data = {
@@ -25,92 +28,87 @@ export default class ServerController {
 		});
 	}
 
-	// Instantiate web socket
-	connect() {
-		this.#connection = new WebSocket(`wss://${this.#host}/ws`);
-		this.#connection.onmessage = this.#onMessage;
-	}
-
 	/**
-	 * Listen events & dispach state
+	 * Listen events and dispatch state
 	 */
 	#onMessage = (evt) => {
 		const eventData = JSON.parse(evt.data);
 		this.#routeEvent(Object.assign(new Event(), eventData));
 	};
 
+	/**
+	 * Route WebSocket events listeners
+	 *
+	 * @param {{type: string, data: any}} evt
+	 */
 	#routeEvent(evt) {
-		console.log(evt.type, evt.data);
 		switch (evt.type) {
-			case 'user_connect':
-				this.#onUserConnect(evt.data);
+			case SERVER_EVENTS.CONNECT_STATE:
+				this.#onConnectState(evt.data);
 				break;
-			case 'user_join':
-				this.#onUserJoin(evt.data);
+			case SERVER_EVENTS.JOIN_STATE:
+				this.#onJoinState(evt.data);
 				break;
-			case 'vote_results':
+			case SERVER_EVENTS.VOTE_RESULTS:
 				this.#onVoteResults(evt.data);
 				break;
-			case 'vote_count':
+			case SERVER_EVENTS.VOTE_COUNT:
 				this.#onVoteCount(evt.data);
 				break;
-			case 'medal_apparition':
+			case SERVER_EVENTS.MEDAL_APPARITION:
 				this.#onMedalApparition(evt.data);
 				break;
-			case 'medal_collection':
+			case SERVER_EVENTS.MEDAL_COLLECTION:
 				this.#onMedalCollection(evt.data);
 				break;
-			case 'new_team':
+			case SERVER_EVENTS.NEW_TEAM:
 				this.#onNewTeam(evt.data);
 				break;
-			case 'player_count':
+			case SERVER_EVENTS.PLAYER_COUNT:
 				this.#onPlayerCount(evt.data);
 				break;
-
 			default:
 				break;
 		}
 	}
 
+	/* ######## LISTENERS ######## */
+
 	/**
+	 * Get current game state to initialize
 	 *
 	 * @param {ConnectStatePayload} data
 	 */
-	#onUserConnect(data) {
+	#onConnectState(data) {
 		store.set(STORE_KEYS.USER_ID, data.userId);
-		// medals in game data.medals
-		// score bord data.scores
-		// pos teams in game data.teamsPositions
 		GlobalApp.game.setState(data);
 	}
 
 	/**
+	 * Response to user join with current vote state
 	 *
 	 * @param {JoinStatePayload} data
 	 */
-	#onUserJoin(data) {
-		console.warn('TODO: Implement onUserJoin');
-		// this.#onUserConnect(data);
-		// count of votes data.VoteCountPayload
-		// id of current vote data.voteId
+	#onJoinState(data) {
+		GlobalApp.game.userJoin(data);
 	}
 
 	/**
+	 * Vote has ended, get results
 	 *
 	 * @param {VoteResultsPayload} data
 	 */
 	#onVoteResults(data) {
-		// iso: string;
-		// dir: string;
-		// nextVoteId: number;
 		GlobalApp.game.voteResults(data);
 	}
 
 	/**
+	 * Vote count update during vote
 	 *
 	 * @param {VoteCountPayload} data
 	 */
 	#onVoteCount(data) {
+		// TODO: update Vue store or something else supposed to show vote counts
 		// up: number;
 		// right: number;
 		// down: number;
@@ -118,65 +116,66 @@ export default class ServerController {
 	}
 
 	/**
+	 * New medals on map
 	 *
 	 * @param {MedalApparitionPayload} data
 	 */
 	#onMedalApparition(data) {
-		// medals: MedalInfo[];
 		GlobalApp.game.addMedals(data);
 	}
 
 	/**
+	 * Team collected a medal
 	 *
 	 * @param {MedalCollectionPayload} data
 	 */
 	#onMedalCollection(data) {
-		// iso: string;
-		// medal: MedalInfo;
 		GlobalApp.game.medalCollect(data);
 	}
 
 	/**
+	 * Receive player count regularly
 	 *
 	 * @param {PlayerCountPayload} data
 	 */
 	#onPlayerCount(data) {
-		// iso: string;
-		// count: number;
 		this.domGameStore.updatePlayersCounter(data.count);
 	}
 
 	/**
+	 * New team just joined
 	 *
 	 * @param {NewTeamPayload} data
 	 */
 	#onNewTeam(data) {
-		// iso: string;
-		// pos: { x: number; y: number };
 		GlobalApp.game.createTeam(data);
 	}
 
+	/* ######## EMITTERS ######## */
+
 	/**
-	 * Listen state events & dispach to server
+	 * Send player vote
+	 *
+	 * @param {UserVotePayload} userVotePlayload
 	 */
-	userVote() {
-		const payload = {
-			user: store.get(STORE_KEYS.USER_ID),
-			dir: 0,
-		};
-		const event = new Event('user_vote', payload);
-		this.#connection.send(JSON.stringify(event));
+	userVote(userVotePlayload) {
+		this.#send(SERVER_EVENTS.USER_VOTE, userVotePlayload);
 	}
 
-	userJoin(iso) {
-		store.set(STORE_KEYS.USER_ISO, iso);
-		window.localStorage.setItem('USER_ISO', iso);
+	/**
+	 * Tell the server that a player joins a team
+	 *
+	 * @param {UserJoinPayload} userJoinPayload
+	 */
+	userJoin(userJoinPayload) {
+		// store.set(STORE_KEYS.USER_ISO, iso);
+		// window.localStorage.setItem('USER_ISO', iso);
 
-		const payload = {
-			user: store.get(STORE_KEYS.USER_ID),
-			iso: store.get(STORE_KEYS.USER_ISO),
-		};
-		const event = new Event('user_join', payload);
+		this.#send(SERVER_EVENTS.USER_JOIN, userJoinPayload);
+	}
+
+	#send(eventId, payload) {
+		const event = new Event(eventId, payload);
 		this.#connection.send(JSON.stringify(event));
 	}
 }

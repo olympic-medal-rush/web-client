@@ -22,10 +22,9 @@ const EVENTS = {
 	POINTER_DOWN: i++,
 	KEY_DOWN: i++,
 
-	// SERVER EVENTS
-	// ...
-
 	// GAME EVENTS
+	STATE_READY: i++,
+	JOIN_READY: i++,
 	CREATE_TEAM: i++,
 	SPAWN_MEDALS: i++,
 	VOTE_RESULTS: i++,
@@ -46,6 +45,22 @@ const EVENTS_MAP = Object.fromEntries(
 const STORE_KEYS = {
 	USER_ID: i++,
 	USER_ISO: i++,
+};
+
+const SERVER_EVENTS = {
+	// LISTENERS
+	CONNECT_STATE: 'connect_state',
+	JOIN_STATE: 'join_state',
+	VOTE_RESULTS: 'vote_results',
+	VOTE_COUNT: 'vote_count',
+	MEDAL_APPARITION: 'medal_apparition',
+	MEDAL_COLLECTION: 'medal_collection',
+	NEW_TEAM: 'new_team',
+	PLAYER_COUNT: 'player_count',
+
+	// EMITTERS
+	USER_VOTE: 'user_vote',
+	USER_JOIN: 'user_join',
 };
 
 const DIRECTIONS = {
@@ -72,4 +87,4 @@ const MEDAL_TYPES = {
 
 // const COLORS = Object.fromEntries(cssColors);
 
-export { EVENTS, EVENTS_MAP, STORE_KEYS, DIRECTIONS, MEDAL_TYPES };
+export { EVENTS, EVENTS_MAP, STORE_KEYS, SERVER_EVENTS, DIRECTIONS, MEDAL_TYPES };

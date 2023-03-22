@@ -35,19 +35,27 @@ type ConnectStatePayload = {
 	medalsInGame: MedalInGame[];
 };
 
-type JoinStatePayload = ConnectStatePayload & {
+// type JoinStatePayload = ConnectStatePayload & {
+// 	votes: VoteCountPayload;
+// 	voteProgress: number;
+// 	voteId: number;
+// 	iso: string;
+// };
+
+type JoinStatePayload = {
 	votes: VoteCountPayload;
 	voteProgress: number;
 	voteId: number;
+	iso: string;
 };
 
 type UserVotePayload = {
-	user: string;
+	userId: string;
 	direction: Direction;
 };
 
 type UserJoinPayload = {
-	user: string;
+	userId: string;
 	iso: string;
 };
 

@@ -54,8 +54,8 @@ class Mapping {
 
 	add(instance, name, tabIndex = 0, customName = '') {
 		if (mapping[name]) {
-			mapping[name].debug?.(instance);
 			const folder = mapping[name].createPane?.(this.#tabs[tabIndex], instance, customName || name);
+			mapping[name].debug?.(instance);
 			this.#folders.set(name, folder);
 
 			if (this.#childrenToAdd.get(name)) {

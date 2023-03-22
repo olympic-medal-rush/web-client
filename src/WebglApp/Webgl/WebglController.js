@@ -1,4 +1,3 @@
-import { GlobalApp } from '@/main';
 import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { state } from '../../State';
@@ -30,25 +29,45 @@ class WebglController {
 		app.debug?.mapping.add(this, 'Game', 1);
 	}
 
+	/**
+	 *
+	 * @param {import('@/types/env').StateReadyPayload} params
+	 */
+	onStateReady({ teams, medals }) {
+		teams.forEach((team, iso) => this.onCreateTeam(iso));
+		[...medals.values()].forEach(this.#createMedal);
+
+		// TODO: set camera focus of first team ?
+		// this.camera.playerFocus = ;
+	}
+
+	/**
+	 *
+	 * @param {import('@game/Team').Team} currentTeam
+	 */
+	onJoinReady(currentTeam) {
+		this.camera.playerFocus = this.players.get(currentTeam.iso);
+	}
+
 	onCreateTeam(iso) {
-		const player = new Player(app.core.assetsManager.get('player').clone(), iso);
-		app.webgl.players.set(iso, player);
-		this.scene.add(player);
+		this.#createTeam(iso);
 	}
 
 	onSpawnMedals(medals) {
-		medals.forEach((medal) => {
-			const newMedal = new Medal(app.core.assetsManager.get('medal').clone(), medal);
-			app.webgl.medals.set(medal.id, newMedal);
-			this.scene.add(newMedal);
-		});
+		medals.forEach(this.#createMedal);
 	}
 
-	onVoteResults({ iso, team }) {}
+	#createTeam = (iso) => {
+		const player = new Player(app.core.assetsManager.get('player').clone(), iso);
+		app.webgl.players.set(iso, player);
+		this.scene.add(player);
+	};
 
-	onResize() {}
-
-	onRouteChange(_name) {}
+	#createMedal = (medal) => {
+		const newMedal = new Medal(app.core.assetsManager.get('medal').clone(), medal);
+		app.webgl.medals.set(medal.id, newMedal);
+		this.scene.add(newMedal);
+	};
 
 	onTick({ et }) {
 		globalUniforms.uTime.value = et;

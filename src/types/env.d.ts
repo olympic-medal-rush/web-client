@@ -1,4 +1,6 @@
 /// <reference types="vite/client" />
+import { Medal } from '@game/Medal';
+import { Team } from '@game/Team';
 
 interface ImportMetaEnv {
 	readonly OLYMPIC_DEBUG: string;
@@ -9,3 +11,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
 	readonly env: ImportMetaEnv;
 }
+
+type StateReadyPayload = {
+	teams: Map<string, Team>;
+	medals: Map<number, Medal>;
+};

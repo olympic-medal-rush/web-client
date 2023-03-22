@@ -1,4 +1,5 @@
 import { state } from '@/State';
+import { GlobalApp } from '@/main';
 import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
 import { Team } from './Team';
@@ -9,6 +10,10 @@ class GameController {
 		this.teams = new Map();
 		/** @type Map<number, Medal> */
 		this.medals = new Map();
+
+		this.userId = null;
+		this.currentTeam = null;
+		this.voteId = null;
 	}
 
 	/**
@@ -16,11 +21,24 @@ class GameController {
 	 * @param {ConnectStatePayload} statePayload
 	 */
 	setState(statePayload) {
+		this.userId = statePayload.userId;
+
 		statePayload.medalsInGame.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(statePayload.teamsState).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
 
-		// TODO: emit state update ?
-		// state.emit(EVENTS.STATE_READY);
+		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
+	}
+
+	/**
+	 *
+	 * @param {JoinStatePayload} joinStatePayload
+	 */
+	userJoin(joinStatePayload) {
+		this.voteId = joinStatePayload.voteId;
+		// This assumes that the new team event has already been received
+		this.currentTeam = this.teams.get(joinStatePayload.iso);
+
+		state.emit(EVENTS.JOIN_READY, this.currentTeam);
 	}
 
 	/**
@@ -75,7 +93,15 @@ class GameController {
 
 		const movedTeam = this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
 
-		state.emit(EVENTS.VOTE_RESULTS, { iso: voteResultsPayload.iso, team: movedTeam });
+		state.emit(EVENTS.VOTE_RESULTS, movedTeam);
+	}
+
+	/**
+	 *
+	 * @param {*} userVotePlayload
+	 */
+	userVote(userVotePlayload) {
+		GlobalApp.server.userVote(userVotePlayload);
 	}
 }
 
