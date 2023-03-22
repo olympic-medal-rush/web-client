@@ -4,29 +4,29 @@ import { MEDAL_POINTS } from '@utils/config';
 
 export const useGameStore = defineStore('game', {
 	state: () => {
-		return { playersCounter: 0, scorebord: [] };
+		return { playersCounter: 0, scoreboard: [] };
 	},
 	actions: {
 		updatePlayersCounter(count) {
 			this.playersCounter = count;
 		},
-		initScorebord() {
+		initScoreboard() {
 			for (const [key, value] of GlobalApp.game.teams) {
-				this.addNewTeamToScorebord(value);
+				this.addNewTeamToScoreboard(value);
 			}
-			this.filterScorebord();
+			this.filterScoreboard();
 		},
-		addNewTeamToScorebord(data) {
+		addNewTeamToScoreboard(data) {
 			const score = data.medals[0] * MEDAL_POINTS[0] + data.medals[1] * MEDAL_POINTS[1] + data.medals[2] * MEDAL_POINTS[2];
-			this.scorebord.push({ name: data.iso, score: score });
+			this.scoreboard.push({ name: data.iso, score: score });
 		},
 		updateScoreTeam(data) {
 			const newScore = data.medals[0] * MEDAL_POINTS[0] + data.medals[1] * MEDAL_POINTS[1] + data.medals[2] * MEDAL_POINTS[2];
-			this.scorebord[this.scorebord.findIndex((team) => team.name === data.iso)].score = newScore;
-			this.filterScorebord();
+			this.scoreboard[this.scoreboard.findIndex((team) => team.name === data.iso)].score = newScore;
+			this.filterScoreboard();
 		},
-		filterScorebord() {
-			this.scorebord = this.scorebord.sort(function (a, b) {
+		filterScoreboard() {
+			this.scoreboard = this.scoreboard.sort(function (a, b) {
 				return b.score - a.score;
 			});
 		},

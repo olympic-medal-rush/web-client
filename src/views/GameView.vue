@@ -16,9 +16,9 @@ onMounted(() => app.load());
 		<p>{{ t('head.title') }}</p>
 		<p>Nombre de joueurs : {{ domGameStore.playersCounter }}</p>
 		<div>
-			<h3>Scorebord</h3>
+			<h3>Scoreboard</h3>
 			<ul>
-				<li v-for="team in domGameStore.scorebord" :key="team.name">{{ team.name }} => {{ team.score }}</li>
+				<li v-for="team in domGameStore.scoreboard" :key="team.name">{{ team.name }} => {{ team.score }}</li>
 			</ul>
 		</div>
 	</div>

@@ -30,7 +30,7 @@ class GameController {
 		Object.entries(statePayload.teamsState).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
 
 		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
-		this.domGameStore.initScorebord();
+		this.domGameStore.initScoreboard();
 	}
 
 	/**
@@ -57,7 +57,7 @@ class GameController {
 		this.teams.set(newTeamPayload.iso, team);
 
 		state.emit(EVENTS.CREATE_TEAM, team);
-		this.domGameStore.addNewTeamToScorebord(team);
+		this.domGameStore.addNewTeamToScoreboard(team);
 	}
 
 	/**
