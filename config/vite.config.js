@@ -32,7 +32,7 @@ export default ({ mode }) => {
 			hotEnvMap({ isDev: env.OLYMPIC_DEBUG === 'true' }),
 			ifdef({ DEBUG: env.OLYMPIC_DEBUG === 'true' }),
 			vue(),
-			VitePWA(),
+			// VitePWA(),
 			VueI18nPlugin({
 				include: resolve(dirname(fileURLToPath(import.meta.url)), '../src/assets/locales/**'),
 			}),
@@ -42,6 +42,11 @@ export default ({ mode }) => {
 		},
 		base: envVariables.OLYMPIC_BASE_URL,
 		envPrefix: 'OLYMPIC_',
+		build: {
+			rollupOptions: {
+				output: {},
+			},
+		},
 	});
 };
 
