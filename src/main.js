@@ -7,6 +7,7 @@ import './assets/styles/main.scss';
 import { GameController } from './game/GameController';
 import router from './router/index';
 import ServerController from './server/ServerController';
+import { SoundController } from './sound/SoundController';
 
 const i18n = createI18n({
 	legacy: false,
@@ -27,6 +28,7 @@ const GlobalApp = {
 	vueApp,
 	server: new ServerController({ host: import.meta.env.OLYMPIC_WSS }),
 	game: new GameController(),
+	sound: new SoundController(),
 };
 
 export { GlobalApp };
