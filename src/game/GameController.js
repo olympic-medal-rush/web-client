@@ -99,7 +99,6 @@ class GameController {
 		if (!this.teams.has(voteResultsPayload.iso)) return console.error("Team doesn't exist");
 
 		const movedTeam = this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
-
 		state.emit(EVENTS.VOTE_RESULTS, movedTeam);
 	}
 

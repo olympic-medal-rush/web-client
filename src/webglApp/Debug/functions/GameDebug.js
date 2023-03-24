@@ -50,12 +50,12 @@ function createPane(pane, instance, name) {
 		const rendomMedal = Array.from(GlobalApp.game.medals);
 		if (rendomMedal.length > 0) {
 			const medalCollect = {
-				iso: app.webgl.camera.playerFocus.name,
+				iso: lastIso,
 				medal: rendomMedal[Math.floor(Math.random() * rendomMedal.length)][1],
 			};
 			GlobalApp.game.medalCollect(medalCollect);
 		} else {
-			alert('There are no more medals at play');
+			alert('There are no more medals');
 		}
 	});
 
@@ -76,7 +76,7 @@ function createPane(pane, instance, name) {
 
 		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
 		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: lastIso }).on('change', (ev) => {
-			app.webgl.camera.playerFocus = app.webgl.players.get(ev.value);
+			app.webgl.camera.playerFocus = app.webgl.players.get(GlobalApp.game.teams.get(ev.value));
 			lastIso = ev.value;
 		});
 
@@ -116,16 +116,16 @@ function debug(_instance) {
 		state.on(EVENTS.KEY_DOWN, (key) => {
 			switch (key) {
 				case 'ArrowUp':
-					app.webgl.camera.playerFocus.positionOnGrid.y--;
+					GlobalApp.game.voteResults({ iso: lastIso, direction: DIRECTIONS.up, nextVoteId: 0 });
 					break;
 				case 'ArrowDown':
-					app.webgl.camera.playerFocus.positionOnGrid.y++;
+					GlobalApp.game.voteResults({ iso: lastIso, direction: DIRECTIONS.down, nextVoteId: 0 });
 					break;
 				case 'ArrowLeft':
-					app.webgl.camera.playerFocus.positionOnGrid.x--;
+					GlobalApp.game.voteResults({ iso: lastIso, direction: DIRECTIONS.left, nextVoteId: 0 });
 					break;
 				case 'ArrowRight':
-					app.webgl.camera.playerFocus.positionOnGrid.x++;
+					GlobalApp.game.voteResults({ iso: lastIso, direction: DIRECTIONS.right, nextVoteId: 0 });
 					break;
 				default:
 					break;

@@ -1,8 +1,8 @@
 import terrainStructure from '@jsons/terrain_data.json';
 import { MeshMatcapMaterial, Object3D } from 'three';
-import Grid from './Grid';
+import { Grid } from './Grid';
 
-export default class Map extends Object3D {
+class Map extends Object3D {
 	constructor(glb) {
 		super();
 		this.glb = glb;
@@ -21,3 +21,5 @@ export default class Map extends Object3D {
 		this.add(this.glb);
 	}
 }
+
+export { Map };

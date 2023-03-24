@@ -10,7 +10,7 @@ import { Renderer } from './Renderer';
 
 class WebglController {
 	constructor() {
-		/** @type Map<string, Player> */
+		/** @type Map<import('@game/Team').Team, Player> */
 		this.players = new Map();
 		/** @type Map<string, Medal> */
 		this.medals = new Map();
@@ -46,11 +46,15 @@ class WebglController {
 	 * @param {import('@game/Team').Team} currentTeam
 	 */
 	onJoinReady(currentTeam) {
-		this.camera.playerFocus = this.players.get(currentTeam.iso);
+		this.camera.playerFocus = this.players.get(currentTeam);
 	}
 
 	onCreateTeam(team) {
 		this.#createTeam(team);
+	}
+
+	onVoteResults(team) {
+		this.players.get(team).move();
 	}
 
 	onSpawnMedals(medals) {
@@ -62,8 +66,8 @@ class WebglController {
 	}
 
 	#createTeam = (team) => {
-		const player = new Player(app.core.assetsManager.get('player').clone(), team.iso);
-		app.webgl.players.set(team.iso, player);
+		const player = new Player(app.core.assetsManager.get('player').clone(), team);
+		app.webgl.players.set(team, player);
 		this.scene.add(player);
 	};
 

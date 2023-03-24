@@ -1,7 +1,7 @@
 import { app } from '@webglApp/App';
 import { AmbientLight, Color, Scene } from 'three';
 import { state } from '../../State';
-import Map from './Objects/Map';
+import { Map } from './Objects/Map';
 
 class MainScene extends Scene {
 	constructor() {
