@@ -1,20 +1,20 @@
 import { state } from '@/State';
 import { app } from '@webglApp/App';
-import { PerspectiveCamera } from 'three';
+import { PerspectiveCamera, Vector3 } from 'three';
+import { damp } from 'three/src/math/MathUtils';
+import { CAMERA } from '@utils/config';
 
 const BASE_FOV = 45;
 
 class MainCamera extends PerspectiveCamera {
+	#playerFocus;
+	#targetPosition = new Vector3();
 	constructor() {
 		super(BASE_FOV, app.tools.viewport.ratio, 1, 1000);
 		state.register(this);
 
-		this.playerFocus = null;
-
-		this.position.x = 100;
-		this.position.y = 20;
-		this.position.z = 100;
-		this.lookAt(50, 2, 50);
+		this.lerpPlayerPos = new Vector3();
+		this.position.fromArray(CAMERA.defaultPosition);
 	}
 
 	onAttach() {
@@ -27,13 +27,26 @@ class MainCamera extends PerspectiveCamera {
 		this.updateProjectionMatrix();
 	}
 
-	onTick() {
+	get playerFocus() {
+		return this.#playerFocus;
+	}
+
+	set playerFocus(value) {
+		this.#playerFocus = value;
+		this.lerpPlayerPos.copy(this.#playerFocus.position);
+	}
+
+	onTick({ dt }) {
 		if (this.orbitControls || !this.playerFocus) return;
 
-		this.position.y = this.playerFocus.position.y + 4;
-		this.position.x = this.playerFocus.position.x;
-		this.position.z = this.playerFocus.position.z + 8;
-		this.lookAt(this.playerFocus.position.x, this.playerFocus.position.y + 0.5, this.playerFocus.position.z);
+		this.lerpPlayerPos.x = damp(this.lerpPlayerPos.x, this.playerFocus.position.x, 10, dt);
+		this.lerpPlayerPos.y = damp(this.lerpPlayerPos.y, this.playerFocus.position.y, 10, dt);
+		this.lerpPlayerPos.z = damp(this.lerpPlayerPos.z, this.playerFocus.position.z, 10, dt);
+
+		this.position.x = this.lerpPlayerPos.x;
+		this.position.z = this.lerpPlayerPos.z + 8;
+
+		this.lookAt(this.lerpPlayerPos.x, 0, this.lerpPlayerPos.z);
 	}
 }
 

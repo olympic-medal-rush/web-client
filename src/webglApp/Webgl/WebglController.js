@@ -4,7 +4,7 @@ import { state } from '../../State';
 import { MainCamera } from './MainCamera';
 import { MainScene } from './MainScene';
 import Medal from './Objects/Medal';
-import Player from './Objects/Player';
+import { Player } from './Objects/Player';
 import { PostProcessing } from './PostProcessing';
 import { Renderer } from './Renderer';
 
