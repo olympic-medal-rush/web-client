@@ -3,19 +3,19 @@ import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { state } from '../../State';
 import { MainCamera } from './MainCamera';
 import { MainScene } from './MainScene';
-import Medal from './Objects/Medal';
+import { Medal } from './Objects/Medal';
 import { Player } from './Objects/Player';
 import { PostProcessing } from './PostProcessing';
 import { Renderer } from './Renderer';
 
 class WebglController {
 	constructor() {
+		state.register(this);
+
 		/** @type Map<import('@game/Team').Team, Player> */
 		this.players = new Map();
 		/** @type Map<string, Medal> */
 		this.medals = new Map();
-
-		state.register(this);
 
 		this.renderer = new Renderer();
 		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2);
