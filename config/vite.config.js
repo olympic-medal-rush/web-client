@@ -11,7 +11,7 @@ import hotEnvMap from './hotEnvMap/hotEnvMap';
 import hotShaders from './hotShaders/hotShadersRollupPlugin';
 import ifdef from './ifdef/ifdefRollupPlugin';
 
-// // https://vitejs.dev/config/
+// https://vitejs.dev/config/
 export default ({ mode }) => {
 	const envVariables = loadEnv(mode, cwd(), '');
 
@@ -32,7 +32,7 @@ export default ({ mode }) => {
 			hotEnvMap({ isDev: env.OLYMPIC_DEBUG === 'true' }),
 			ifdef({ DEBUG: env.OLYMPIC_DEBUG === 'true' }),
 			vue(),
-			// VitePWA(),
+			VitePWA(),
 			VueI18nPlugin({
 				include: resolve(dirname(fileURLToPath(import.meta.url)), '../src/assets/locales/**'),
 			}),
