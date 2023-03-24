@@ -7,13 +7,13 @@ class Map extends Object3D {
 		super();
 		this.glb = glb;
 
-		this.globalMaterial = new MeshMatcapMaterial({ color: 0xffffff });
+		const globalMaterial = new MeshMatcapMaterial({ color: 0xffffff });
 
 		this.grid = new Grid(terrainStructure);
 
 		this.glb.traverse((child) => {
 			if (child.isMesh) {
-				child.material = this.globalMaterial;
+				child.material = globalMaterial;
 			}
 		});
 		this.glb.getObjectByName('Floor').add(this.grid);
