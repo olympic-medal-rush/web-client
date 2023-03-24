@@ -1,6 +1,6 @@
 import { state } from '@/State';
 import { manifest } from '@webglApp/utils/manifest';
-import { Cache } from 'three';
+import { AudioLoader, Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader';
 import { EVENTS } from '@utils/constants';
@@ -62,6 +62,14 @@ class AssetsManager {
 				loadedAssets: this.loadedAssets,
 				progressCallback: this.loadingProgress,
 			}),
+
+			sounds: new AssetsLoader({
+				manifest: manifest.sounds,
+				loader: new AudioLoader(),
+				assetsInfos: this.assetsInfos,
+				loadedAssets: this.loadedAssets,
+				progressCallback: this.loadingProgress,
+			}),
 		};
 	}
 
@@ -98,8 +106,12 @@ class AssetsManager {
 		state.emit(EVENTS.LOADER_PROGRESS, this.progress);
 	}
 
-	get(key) {
-		return this.loadedAssets.get(key);
+	get(...keys) {
+		if (keys.length > 1) {
+			return keys.map((key) => this.loadedAssets.get(key));
+		} else {
+			return this.loadedAssets.get(keys[0]);
+		}
 	}
 }
 
