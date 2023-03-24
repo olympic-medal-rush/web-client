@@ -21,19 +21,15 @@ export default class Player extends Object3D {
 		this.position.setX(this.positionOnGrid.x + 0.5).setZ(this.positionOnGrid.y + 0.5);
 
 		this.add(this.model);
+
+		this.moveTl = null;
 	}
 
 	move() {
-		gsap.to(this.position, {
-			x: this.positionOnGrid.x + 0.5,
-			z: this.positionOnGrid.y + 0.5,
-			duration: 0.3,
-			ease: 'expo.inOut',
-		});
-	}
+		this.moveTl = gsap.timeline();
 
-	onTick({ dt }) {
-		// this.position.x = damp(this.position.x, this.positionOnGrid.x + 0.5, 10, dt);
-		// this.position.z = damp(this.position.z, this.positionOnGrid.y + 0.5, 10, dt);
+		this.moveTl.to(this.position, { x: this.positionOnGrid.x + 0.5, z: this.positionOnGrid.y + 0.5, duration: 0.5, ease: 'expo.inOut' }, 0);
+		this.moveTl.to(this.position, { y: 0.5, duration: 0.25, ease: 'power3.in' }, 0);
+		this.moveTl.to(this.position, { y: 0, duration: 0.25, ease: 'power3.out' }, 0.25);
 	}
 }
