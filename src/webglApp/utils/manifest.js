@@ -25,6 +25,10 @@ const manifest = {
 		medal: { path: `${import.meta.env.BASE_URL}assets/models/medal.glb` },
 	},
 	jsons: {},
+	sounds: {
+		mario: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },
+		mario2: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },
+	},
 };
 
 export { manifest };
