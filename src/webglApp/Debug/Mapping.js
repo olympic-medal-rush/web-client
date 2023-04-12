@@ -31,6 +31,7 @@ class Mapping {
 		/** @type import('tweakpane').BladeApi */
 		this.#globalPane = new this.#Tweakpane.Pane({ title: PANE_TITLE });
 		this.#globalPane.registerPlugin(EssentialsPlugin);
+		this.#globalPane.hidden = localStorage.getItem('debug') === 'true';
 
 		this.#tabs = this.#globalPane.addTab({
 			pages: PANE_TABS.map((tab) => {
@@ -66,7 +67,10 @@ class Mapping {
 	}
 
 	onKeyDown(key) {
-		if (key === 'h') this.#globalPane.hidden = !this.#globalPane.hidden;
+		if (key === 'h') {
+			this.#globalPane.hidden = !this.#globalPane.hidden;
+			localStorage.setItem('debug', this.#globalPane.hidden);
+		}
 	}
 }
 
