@@ -1,5 +1,6 @@
+import { GlobalApp } from '@/main';
 import { app } from '@webglApp/App';
-import { Mesh, PlaneGeometry, RepeatWrapping } from 'three';
+import { Mesh, PlaneGeometry, RepeatWrapping, Vector3 } from 'three';
 import { GridMaterial } from '../Materials/Grid/material';
 
 class Grid extends Mesh {
@@ -27,9 +28,15 @@ class Grid extends Mesh {
 		const [groundData, seamless1, seamless2, seamless3, seamless4] = app.core.assetsManager.get('groundData', 'seamless1', 'seamless2', 'seamless3', 'seamless4');
 
 		seamless1.wrapS = seamless1.wrapT = RepeatWrapping;
+		seamless2.wrapS = seamless2.wrapT = RepeatWrapping;
+		seamless3.wrapS = seamless3.wrapT = RepeatWrapping;
+		seamless4.wrapS = seamless4.wrapT = RepeatWrapping;
 
 		const material = new GridMaterial({
 			uniforms: {
+				uSize: { value: size },
+				uFloorColor: { value: new Vector3(0.48, 0, 1) },
+				uGridColor: { value: new Vector3(0, 0, 0) },
 				tData: { value: groundData },
 				tSeamless1: { value: seamless1 },
 				tSeamless2: { value: seamless2 },
