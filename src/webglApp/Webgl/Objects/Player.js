@@ -2,6 +2,7 @@ import { state } from '@/State';
 import flagColors from '@jsons/flag_colors.json';
 import gsap from 'gsap';
 import { Color, Matrix4, MeshMatcapMaterial, Object3D, Quaternion, Vector3 } from 'three';
+import Flame from './Flame';
 
 class Player extends Object3D {
 	#moveTl;
@@ -30,7 +31,10 @@ class Player extends Object3D {
 
 		this.position.copy(this.#currentPosition);
 
-		this.add(this.model);
+		this.flame = new Flame();
+		this.flame.position.y = 1.5;
+
+		this.add(this.model, this.flame);
 	}
 
 	move() {
