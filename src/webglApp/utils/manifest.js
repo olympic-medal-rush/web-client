@@ -12,15 +12,18 @@ Finally, you can set some item to be criticals if you want your to wait the load
 const manifest = {
 	images: {},
 	textures: {
-		flares: { path: `${import.meta.env.BASE_URL}assets/textures/background-flares.jpg` },
-		// ...
+		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/ground.png` },
+		seamless1: { path: `${import.meta.env.BASE_URL}assets/textures/seamless1.png` },
+		seamless2: { path: `${import.meta.env.BASE_URL}assets/textures/seamless2.png` },
+		seamless3: { path: `${import.meta.env.BASE_URL}assets/textures/seamless3.png` },
+		seamless4: { path: `${import.meta.env.BASE_URL}assets/textures/seamless4.png` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },
 		// ...
 	},
 	models: {
-		map: { path: `${import.meta.env.BASE_URL}assets/models/terrain.glb` },
+		terrain: { path: `${import.meta.env.BASE_URL}assets/models/terrain.glb` },
 		player: { path: `${import.meta.env.BASE_URL}assets/models/player.glb` },
 		medal: { path: `${import.meta.env.BASE_URL}assets/models/medal.glb` },
 	},

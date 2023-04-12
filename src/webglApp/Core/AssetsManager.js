@@ -107,11 +107,8 @@ class AssetsManager {
 	}
 
 	get(...keys) {
-		if (keys.length > 1) {
-			return keys.map((key) => this.loadedAssets.get(key));
-		} else {
-			return this.loadedAssets.get(keys[0]);
-		}
+		if (keys.length > 1) return keys.map((key) => this.loadedAssets.get(key));
+		else return this.loadedAssets.get(keys[0]);
 	}
 }
 

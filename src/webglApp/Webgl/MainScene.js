@@ -1,7 +1,7 @@
 import { app } from '@webglApp/App';
 import { AmbientLight, Color, Scene } from 'three';
 import { state } from '../../State';
-import { Map } from './Objects/Map';
+import { Terrain } from './Objects/Terrain.js';
 
 class MainScene extends Scene {
 	constructor() {
@@ -13,9 +13,9 @@ class MainScene extends Scene {
 	}
 
 	onAttach() {
-		this.map = new Map(app.core.assetsManager.get('map'));
+		this.terrain = new Terrain(app.core.assetsManager.get('terrain'));
 
-		this.add(this.map);
+		this.add(this.terrain);
 	}
 }
 

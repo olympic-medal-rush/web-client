@@ -6,7 +6,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { app } from '../webglApp/App';
+import { app } from '../webglApp/App.js';
 
 const webglAppContainer = ref();
 const canvasWrapper = ref();

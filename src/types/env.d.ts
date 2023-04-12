@@ -17,3 +17,8 @@ type StateReadyPayload = {
 	teams: Map<string, Team>;
 	medals: Map<number, Medal>;
 };
+
+type TerrainData = {
+	data: number[][],
+	mapping: Record<number, string>
+}
