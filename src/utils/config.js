@@ -17,7 +17,7 @@ const TERRAIN = {
 const CAMERA = {
 	defaultPosition: [TERRAIN.size * 0.5, 4, TERRAIN.size * 0.5],
 	minZoom: 150,
-	maxZoom: 10,
+	maxZoom: 5,
 	baseFov: 45,
 	dragEase: 5,
 	zoomEase: 5,

@@ -1,5 +1,6 @@
 import { GlobalApp } from '@/main';
 import { app } from '@webglApp/App';
+import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { Mesh, PlaneGeometry, RepeatWrapping, Vector3 } from 'three';
 import { GridMaterial } from '../Materials/Grid/material';
 
@@ -34,6 +35,7 @@ class Grid extends Mesh {
 
 		const material = new GridMaterial({
 			uniforms: {
+				uZoom: globalUniforms.uZoom,
 				uSize: { value: size },
 				uFloorColor: { value: new Vector3(0.48, 0, 1) },
 				uGridColor: { value: new Vector3(0, 0, 0) },
