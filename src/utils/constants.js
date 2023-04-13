@@ -17,10 +17,14 @@ const EVENTS = {
 
 	// DEVICE EVENTS
 	RESIZE: i++,
-	MOUSE_MOVE: i++,
+	POINTER_MOVE: i++,
 	POINTER_UP: i++,
 	POINTER_DOWN: i++,
 	KEY_DOWN: i++,
+	DRAG: i++,
+	DRAG_END: i++,
+	PINCH: i++,
+	WHEEL: i++,
 
 	// GAME EVENTS
 	STATE_READY: i++,

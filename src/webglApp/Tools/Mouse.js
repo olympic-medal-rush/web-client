@@ -4,6 +4,7 @@ import { Vector2 } from 'three';
 import { EVENTS } from '@utils/constants';
 
 class Mouse {
+	#pinchStart;
 	constructor() {
 		state.register(this);
 
@@ -16,6 +17,7 @@ class Mouse {
 		);
 
 		this.isDown = false;
+		this.isDragging = false;
 	}
 
 	onAttach() {
@@ -30,6 +32,9 @@ class Mouse {
 
 		app.$app.addEventListener('pointerdown', this.#pointerDown);
 
+		app.$app.addEventListener('touchstart', this.#touchStart, { passive: true });
+		app.$app.addEventListener('wheel', this.#wheel, { passive: true });
+
 		app.$app.addEventListener('mouseup', this.#pointerUp);
 		app.$app.addEventListener('touchend', this.#pointerUp);
 
@@ -40,7 +45,18 @@ class Mouse {
 		if (!this.isTouch) this.updateCoordinate(e.clientX, e.clientY);
 		else if (e.touches && e.touches.length > 0) this.updateCoordinate(e.touches[0].clientX, e.touches[0].clientY);
 
-		if (!this.isTouch) state.emit(EVENTS.MOUSE_MOVE, this.coordinates);
+		state.emit(EVENTS.POINTER_MOVE, this.coordinates);
+
+		if (e.touches?.length === 2 && this.#pinchStart) {
+			const distance = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
+			state.emit(EVENTS.PINCH, distance - this.#pinchStart);
+			this.#pinchStart = distance;
+		}
+
+		if (this.isDown) {
+			this.isDragging = true;
+			state.emit(EVENTS.DRAG, new Vector2().subVectors(this.coordinates.webgl, this.previousCoordinates.webgl));
+		}
 	};
 
 	#pointerUp = () => {
@@ -51,7 +67,12 @@ class Mouse {
 
 		this.isDown = false;
 
-		state.emit(EVENTS.POINTER_UP);
+		if (this.isDragging) {
+			this.isDragging = false;
+			state.emit(EVENTS.DRAG_END, this.coordinates);
+		}
+
+		state.emit(EVENTS.POINTER_UP, this.coordinates);
 	};
 
 	#pointerDown = (e) => {
@@ -72,13 +93,23 @@ class Mouse {
 		this.updateCoordinate(e.clientX, e.clientY);
 
 		this.isDown = true;
-		state.emit(EVENTS.POINTER_DOWN);
+		state.emit(EVENTS.POINTER_DOWN, this.coordinates);
 	};
 
 	#pointerLeave = () => {
 		if (this.isTouch) return;
 		this.isDown = false;
-		state.emit(EVENTS.POINTER_UP);
+		state.emit(EVENTS.POINTER_UP, this.coordinates);
+	};
+
+	#touchStart = (e) => {
+		if (e.touches?.length === 2) {
+			this.#pinchStart = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
+		}
+	};
+
+	#wheel = (e) => {
+		state.emit(EVENTS.WHEEL, e.deltaY);
 	};
 
 	updateCoordinate(x, y) {

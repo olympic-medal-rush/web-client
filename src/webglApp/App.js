@@ -34,8 +34,8 @@ class App {
 		await this.core.assetsManager.load();
 		state.emit(EVENTS.APP_LOADED);
 
-		state.emit(EVENTS.ATTACH);
 		state.emit(EVENTS.RESIZE, this.tools.viewport.infos);
+		state.emit(EVENTS.ATTACH);
 	}
 
 	static getInstance() {
