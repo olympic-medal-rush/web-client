@@ -1,13 +1,14 @@
+import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
-import { BoxGeometry, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
+import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 import { randFloat } from 'three/src/math/MathUtils';
 import { FlameMaterial } from '../Materials/Flame/material';
 
 export default class Flame extends Mesh {
 	constructor() {
 		super();
-		this.count = 50;
 
+		this.count = 100;
 		this.geometry = this.#createGeometry();
 		this.material = this.#createMaterial();
 	}
@@ -20,7 +21,7 @@ export default class Flame extends Mesh {
 		geometry.index = cube.index;
 		geometry.attributes = cube.attributes;
 
-		const intancesStride = 2;
+		const intancesStride = 3;
 		const instancesData = [];
 
 		let increment = 0;
@@ -30,18 +31,19 @@ export default class Flame extends Mesh {
 			increment = instancedIndexStride;
 
 			// Add random size
-			instancesData[increment++] = randFloat(0.05, 0.3);
+			instancesData[increment++] = randFloat(0.05, 0.15);
 
 			// Add random speed
-			instancesData[increment++] = randFloat(0.001, 0.005);
+			instancesData[increment++] = randFloat(0.0005, 0.001);
 
-			// Add random pos to Instances
-			// instancesData.push();
+			// Add random pos angle to Instances
+			instancesData[increment++] = randFloat(0, 2 * Math.PI);
 		}
 
 		const intanceInterleavedBuffer = new InstancedInterleavedBuffer(new Float32Array(instancesData), intancesStride);
 		geometry.setAttribute('aSize', new InterleavedBufferAttribute(intanceInterleavedBuffer, 1, 0, false));
 		geometry.setAttribute('aSpeed', new InterleavedBufferAttribute(intanceInterleavedBuffer, 1, 1, false));
+		geometry.setAttribute('aRad', new InterleavedBufferAttribute(intanceInterleavedBuffer, 1, 2, false));
 
 		return geometry;
 	}
@@ -50,6 +52,10 @@ export default class Flame extends Mesh {
 		const material = new FlameMaterial({
 			uniforms: {
 				uTime: globalUniforms.uTime,
+				uGlobalSpead: { value: 1 },
+				uRadius: { value: 0.19 },
+				uColor: { value: new Color('orange') },
+				uElevation: { value: 0.9 },
 			},
 		});
 

@@ -1,5 +1,6 @@
 import { state } from '@/State';
 import flagColors from '@jsons/flag_colors.json';
+import { app } from '@webglApp/App';
 import gsap from 'gsap';
 import { Color, Matrix4, MeshMatcapMaterial, Object3D, Quaternion, Vector3 } from 'three';
 import Flame from './Flame';
@@ -32,9 +33,11 @@ class Player extends Object3D {
 		this.position.copy(this.#currentPosition);
 
 		this.flame = new Flame();
-		this.flame.position.y = 1.5;
+		this.flame.position.y = 1.2;
 
 		this.add(this.model, this.flame);
+
+		app.debug?.mapping.add(this, 'Player', 0, 'Player: ' + this.name);
 	}
 
 	move() {
