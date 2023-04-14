@@ -31,11 +31,11 @@ class MainCamera extends PerspectiveCamera {
 		this.#resetEases();
 
 		this.dragEase = 10;
-		const cameraHalfWidth = this.getVisibleWidthAtZDepth() * 0.5;
-		const cameraHalfHeight = this.getVisibleWidthAtZDepth() * 0.5;
 
-		this.#targetPosition.x -= mapLinear(diff.x, -1, 1, -cameraHalfWidth, cameraHalfWidth);
-		this.#targetPosition.y -= mapLinear(diff.y, -1, 1, cameraHalfHeight, -cameraHalfHeight);
+		const cameraHalfWidth = this.getVisibleWidthAtZDepth() * 0.5;
+		const cameraHalfHeight = this.getVisibleHeightAtZDepth() * 0.5;
+		this.#targetPosition.x -= diff.x * cameraHalfWidth;
+		this.#targetPosition.y += diff.y * cameraHalfHeight;
 	}
 
 	onDragEnd() {
