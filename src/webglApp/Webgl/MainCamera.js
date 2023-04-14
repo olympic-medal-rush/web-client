@@ -99,7 +99,7 @@ class MainCamera extends PerspectiveCamera {
 
 	#resetEases() {
 		this.dragEase = CAMERA.dragEase;
-		this.zoom = CAMERA.zoomEase;
+		this.zoomEase = CAMERA.zoomEase;
 	}
 
 	get playerFocus() {
