@@ -9,7 +9,7 @@ class MainScene extends Scene {
 		state.register(this);
 
 		this.background = new Color(0x000000);
-		this.add(new AmbientLight(0xffffff, 0.5));
+		this.add(new AmbientLight(0xffffff, 1));
 	}
 
 	onAttach() {

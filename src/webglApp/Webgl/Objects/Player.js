@@ -27,7 +27,7 @@ class Player extends Object3D {
 				child.material = material;
 			}
 		});
-		this.model.scale.set(0.5, 0.5, 0.5);
+		this.model.scale.setScalar(0.4);
 		this.model.rotation.y = Math.PI;
 		// Animation
 		this.mixer = new AnimationMixer(this.model);
