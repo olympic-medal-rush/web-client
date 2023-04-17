@@ -1,23 +1,29 @@
 class AssetsLoader {
-	constructor({ manifest = {}, loader = null, assetsInfos = new Map(), loadedAssets = new Map(), progressCallback = () => null } = {}) {
+	constructor({
+		manifest = {},
+		loader = null,
+		isMobile = false,
+		assetsInfos = new Map(),
+		loadedAssets = new Map(),
+		progressCallback = () => null,
+		afterLoadCallback = (asset) => asset,
+	} = {}) {
 		this.manifest = manifest;
 		this.loader = loader;
+		this.isMobile = isMobile;
 
 		this.assetsToLoad = new Map();
 		this.assetsInfos = assetsInfos;
 
 		this.loadedAssets = loadedAssets;
 		this.progressCallback = progressCallback;
+		this.afterLoadCallback = afterLoadCallback;
 
 		this.add(...Object.keys(manifest));
 	}
 
 	add(...keys) {
-		for (const key of keys) {
-			if (!this.assetsToLoad.has(key) && this.manifest[key]) {
-				this.assetsToLoad.set(key, this.manifest[key]);
-			}
-		}
+		for (const key of keys) if (!this.assetsToLoad.has(key) && this.manifest[key]) this.assetsToLoad.set(key, this.manifest[key]);
 	}
 
 	getAsset(key) {
@@ -31,10 +37,15 @@ class AssetsLoader {
 	async loadAsset(key) {
 		if (this.loadedAssets.has(key)) return this.loadedAssets.get(key);
 		else {
-			const asset = await this.loader.loadAsync(this.manifest[key].path, (e) => this.assetProgress(e, key));
-			this.loadedAssets.set(key, asset?.scene?.isObject3D ? asset.scene : asset);
-			this.manifest[key].callback?.(this.loadedAssets.get(key));
-			return asset;
+			try {
+				const path = this.isMobile && this.manifest[key].pathMobile ? this.manifest[key].pathMobile : this.manifest[key].path;
+				const asset = this.afterLoadCallback(await this.loader.loadAsync(path, (e) => this.assetProgress(e, key)));
+				this.loadedAssets.set(key, asset?.scene?.isObject3D ? asset.scene : asset);
+				this.manifest[key].callbacks?.forEach((cb) => cb(this.loadedAssets.get(key)));
+				return asset;
+			} catch (err) {
+				return;
+			}
 		}
 	}
 
