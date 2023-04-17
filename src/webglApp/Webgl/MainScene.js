@@ -1,6 +1,5 @@
 import { app } from '@webglApp/App';
 import { AmbientLight, Color, Scene } from 'three';
-import { TERRAIN } from '@utils/config';
 import { state } from '../../State';
 import { Terrain } from './Objects/Terrain.js';
 
@@ -9,7 +8,7 @@ class MainScene extends Scene {
 		super();
 		state.register(this);
 
-		this.background = new Color(0xaaaaaa);
+		this.background = new Color(0x000000);
 		this.add(new AmbientLight(0xffffff, 0.5));
 	}
 

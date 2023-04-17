@@ -3,6 +3,7 @@ import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { BufferGeometry, DepthTexture, Float32BufferAttribute, Mesh, OrthographicCamera, Vector2, WebGLRenderTarget } from 'three';
 import { state } from '../../State';
 import { PostProcessingMaterial } from './Materials/PostProcessing/material';
+import { EmissivePass } from './Passes/EmissivePass';
 
 class PostProcessing {
 	#material;
@@ -10,6 +11,7 @@ class PostProcessing {
 		state.register(this);
 
 		this.renderTarget = this.#createRenderTarget();
+		this.emissivePass = new EmissivePass({ dpr: 1 });
 
 		this.#material = new PostProcessingMaterial({
 			uniforms: {
@@ -17,10 +19,14 @@ class PostProcessing {
 
 				// Textures
 				tDiffuse: { value: this.renderTarget.texture },
+				tEmissive: { value: this.emissivePass.texture },
 
 				// Viewport
 				uResolution: { value: new Vector2() },
 				uRatio: { value: app.tools.viewport.ratio },
+
+				// Render passes
+				uEmissiveIntensity: { value: 0.5 },
 			},
 		});
 
@@ -29,6 +35,7 @@ class PostProcessing {
 			.setAttribute('uv', new Float32BufferAttribute([0, 2, 0, 0, 2, 0], 2));
 
 		this.quad = new Mesh(geo, this.#material);
+		this.emissiveQuad = new Mesh(geo, this.emissivePass.material);
 		this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 	}
 
@@ -43,7 +50,9 @@ class PostProcessing {
 		return renderTarget;
 	}
 
-	onAttach() {}
+	onAttach() {
+		app.debug?.mapping.add(this, 'PostProcessing');
+	}
 
 	onResize({ width, height, dpr, ratio }) {
 		this.#material.uniforms.uResolution.value.set(width * dpr, height * dpr);

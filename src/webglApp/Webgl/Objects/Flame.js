@@ -52,6 +52,7 @@ export default class Flame extends Mesh {
 		const material = new FlameMaterial({
 			uniforms: {
 				uTime: globalUniforms.uTime,
+				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uGlobalSpead: { value: 1 },
 				uRadius: { value: 0.19 },
 				uColor: { value: new Color('orange') },

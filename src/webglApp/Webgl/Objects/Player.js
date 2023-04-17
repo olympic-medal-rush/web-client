@@ -57,6 +57,14 @@ class Player extends Object3D {
 		this.#moveTl.to(this.position, { y: 0.5, duration: 0.25, ease: 'power3.in' }, 0);
 		this.#moveTl.to(this.position, { y: 0, duration: 0.25, ease: 'power3.out' }, 0.25);
 	}
+
+	set emissiveOnly(value) {
+		this.model.visible = !value;
+	}
+
+	get emissiveOnly() {
+		return this.model.visible;
+	}
 }
 
 export { Player };

@@ -14,6 +14,7 @@ varying vec2 vUv;
 
 void main() {
 	vec3 data = texture2D(tData, vUv).rgb;
+
 	vec3 t1 = texture2D(tSeamless1, vUv * 100.).rgb;
 	vec3 t2 = texture2D(tSeamless2, vUv * 100.).rgb;
 	vec3 t3 = texture2D(tSeamless3, vUv * 100.).rgb;
