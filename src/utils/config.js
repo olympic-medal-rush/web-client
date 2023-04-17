@@ -21,6 +21,7 @@ const CAMERA = {
 	baseFov: 45,
 	dragEase: 5,
 	zoomEase: 5,
+	playerPosEase: 20,
 	maxTiltAngle: Math.PI * 0.3,
 	zoomOffsetY: 8,
 	// range: { x: [-TERRAIN.size * 0.5, TERRAIN.size * 0.5], y: [TERRAIN.size * 0.5, -TERRAIN.size * 0.5] },

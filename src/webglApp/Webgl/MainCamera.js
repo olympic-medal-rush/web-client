@@ -43,11 +43,13 @@ class MainCamera extends PerspectiveCamera {
 	}
 
 	onPinch(distance) {
+		if (this.focusPlayer) this.focusPlayer = false;
 		this.#resetEases();
 		this.targetZoom = clamp(this.targetZoom + distance * 0.005, 0, 1);
 	}
 
 	onWheel(y) {
+		if (this.focusPlayer) this.focusPlayer = false;
 		this.#resetEases();
 		this.targetZoom = clamp(this.targetZoom - y * 0.001, 0, 1);
 	}
@@ -64,8 +66,13 @@ class MainCamera extends PerspectiveCamera {
 		this.#targetPosition.x = clamp(this.#targetPosition.x, 0, TERRAIN.size);
 		this.#targetPosition.y = clamp(this.#targetPosition.y, 0, TERRAIN.size + this.#lerpedZoom * 20);
 
-		this.position.x = damp(this.position.x, this.focusPlayer ? this.#playerPosition.x : this.#targetPosition.x, this.dragEase, dt);
-		this.position.z = damp(this.position.z, (this.focusPlayer ? this.#playerPosition.z : this.#targetPosition.y) + CAMERA.zoomOffsetY * this.#lerpedZoom, this.dragEase, dt);
+		if (this.focusPlayer) {
+			this.position.x = damp(this.position.x, this.#playerPosition.x, CAMERA.playerPosEase, dt);
+			this.position.z = damp(this.position.z, this.#playerPosition.z + CAMERA.zoomOffsetY * this.#lerpedZoom, CAMERA.playerPosEase, dt);
+		} else {
+			this.position.x = damp(this.position.x, this.#targetPosition.x, this.dragEase, dt);
+			this.position.z = damp(this.position.z, this.#targetPosition.y + CAMERA.zoomOffsetY * this.#lerpedZoom, this.dragEase, dt);
+		}
 
 		// this.rotation.x = -Math.PI * 0.5 + smoothstep(this.#lerpedZoom, 0.8, 1) * CAMERA.maxTiltAngle;
 		this.rotation.x = -Math.PI * 0.5 + this.#lerpedZoom * CAMERA.maxTiltAngle;
@@ -105,8 +112,9 @@ class MainCamera extends PerspectiveCamera {
 
 	set focusPlayer(value) {
 		this.#focusPlayer = value;
-		if (value) this.targetZoom = 1;
-		else this.#targetPosition.set(this.#playerPosition.x, this.#playerPosition.z);
+		if (value) {
+			this.targetZoom = 1;
+		} else this.#targetPosition.set(this.#playerPosition.x, this.#playerPosition.z);
 	}
 
 	get focusPlayer() {
