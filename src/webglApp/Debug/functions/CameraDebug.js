@@ -54,6 +54,16 @@ function createPane(pane, instance, name) {
 	return folder;
 }
 
-function debug(_instance) {}
+/**
+ *
+ * @param {import('../../Webgl/MainCamera').MainCamera} instance
+ */
+function debug(instance) {
+	state.on(EVENTS.KEY_DOWN, (key) => {
+		if (key === ' ') {
+			instance.focusPlayer = !instance.focusPlayer;
+		}
+	});
+}
 
 export { createPane, debug };

@@ -2,8 +2,7 @@ import { state } from '@/State';
 import { app } from '@webglApp/App';
 import { PerspectiveCamera, Vector2, Vector3 } from 'three';
 import { clamp, damp, mapLinear } from 'three/src/math/MathUtils';
-import { CAMERA } from '@utils/config';
-import { TERRAIN } from '@utils/config';
+import { CAMERA, TERRAIN } from '@utils/config';
 import { globalUniforms } from '../utils/globalUniforms';
 
 class MainCamera extends PerspectiveCamera {
@@ -12,13 +11,13 @@ class MainCamera extends PerspectiveCamera {
 	zoomEase = CAMERA.zoomEase;
 	targetZoom = 0;
 	#lerpedZoom = 0;
-	#playerFocus;
+	#playerPosition = new Vector3();
 	#targetPosition = new Vector2();
+	#focusPlayer = false;
 	constructor() {
 		super(CAMERA.baseFov, app.tools.viewport.ratio, 1, 1000);
 		state.register(this);
 
-		this.lerpPlayerPos = new Vector3();
 		this.position.fromArray(CAMERA.defaultPosition);
 		this.#targetPosition.set(this.position.x, this.position.z);
 	}
@@ -28,6 +27,7 @@ class MainCamera extends PerspectiveCamera {
 	}
 
 	onDrag(diff) {
+		if (this.focusPlayer) this.focusPlayer = false;
 		this.#resetEases();
 
 		this.dragEase = 10;
@@ -53,7 +53,7 @@ class MainCamera extends PerspectiveCamera {
 	}
 
 	onTick({ dt }) {
-		if (this.orbitControls || !this.playerFocus) return;
+		if (this.orbitControls) return;
 
 		this.#lerpedZoom = damp(this.#lerpedZoom, this.targetZoom, this.zoomEase, dt);
 
@@ -64,18 +64,11 @@ class MainCamera extends PerspectiveCamera {
 		this.#targetPosition.x = clamp(this.#targetPosition.x, 0, TERRAIN.size);
 		this.#targetPosition.y = clamp(this.#targetPosition.y, 0, TERRAIN.size + this.#lerpedZoom * 20);
 
-		this.position.x = damp(this.position.x, this.#targetPosition.x, this.dragEase, dt);
-		this.position.z = damp(this.position.z, this.#targetPosition.y + CAMERA.zoomOffsetY * this.#lerpedZoom, this.dragEase, dt);
+		this.position.x = damp(this.position.x, this.focusPlayer ? this.#playerPosition.x : this.#targetPosition.x, this.dragEase, dt);
+		this.position.z = damp(this.position.z, (this.focusPlayer ? this.#playerPosition.z : this.#targetPosition.y) + CAMERA.zoomOffsetY * this.#lerpedZoom, this.dragEase, dt);
 
-		// this.lerpPlayerPos.x = damp(this.lerpPlayerPos.x, this.playerFocus.position.x, 10, dt);
-		// this.lerpPlayerPos.y = damp(this.lerpPlayerPos.y, this.playerFocus.position.y, 10, dt);
-		// this.lerpPlayerPos.z = damp(this.lerpPlayerPos.z, this.playerFocus.position.z, 10, dt);
-
+		// this.rotation.x = -Math.PI * 0.5 + smoothstep(this.#lerpedZoom, 0.8, 1) * CAMERA.maxTiltAngle;
 		this.rotation.x = -Math.PI * 0.5 + this.#lerpedZoom * CAMERA.maxTiltAngle;
-
-		// this.position.x = this.lerpPlayerPos.x;
-		// this.position.z = this.lerpPlayerPos.z + 8;
-		// this.lookAt(this.lerpPlayerPos.x, 0, this.lerpPlayerPos.z);
 	}
 
 	onResize({ ratio }) {
@@ -102,13 +95,22 @@ class MainCamera extends PerspectiveCamera {
 		this.zoomEase = CAMERA.zoomEase;
 	}
 
-	get playerFocus() {
-		return this.#playerFocus;
+	get playerPosition() {
+		return this.#playerPosition;
 	}
 
-	set playerFocus(value) {
-		this.#playerFocus = value;
-		this.lerpPlayerPos.copy(this.#playerFocus.position);
+	set playerPosition(value) {
+		this.#playerPosition = value;
+	}
+
+	set focusPlayer(value) {
+		this.#focusPlayer = value;
+		if (value) this.targetZoom = 1;
+		else this.#targetPosition.set(this.#playerPosition.x, this.#playerPosition.z);
+	}
+
+	get focusPlayer() {
+		return this.#focusPlayer;
 	}
 }
 
