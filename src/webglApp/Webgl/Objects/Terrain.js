@@ -18,7 +18,7 @@ class Terrain extends Object3D {
 		});
 		// this.glb.getObjectByName('Floor').add(this.grid);
 
-		// this.add(this.glb);
+		this.add(this.glb);
 		this.add(this.grid);
 	}
 }
