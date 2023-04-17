@@ -1,4 +1,5 @@
 import { state } from '@/State.js';
+import { app } from '@webglApp/App.js';
 import { manifest } from '@webglApp/utils/manifest.js';
 import { Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -62,6 +63,10 @@ class AssetsManager {
 				assetsInfos: this.#assetsInfos,
 				loadedAssets: this.#loadedAssets,
 				progressCallback: this.#loadingProgress,
+				afterLoadCallback: (asset) => {
+					asset.scene.animations = asset.animations;
+					return asset.scene;
+				},
 			}),
 
 			jsons: new AssetsLoader({

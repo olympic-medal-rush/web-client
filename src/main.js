@@ -1,4 +1,6 @@
 import messages from '@intlify/unplugin-vue-i18n/messages';
+import gsap from 'gsap';
+import { CustomEase } from 'gsap/CustomEase';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
@@ -8,6 +10,10 @@ import { GameController } from './game/GameController';
 import router from './router/index';
 import ServerController from './server/ServerController';
 import { SoundController } from './sound/SoundController';
+
+gsap.registerPlugin(CustomEase);
+
+CustomEase.create('playerJump', 'M0,0 C0.36,0 0.532,-0.022 0.562,0.152 0.593,0.332 0.62,1.106 1,1');
 
 const i18n = createI18n({
 	legacy: false,
