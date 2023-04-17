@@ -14,7 +14,7 @@ function createPane(pane, instance, name) {
 	const flameFolder = folder.addFolder({ title: 'Flame', expanded: false });
 	flameFolder.addInput(instance.flame.material.uniforms.uRadius, 'value', {
 		min: 0,
-		max: 0.3,
+		max: 0.6,
 		label: 'uRadius',
 	});
 	flameFolder.addInput(instance.flame.material.uniforms.uGlobalSpead, 'value', {

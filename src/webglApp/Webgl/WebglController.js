@@ -1,5 +1,6 @@
 import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
+import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
 import { state } from '../../State';
 import { MainCamera } from './MainCamera';
 import { MainScene } from './MainScene';
@@ -66,7 +67,10 @@ class WebglController {
 	}
 
 	#createTeam = (team) => {
-		const player = new Player(app.core.assetsManager.get('player').clone(), team);
+		const baseModel = app.core.assetsManager.get('player');
+		const mesh = skeletonClone(baseModel);
+		mesh.animations = baseModel.animations;
+		const player = new Player(mesh, team);
 		app.webgl.players.set(team, player);
 		this.scene.add(player);
 	};
