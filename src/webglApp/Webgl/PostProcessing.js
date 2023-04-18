@@ -10,7 +10,7 @@ class PostProcessing {
 	constructor(_isWebGL2 = true) {
 		state.register(this);
 
-		this.renderTarget = this.#createRenderTarget();
+		this.renderTarget = this.#createRenderTarget(true);
 		this.emissivePass = new EmissivePass({ dpr: 1 });
 
 		this.#material = new PostProcessingMaterial({
@@ -19,6 +19,7 @@ class PostProcessing {
 
 				// Textures
 				tDiffuse: { value: this.renderTarget.texture },
+				tDepth: { value: this.renderTarget.depthTexture },
 				tEmissive: { value: this.emissivePass.texture },
 
 				// Viewport

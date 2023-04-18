@@ -1,5 +1,4 @@
 import { state } from '@/State.js';
-import { app } from '@webglApp/App.js';
 import { manifest } from '@webglApp/utils/manifest.js';
 import { Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';

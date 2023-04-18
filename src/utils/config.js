@@ -18,12 +18,12 @@ const TERRAIN = {
 const CAMERA = {
 	defaultPosition: [TERRAIN.size * 0.5, 4, TERRAIN.size * 0.5],
 	minZoom: 150,
-	maxZoom: 7,
+	maxZoom: 6,
 	baseFov: 45,
 	dragEase: 5,
 	zoomEase: 5,
 	playerPosEase: 20,
-	maxTiltAngle: degToRad(50),
+	maxTiltAngle: degToRad(55),
 	zoomOffsetY: 7,
 	// range: { x: [-TERRAIN.size * 0.5, TERRAIN.size * 0.5], y: [TERRAIN.size * 0.5, -TERRAIN.size * 0.5] },
 };

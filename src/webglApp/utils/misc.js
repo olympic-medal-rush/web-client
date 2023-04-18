@@ -1,3 +1,4 @@
+import { InstancedMesh } from 'three';
 import { CubeUVReflectionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, PMREMGenerator } from 'three';
 
 function computeEnvmap(renderer, texture, refraction = false) {
@@ -14,9 +15,9 @@ function computeEnvmap(renderer, texture, refraction = false) {
 	const texelWidth = 1.0 / (3 * Math.max(Math.pow(2, maxMip), 7 * 16));
 	pmrem.userData = {
 		...pmrem.userData,
-		texelWidth,
-		texelHeight,
-		maxMip,
+		CUBEUV_TEXEL_WIDTH: texelWidth,
+		CUBEUV_TEXEL_HEIGHT: texelHeight,
+		CUBEUV_MAX_MIP: maxMip + '.',
 	};
 
 	texture.dispose();
@@ -53,4 +54,28 @@ function disposeMesh(mesh) {
 	});
 }
 
-export { computeEnvmap, disposeMesh };
+function instanciateMesh(reference, meshes, parent) {
+	// console.log('instanciate', reference.material.uuid, reference.name, meshes);
+
+	const instances = new InstancedMesh(reference.geometry, reference.material, meshes.length);
+	instances.material.userData = reference.material?.userData;
+	instances.userData = reference.userData;
+	instances.name = 'instance-' + reference.name;
+	// instances.frustumCulled = true;
+
+	meshes.forEach((child, i) => {
+		child.updateMatrixWorld();
+		instances.setMatrixAt(i, child.matrixWorld);
+
+		disposeMesh(child);
+		child.removeFromParent();
+	});
+	// instances.instanceMatrix.needsUpdate = true;
+
+	// console.log(instances);
+
+	parent.add(instances);
+	return instances;
+}
+
+export { computeEnvmap, disposeMesh, instanciateMesh };

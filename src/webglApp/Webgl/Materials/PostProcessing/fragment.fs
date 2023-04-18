@@ -1,6 +1,6 @@
 precision highp float;
 
-uniform sampler2D tDiffuse, tEmissive;
+uniform sampler2D tDiffuse, tEmissive, tDepth;
 uniform float uEmissiveIntensity;
 
 varying vec2 vUv;
@@ -12,8 +12,10 @@ varying vec2 vUv;
 void main() {
 	vec4 diffuse = texture2D(tDiffuse, vUv);
 	vec3 emissive = texture2D(tEmissive, vUv).rgb;
+	// float depth = smoothstep(1., .8, texture2D(tDepth, vUv).r);
 
 	vec4 color = diffuse + vec4(emissive, length(emissive)) * uEmissiveIntensity;
 
 	gl_FragColor = color;
+// 	gl_FragColor = vec4(vec3(depth), 1.);
 }

@@ -19,7 +19,7 @@ const manifest = {
 		seamless4: { path: `${import.meta.env.BASE_URL}assets/textures/seamless4.png` },
 	},
 	envMaps: {
-		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },
+		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/forest.hdr` },
 		// ...
 	},
 	models: {

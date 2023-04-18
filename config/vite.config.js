@@ -28,7 +28,7 @@ export default ({ mode }) => {
 			host: true,
 		},
 		plugins: [
-			hotShaders({ isDev: env.OLYMPIC_DEBUG === 'true', compress: true }),
+			hotShaders({ isDev: env.OLYMPIC_DEBUG === 'true', compress: env.OLYMPIC_DEBUG === 'false' }),
 			hotEnvMap({ isDev: env.OLYMPIC_DEBUG === 'true' }),
 			ifdef({ DEBUG: env.OLYMPIC_DEBUG === 'true' }),
 			vue(),

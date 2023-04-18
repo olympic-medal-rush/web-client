@@ -1,6 +1,5 @@
-import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
-import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
+import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh } from 'three';
 import { randFloat } from 'three/src/math/MathUtils';
 import { FlameMaterial } from '../Materials/Flame/material';
 

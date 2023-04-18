@@ -1,4 +1,3 @@
-import { GlobalApp } from '@/main';
 import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { Mesh, PlaneGeometry, RepeatWrapping, Vector3 } from 'three';
@@ -39,6 +38,7 @@ class Grid extends Mesh {
 				uSize: { value: size },
 				uFloorColor: { value: new Vector3(0.48, 0, 1) },
 				uGridColor: { value: new Vector3(0, 0, 0) },
+
 				tData: { value: groundData },
 				tSeamless1: { value: seamless1 },
 				tSeamless2: { value: seamless2 },

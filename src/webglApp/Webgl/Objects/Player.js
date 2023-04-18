@@ -1,8 +1,10 @@
 import { state } from '@/State';
 import flagColors from '@jsons/flag_colors.json';
 import { app } from '@webglApp/App';
+import { computeEnvmap } from '@webglApp/utils/misc';
 import gsap from 'gsap';
-import { AnimationMixer, Color, Matrix4, MeshMatcapMaterial, Object3D, Quaternion, Vector3 } from 'three';
+import { AnimationMixer, Color, Matrix4, MeshStandardMaterial, Object3D, Quaternion, Vector3 } from 'three';
+import { PlayerBodyMaterial } from '../Materials/PlayerBody/material';
 import Flame from './Flame';
 
 class Player extends Object3D {
@@ -20,30 +22,76 @@ class Player extends Object3D {
 		this.name = team.iso;
 		this.model = model;
 
-		const material = new MeshMatcapMaterial({ color: new Color(flagColors[team.iso][0]) });
+		// const material = new MeshMatcapMaterial({ color: new Color(flagColors[team.iso][0]) });
 
-		this.model.traverse((child) => {
-			if (child.isMesh && child.material.color.r === 1) {
-				child.material = material;
-			}
+		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
+
+		// Set materials
+		const body = model.getObjectByName('body');
+		// console.log(body.material);
+		const eyes = model.getObjectByName('eyes');
+		const gold = model.getObjectByName('gold');
+
+		eyes.material = new PlayerBodyMaterial({
+			uniforms: {
+				uRoughness: { value: eyes.material.roughness },
+				uMetalness: { value: eyes.material.metalness },
+				uEnvMapIntensity: { value: 0 },
+				uEnvMapScale: { value: 1 },
+				uColor: { value: eyes.material.color },
+				tEnvMap: { value: envMap },
+			},
+			defines: {
+				...envMap.userData,
+			},
 		});
+		body.material = new PlayerBodyMaterial({
+			uniforms: {
+				uRoughness: { value: body.material.roughness },
+				uMetalness: { value: body.material.metalness },
+				uEnvMapIntensity: { value: 0 },
+				uEnvMapScale: { value: 1 },
+				uColor: { value: new Color(flagColors[team.iso][0]) },
+				tEnvMap: { value: envMap },
+			},
+			defines: {
+				...envMap.userData,
+			},
+		});
+		gold.material = new PlayerBodyMaterial({
+			uniforms: {
+				uRoughness: { value: gold.material.roughness },
+				uMetalness: { value: gold.material.metalness },
+				uEnvMapIntensity: { value: 0 },
+				uEnvMapScale: { value: 1 },
+				uColor: { value: gold.material.color },
+				tEnvMap: { value: envMap },
+			},
+			defines: {
+				...envMap.userData,
+			},
+		});
+
+		// Set model transformations
 		this.model.scale.setScalar(0.4);
 		this.model.rotation.y = Math.PI;
-		// Animation
-		this.mixer = new AnimationMixer(this.model);
-		this.animations = {
-			jump: this.model.animations[0],
-		};
 
+		// Initial position
 		this.#positionOnGrid = team.position;
 		this.#currentPosition.set(this.#positionOnGrid.x + 0.5, 0, this.#positionOnGrid.y + 0.5);
 		this.#nextPosition.copy(this.#currentPosition);
 
 		this.position.copy(this.#currentPosition);
 
+		// Create Flame
 		this.flame = new Flame();
 		this.flame.position.y = 1.2;
 
+		// Animations
+		this.mixer = new AnimationMixer(this.model);
+		this.animations = this.model.animations;
+
+		// Add to player wrapper
 		this.add(this.model, this.flame);
 
 		app.debug?.mapping.add(this, 'Player', 0, 'Player: ' + this.name);
@@ -57,7 +105,7 @@ class Player extends Object3D {
 		this.#moveTl?.kill();
 		this.#moveTl = gsap.timeline({
 			onStart: () => {
-				this.mixer.clipAction(this.animations.jump).play();
+				this.mixer.clipAction(this.animations[0]).play();
 			},
 		});
 
@@ -75,10 +123,10 @@ class Player extends Object3D {
 			{
 				x: this.#nextPosition.x,
 				z: this.#nextPosition.z,
-				duration: this.animations.jump.duration,
+				duration: this.animations[0].duration,
 				ease: 'playerJump',
 				onComplete: () => {
-					this.mixer.clipAction(this.animations.jump).stop();
+					this.mixer.clipAction(this.animations[0]).stop();
 				},
 			},
 			0,

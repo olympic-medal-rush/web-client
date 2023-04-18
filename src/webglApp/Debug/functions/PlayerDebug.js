@@ -1,4 +1,3 @@
-import { GlobalApp } from '@/main';
 import { ColorDebugHelper } from '../debugConfig';
 
 /**
@@ -28,6 +27,14 @@ function createPane(pane, instance, name) {
 		label: 'uElevation',
 	});
 	flameFolder.addInput(new ColorDebugHelper(instance.flame.material.uniforms.uColor, 'value'), 'value', { label: 'uColor' });
+
+	const bodyFolder = folder.addFolder({ title: 'Body', expanded: false });
+	const bodyMaterial = instance.model.getObjectByName('body').material;
+	bodyFolder.addInput(bodyMaterial.uniforms.uRoughness, 'value', { min: 0, max: 1, step: 0.001, label: 'uRoughness' });
+	bodyFolder.addInput(bodyMaterial.uniforms.uMetalness, 'value', { min: 0, max: 1, step: 0.001, label: 'uMetalness' });
+	bodyFolder.addInput(bodyMaterial.uniforms.uEnvMapIntensity, 'value', { min: 0, max: 1, step: 0.001, label: 'uEnvMapIntensity' });
+	bodyFolder.addInput(bodyMaterial.uniforms.uEnvMapScale, 'value', { min: 0, max: 1, step: 0.001, label: 'uEnvMapScale' });
+	bodyFolder.addInput(new ColorDebugHelper(bodyMaterial.uniforms.uColor, 'value'), 'value', { label: 'uColor' });
 
 	return folder;
 }
