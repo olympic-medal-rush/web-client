@@ -2,7 +2,7 @@ import { state } from '@/State';
 import flagColors from '@jsons/flag_colors.json';
 import { app } from '@webglApp/App';
 import gsap from 'gsap';
-import { AnimationMixer, Color, Matrix4, MeshMatcapMaterial, Object3D, Quaternion, Vector3 } from 'three';
+import { AnimationMixer, Color, Euler, Matrix4, MeshMatcapMaterial, Object3D, Quaternion, Vector3 } from 'three';
 import Flame from './Flame';
 
 class Player extends Object3D {
@@ -22,9 +22,15 @@ class Player extends Object3D {
 
 		const material = new MeshMatcapMaterial({ color: new Color(flagColors[team.iso][0]) });
 
+		this.baseForFlame = model.getObjectByName('Bone002');
+
 		this.model.traverse((child) => {
 			if (child.isMesh && child.material.color.r === 1) {
-				child.material = material;
+				if (child.name === 'plane') {
+					child.visible = false;
+				} else {
+					child.material = material;
+				}
 			}
 		});
 		this.model.scale.setScalar(0.4);
@@ -42,7 +48,7 @@ class Player extends Object3D {
 		this.position.copy(this.#currentPosition);
 
 		this.flame = new Flame();
-		this.flame.position.y = 1.2;
+		this.flame.position.y = 1;
 
 		this.add(this.model, this.flame);
 
@@ -77,6 +83,21 @@ class Player extends Object3D {
 				z: this.#nextPosition.z,
 				duration: this.animations.jump.duration,
 				ease: 'playerJump',
+				onUpdate: () => {
+					const planePosition = new Vector3();
+					this.baseForFlame.getWorldPosition(planePosition);
+					// const planeRotation = new Euler().setFromQuaternion(this.baseForFlame.getWorldQuaternion(new Quaternion()));
+					// console.log(planeRotation);
+					if (this.#quat._y === 0) {
+						this.flame.position.z = (planePosition.z - this.position.z) * 5;
+					} else if (this.#quat._y === 1) {
+						this.flame.position.z = -(planePosition.z - this.position.z) * 5;
+					} else if (this.#quat._y > 0) {
+						this.flame.position.z = (planePosition.x - this.position.x) * 5;
+					} else {
+						this.flame.position.z = -(planePosition.x - this.position.x) * 5;
+					}
+				},
 				onComplete: () => {
 					this.mixer.clipAction(this.animations.jump).stop();
 				},
