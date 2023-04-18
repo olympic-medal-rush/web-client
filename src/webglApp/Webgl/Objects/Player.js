@@ -3,7 +3,7 @@ import flagColors from '@jsons/flag_colors.json';
 import { app } from '@webglApp/App';
 import { computeEnvmap } from '@webglApp/utils/misc';
 import gsap from 'gsap';
-import { AnimationMixer, Color, Matrix4, MeshStandardMaterial, Object3D, Quaternion, Vector3 } from 'three';
+import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
 import { PlayerBodyMaterial } from '../Materials/PlayerBody/material';
 import Flame from './Flame';
 
@@ -72,6 +72,8 @@ class Player extends Object3D {
 			},
 		});
 
+		this.baseForFlame = model.getObjectByName('Bone002');
+
 		// Set model transformations
 		this.model.scale.setScalar(0.4);
 		this.model.rotation.y = Math.PI;
@@ -85,7 +87,7 @@ class Player extends Object3D {
 
 		// Create Flame
 		this.flame = new Flame();
-		this.flame.position.y = 1.2;
+		this.flame.position.y = 1;
 
 		// Animations
 		this.mixer = new AnimationMixer(this.model);
@@ -125,6 +127,21 @@ class Player extends Object3D {
 				z: this.#nextPosition.z,
 				duration: this.animations[0].duration,
 				ease: 'playerJump',
+				onUpdate: () => {
+					const planePosition = new Vector3();
+					this.baseForFlame.getWorldPosition(planePosition);
+					// const planeRotation = new Euler().setFromQuaternion(this.baseForFlame.getWorldQuaternion(new Quaternion()));
+					// console.log(planeRotation);
+					if (this.#quat._y === 0) {
+						this.flame.position.z = (planePosition.z - this.position.z) * 5;
+					} else if (this.#quat._y === 1) {
+						this.flame.position.z = -(planePosition.z - this.position.z) * 5;
+					} else if (this.#quat._y > 0) {
+						this.flame.position.z = (planePosition.x - this.position.x) * 5;
+					} else {
+						this.flame.position.z = -(planePosition.x - this.position.x) * 5;
+					}
+				},
 				onComplete: () => {
 					this.mixer.clipAction(this.animations[0]).stop();
 				},

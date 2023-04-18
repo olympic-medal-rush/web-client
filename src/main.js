@@ -13,7 +13,7 @@ import { SoundController } from './sound/SoundController';
 
 gsap.registerPlugin(CustomEase);
 
-CustomEase.create('playerJump', 'M0,0 C0.36,0 0.532,-0.022 0.562,0.152 0.593,0.332 0.62,1.106 1,1');
+CustomEase.create('playerJump', 'M0,0,C0.36,0,0.532,-0.022,0.562,0.152,0.593,0.332,0.576,1,1,1');
 
 const i18n = createI18n({
 	legacy: false,
