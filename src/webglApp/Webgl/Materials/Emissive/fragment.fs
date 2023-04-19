@@ -6,11 +6,11 @@ uniform float uHorizontal;
 
 varying vec2 vUv;
 
-// #define WEIGHT_1 0.227027
-#define WEIGHT_1 0.1945946
-#define WEIGHT_2 0.1216216
-#define WEIGHT_3 0.054054
-#define WEIGHT_4 0.016216
+#define WEIGHT_1 0.227027
+#define WEIGHT_2 0.1945946
+#define WEIGHT_3 0.1216216
+#define WEIGHT_4 0.054054
+#define WEIGHT_5 0.016216
 
 // #define PI 3.14159265
 // #define PI2 6.28318530
@@ -32,6 +32,9 @@ void main() {
 
 		color += texture2D(tEmissive, vUv + vec2(offset.x * 4., 0.0)).rgb * WEIGHT_4;
 		color += texture2D(tEmissive, vUv - vec2(offset.x * 4., 0.0)).rgb * WEIGHT_4;
+
+		color += texture2D(tEmissive, vUv + vec2(offset.x * 5., 0.0)).rgb * WEIGHT_5;
+		color += texture2D(tEmissive, vUv - vec2(offset.x * 5., 0.0)).rgb * WEIGHT_5;
 	} else {
 		color += texture2D(tEmissive, vUv + vec2(0.0, offset.y * 1.)).rgb * WEIGHT_1;
 		color += texture2D(tEmissive, vUv - vec2(0.0, offset.y * 1.)).rgb * WEIGHT_1;
@@ -44,6 +47,9 @@ void main() {
 
 		color += texture2D(tEmissive, vUv + vec2(0.0, offset.y * 4.)).rgb * WEIGHT_4;
 		color += texture2D(tEmissive, vUv - vec2(0.0, offset.y * 4.)).rgb * WEIGHT_4;
+
+		color += texture2D(tEmissive, vUv + vec2(0.0, offset.y * 5.)).rgb * WEIGHT_5;
+		color += texture2D(tEmissive, vUv - vec2(0.0, offset.y * 5.)).rgb * WEIGHT_5;
 	}
 
 	gl_FragColor = vec4(color * 2., 1.);

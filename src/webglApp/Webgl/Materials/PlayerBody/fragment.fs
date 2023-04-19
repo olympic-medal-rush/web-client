@@ -4,8 +4,11 @@ precision highp float;
 uniform mat4 viewMatrix;
 
 // Base params
-uniform float uRoughness, uMetalness, uEmissiveIntensity;
-uniform vec3 uColor, uEmissive;
+uniform float uRoughness, uMetalness;
+uniform vec3 uColor;
+
+// Emissive
+uniform float uEmissiveOnly;
 
 // UVs
 varying vec2 vUv;
@@ -44,9 +47,9 @@ void main() {
 	// color.rgb *= mix(vec3(1.), tAoMap, uAoMapIntensity);
 
 	// Emissive
-	color.rgb += uEmissive * uEmissiveIntensity;
+	// color.rgb += uEmissive * uEmissiveIntensity;
+	color.rgb *= (1. - uEmissiveOnly);
 
 	gl_FragColor = color;
-	// gl_FragColor = vec4(vNormal, 1.);
 	#include <dithering_fragment>
 }

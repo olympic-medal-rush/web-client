@@ -1,6 +1,7 @@
 import { state } from '@/State';
 import flagColors from '@jsons/flag_colors.json';
 import { app } from '@webglApp/App';
+import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { computeEnvmap } from '@webglApp/utils/misc';
 import gsap from 'gsap';
 import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
@@ -34,6 +35,7 @@ class Player extends Object3D {
 
 		eyes.material = new PlayerBodyMaterial({
 			uniforms: {
+				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uRoughness: { value: eyes.material.roughness },
 				uMetalness: { value: eyes.material.metalness },
 				uEnvMapIntensity: { value: 0 },
@@ -47,6 +49,7 @@ class Player extends Object3D {
 		});
 		body.material = new PlayerBodyMaterial({
 			uniforms: {
+				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uRoughness: { value: body.material.roughness },
 				uMetalness: { value: body.material.metalness },
 				uEnvMapIntensity: { value: 0 },
@@ -60,6 +63,7 @@ class Player extends Object3D {
 		});
 		gold.material = new PlayerBodyMaterial({
 			uniforms: {
+				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uRoughness: { value: gold.material.roughness },
 				uMetalness: { value: gold.material.metalness },
 				uEnvMapIntensity: { value: 0 },
@@ -148,14 +152,6 @@ class Player extends Object3D {
 			},
 			0,
 		);
-	}
-
-	set emissiveOnly(value) {
-		this.model.visible = !value;
-	}
-
-	get emissiveOnly() {
-		return this.model.visible;
 	}
 }
 

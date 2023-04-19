@@ -1,6 +1,5 @@
 import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
-import { Group } from 'three';
 import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
 import { state } from '../../State';
 import { MainCamera } from './MainCamera';
@@ -11,7 +10,6 @@ import { PostProcessing } from './PostProcessing';
 import { Renderer } from './Renderer';
 
 class WebglController {
-	#emissiveGroup = new Group();
 	constructor() {
 		state.register(this);
 
@@ -24,8 +22,6 @@ class WebglController {
 		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2);
 		this.scene = new MainScene();
 		this.camera = new MainCamera();
-
-		this.scene.add(this.#emissiveGroup);
 	}
 
 	onAttach() {
@@ -76,13 +72,13 @@ class WebglController {
 		mesh.animations = baseModel.animations;
 		const player = new Player(mesh, team);
 		app.webgl.players.set(team, player);
-		this.#emissiveGroup.add(player);
+		this.scene.add(player);
 	};
 
 	#createMedal = (medal) => {
 		const newMedal = new Medal(app.core.assetsManager.get('medal').clone(), medal);
 		app.webgl.medals.set(medal.id, newMedal);
-		this.#emissiveGroup.add(newMedal);
+		this.scene.add(newMedal);
 	};
 
 	onTick({ et }) {
@@ -103,7 +99,7 @@ class WebglController {
 
 	#renderEmissive() {
 		this.#emissiveOnly = true;
-		this.#renderRenderTarget(this.#emissiveGroup, this.camera, this.postProcessing.emissivePass.renderTargets[0]);
+		this.#renderRenderTarget(this.scene, this.camera, this.postProcessing.emissivePass.renderTargets[0]);
 		this.#emissiveOnly = false;
 
 		// Vertical emissive
@@ -132,7 +128,9 @@ class WebglController {
 
 	set #emissiveOnly(value) {
 		globalUniforms.uEmissiveOnly.value = value ? 1 : 0;
-		this.players.forEach((player) => (player.emissiveOnly = value));
+		this.scene?.terrain?.traverse((child) => {
+			if (child.isMesh) child.material = child.userData.materials[+value];
+		});
 	}
 
 	get #emissiveOnly() {
