@@ -4,8 +4,12 @@ import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { computeEnvmap } from '@webglApp/utils/misc';
 import gsap from 'gsap';
-import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, Vector3 } from 'three';
+import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, RepeatWrapping, Vector3 } from 'three';
+import { Euler } from 'three';
+import { MATERIALS } from '@utils/config';
 import { PlayerBodyMaterial } from '../Materials/PlayerBody/material';
+import { PlayerFaceMaterial } from '../Materials/PlayerFace/material';
+import { PlayerGoldMaterial } from '../Materials/PlayerGold/material';
 import Flame from './Flame';
 
 class Player extends Object3D {
@@ -26,60 +30,75 @@ class Player extends Object3D {
 		// const material = new MeshMatcapMaterial({ color: new Color(flagColors[team.iso][0]) });
 
 		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
+		const [aoMap, noise] = app.core.assetsManager.get('playerAo', 'noise');
+		aoMap.flipY = false;
+		aoMap.generateMipmaps = false;
+
+		noise.wrapS = noise.wrapT = RepeatWrapping;
 
 		// Set materials
 		const body = model.getObjectByName('body');
-		// console.log(body.material);
-		const eyes = model.getObjectByName('eyes');
+		const face = model.getObjectByName('face');
 		const gold = model.getObjectByName('gold');
 
-		eyes.material = new PlayerBodyMaterial({
+		const { face: faceMatParams, body: bodyMatParams, gold: goldMatParams } = MATERIALS;
+
+		face.material = new PlayerFaceMaterial({
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
-				uRoughness: { value: eyes.material.roughness },
-				uMetalness: { value: eyes.material.metalness },
-				uEnvMapIntensity: { value: 0 },
-				uEnvMapScale: { value: 1 },
-				uColor: { value: eyes.material.color },
+
+				uRoughness: { value: faceMatParams.roughness },
+				uMetalness: { value: faceMatParams.metalness },
+				uEnvMapIntensity: { value: faceMatParams.envMapIntensity },
+				uColor: { value: new Color(flagColors[team.iso][0]) },
 				tEnvMap: { value: envMap },
+				tAoMap: { value: aoMap },
+				uAoMapIntensity: { value: faceMatParams.aoMapIntensity },
 			},
 			defines: {
 				...envMap.userData,
 			},
 		});
+
 		body.material = new PlayerBodyMaterial({
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
-				uRoughness: { value: body.material.roughness },
-				uMetalness: { value: body.material.metalness },
-				uEnvMapIntensity: { value: 0 },
-				uEnvMapScale: { value: 1 },
-				uColor: { value: new Color(flagColors[team.iso][0]) },
-				tEnvMap: { value: envMap },
+
+				uColor1: { value: new Color(flagColors[team.iso][1]) },
+				uColor2: { value: new Color(flagColors[team.iso][0]) },
+				uColor3: { value: new Color(flagColors[team.iso][2] || 0xffffff) },
+				tAoMap: { value: aoMap },
+				uAoMapIntensity: { value: bodyMatParams.aoMapIntensity },
+				tNoise: { value: noise },
 			},
 			defines: {
 				...envMap.userData,
 			},
 		});
-		gold.material = new PlayerBodyMaterial({
+		gold.material = new PlayerGoldMaterial({
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
-				uRoughness: { value: gold.material.roughness },
-				uMetalness: { value: gold.material.metalness },
-				uEnvMapIntensity: { value: 0 },
-				uEnvMapScale: { value: 1 },
-				uColor: { value: gold.material.color },
+				uRoughness: { value: goldMatParams.roughness },
+				uMetalness: { value: goldMatParams.metalness },
+				uEnvMapIntensity: { value: goldMatParams.envMapIntensity },
+
+				uColor: { value: goldMatParams.color },
+
 				tEnvMap: { value: envMap },
+
+				tAoMap: { value: aoMap },
+				uAoMapIntensity: { value: 1 },
 			},
 			defines: {
 				...envMap.userData,
 			},
 		});
 
-		this.baseForFlame = model.getObjectByName('Bone002');
+		this.baseForFlame = model.getObjectByName('tête2');
 
 		// Set model transformations
 		this.model.scale.setScalar(0.4);
+		// this.model.scale.setScalar(1);
 		this.model.rotation.y = Math.PI;
 
 		// Initial position
@@ -91,6 +110,7 @@ class Player extends Object3D {
 
 		// Create Flame
 		this.flame = new Flame();
+		this.flame.visible = false;
 		this.flame.position.y = 1;
 
 		// Animations
@@ -123,24 +143,28 @@ class Player extends Object3D {
 		this.#quat.setFromRotationMatrix(this.#matrix);
 
 		const t = { value: 0 };
+		const delay = this.animations[0].duration / 3;
 		this.#moveTl.to(t, { value: 1, onUpdate: () => this.quaternion.slerp(this.#quat, t.value), duration: 0.25, ease: 'power3.out' }, 0);
 		this.#moveTl.to(
 			this.position,
 			{
 				x: this.#nextPosition.x,
 				z: this.#nextPosition.z,
-				duration: this.animations[0].duration,
-				ease: 'playerJump',
+				duration: this.animations[0].duration - delay,
+				// duration: 2,
+				// ease: 'playerJump',
+				ease: 'power3.inOut',
+				delay,
 				onUpdate: () => {
 					const planePosition = new Vector3();
 					this.baseForFlame.getWorldPosition(planePosition);
 					// const planeRotation = new Euler().setFromQuaternion(this.baseForFlame.getWorldQuaternion(new Quaternion()));
 					// console.log(planeRotation);
-					if (this.#quat._y === 0) {
+					if (this.#quat.y === 0) {
 						this.flame.position.z = (planePosition.z - this.position.z) * 5;
-					} else if (this.#quat._y === 1) {
+					} else if (this.#quat.y === 1) {
 						this.flame.position.z = -(planePosition.z - this.position.z) * 5;
-					} else if (this.#quat._y > 0) {
+					} else if (this.#quat.y > 0) {
 						this.flame.position.z = (planePosition.x - this.position.x) * 5;
 					} else {
 						this.flame.position.z = -(planePosition.x - this.position.x) * 5;

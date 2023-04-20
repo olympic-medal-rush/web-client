@@ -1,4 +1,5 @@
 import terrainStructure from '@jsons/terrain_data.json';
+import { Color } from 'three';
 import { degToRad } from 'three/src/math/MathUtils';
 
 const debug = import.meta.env.OLYMPIC_DEBUG === 'true';
@@ -17,15 +18,16 @@ const TERRAIN = {
 
 const CAMERA = {
 	defaultPosition: [TERRAIN.size * 0.5, 4, TERRAIN.size * 0.5],
-	minZoom: 150,
-	maxZoom: 6,
+	minZoom: 50,
+	maxZoom: 5,
+	// maxZoom: 1,
 	baseFov: 45,
 	dragEase: 5,
 	zoomEase: 5,
 	playerPosEase: 20,
-	maxTiltAngle: degToRad(55),
-	zoomOffsetY: 7,
-	// range: { x: [-TERRAIN.size * 0.5, TERRAIN.size * 0.5], y: [TERRAIN.size * 0.5, -TERRAIN.size * 0.5] },
+	maxTiltAngle: degToRad(65),
+	// maxTiltAngle: degToRad(90),
+	zoomOffsetY: 8,
 };
 
 const BREAKPOINTS = {
@@ -34,4 +36,22 @@ const BREAKPOINTS = {
 	large: 1441,
 };
 
-export { DEBUG, BREAKPOINTS, MEDAL_POINTS, MEDAL_COLORS, CAMERA, TERRAIN };
+const MATERIALS = {
+	body: {
+		aoMapIntensity: 0.7,
+	},
+	gold: {
+		roughness: 0.185,
+		metalness: 0.446,
+		color: new Color(0xfdf3a9),
+		envMapIntensity: 0.165,
+	},
+	face: {
+		roughness: 0.1,
+		metalness: 0,
+		envMapIntensity: 0.17,
+		aoMapIntensity: 0.7,
+	},
+};
+
+export { DEBUG, BREAKPOINTS, MEDAL_POINTS, MEDAL_COLORS, CAMERA, TERRAIN, MATERIALS };

@@ -9,7 +9,8 @@ class MainScene extends Scene {
 		super();
 		state.register(this);
 
-		this.background = new Color(0x000000);
+		this.background = new Color(0xdddddd);
+		this.userData.backgrounds = [this.background, new Color(0x000000)];
 		this.add(new AmbientLight(0xffffff, 1));
 	}
 

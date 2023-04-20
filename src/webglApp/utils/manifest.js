@@ -17,6 +17,8 @@ const manifest = {
 		seamless2: { path: `${import.meta.env.BASE_URL}assets/textures/seamless2.png` },
 		seamless3: { path: `${import.meta.env.BASE_URL}assets/textures/seamless3.png` },
 		seamless4: { path: `${import.meta.env.BASE_URL}assets/textures/seamless4.png` },
+		playerAo: { path: `${import.meta.env.BASE_URL}assets/textures/player-ao.jpg` },
+		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noiseFbm1.png` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/forest.hdr` },

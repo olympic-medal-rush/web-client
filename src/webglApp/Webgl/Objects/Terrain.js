@@ -21,6 +21,8 @@ class Terrain extends Object3D {
 				child.userData['materials'] = [child.material, this.#nonEmissiveMaterial];
 			}
 		});
+
+		// this.visible = false;
 	}
 }
 

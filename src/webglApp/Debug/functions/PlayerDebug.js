@@ -28,13 +28,25 @@ function createPane(pane, instance, name) {
 	});
 	flameFolder.addInput(new ColorDebugHelper(instance.flame.material.uniforms.uColor, 'value'), 'value', { label: 'uColor' });
 
+	const faceFolder = folder.addFolder({ title: 'Face', expanded: false });
+	const faceMaterial = instance.model.getObjectByName('face').material;
+	faceFolder.addInput(faceMaterial.uniforms.uRoughness, 'value', { min: 0, max: 1, step: 0.001, label: 'uRoughness' });
+	faceFolder.addInput(faceMaterial.uniforms.uMetalness, 'value', { min: 0, max: 1, step: 0.001, label: 'uMetalness' });
+	faceFolder.addInput(faceMaterial.uniforms.uEnvMapIntensity, 'value', { min: 0, max: 1, step: 0.001, label: 'uEnvMapIntensity' });
+	faceFolder.addInput(new ColorDebugHelper(faceMaterial.uniforms.uColor, 'value'), 'value', { label: 'uColor' });
+
 	const bodyFolder = folder.addFolder({ title: 'Body', expanded: false });
 	const bodyMaterial = instance.model.getObjectByName('body').material;
-	bodyFolder.addInput(bodyMaterial.uniforms.uRoughness, 'value', { min: 0, max: 1, step: 0.001, label: 'uRoughness' });
-	bodyFolder.addInput(bodyMaterial.uniforms.uMetalness, 'value', { min: 0, max: 1, step: 0.001, label: 'uMetalness' });
-	bodyFolder.addInput(bodyMaterial.uniforms.uEnvMapIntensity, 'value', { min: 0, max: 1, step: 0.001, label: 'uEnvMapIntensity' });
-	bodyFolder.addInput(bodyMaterial.uniforms.uEnvMapScale, 'value', { min: 0, max: 1, step: 0.001, label: 'uEnvMapScale' });
-	bodyFolder.addInput(new ColorDebugHelper(bodyMaterial.uniforms.uColor, 'value'), 'value', { label: 'uColor' });
+	bodyFolder.addInput(new ColorDebugHelper(bodyMaterial.uniforms.uColor1, 'value'), 'value', { label: 'uColor1' });
+	bodyFolder.addInput(new ColorDebugHelper(bodyMaterial.uniforms.uColor2, 'value'), 'value', { label: 'uColor2' });
+	bodyFolder.addInput(new ColorDebugHelper(bodyMaterial.uniforms.uColor3, 'value'), 'value', { label: 'uColor3' });
+
+	const goldFolder = folder.addFolder({ title: 'Gold', expanded: false });
+	const goldMaterial = instance.model.getObjectByName('gold').material;
+	goldFolder.addInput(goldMaterial.uniforms.uRoughness, 'value', { min: 0, max: 1, step: 0.001, label: 'uRoughness' });
+	goldFolder.addInput(goldMaterial.uniforms.uMetalness, 'value', { min: 0, max: 1, step: 0.001, label: 'uMetalness' });
+	goldFolder.addInput(goldMaterial.uniforms.uEnvMapIntensity, 'value', { min: 0, max: 1, step: 0.001, label: 'uEnvMapIntensity' });
+	goldFolder.addInput(new ColorDebugHelper(goldMaterial.uniforms.uColor, 'value'), 'value', { label: 'uColor' });
 
 	return folder;
 }

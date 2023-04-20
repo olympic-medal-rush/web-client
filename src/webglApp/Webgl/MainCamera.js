@@ -1,7 +1,7 @@
 import { state } from '@/State';
 import { app } from '@webglApp/App';
 import { PerspectiveCamera, Vector2, Vector3 } from 'three';
-import { clamp, damp, mapLinear } from 'three/src/math/MathUtils';
+import { clamp, damp, mapLinear, smoothstep } from 'three/src/math/MathUtils';
 import { CAMERA, TERRAIN } from '@utils/config';
 import { globalUniforms } from '../utils/globalUniforms';
 
@@ -74,8 +74,8 @@ class MainCamera extends PerspectiveCamera {
 			this.position.z = damp(this.position.z, this.#targetPosition.y + CAMERA.zoomOffsetY * this.#lerpedZoom, this.dragEase, dt);
 		}
 
-		// this.rotation.x = -Math.PI * 0.5 + smoothstep(this.#lerpedZoom, 0.8, 1) * CAMERA.maxTiltAngle;
-		this.rotation.x = -Math.PI * 0.5 + this.#lerpedZoom * CAMERA.maxTiltAngle;
+		this.rotation.x = -Math.PI * 0.5 + smoothstep(this.#lerpedZoom, 0.3, 1) * CAMERA.maxTiltAngle;
+		// this.rotation.x = -Math.PI * 0.5 + this.#lerpedZoom * CAMERA.maxTiltAngle;
 	}
 
 	onResize({ ratio }) {

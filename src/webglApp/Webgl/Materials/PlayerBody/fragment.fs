@@ -1,50 +1,33 @@
 precision highp float;
 
-// Three uniforms
-uniform mat4 viewMatrix;
+uniform float uAoMapIntensity, uEmissiveOnly;
+uniform vec3 uColor1, uColor2, uColor3;
+uniform sampler2D tAoMap, tNoise;
 
-// Base params
-uniform float uRoughness, uMetalness;
-uniform vec3 uColor;
-
-// Emissive
-uniform float uEmissiveOnly;
-
-// UVs
-varying vec2 vUv;
-varying vec2 vUv2;
-
-// Envmap
-uniform sampler2D tEnvMap;
-uniform float uEnvMapScale, uEnvMapIntensity;
-varying vec3 vEyeToSurfaceDir, vNormal;
-
-// AO
-uniform sampler2D uAoMap;
-uniform float uAoMapIntensity;
+varying vec2 vUv, vUv2;
+varying vec3 vEyeToSurfaceDir, vNormal, vPosition;
 
 #include ../Global/chunks/envmap_pars_fragment.glsl
+#include ../Global/chunks/saturation.glsl
+
 #include <dithering_pars_fragment>
 
 void main() {
-	float roughness = uRoughness;
-	float metalness = uMetalness;
-	vec3 normal = vNormal;
+	float noise1 = (texture2D(tNoise, vPosition.xy * .1).r + texture2D(tNoise, vPosition.yz * .1).r) * 1.;
+	float noise2 = (smoothstep(.3, 1., texture2D(tNoise, vPosition.xy * 5.).r) + smoothstep(.3, 1., texture2D(tNoise, vPosition.yz * 5.).r)) * .5;
 
 	// Color
-	vec3 diffuse = vec3(uColor);
+	vec3 color1 = adjustSaturation(clamp(uColor1, vec3(.1), vec3(1.)), .7);
+	vec3 color2 = adjustSaturation(clamp(uColor2, vec3(.1), vec3(1.)), .7);
+	vec3 color3 = adjustSaturation(clamp(uColor3, vec3(.1), vec3(1.)), .7);
+
+	vec3 diffuse = mix(color1, color2, smoothstep(2. + noise1 * .1, .5 + noise1 * .1, vPosition.y));
+	// diffuse = mix(diffuse, noise2 * color3, smoothstep(.8, .5, vPosition.y) * noise2);
+
 	vec4 color = vec4(diffuse, 1.);
 
-	vec3 reflectVec = reflect(vEyeToSurfaceDir, normal);
-
-	reflectVec = normalize((vec4(reflectVec, 0.0) * viewMatrix).xyz);
-	vec3 envMapColor = textureCubeUV(tEnvMap, vec3(reflectVec.xy * uEnvMapScale, reflectVec.z), roughness).rgb * uEnvMapIntensity;
-
-	color.rgb += envMapColor * smoothstep(0., 1., length(envMapColor) - length(color.rgb));
-	color.rgb -= (1. - envMapColor) * metalness;
-
-	// vec3 tAoMap = texture2D(uAoMap, vUv2).rgb;
-	// color.rgb *= mix(vec3(1.), tAoMap, uAoMapIntensity);
+	vec3 aoMap = texture2D(tAoMap, vUv).rgb;
+	color.rgb *= mix(vec3(1.), aoMap, uAoMapIntensity);
 
 	// Emissive
 	// color.rgb += uEmissive * uEmissiveIntensity;

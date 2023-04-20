@@ -53,7 +53,7 @@ export default class Flame extends Mesh {
 				uTime: globalUniforms.uTime,
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uGlobalSpead: { value: 1 },
-				uRadius: { value: 0.3 },
+				uRadius: { value: 0.2 },
 				uColor: { value: new Color('orange') },
 				uElevation: { value: 0.8 },
 			},

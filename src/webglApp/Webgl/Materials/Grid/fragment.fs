@@ -28,11 +28,11 @@ void main() {
 
 	vec3 final = mix(gMix, mix3, data.b);
 
-	float grid = step(0.95, mod(vUv.x * uSize, 1.));
-	grid += step(0.95, mod(vUv.y * uSize, 1.));
-	grid *= smoothstep(.7, .8, uZoom);
+	vec2 gridUv = mod(vUv * uSize, 1.);
+	float gridCircle = smoothstep(.4, .5, length(gridUv - .5)) * .15;
 
-	final = mix(final, uGridColor, grid);
+	// final = mix(final, uGridColor, grid);
+	// final = mix(vec3(.7), uGridColor, grid);
 
-	gl_FragColor = vec4(final, 1.);
+	gl_FragColor = vec4(final - gridCircle, 1.);
 }

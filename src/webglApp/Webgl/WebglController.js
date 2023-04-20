@@ -128,6 +128,7 @@ class WebglController {
 
 	set #emissiveOnly(value) {
 		globalUniforms.uEmissiveOnly.value = value ? 1 : 0;
+		this.scene.background = this.scene.userData.backgrounds[+value];
 		this.scene?.terrain?.traverse((child) => {
 			if (child.isMesh) child.material = child.userData.materials[+value];
 		});
