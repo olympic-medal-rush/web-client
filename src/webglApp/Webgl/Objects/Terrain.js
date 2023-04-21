@@ -8,8 +8,11 @@ class Terrain extends Object3D {
 	#nonEmissiveMaterial = new ColorMaterial({ uniforms: { uColor: { value: new Color(0x000000) } } });
 	constructor(glb) {
 		super();
-
+		const globalMaterial = new MeshMatcapMaterial({ color: 0xffffff });
 		this.glb = glb;
+		this.glb.traverse((child) => {
+			if (child.isMesh) child.material = globalMaterial;
+		});
 		this.grid = new Grid(terrainStructure);
 
 		this.add(this.glb);

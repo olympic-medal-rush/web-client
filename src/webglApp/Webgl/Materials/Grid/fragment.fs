@@ -27,6 +27,7 @@ void main() {
 	vec3 gMix = mix(mix1, mix2, data.g);
 
 	vec3 final = mix(gMix, mix3, data.b);
+	final += .5;
 
 	vec2 gridUv = mod(vUv * uSize, 1.);
 	float gridCircle = smoothstep(.4, .5, length(gridUv - .5)) * .15;

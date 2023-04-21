@@ -98,7 +98,6 @@ class Player extends Object3D {
 
 		// Set model transformations
 		this.model.scale.setScalar(0.4);
-		// this.model.scale.setScalar(1);
 		this.model.rotation.y = Math.PI;
 
 		// Initial position
@@ -110,7 +109,6 @@ class Player extends Object3D {
 
 		// Create Flame
 		this.flame = new Flame();
-		this.flame.visible = false;
 		this.flame.position.y = 1;
 
 		// Animations
@@ -132,6 +130,24 @@ class Player extends Object3D {
 		this.#moveTl = gsap.timeline({
 			onStart: () => {
 				this.mixer.clipAction(this.animations[0]).play();
+			},
+			onUpdate: () => {
+				const planePosition = new Vector3();
+				this.baseForFlame.getWorldPosition(planePosition);
+				// const planeRotation = new Euler().setFromQuaternion(this.baseForFlame.getWorldQuaternion(new Quaternion()));
+				// console.log(planeRotation);
+				if (this.#quat.y === 0) {
+					this.flame.position.z = (planePosition.z - this.position.z) * 5;
+				} else if (this.#quat.y === 1) {
+					this.flame.position.z = -(planePosition.z - this.position.z) * 5;
+				} else if (this.#quat.y > 0) {
+					this.flame.position.z = (planePosition.x - this.position.x) * 5;
+				} else {
+					this.flame.position.z = -(planePosition.x - this.position.x) * 5;
+				}
+			},
+			onComplete: () => {
+				this.mixer.clipAction(this.animations[0]).stop();
 			},
 		});
 
@@ -155,24 +171,6 @@ class Player extends Object3D {
 				// ease: 'playerJump',
 				ease: 'power3.inOut',
 				delay,
-				onUpdate: () => {
-					const planePosition = new Vector3();
-					this.baseForFlame.getWorldPosition(planePosition);
-					// const planeRotation = new Euler().setFromQuaternion(this.baseForFlame.getWorldQuaternion(new Quaternion()));
-					// console.log(planeRotation);
-					if (this.#quat.y === 0) {
-						this.flame.position.z = (planePosition.z - this.position.z) * 5;
-					} else if (this.#quat.y === 1) {
-						this.flame.position.z = -(planePosition.z - this.position.z) * 5;
-					} else if (this.#quat.y > 0) {
-						this.flame.position.z = (planePosition.x - this.position.x) * 5;
-					} else {
-						this.flame.position.z = -(planePosition.x - this.position.x) * 5;
-					}
-				},
-				onComplete: () => {
-					this.mixer.clipAction(this.animations[0]).stop();
-				},
 			},
 			0,
 		);
