@@ -1,4 +1,5 @@
 <script async setup>
+import VoteArrows from '@components/Inputs/VoteArrows.vue';
 import { useGameStore } from '@stores/game';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,6 +22,7 @@ onMounted(() => app.load());
 				<li v-for="team in domGameStore.scoreboard" :key="team.name">{{ team.name }} => {{ team.score }}</li>
 			</ul>
 		</div>
+		<VoteArrows />
 	</div>
 </template>
 

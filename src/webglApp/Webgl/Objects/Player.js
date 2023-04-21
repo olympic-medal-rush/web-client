@@ -5,7 +5,6 @@ import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { computeEnvmap } from '@webglApp/utils/misc';
 import gsap from 'gsap';
 import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, RepeatWrapping, Vector3 } from 'three';
-import { Euler } from 'three';
 import { MATERIALS } from '@utils/config';
 import { PlayerBodyMaterial } from '../Materials/PlayerBody/material';
 import { PlayerFaceMaterial } from '../Materials/PlayerFace/material';
@@ -63,7 +62,6 @@ class Player extends Object3D {
 		body.material = new PlayerBodyMaterial({
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
-
 				uColor1: { value: new Color(flagColors[team.iso][1]) },
 				uColor2: { value: new Color(flagColors[team.iso][0]) },
 				uColor3: { value: new Color(flagColors[team.iso][2] || 0xffffff) },
