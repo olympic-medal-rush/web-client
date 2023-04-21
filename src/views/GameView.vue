@@ -1,18 +1,30 @@
 <script async setup>
+import { state } from '@/State';
 import VoteArrows from '@components/Inputs/VoteArrows.vue';
 import { useGameStore } from '@stores/game';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { EVENTS } from '@utils/constants';
 import { app } from '../webglApp/App';
 
 const { t } = useI18n();
 const domGameStore = useGameStore();
 
-onMounted(() => app.load());
+const game = ref();
+
+onMounted(() => {
+	app.load();
+
+	/// #if DEBUG
+	state.on(EVENTS.KEY_DOWN, (key) => {
+		if (key === 'H') game.value.classList.toggle('sixty-debug-hidden');
+	});
+	/// #endif
+});
 </script>
 
 <template>
-	<div class="game">
+	<div ref="game" class="game">
 		<h1>Game view</h1>
 		<p>{{ t('head.title') }}</p>
 		<p>Nombre de joueurs : {{ domGameStore.playersCounter }}</p>

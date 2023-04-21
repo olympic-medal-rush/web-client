@@ -5,6 +5,7 @@ import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { computeEnvmap } from '@webglApp/utils/misc';
 import gsap from 'gsap';
 import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, RepeatWrapping, Vector3 } from 'three';
+import { Euler } from 'three';
 import { MATERIALS } from '@utils/config';
 import { PlayerBodyMaterial } from '../Materials/PlayerBody/material';
 import { PlayerFaceMaterial } from '../Materials/PlayerFace/material';
@@ -18,6 +19,9 @@ class Player extends Object3D {
 	#nextPosition = new Vector3();
 	#matrix = new Matrix4();
 	#quat = new Quaternion();
+	#quat2 = new Quaternion();
+	#euler = new Euler();
+	#vec3 = new Vector3();
 
 	constructor(model, team) {
 		super();
@@ -92,7 +96,7 @@ class Player extends Object3D {
 			},
 		});
 
-		this.baseForFlame = model.getObjectByName('tête2');
+		this.headBone = model.getObjectByName('tête2');
 
 		// Set model transformations
 		this.model.scale.setScalar(0.4);
@@ -130,18 +134,20 @@ class Player extends Object3D {
 				this.mixer.clipAction(this.animations[0]).play();
 			},
 			onUpdate: () => {
-				const planePosition = new Vector3();
-				this.baseForFlame.getWorldPosition(planePosition);
-				// const planeRotation = new Euler().setFromQuaternion(this.baseForFlame.getWorldQuaternion(new Quaternion()));
-				// console.log(planeRotation);
+				this.headBone.getWorldPosition(this.#vec3);
+				this.#euler.setFromQuaternion(this.headBone.getWorldQuaternion(this.#quat2));
+
+				this.flame.rotation.copy(this.#euler);
+				this.flame.applyQuaternion(this.#quat);
+
 				if (this.#quat.y === 0) {
-					this.flame.position.z = (planePosition.z - this.position.z) * 5;
+					this.flame.position.z = (this.#vec3.z - this.position.z) * 5;
 				} else if (this.#quat.y === 1) {
-					this.flame.position.z = -(planePosition.z - this.position.z) * 5;
+					this.flame.position.z = -(this.#vec3.z - this.position.z) * 5;
 				} else if (this.#quat.y > 0) {
-					this.flame.position.z = (planePosition.x - this.position.x) * 5;
+					this.flame.position.z = (this.#vec3.x - this.position.x) * 5;
 				} else {
-					this.flame.position.z = -(planePosition.x - this.position.x) * 5;
+					this.flame.position.z = -(this.#vec3.x - this.position.x) * 5;
 				}
 			},
 			onComplete: () => {
