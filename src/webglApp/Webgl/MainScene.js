@@ -9,12 +9,14 @@ class MainScene extends Scene {
 		super();
 		state.register(this);
 
-		this.background = new Color(0xdddddd);
-		this.userData.backgrounds = [this.background, new Color(0x000000)];
 		this.add(new AmbientLight(0xffffff, 1));
 	}
 
-	onAttach() {
+	onAppLoaded() {
+		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('skybox'), false);
+		this.background = envMap;
+		this.userData.backgrounds = [this.background, new Color(0x000000)];
+
 		this.terrain = new Terrain(app.core.assetsManager.get('terrain'));
 		this.add(this.terrain);
 
