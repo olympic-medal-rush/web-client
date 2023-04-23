@@ -1,5 +1,7 @@
 import { state } from '@/State';
 import { app } from '@webglApp/App';
+import { Vector3 } from 'three';
+import { TERRAIN } from '@utils/config';
 import { EVENTS } from '@utils/constants';
 
 function createPane(pane, instance, name) {
@@ -10,6 +12,7 @@ function createPane(pane, instance, name) {
 		const parent = app.$wrapper;
 		if (!instance.orbitControls) {
 			parent.style.pointerEvents = 'all';
+			// @ts-ignore
 			const OrbitThree = await import('three/addons/controls/OrbitControls');
 			instance.orbitControls = new OrbitThree.OrbitControls(instance, parent);
 			instance.orbitControls.enableDamping = true;
@@ -17,6 +20,7 @@ function createPane(pane, instance, name) {
 			instance.orbitControls.enableZoom = true;
 			instance.orbitControls.update();
 			instance.position.z += 10;
+			instance.orbitControls.target = new Vector3(TERRAIN.size * 0.5, 0, TERRAIN.size * 0.5);
 			_far = instance.far;
 			instance.far = 200;
 			instance.updateProjectionMatrix();

@@ -14,7 +14,7 @@ let recursiveChunk = '';
 /**
  * @const
  * @name allChunks
- * @type {readonly Set<string>}
+ * @type {Set<string>}
  *
  * @description List of all shader chunks,
  * it's used to track included files
@@ -24,7 +24,7 @@ const allChunks = new Set();
 /**
  * @const
  * @name dependentChunks
- * @type {readonly Map<string, string[]>}
+ * @type {Map<string, string[]>}
  *
  * @description Map of shaders that import other chunks, it's
  * used to track included files in order to avoid recursion
@@ -36,7 +36,7 @@ const dependentChunks = new Map();
 /**
  * @const
  * @name duplicatedChunks
- * @type {readonly Map<string, string[]>}
+ * @type {Map<string, string[]>}
  *
  * @description Map of duplicated shader
  * imports, used by warning messages
@@ -46,7 +46,7 @@ const duplicatedChunks = new Map();
 /**
  * @const
  * @name include
- * @type {readonly RegExp}
+ * @type {RegExp}
  *
  * @description RegEx to match GLSL
  * `#include` preprocessor instruction
@@ -286,7 +286,7 @@ function loadChunks(source, path, extension, warn, root) {
  *
  * @param {string}         source  Shader's source code
  * @param {string}         shader  Shader's absolute path
- * @param {LoadingOptions} options Configuration object to define:
+ * @param {any} options Configuration object to define:
  *
  *  - warn if the same chunk was imported multiple times
  *  - default shader extension when no extension is specified

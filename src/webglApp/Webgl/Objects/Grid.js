@@ -34,7 +34,10 @@ class Grid extends Mesh {
 
 		const material = new GridMaterial({
 			uniforms: {
+				...app.webgl.scene.shadowUniforms,
+
 				uZoom: globalUniforms.uZoom,
+
 				uSize: { value: size },
 				uFloorColor: { value: new Vector3(0.48, 0, 1) },
 				uGridColor: { value: new Vector3(0, 0, 0) },
@@ -44,6 +47,9 @@ class Grid extends Mesh {
 				tSeamless2: { value: seamless2 },
 				tSeamless3: { value: seamless3 },
 				tSeamless4: { value: seamless4 },
+			},
+			extensions: {
+				derivatives: true,
 			},
 		});
 

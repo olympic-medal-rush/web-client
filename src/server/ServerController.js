@@ -110,9 +110,9 @@ export default class ServerController {
 	/**
 	 * Vote count update during vote
 	 *
-	 * @param {VoteCountPayload} data
+	 * @param {VoteCountPayload} _data
 	 */
-	#onVoteCount(data) {
+	#onVoteCount(_data) {
 		// TODO: update Vue store or something else supposed to show vote counts
 		// up: number;
 		// right: number;

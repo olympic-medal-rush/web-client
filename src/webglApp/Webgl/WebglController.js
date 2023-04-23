@@ -1,5 +1,6 @@
 import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
+import { Group } from 'three';
 import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
 import { state } from '../../State';
 import { MainCamera } from './MainCamera';
@@ -10,6 +11,7 @@ import { PostProcessing } from './PostProcessing';
 import { Renderer } from './Renderer';
 
 class WebglController {
+	#playersGroup = new Group();
 	constructor() {
 		state.register(this);
 
@@ -22,6 +24,8 @@ class WebglController {
 		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2);
 		this.scene = new MainScene();
 		this.camera = new MainCamera();
+
+		this.scene.add(this.#playersGroup);
 	}
 
 	onAttach() {
@@ -72,7 +76,7 @@ class WebglController {
 		mesh.animations = baseModel.animations;
 		const player = new Player(mesh, team);
 		app.webgl.players.set(team, player);
-		this.scene.add(player);
+		this.#playersGroup.add(player);
 	};
 
 	#createMedal = (medal) => {
@@ -88,6 +92,7 @@ class WebglController {
 	onRender() {
 		this.renderer.clear();
 
+		this.#renderDynamicShadows();
 		this.#renderDiffuse();
 		this.#renderEmissive();
 		this.#renderPostProcessing();
@@ -95,6 +100,12 @@ class WebglController {
 
 	#renderDiffuse() {
 		this.#renderRenderTarget(this.scene, this.camera, this.postProcessing.renderTarget);
+	}
+
+	#renderDynamicShadows() {
+		this.#shadowOnly = true;
+		this.#renderRenderTarget(this.#playersGroup, this.scene.sun.shadow.camera, this.scene.sun.shadow.map);
+		this.#shadowOnly = false;
 	}
 
 	#renderEmissive() {
@@ -127,15 +138,25 @@ class WebglController {
 	}
 
 	set #emissiveOnly(value) {
-		globalUniforms.uEmissiveOnly.value = value ? 1 : 0;
+		globalUniforms.uEmissiveOnly.value = value;
 		this.scene.background = this.scene.userData.backgrounds[+value];
-		this.scene?.terrain?.traverse((child) => {
-			if (child.isMesh) child.material = child.userData.materials[+value];
-		});
+		this.scene?.terrain?.traverse(
+			/** @param {import('three').Mesh} child*/ (child) => {
+				if (child.isMesh) child.material = child.userData.materials[+value];
+			},
+		);
 	}
 
 	get #emissiveOnly() {
-		return globalUniforms.uEmissiveOnly.value > 0.5;
+		return globalUniforms.uEmissiveOnly.value;
+	}
+
+	set #shadowOnly(value) {
+		globalUniforms.uShadowOnly.value = value;
+	}
+
+	get #shadowOnly() {
+		return globalUniforms.uShadowOnly.value;
 	}
 }
 

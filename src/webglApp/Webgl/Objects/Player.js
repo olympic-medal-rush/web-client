@@ -49,6 +49,7 @@ class Player extends Object3D {
 		face.material = new PlayerFaceMaterial({
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
+				uShadowOnly: globalUniforms.uShadowOnly,
 
 				uRoughness: { value: faceMatParams.roughness },
 				uMetalness: { value: faceMatParams.metalness },
@@ -66,6 +67,8 @@ class Player extends Object3D {
 		body.material = new PlayerBodyMaterial({
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
+				uShadowOnly: globalUniforms.uShadowOnly,
+
 				uColor1: { value: new Color(flagColors[team.iso][1]) },
 				uColor2: { value: new Color(flagColors[team.iso][0]) },
 				uColor3: { value: new Color(flagColors[team.iso][2] || 0xffffff) },
@@ -80,6 +83,8 @@ class Player extends Object3D {
 		gold.material = new PlayerGoldMaterial({
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
+				uShadowOnly: globalUniforms.uShadowOnly,
+
 				uRoughness: { value: goldMatParams.roughness },
 				uMetalness: { value: goldMatParams.metalness },
 				uEnvMapIntensity: { value: goldMatParams.envMapIntensity },

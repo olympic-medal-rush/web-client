@@ -1,12 +1,18 @@
-attribute vec3 position;
-attribute vec2 uv;
-
-uniform mat4 projectionMatrix;
-uniform mat4 modelViewMatrix;
+uniform mat4 uShadowProjectionMatrix, uShadowMatrixInverse;
 
 varying vec2 vUv;
+varying vec3 vNormal, vViewPosition;
+varying vec4 vShadowCoord;
 
 void main() {
   vUv = uv;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+  vNormal = normal;
+
+  vec3 pos = position;
+  vec4 mvPosition = viewMatrix * modelMatrix * vec4(pos, 1.);
+
+  gl_Position = projectionMatrix * mvPosition;
+
+  vViewPosition = -mvPosition.xyz;
+  vShadowCoord = uShadowProjectionMatrix * uShadowMatrixInverse * modelMatrix * vec4(pos, 1.);
 }

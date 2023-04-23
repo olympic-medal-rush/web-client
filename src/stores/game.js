@@ -11,7 +11,7 @@ export const useGameStore = defineStore('game', {
 			this.playersCounter = count;
 		},
 		initScoreboard() {
-			for (const [key, value] of GlobalApp.game.teams) {
+			for (const [, value] of GlobalApp.game.teams) {
 				this.addNewTeamToScoreboard(value);
 			}
 			this.filterScoreboard();
