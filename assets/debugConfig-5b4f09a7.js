@@ -1,0 +1,1 @@
+const o=["WEBGL","GAME"],r="DEBUG",a=["orbit","tab","noServer","team"];class c{constructor(t,e){this.object=t,this.prop=e}get value(){return`#${this.object[this.prop].getHexString()}`}set value(t){this.object[this.prop].set(t)}}export{c as C,r as P,a as U,o as a};
