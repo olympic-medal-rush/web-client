@@ -15,7 +15,7 @@ class MainCamera extends PerspectiveCamera {
 	#targetPosition = new Vector2();
 	#focusPlayer = false;
 	constructor() {
-		super(CAMERA.baseFov, app.tools.viewport.ratio, 1, 1000);
+		super(CAMERA.baseFov, app.tools.viewport.ratio, 1, 100);
 		state.register(this);
 
 		this.position.fromArray(CAMERA.defaultPosition);
@@ -35,7 +35,7 @@ class MainCamera extends PerspectiveCamera {
 		const cameraHalfWidth = this.getVisibleWidthAtZDepth() * 0.5;
 		const cameraHalfHeight = this.getVisibleHeightAtZDepth() * 0.5;
 		this.#targetPosition.x -= diff.x * cameraHalfWidth;
-		this.#targetPosition.y += diff.y * cameraHalfHeight;
+		this.#targetPosition.y += diff.y * cameraHalfHeight * (this.#lerpedZoom + 1);
 	}
 
 	onDragEnd() {

@@ -38,6 +38,16 @@ void main() {
 	bias = clamp(bias, 0.0, 0.01);
 
 	float shadowFactor = step(depthShadowCoord - bias, depthShadowMap);
+
+	// bvec4 inFrustumVec = bvec4(shadowCoord.x >= 0.0, shadowCoord.x <= 1.0, shadowCoord.y >= 0.0, shadowCoord.y <= 1.0);
+	// bool inFrustum = all(inFrustumVec);
+
+	// bvec2 frustumTestVec = bvec2(inFrustum, shadowCoord.z <= 1.0);
+	// bool frustumTest = all(frustumTestVec);
+
+	// if(frustumTest == false)
+	// 	shadowFactor = 1.0;
+
 	float difLight = max(0.0, cosTheta);
 	float shading = shadowFactor * difLight;
 

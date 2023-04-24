@@ -142,8 +142,8 @@ class Player extends Object3D {
 				this.headBone.getWorldPosition(this.#vec3);
 				this.#euler.setFromQuaternion(this.headBone.getWorldQuaternion(this.#quat2));
 
-				this.flame.rotation.copy(this.#euler);
-				this.flame.applyQuaternion(this.#quat);
+				// this.flame.rotation.copy(this.#euler);
+				// this.flame.applyQuaternion(this.#quat);
 
 				if (this.#quat.y === 0) {
 					this.flame.position.z = (this.#vec3.z - this.position.z) * 5;
