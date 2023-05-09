@@ -10,6 +10,8 @@ import { ColorDebugHelper } from '../debugConfig';
 function createPane(pane, instance, name) {
 	const folder = pane.addFolder({ title: name, expanded: false });
 
+	folder.addInput(instance, 'position');
+
 	const flameFolder = folder.addFolder({ title: 'Flame', expanded: false });
 	flameFolder.addInput(instance.flame.material.uniforms.uRadius, 'value', {
 		min: 0,

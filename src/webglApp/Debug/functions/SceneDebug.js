@@ -2,7 +2,8 @@ import { state } from '@/State';
 import { app } from '@webglApp/App';
 import { manifest } from '@webglApp/utils/manifest';
 import { computeEnvmap } from '@webglApp/utils/misc';
-import { CameraHelper } from 'three';
+import { CameraHelper, Vector3 } from 'three';
+import { TERRAIN } from '@utils/config';
 import { EVENTS } from '@utils/constants';
 
 /**
@@ -29,9 +30,9 @@ function debug(instance) {
 function createPane(pane, instance, name) {
 	const folder = pane.addFolder({ title: name, expanded: true });
 
-	folder.addInput(instance.sun, 'position');
+	folder.addInput(instance.shadowCamera, 'position', { label: 'LightPosition' }).on('change', () => instance.shadowCamera.lookAt(new Vector3(TERRAIN.size * 0.5, 0, TERRAIN.size * 0.5)));
 
-	const camHelper = new CameraHelper(instance.sun.shadow.camera);
+	const camHelper = new CameraHelper(instance.shadowCamera);
 	camHelper.visible = false;
 	instance.add(camHelper);
 
@@ -39,8 +40,8 @@ function createPane(pane, instance, name) {
 
 	const showCanvas = { value: false };
 	const canvas = document.createElement('canvas');
-	canvas.width = instance.sun.shadow.mapSize.x;
-	canvas.height = instance.sun.shadow.mapSize.y;
+	canvas.width = instance.dynamicShadowRenderTarget.width;
+	canvas.height = instance.dynamicShadowRenderTarget.height;
 	canvas.style.width = '512px';
 	canvas.style.height = '512px';
 	canvas.style.position = 'absolute';
@@ -54,7 +55,7 @@ function createPane(pane, instance, name) {
 
 	const tick = () => {
 		const pixelBuffer = new Uint8Array(4 * canvas.width * canvas.height);
-		app.webgl.renderer.readRenderTargetPixels(instance.sun.shadow.map, 0, 0, canvas.width, canvas.height, pixelBuffer);
+		app.webgl.renderer.readRenderTargetPixels(instance.dynamicShadowRenderTarget, 0, 0, canvas.width, canvas.height, pixelBuffer);
 		const imageData = new ImageData(canvas.width, canvas.height);
 		imageData.data.set(pixelBuffer);
 

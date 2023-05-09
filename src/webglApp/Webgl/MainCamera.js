@@ -15,7 +15,7 @@ class MainCamera extends PerspectiveCamera {
 	#targetPosition = new Vector2();
 	#focusPlayer = false;
 	constructor() {
-		super(CAMERA.baseFov, app.tools.viewport.ratio, 1, 100);
+		super(CAMERA.baseFov, app.tools.viewport.ratio, CAMERA.near, CAMERA.far);
 		state.register(this);
 
 		this.position.fromArray(CAMERA.defaultPosition);

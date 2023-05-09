@@ -28,6 +28,8 @@ const CAMERA = {
 	maxTiltAngle: degToRad(65),
 	// maxTiltAngle: degToRad(90),
 	zoomOffsetY: 8,
+	near: 1,
+	far: 100,
 };
 
 const BREAKPOINTS = {

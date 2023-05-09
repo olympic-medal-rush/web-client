@@ -11,7 +11,7 @@ import { PostProcessing } from './PostProcessing';
 import { Renderer } from './Renderer';
 
 class WebglController {
-	#playersGroup = new Group();
+	#dynamicGroup = new Group();
 	constructor() {
 		state.register(this);
 
@@ -25,11 +25,14 @@ class WebglController {
 		this.scene = new MainScene();
 		this.camera = new MainCamera();
 
-		this.scene.add(this.#playersGroup);
+		this.scene.add(this.#dynamicGroup);
 	}
 
 	onAttach() {
 		app.$wrapper.prepend(this.renderer.domElement);
+
+		this.onRender();
+		this.#renderStaticShadows();
 
 		app.debug?.mapping.add(this, 'Game', 1);
 	}
@@ -76,13 +79,13 @@ class WebglController {
 		mesh.animations = baseModel.animations;
 		const player = new Player(mesh, team);
 		app.webgl.players.set(team, player);
-		this.#playersGroup.add(player);
+		this.#dynamicGroup.add(player);
 	};
 
 	#createMedal = (medal) => {
 		const newMedal = new Medal(app.core.assetsManager.get('medal').clone(), medal);
 		app.webgl.medals.set(medal.id, newMedal);
-		this.scene.add(newMedal);
+		this.#dynamicGroup.add(newMedal);
 	};
 
 	onTick({ et }) {
@@ -103,9 +106,11 @@ class WebglController {
 	}
 
 	#renderDynamicShadows() {
-		this.#shadowOnly = true;
-		this.#renderRenderTarget(this.#playersGroup, this.scene.sun.shadow.camera, this.scene.sun.shadow.map);
-		this.#shadowOnly = false;
+		this.#renderRenderTarget(this.#dynamicGroup, this.scene.shadowCamera, this.scene.dynamicShadowRenderTarget);
+	}
+
+	#renderStaticShadows() {
+		this.#renderRenderTarget(this.scene.terrain, this.scene.shadowCamera, this.scene.staticShadowRenderTarget);
 	}
 
 	#renderEmissive() {
@@ -149,14 +154,6 @@ class WebglController {
 
 	get #emissiveOnly() {
 		return globalUniforms.uEmissiveOnly.value;
-	}
-
-	set #shadowOnly(value) {
-		globalUniforms.uShadowOnly.value = value;
-	}
-
-	get #shadowOnly() {
-		return globalUniforms.uShadowOnly.value;
 	}
 }
 

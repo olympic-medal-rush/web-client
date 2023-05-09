@@ -1,8 +1,6 @@
 import { app } from '@webglApp/App';
 import { computeEnvmap } from '@webglApp/utils/misc';
-import { AmbientLight, Color, NearestFilter, RGBAFormat, Scene, WebGLRenderTarget } from 'three';
-import { DirectionalLight } from 'three';
-import { OrthographicCamera } from 'three';
+import { AmbientLight, Color, DepthTexture, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { TERRAIN } from '@utils/config';
 import { state } from '../../State';
 import { Terrain } from './Objects/Terrain.js';
@@ -14,26 +12,39 @@ class MainScene extends Scene {
 
 		this.add(new AmbientLight(0xffffff, 1));
 
-		this.sun = new DirectionalLight(0xffffff, 1);
-		this.sun.position.set(-5, 40, 5);
-
 		const halfTerrain = TERRAIN.size * 0.5;
-		this.sun.shadow.camera = new OrthographicCamera(-halfTerrain, halfTerrain, halfTerrain, -halfTerrain, 1, 100);
-		this.sun.shadow.camera.position.copy(this.sun.position);
-		this.sun.shadow.camera.lookAt(halfTerrain, 0, halfTerrain);
+		this.shadowCamera = new OrthographicCamera(-halfTerrain, halfTerrain, halfTerrain, -halfTerrain, 1, 100);
+		this.shadowCamera.position.set(-5, 40, 5);
+		this.shadowCamera.lookAt(halfTerrain, 0, halfTerrain);
 
-		this.sun.shadow.mapSize.x = this.sun.shadow.mapSize.y = 4096;
-		this.sun.shadow.map = new WebGLRenderTarget(this.sun.shadow.mapSize.x, this.sun.shadow.mapSize.y, { minFilter: NearestFilter, magFilter: NearestFilter, format: RGBAFormat });
+		const rtSize = 4096;
 
-		this.shadowUniforms = {
-			tDepthMap: { value: this.sun.shadow.map.texture },
-			uShadowProjectionMatrix: { value: this.sun.shadow.camera.projectionMatrix },
-			uShadowMatrixInverse: { value: this.sun.shadow.camera.matrixWorldInverse },
-			uLightPosition: { value: this.sun.position },
+		// Dynamic Shadows
+		this.dynamicShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
+		this.dynamicShadowUniforms = {
+			tDynamicShadows: { value: this.dynamicShadowRenderTarget.depthTexture },
 		};
 
-		this.add(this.sun, this.sun.shadow.camera);
+		// Static Shadows
+		this.staticShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
+		this.staticShadowUniforms = {
+			tStaticShadows: { value: this.staticShadowRenderTarget.depthTexture },
+		};
+
+		// Common to both shadow types
+		this.commonShadowUniforms = {
+			uLightPosition: { value: this.shadowCamera.position },
+			uShadowProjectionMatrix: { value: this.shadowCamera.projectionMatrix },
+			uShadowMatrixInverse: { value: this.shadowCamera.matrixWorldInverse },
+		};
 	}
+
+	#createShadowRenderTarget = (size) => {
+		const renderTarget = new WebGLRenderTarget(size, size);
+		renderTarget.depthTexture = new DepthTexture(size, size);
+
+		return renderTarget;
+	};
 
 	onAppLoaded() {
 		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('skybox'), false);

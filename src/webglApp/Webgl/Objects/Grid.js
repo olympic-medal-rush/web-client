@@ -34,7 +34,9 @@ class Grid extends Mesh {
 
 		const material = new GridMaterial({
 			uniforms: {
-				...app.webgl.scene.shadowUniforms,
+				...app.webgl.scene.dynamicShadowUniforms,
+				...app.webgl.scene.staticShadowUniforms,
+				...app.webgl.scene.commonShadowUniforms,
 
 				uZoom: globalUniforms.uZoom,
 
@@ -48,8 +50,9 @@ class Grid extends Mesh {
 				tSeamless3: { value: seamless3 },
 				tSeamless4: { value: seamless4 },
 			},
-			extensions: {
-				derivatives: true,
+			defines: {
+				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
+				FAR: `${app.webgl.scene.shadowCamera.far}.`,
 			},
 		});
 
