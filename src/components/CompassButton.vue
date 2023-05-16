@@ -107,6 +107,7 @@ $height: 30px;
 		position: absolute;
 		top: 0;
 		left: 0;
+		width: 10px;
 	}
 
 	&.visible {

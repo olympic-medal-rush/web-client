@@ -33,7 +33,7 @@ vueApp.mount('#vue-app');
 
 const GlobalApp = {
 	vueApp,
-	server: new ServerController({ host: import.meta.env.OLYMPIC_WSS }),
+	server: new ServerController(),
 	game: new GameController(),
 	sound: new SoundController(),
 };

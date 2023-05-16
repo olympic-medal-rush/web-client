@@ -24,10 +24,9 @@ class GameController {
 	 * @param {ConnectStatePayload} statePayload
 	 */
 	setState(statePayload) {
-		this.userId = statePayload.userId;
-
-		statePayload.medalsInGame.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
-		Object.entries(statePayload.teamsState).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
+		this.userId = statePayload.user_id;
+		statePayload.medalsInGame?.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
+		Object.entries(statePayload.teamsStates).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
 
 		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
 		this.domGameStore.initScoreboard(GlobalApp.game.teams);
