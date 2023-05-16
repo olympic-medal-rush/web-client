@@ -1,6 +1,12 @@
 <script setup>
 import WebglContainer from '@components/WebglContainer.vue';
+import { app } from '@webglApp/App';
+import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
+
+onMounted(async () => {
+	await app.load();
+});
 </script>
 
 <template>

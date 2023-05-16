@@ -1,6 +1,4 @@
-<script setup>
-// console.log('Homepage');
-</script>
+<script setup></script>
 
 <template>
 	<div class="home">

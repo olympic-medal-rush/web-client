@@ -13,8 +13,6 @@ const domGameStore = useGameStore();
 const game = ref();
 
 onMounted(() => {
-	app.load();
-
 	/// #if DEBUG
 	state.on(EVENTS.KEY_DOWN, (key) => {
 		if (key === 'H') game.value.classList.toggle('sixty-debug-hidden');
