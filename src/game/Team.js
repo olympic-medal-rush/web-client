@@ -1,3 +1,4 @@
+import { Vector2 } from 'three';
 import { DIRECTIONS } from '@utils/constants';
 
 class Team {
@@ -7,7 +8,7 @@ class Team {
 	 */
 	constructor({ iso, position, medals = { 0: 0, 1: 0, 2: 0 } }) {
 		this.iso = iso;
-		this.position = position;
+		this.position = new Vector2(position.x, position.y);
 		this.medals = medals;
 	}
 

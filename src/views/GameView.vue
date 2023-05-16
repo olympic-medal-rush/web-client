@@ -3,6 +3,7 @@ import { state } from '@/State';
 import CompassButton from '@components/CompassButton.vue';
 import VoteArrows from '@components/Inputs/VoteArrows.vue';
 import { useGameStore } from '@stores/game';
+import { app } from '@webglApp/App';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { EVENTS } from '@utils/constants';
@@ -33,7 +34,7 @@ onMounted(() => {
 			</ul>
 		</div>
 		<VoteArrows />
-		<CompassButton v-for="medal in domGameStore.medals" :key="medal.id"></CompassButton>
+		<CompassButton v-for="medal in domGameStore.medals" :id="medal.id" :key="medal.id" :position="app.webgl.medals.get(medal.id).screenPosition"></CompassButton>
 	</div>
 </template>
 
