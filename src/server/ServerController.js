@@ -6,12 +6,9 @@ import { store } from '../Store';
 export default class ServerController {
 	/** @type WebSocket */
 	#connection;
-	#host;
 
-	constructor({ host = '' }) {
-		this.#host = host;
-
-		this.#connection = new WebSocket(`wss://${this.#host}/ws`);
+	constructor() {
+		this.#connection = new WebSocket(import.meta.env.OLYMPIC_WSS);
 		this.#connection.onmessage = this.#onMessage;
 
 		this.domGameStore = useGameStore();
@@ -44,33 +41,33 @@ export default class ServerController {
 	/**
 	 * Route WebSocket events listeners
 	 *
-	 * @param {{type: string, data: any}} evt
+	 * @param {{type: string, payload: any}} evt
 	 */
 	#routeEvent(evt) {
 		switch (evt.type) {
 			case SERVER_EVENTS.CONNECT_STATE:
-				this.#onConnectState(evt.data);
+				this.#onConnectState(evt.payload);
 				break;
 			case SERVER_EVENTS.JOIN_STATE:
-				this.#onJoinState(evt.data);
+				this.#onJoinState(evt.payload);
 				break;
 			case SERVER_EVENTS.VOTE_RESULTS:
-				this.#onVoteResults(evt.data);
+				this.#onVoteResults(evt.payload);
 				break;
 			case SERVER_EVENTS.VOTE_COUNT:
-				this.#onVoteCount(evt.data);
+				this.#onVoteCount(evt.payload);
 				break;
 			case SERVER_EVENTS.MEDAL_APPARITION:
-				this.#onMedalApparition(evt.data);
+				this.#onMedalApparition(evt.payload);
 				break;
 			case SERVER_EVENTS.MEDAL_COLLECTION:
-				this.#onMedalCollection(evt.data);
+				this.#onMedalCollection(evt.payload);
 				break;
 			case SERVER_EVENTS.NEW_TEAM:
-				this.#onNewTeam(evt.data);
+				this.#onNewTeam(evt.payload);
 				break;
 			case SERVER_EVENTS.PLAYER_COUNT:
-				this.#onPlayerCount(evt.data);
+				this.#onPlayerCount(evt.payload);
 				break;
 			default:
 				break;
@@ -85,7 +82,9 @@ export default class ServerController {
 	 * @param {ConnectStatePayload} data
 	 */
 	#onConnectState(data) {
-		store.set(STORE_KEYS.USER_ID, data.userId);
+		console.log(data);
+
+		store.set(STORE_KEYS.USER_ID, data.user_id);
 		GlobalApp.game.setState(data);
 	}
 
@@ -164,6 +163,7 @@ export default class ServerController {
 	 * @param {UserVotePayload} userVotePlayload
 	 */
 	userVote(userVotePlayload) {
+		console.log(store.get(STORE_KEYS.USER_ID));
 		this.#send(SERVER_EVENTS.USER_VOTE, userVotePlayload);
 	}
 

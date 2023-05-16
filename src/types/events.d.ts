@@ -30,8 +30,8 @@ type TeamInfos = {
 };
 
 type ConnectStatePayload = {
-	userId: string;
-	teamsState: Record<string, TeamInfos>;
+	user_id: string;
+	teamsStates: Record<string, TeamInfos>;
 	medalsInGame: MedalInGame[];
 };
 
@@ -50,12 +50,12 @@ type JoinStatePayload = {
 };
 
 type UserVotePayload = {
-	userId: string;
+	user_id: string;
 	direction: Direction;
 };
 
 type UserJoinPayload = {
-	userId: string;
+	user_id: string;
 	iso: string;
 };
 

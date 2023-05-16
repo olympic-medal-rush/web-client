@@ -102,6 +102,10 @@ class MainCamera extends PerspectiveCamera {
 		this.zoomEase = CAMERA.zoomEase;
 	}
 
+	getAngleTo(x, y) {
+		return Math.atan2(y - this.position.y + CAMERA.zoomOffsetY * this.#lerpedZoom, x - this.position.x);
+	}
+
 	get playerPosition() {
 		return this.#playerPosition;
 	}

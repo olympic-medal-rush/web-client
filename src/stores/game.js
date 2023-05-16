@@ -26,9 +26,7 @@ export const useGameStore = defineStore('game', {
 			this.filterScoreboard();
 		},
 		filterScoreboard() {
-			this.scoreboard = this.scoreboard.sort(function (a, b) {
-				return b.score - a.score;
-			});
+			this.scoreboard = this.scoreboard.sort((a, b) => b.score - a.score);
 		},
 
 		// MEDALS
@@ -42,10 +40,16 @@ export const useGameStore = defineStore('game', {
 		removeMedal(medal) {
 			this.medals.slice(this.medals.indexOf(medal), 1);
 		},
-
+    
+    /** @param {import('../game/Team').Team} team*/
+    closestMedal(team) {
+      return this.medals.sort((a, b) => a.position.distanceTo(team.position) - b.position.distanceTo(team.position))[0];
+    },
+    
     // Player Country
     setPlayerCountry(iso){
       this.playerCountry = iso
     }
 	},
+	getters: {},
 });
