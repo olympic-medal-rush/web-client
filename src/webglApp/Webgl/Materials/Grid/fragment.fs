@@ -66,8 +66,8 @@ void main() {
 	// vec3 t4 = texture2D(tSeamless4, vUv * 100.).rgb;
 
 	vec3 mix1 = mix(uFloorColor, t1, data.r);
-	vec3 mix2 = mix(uFloorColor, t2, data.g);
-	vec3 mix3 = mix(uFloorColor, t3, data.b);
+	vec3 mix2 = mix(mix1, t2, data.g);
+	vec3 mix3 = mix(mix2, t3, data.b);
 
 	vec3 gMix = mix(mix1, mix2, data.g);
 	vec3 final = mix(gMix, mix3, data.b);
