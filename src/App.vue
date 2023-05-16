@@ -11,14 +11,14 @@ onMounted(async () => {
 
 <template>
 	<div class="container">
-		<header>
+		<!-- <header>
 			<div class="wrapper">
 				<nav>
 					<RouterLink to="/">Home</RouterLink>
 					<RouterLink to="/game">Game</RouterLink>
 				</nav>
 			</div>
-		</header>
+		</header> -->
 		<main>
 			<KeepAlive>
 				<WebglContainer />

@@ -1,3 +1,19 @@
+@font-face {
+	font-family: 'Paris 24';
+	src: url('/assets/fonts/paris24.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Paris 24 Semibold';
+	src: url('/assets/fonts/paris24-Semibold.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
 // @font-face {
 // 	font-family: 'Atlas Grotesk';
 // 	src: url('/assets/fonts/AtlasGrotesk-Regular.woff2') format('woff2'), url('/assets/fonts/AtlasGrotesk-Regular.woff') format('woff'),

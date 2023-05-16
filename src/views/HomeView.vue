@@ -1,8 +1,18 @@
-<script setup></script>
+<script setup>
+import router from '@/router';
+import VButton from './../components/Inputs/VButton.vue';
+import TheLogo from './../components/TheLogo.vue';
+
+const goChosePays = () => {
+	router.push('/login');
+};
+</script>
 
 <template>
 	<div class="home">
-		<h1>Homepage</h1>
+		<TheLogo />
+
+		<VButton @click="goChosePays">Rejoindre un pays</VButton>
 	</div>
 </template>
 
