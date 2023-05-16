@@ -2,6 +2,7 @@
 import { state } from '@/State';
 import CompassButton from '@components/CompassButton.vue';
 import VoteArrows from '@components/Inputs/VoteArrows.vue';
+import ThePlayerCountry from '@components/ThePlayerTeam.vue';
 import { useGameStore } from '@stores/game';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -23,8 +24,7 @@ onMounted(() => {
 
 <template>
 	<div ref="game" class="game">
-		<h1>Game view</h1>
-		<p>{{ t('head.title') }}</p>
+    <ThePlayerCountry />
 		<p>Nombre de joueurs : {{ domGameStore.playersCounter }}</p>
 		<div>
 			<h3>Scoreboard</h3>

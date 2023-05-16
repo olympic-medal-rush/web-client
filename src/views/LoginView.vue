@@ -3,6 +3,10 @@ import { ref, onMounted } from 'vue';
 import router from '@/router';
 import VButton from './../components/Inputs/VButton.vue';
 import TheLogo from './../components/TheLogo.vue';
+import { GameController } from '@game/GameController';
+import { useGameStore } from '@stores/game';
+
+const domGameStore = useGameStore();
 
 const selectedCountry = ref('BZH')
 let allBtn
@@ -24,6 +28,7 @@ const selectCountry = (id) => {
 
 const login = () => {
   console.log('Login Country : ' + selectedCountry.value);
+  domGameStore.setPlayerCountry(selectedCountry.value)
   router.push('/game');
 }
 

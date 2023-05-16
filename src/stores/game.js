@@ -3,7 +3,7 @@ import { MEDAL_POINTS } from '@utils/config';
 
 export const useGameStore = defineStore('game', {
 	state: () => {
-		return { playersCounter: 0, scoreboard: [], medals: [] };
+		return { playersCounter: 0, scoreboard: [], medals: [], playerCountry: 'BZH' };
 	},
 	actions: {
 		updatePlayersCounter(count) {
@@ -42,5 +42,10 @@ export const useGameStore = defineStore('game', {
 		removeMedal(medal) {
 			this.medals.slice(this.medals.indexOf(medal), 1);
 		},
+
+    // Player Country
+    setPlayerCountry(iso){
+      this.playerCountry = iso
+    }
 	},
 });
