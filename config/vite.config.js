@@ -7,6 +7,7 @@ import { cwd, env, stdout } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import svgLoader from 'vite-svg-loader';
 import hotEnvMap from './hotEnvMap/hotEnvMap';
 import hotShaders from './hotShaders/hotShadersRollupPlugin';
 import ifdef from './ifdef/ifdefRollupPlugin';
@@ -32,6 +33,7 @@ export default ({ mode }) => {
 			hotEnvMap({ isDev: env.OLYMPIC_DEBUG === 'true' }),
 			ifdef({ DEBUG: env.OLYMPIC_DEBUG === 'true' }),
 			vue(),
+			svgLoader(),
 			VitePWA(),
 			VueI18nPlugin({
 				include: resolve(dirname(fileURLToPath(import.meta.url)), '../src/assets/locales/**'),

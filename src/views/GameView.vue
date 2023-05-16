@@ -1,11 +1,11 @@
 <script async setup>
 import { state } from '@/State';
+import CompassButton from '@components/CompassButton.vue';
 import VoteArrows from '@components/Inputs/VoteArrows.vue';
 import { useGameStore } from '@stores/game';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { EVENTS } from '@utils/constants';
-import { app } from '../webglApp/App';
 
 const { t } = useI18n();
 const domGameStore = useGameStore();
@@ -33,6 +33,7 @@ onMounted(() => {
 			</ul>
 		</div>
 		<VoteArrows />
+		<CompassButton v-for="medal in domGameStore.medals" :key="medal.id"></CompassButton>
 	</div>
 </template>
 

@@ -30,7 +30,8 @@ class GameController {
 		Object.entries(statePayload.teamsState).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
 
 		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
-		this.domGameStore.initScoreboard();
+		this.domGameStore.initScoreboard(GlobalApp.game.teams);
+		this.domGameStore.addMedals([...GlobalApp.game.medals.values()]);
 	}
 
 	/**
@@ -73,6 +74,7 @@ class GameController {
 			this.medals.set(medalInGame.id, medal);
 			newMedals.push(medal);
 		});
+		this.domGameStore.addMedals(newMedals);
 		state.emit(EVENTS.SPAWN_MEDALS, newMedals);
 	}
 

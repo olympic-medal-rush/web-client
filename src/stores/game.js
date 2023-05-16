@@ -1,17 +1,17 @@
-import { GlobalApp } from '@/main';
 import { defineStore } from 'pinia';
 import { MEDAL_POINTS } from '@utils/config';
 
 export const useGameStore = defineStore('game', {
 	state: () => {
-		return { playersCounter: 0, scoreboard: [] };
+		return { playersCounter: 0, scoreboard: [], medals: [] };
 	},
 	actions: {
 		updatePlayersCounter(count) {
 			this.playersCounter = count;
 		},
-		initScoreboard() {
-			for (const [, value] of GlobalApp.game.teams) {
+		// SCOREBOARD
+		initScoreboard(teams) {
+			for (const [, value] of teams) {
 				this.addNewTeamToScoreboard(value);
 			}
 			this.filterScoreboard();
@@ -29,6 +29,18 @@ export const useGameStore = defineStore('game', {
 			this.scoreboard = this.scoreboard.sort(function (a, b) {
 				return b.score - a.score;
 			});
+		},
+
+		// MEDALS
+
+		/** @param {import('../game/Medal').Medal[]} medals*/
+		addMedals(medals) {
+			Object.values(medals).forEach((medal) => this.medals.push(medal));
+		},
+
+		/** @param {import('../game/Medal').Medal} medal*/
+		removeMedal(medal) {
+			this.medals.slice(this.medals.indexOf(medal), 1);
 		},
 	},
 });
