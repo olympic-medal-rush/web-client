@@ -13,9 +13,9 @@ const manifest = {
 	images: {},
 	textures: {
 		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/ground.png` },
-		seamless1: { path: `${import.meta.env.BASE_URL}assets/textures/seamless1.png` },
-		seamless2: { path: `${import.meta.env.BASE_URL}assets/textures/seamless2.png` },
-		seamless3: { path: `${import.meta.env.BASE_URL}assets/textures/seamless3.png` },
+		seamless1: { path: `${import.meta.env.BASE_URL}assets/textures/seamless2.png` },
+		seamless2: { path: `${import.meta.env.BASE_URL}assets/textures/seamless7.png` },
+		seamless3: { path: `${import.meta.env.BASE_URL}assets/textures/seamless6.png` },
 		seamless4: { path: `${import.meta.env.BASE_URL}assets/textures/seamless4.png` },
 		playerAo: { path: `${import.meta.env.BASE_URL}assets/textures/player-ao.jpg` },
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noiseFbm1.png` },

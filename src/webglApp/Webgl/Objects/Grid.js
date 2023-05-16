@@ -1,6 +1,6 @@
 import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
-import { Mesh, PlaneGeometry, RepeatWrapping, Vector3 } from 'three';
+import { LinearFilter, Mesh, NearestFilter, PlaneGeometry, RepeatWrapping, Vector3 } from 'three';
 import { GridMaterial } from '../Materials/Grid/material';
 
 class Grid extends Mesh {
@@ -32,6 +32,8 @@ class Grid extends Mesh {
 		seamless3.wrapS = seamless3.wrapT = RepeatWrapping;
 		seamless4.wrapS = seamless4.wrapT = RepeatWrapping;
 
+    // groundData.magFilter = groundData.minFilter = NearestFilter
+
 		const material = new GridMaterial({
 			uniforms: {
 				...app.webgl.scene.dynamicShadowUniforms,
@@ -41,7 +43,7 @@ class Grid extends Mesh {
 				uZoom: globalUniforms.uZoom,
 
 				uSize: { value: size },
-				uFloorColor: { value: new Vector3(0.48, 0, 1) },
+				uFloorColor: { value: new Vector3(0, 	0.39, 0.45) },
 				uGridColor: { value: new Vector3(0, 0, 0) },
 
 				tData: { value: groundData },
