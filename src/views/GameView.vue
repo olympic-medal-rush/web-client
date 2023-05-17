@@ -1,7 +1,7 @@
 <script async setup>
 import { state } from '@/State';
-import CompassButton from '@components/CompassButton.vue';
 import VoteArrows from '@components/Inputs/VoteArrows.vue';
+import MedalCompass from '@components/MedalCompass.vue';
 import ThePlayerCountry from '@components/ThePlayerTeam.vue';
 import { useGameStore } from '@stores/game';
 import { app } from '@webglApp/App';
@@ -25,7 +25,7 @@ onMounted(() => {
 
 <template>
 	<div ref="game" class="game">
-    <ThePlayerCountry />
+		<ThePlayerCountry />
 		<p>Nombre de joueurs : {{ domGameStore.playersCounter }}</p>
 		<div>
 			<h3>Scoreboard</h3>
@@ -34,7 +34,7 @@ onMounted(() => {
 			</ul>
 		</div>
 		<VoteArrows />
-		<CompassButton v-for="medal in domGameStore.medals" :id="medal.id" :key="medal.id" :position="app.webgl.medals.get(medal.id).screenPosition"></CompassButton>
+		<MedalCompass v-for="medal in domGameStore.medals" :id="medal.id" :key="medal.id" :position="app.webgl.medals.get(medal.id).screenPosition"></MedalCompass>
 	</div>
 </template>
 
