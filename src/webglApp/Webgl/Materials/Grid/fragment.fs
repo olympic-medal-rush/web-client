@@ -4,10 +4,7 @@ uniform sampler2D tData, tDynamicShadows, tStaticShadows;
 uniform vec3 uFloorColor, uGridColor, uLightPosition;
 uniform float uSize, uZoom;
 
-uniform sampler2D tSeamless1;
-uniform sampler2D tSeamless2;
-uniform sampler2D tSeamless3;
-// uniform sampler2D tSeamless4;
+uniform sampler2D tSeamless1, tSeamless2, tSeamless3;
 
 varying vec2 vUv;
 varying vec3 vNormal, vViewPosition;
@@ -24,8 +21,48 @@ float readDepth(sampler2D depthSampler, vec2 coord) {
 	return viewZToOrthographicDepth(viewZ, NEAR, FAR);
 }
 
+// Returns height difference between current texel and neighbors (on both screen coordinates axes)
+vec2 dHdxy_fwd(vec3 baseSample, sampler2D sampler, vec2 uv, float bumpScale) {
+	vec2 dSTdx = dFdx(uv);
+	vec2 dSTdy = dFdy(uv);
+
+	float Hll = bumpScale * baseSample.r;
+	float dBx = bumpScale * texture2D(sampler, uv + dSTdx).r - Hll;
+	float dBy = bumpScale * texture2D(sampler, uv + dSTdy).r - Hll;
+
+	return vec2(dBx, dBy);
+}
+
+vec3 perturbNormalArb(vec3 surf_pos, vec3 surf_norm, vec2 dHdxy) {
+	vec3 vSigmaX = dFdx(surf_pos.xyz);
+	vec3 vSigmaY = dFdy(surf_pos.xyz);
+	vec3 vN = surf_norm;
+	vec3 R1 = cross(vSigmaY, vN);
+	vec3 R2 = cross(vN, vSigmaX);
+	float fDet = dot(vSigmaX, R1);
+	vec3 vGrad = sign(fDet) * (dHdxy.x * R1 + dHdxy.y * R2);
+	return normalize(abs(fDet) * surf_norm - vGrad);
+}
+
 void main() {
 	vec3 normal = vNormal;
+
+	// Bump deformation
+	vec2 seamlessUv = vUv * 100.;
+
+	vec3 seamless1 = texture2D(tSeamless1, seamlessUv).rgb;
+	vec3 seamless2 = texture2D(tSeamless2, seamlessUv).rgb;
+	vec3 seamless3 = texture2D(tSeamless3, seamlessUv).rgb;
+
+	// r: grass, g: sand, b: rock, water if 0
+	vec3 seamlessData = texture2D(tData, vUv).rgb;
+
+	// // Derivatives for bump
+	// vec2 dSTdx = dFdx(seamlessUv);
+	// vec2 dSTdy = dFdy(seamlessUv);
+	// float bumpScale = 1.;
+
+	// normal = perturbNormalArb(-vViewPosition, normal, dHdxy_fwd(seamless1, tSeamless1, seamlessUv, .5 *));
 
 	// Circle grid pattern on normals
 	vec2 gridUv = mod(vUv * uSize, 1.);
@@ -58,19 +95,13 @@ void main() {
 	float shading = shadowFactor * difLight;
 
 	// Texture samplings
-	vec3 data = texture2D(tData, vUv).rgb;
 
-	vec3 t1 = texture2D(tSeamless1, vUv * 100.).rgb;
-	vec3 t2 = texture2D(tSeamless2, vUv * 100.).rgb;
-	vec3 t3 = texture2D(tSeamless3, vUv * 100.).rgb;
-	// vec3 t4 = texture2D(tSeamless4, vUv * 100.).rgb;
+	vec3 mix1 = mix(uFloorColor, seamless1, seamlessData.r);
+	vec3 mix2 = mix(mix1, seamless2, seamlessData.g);
+	vec3 mix3 = mix(mix2, seamless3, seamlessData.b);
 
-	vec3 mix1 = mix(uFloorColor, t1, data.r);
-	vec3 mix2 = mix(mix1, t2, data.g);
-	vec3 mix3 = mix(mix2, t3, data.b);
-
-	vec3 gMix = mix(mix1, mix2, data.g);
-	vec3 final = mix(gMix, mix3, data.b);
+	vec3 gMix = mix(mix1, mix2, seamlessData.g);
+	vec3 final = mix(gMix, mix3, seamlessData.b);
 
 	// Final shading
 	final = mix(final - .1, final + .1, shading);

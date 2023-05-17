@@ -7,6 +7,7 @@ import { MEDAL_COLORS } from '@utils/config';
 
 class Medal extends Object3D {
 	#projectedPosition = new Vector3();
+
 	screenPosition = new Vector2();
 	constructor(model, data) {
 		super();

@@ -12,7 +12,7 @@ class MainScene extends Scene {
 
 		this.add(new AmbientLight(0xffffff, 1));
 
-		const halfTerrain = TERRAIN.size * 0.5;
+		const halfTerrain = TERRAIN.size * 0.5 + 5;
 		this.shadowCamera = new OrthographicCamera(-halfTerrain, halfTerrain, halfTerrain, -halfTerrain, 1, 100);
 		this.shadowCamera.position.set(-5, 40, 5);
 		this.shadowCamera.lookAt(halfTerrain, 0, halfTerrain);

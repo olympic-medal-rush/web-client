@@ -2,14 +2,19 @@ precision highp float;
 
 uniform vec3 uLightPosition;
 
-varying vec3 vNormal;
 varying float vDepth;
+varying vec2 vUv;
+varying vec3 vNormal;
 
 void main() {
-	float alpha = smoothstep(.0, .02, vDepth);
+	vec2 discardUv = (gl_FragCoord.xy) * 0.15;
+	discardUv.x += step(1., mod(discardUv.y, 2.)) * 0.5;
+	discardUv = fract(discardUv);
+	float closeDepth = smoothstep(.017, .0, vDepth);
+	float dpMask = smoothstep(closeDepth - 0.2, closeDepth, length(discardUv - 0.5));
 
-	// if(alpha < .5)
-	// 	discard;
+	if(dpMask < 0.5)
+		discard;
 
 	vec3 normal = vNormal;
 
