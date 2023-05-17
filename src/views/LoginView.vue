@@ -54,6 +54,9 @@ const login = () => {
 .Login-container {
 	background-color: $white;
 	height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Pays-container {
@@ -62,9 +65,8 @@ const login = () => {
 	justify-content: center;
 	align-items: center;
   gap: 12px;
-	height: 100vh;
   width: 100vw;
-  padding: 60% 0;
+
 	.Pays-item {
     display: flex;
     flex-direction: column;
@@ -76,6 +78,7 @@ const login = () => {
     margin: 20px;
 
     font-family: 'Paris 24';
+    cursor: pointer;
 
     &.select{
       background-color: $light-camel;
