@@ -42,6 +42,7 @@ class WebglController {
 	 * @param {import('@/types/env').StateReadyPayload} params
 	 */
 	onStateReady({ teams, medals }) {
+		console.log(teams);
 		teams.forEach((team) => this.onCreateTeam(team));
 		[...medals.values()].forEach(this.#createMedal);
 
@@ -75,6 +76,7 @@ class WebglController {
 
 	#createTeam = (team) => {
 		const baseModel = app.core.assetsManager.get('player');
+		console.log(baseModel);
 		const mesh = skeletonClone(baseModel);
 		mesh.animations = baseModel.animations;
 		const player = new Player(mesh, team);

@@ -1,49 +1,72 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { store } from '@/Store';
+import { GlobalApp } from '@/main';
 import router from '@/router';
-import VButton from './../components/Inputs/VButton.vue';
-import TheLogo from './../components/TheLogo.vue';
 import { GameController } from '@game/GameController';
 import { useGameStore } from '@stores/game';
+import { onMounted, ref } from 'vue';
+import { STORE_KEYS } from '@utils/constants';
+import VButton from './../components/Inputs/VButton.vue';
+import TheLogo from './../components/TheLogo.vue';
 
 const domGameStore = useGameStore();
 
-const selectedCountry = ref('BZH')
-let allBtn
+const selectedCountry = ref('BZH');
+let allBtn;
 
-onMounted(()=>{
-  allBtn = document.querySelectorAll('.Pays-item')
-})
+onMounted(() => {
+	allBtn = document.querySelectorAll('.Pays-item');
+});
 
 const selectCountry = (id) => {
-  selectedCountry.value = id
-  allBtn.forEach(btn => {
-    if(btn.id === id){
-      btn.classList.add('select')
-    } else {
-      btn.classList.remove('select')
-    }
-  });
-}
+	selectedCountry.value = id;
+	allBtn.forEach((btn) => {
+		if (btn.id === id) {
+			btn.classList.add('select');
+		} else {
+			btn.classList.remove('select');
+		}
+	});
+};
 
 const login = () => {
-  console.log('Login Country : ' + selectedCountry.value);
-  domGameStore.setPlayerCountry(selectedCountry.value)
-  router.push('/game');
-}
+	console.log('Login Country : ' + selectedCountry.value);
+	domGameStore.setPlayerCountry(selectedCountry.value);
+	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
+	GlobalApp.server.userJoin({ iso: selectedCountry.value, user_id: store.get(STORE_KEYS.USER_ID) });
 
+	router.push('/game');
+};
 </script>
 
 <template>
 	<div class="Login-container">
 		<TheLogo />
 		<div class="Pays-container">
-			<div id="BZH" class="Pays-item select" @click="selectCountry('BZH')"><span><img src="../../public/assets/images/BZH.png" alt="" /></span> <p>BZH</p></div>
-			<div id="FRA" class="Pays-item" @click="selectCountry('FRA')"><span>🇫🇷</span> <p>FRA</p></div>
-			<div id="ESP" class="Pays-item" @click="selectCountry('ESP')"><span>🇪🇸</span> <p>ESP</p></div>
-			<div id="DEU" class="Pays-item" @click="selectCountry('DEU')"><span>🇩🇪</span> <p>DEU</p></div>
-			<div id="ITA" class="Pays-item" @click="selectCountry('ITA')"><span>🇮🇹</span> <p>ITA</p></div>
-			<div id="USA" class="Pays-item" @click="selectCountry('USA')"><span>🇺🇸</span> <p>USA</p></div>
+			<div id="BZH" class="Pays-item select" @click="selectCountry('BZH')">
+				<span><img src="../../public/assets/images/BZH.png" alt="" /></span>
+				<p>BZH</p>
+			</div>
+			<div id="FRA" class="Pays-item" @click="selectCountry('FRA')">
+				<span>🇫🇷</span>
+				<p>FRA</p>
+			</div>
+			<div id="ESP" class="Pays-item" @click="selectCountry('ESP')">
+				<span>🇪🇸</span>
+				<p>ESP</p>
+			</div>
+			<div id="DEU" class="Pays-item" @click="selectCountry('DEU')">
+				<span>🇩🇪</span>
+				<p>DEU</p>
+			</div>
+			<div id="ITA" class="Pays-item" @click="selectCountry('ITA')">
+				<span>🇮🇹</span>
+				<p>ITA</p>
+			</div>
+			<div id="USA" class="Pays-item" @click="selectCountry('USA')">
+				<span>🇺🇸</span>
+				<p>USA</p>
+			</div>
 		</div>
 		<VButton @click="login()">Confirmer le pays</VButton>
 	</div>
@@ -54,50 +77,50 @@ const login = () => {
 .Login-container {
 	background-color: $white;
 	height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .Pays-container {
 	display: flex;
-  flex-wrap: wrap;
+	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-  gap: 12px;
-  width: 100vw;
+	gap: 12px;
+	width: 100vw;
 
 	.Pays-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 
-    width: 60px;
-    height: 60px;
-    margin: 20px;
+		width: 60px;
+		height: 60px;
+		margin: 20px;
 
-    font-family: 'Paris 24';
-    cursor: pointer;
+		font-family: 'Paris 24';
+		cursor: pointer;
 
-    &.select{
-      background-color: $light-camel;
-      border-radius: 12px;
-      border: solid $gold;
-    }
-    
-		img {
-			width: 30px;
-      transform: translate(0, -3px);
+		&.select {
+			background-color: $light-camel;
+			border-radius: 12px;
+			border: solid $gold;
 		}
 
-    span {
-      font-size: 35px ;
-    }
+		img {
+			width: 30px;
+			transform: translate(0, -3px);
+		}
 
-    p {
-      transform: translate(0, -10px);
-    }
+		span {
+			font-size: 35px;
+		}
+
+		p {
+			transform: translate(0, -10px);
+		}
 	}
 }
 </style>

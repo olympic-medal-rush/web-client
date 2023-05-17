@@ -12,8 +12,8 @@ class App {
 
 	/**
 	 *
-	 * @param {HTMLDivElement} $webglApp
-	 * @param {HTMLDivElement} $canvasWrapper
+	 * @param {HTMLElement} $webglApp
+	 * @param {HTMLElement} $canvasWrapper
 	 */
 	init($webglApp, $canvasWrapper) {
 		this.$app = $webglApp;

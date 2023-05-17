@@ -83,7 +83,6 @@ export default class ServerController {
 	 */
 	#onConnectState(data) {
 		console.log(data);
-
 		store.set(STORE_KEYS.USER_ID, data.user_id);
 		GlobalApp.game.setState(data);
 	}
