@@ -43,6 +43,7 @@ class GameController {
 		this.currentTeam = this.teams.get(joinStatePayload.iso);
 
 		state.emit(EVENTS.JOIN_READY, this.currentTeam);
+    this.domGameStore.setPlayerCountry(this.currentTeam.iso)
 	}
 
 	/**
