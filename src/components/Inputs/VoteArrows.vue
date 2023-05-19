@@ -1,7 +1,6 @@
 <script setup>
 import { store } from '@/Store';
 import Icon from '@/assets/svgs/BackArrow.svg';
-import { GlobalApp } from '@/main';
 import { app } from '@webglApp/App';
 import { ref } from 'vue';
 import { STORE_KEYS } from '@utils/constants';
@@ -9,7 +8,7 @@ import { STORE_KEYS } from '@utils/constants';
 const focus = ref(false);
 
 const handleClick = (e) => {
-	GlobalApp.server.userVote({
+	app.server.userVote({
 		user_id: store.get(STORE_KEYS.USER_ID),
 		direction: e.target.dataset.dir,
 	});

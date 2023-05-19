@@ -1,6 +1,6 @@
 import { state } from '@/State';
-import { GlobalApp } from '@/main';
 import { useGameStore } from '@stores/game';
+import { app } from '@webglApp/App';
 import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
 import { Team } from './Team';
@@ -110,7 +110,7 @@ class GameController {
 	 * @param {UserVotePayload} userVotePlayload
 	 */
 	userVote(userVotePlayload) {
-		GlobalApp.server.userVote(userVotePlayload);
+		app.server.userVote(userVotePlayload);
 	}
 }
 

@@ -1,7 +1,6 @@
 import { state } from '@/State';
 import flagColors from '@/assets/jsons/flag_colors.json';
 import terrainData from '@/assets/jsons/terrain_data.json';
-import { GlobalApp } from '@/main';
 import { app } from '@webglApp/App';
 import { randInt } from 'three/src/math/MathUtils';
 import { DIRECTIONS, EVENTS, MEDAL_TYPES } from '@utils/constants';
@@ -31,7 +30,7 @@ function createPane(pane, instance, name) {
 	folder.addButton({ title: 'Create Team' }).on('click', () => {
 		const randomIndex = Math.round(Math.random() * (flagsColorsArr.length - 1));
 		const team = flagsColorsArr[randomIndex];
-		GlobalApp.game.createTeam({ iso: team[0], position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } });
+		app.game.createTeam({ iso: team[0], position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } });
 		console.log('Create Team', team[0]);
 	});
 
@@ -42,18 +41,18 @@ function createPane(pane, instance, name) {
 			{ id: i++, type: 1, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 			{ id: i++, type: 2, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 		];
-		GlobalApp.game.addMedals({ medals: newMedals });
+		app.game.addMedals({ medals: newMedals });
 		// console.log('Spawn Medals', newMedals);
 	});
 
 	folder.addButton({ title: 'Collect Medal' }).on('click', () => {
-		const rendomMedal = Array.from(GlobalApp.game.medals);
+		const rendomMedal = Array.from(app.game.medals);
 		if (rendomMedal.length > 0) {
 			const medalCollect = {
 				iso: lastIso,
 				medal: rendomMedal[Math.floor(Math.random() * rendomMedal.length)][1],
 			};
-			GlobalApp.game.medalCollect(medalCollect);
+			app.game.medalCollect(medalCollect);
 		} else {
 			alert('There are no more medals');
 		}
@@ -74,9 +73,9 @@ function createPane(pane, instance, name) {
 		teamMove?.dispose();
 		teamZone?.dispose();
 
-		const teamsIsos = [...GlobalApp.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
+		const teamsIsos = [...app.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
 		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: lastIso }).on('change', (ev) => {
-			app.webgl.camera.playerPosition = app.webgl.players.get(GlobalApp.game.teams.get(ev.value)).position;
+			app.webgl.camera.playerPosition = app.webgl.players.get(app.game.teams.get(ev.value)).position;
 			app.webgl.camera.focusPlayer = true;
 			lastIso = ev.value;
 		});
@@ -96,7 +95,7 @@ function createPane(pane, instance, name) {
 			})
 			.on('click', (ev) => {
 				if (teamList && ev.cell.title !== '-') {
-					GlobalApp.game.voteResults({ iso: teamList.value, direction: DIRECTIONS[ev.cell.title.toLowerCase()], nextVoteId: 0 });
+					app.game.voteResults({ iso: teamList.value, direction: DIRECTIONS[ev.cell.title.toLowerCase()], nextVoteId: 0 });
 					// console.log('Move Team', teamList?.value, ev.cell.title);
 				}
 			});
@@ -104,7 +103,7 @@ function createPane(pane, instance, name) {
 		teamZone = folder.addButton({ title: 'Get Zone' }).on('click', () => {
 			if (!teamList?.value) return;
 
-			const teamPos = GlobalApp.game.teams.get(teamList.value).position;
+			const teamPos = app.game.teams.get(teamList.value).position;
 			console.log(terrainData.mapping[terrainData.data[teamPos.y][teamPos.x]], teamPos.x, teamPos.y);
 		});
 	}
@@ -117,23 +116,23 @@ function debug(_instance) {
 		state.on(EVENTS.KEY_DOWN, (key) => {
 			switch (key) {
 				case 'ArrowUp':
-					GlobalApp.game.voteResults({ iso: lastIso, direction: DIRECTIONS.up, nextVoteId: 0 });
+					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.up, nextVoteId: 0 });
 					break;
 				case 'ArrowDown':
-					GlobalApp.game.voteResults({ iso: lastIso, direction: DIRECTIONS.down, nextVoteId: 0 });
+					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.down, nextVoteId: 0 });
 					break;
 				case 'ArrowLeft':
-					GlobalApp.game.voteResults({ iso: lastIso, direction: DIRECTIONS.left, nextVoteId: 0 });
+					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.left, nextVoteId: 0 });
 					break;
 				case 'ArrowRight':
-					GlobalApp.game.voteResults({ iso: lastIso, direction: DIRECTIONS.right, nextVoteId: 0 });
+					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.right, nextVoteId: 0 });
 					break;
 				default:
 					break;
 			}
 		});
 
-		GlobalApp.game.setState({
+		app.game.setState({
 			user_id: 'userId',
 			teamsStates: {
 				BZH: { iso: 'BZH', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 5, 1: 2, 2: 15 } },
@@ -153,7 +152,7 @@ function debug(_instance) {
 
 		const debugTeam = app.debug.urlParams.getString('team') || 'FRA';
 
-		GlobalApp.game.userJoin({
+		app.game.userJoin({
 			iso: debugTeam,
 			voteId: 1,
 			voteProgress: 0.5,

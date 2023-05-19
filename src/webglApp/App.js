@@ -1,5 +1,14 @@
+import AppVue from '@/App.vue';
 import { state } from '@/State';
+import router from '@/router';
+import { SoundController } from '@/sound/SoundController';
 import { createCoreModules } from '@/webglApp/Core/index';
+import { GameController } from '@game/GameController';
+import messages from '@intlify/unplugin-vue-i18n/messages';
+import ServerController from '@server/ServerController';
+import { createPinia } from 'pinia';
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
 import { DEBUG } from '@utils/config';
 import { EVENTS } from '@utils/constants';
 import { createDebugModules } from './Debug';
@@ -15,19 +24,46 @@ class App {
 	 * @param {HTMLElement} $webglApp
 	 * @param {HTMLElement} $canvasWrapper
 	 */
-	init($webglApp, $canvasWrapper) {
+	async init($webglApp, $canvasWrapper) {
 		this.$app = $webglApp;
 		this.$wrapper = $canvasWrapper;
+
+		this.vueApp = this.#createVueApp();
+
+		this.server = new ServerController();
+		this.game = new GameController();
+		this.sound = new SoundController();
 
 		this.core = createCoreModules();
 		this.tools = createToolsModules();
 		this.webgl = new WebglController();
-	}
 
-	async beforeLoad() {
 		if (DEBUG) this.debug = await createDebugModules();
 		this.debug?.mapping.init();
+
+		await this.load();
 	}
+
+	#createVueApp() {
+		const i18n = createI18n({
+			legacy: false,
+			globalInjection: true,
+			locale: 'en',
+			fallbackLocale: 'en',
+			availableLocales: ['en', 'fr', 'es'],
+			messages,
+		});
+
+		const vueApp = createApp(AppVue);
+		vueApp.use(createPinia());
+		vueApp.use(router);
+		vueApp.use(i18n);
+		vueApp.mount('#vue-app');
+
+		return vueApp;
+	}
+
+	async beforeLoad() {}
 
 	async load() {
 		await this.beforeLoad();

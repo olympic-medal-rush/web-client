@@ -76,7 +76,6 @@ class WebglController {
 
 	#createTeam = (team) => {
 		const baseModel = app.core.assetsManager.get('player');
-		console.log(baseModel);
 		const mesh = skeletonClone(baseModel);
 		mesh.animations = baseModel.animations;
 		const player = new Player(mesh, team);
@@ -85,7 +84,7 @@ class WebglController {
 	};
 
 	#createMedal = (medal) => {
-		const newMedal = new Medal(app.core.assetsManager.get('medal').clone(), medal);
+		const newMedal = new Medal(app.core.assetsManager.get('medals'), medal);
 		app.webgl.medals.set(medal.id, newMedal);
 		this.#dynamicGroup.add(newMedal);
 	};

@@ -1,6 +1,7 @@
-import { GlobalApp } from '@/main';
+import { state } from '@/State';
 import { useGameStore } from '@stores/game';
-import { SERVER_EVENTS, STORE_KEYS } from '@utils/constants';
+import { app } from '@webglApp/App';
+import { EVENTS, SERVER_EVENTS, STORE_KEYS } from '@utils/constants';
 import { store } from '../Store';
 
 export default class ServerController {
@@ -8,9 +9,6 @@ export default class ServerController {
 	#connection;
 
 	constructor() {
-		this.#connection = new WebSocket(import.meta.env.OLYMPIC_WSS);
-		this.#connection.onmessage = this.#onMessage;
-
 		this.domGameStore = useGameStore();
 
 		// TODO: MAËLLE FOR EVENT TEST
@@ -23,7 +21,19 @@ export default class ServerController {
 				this.#onPlayerCount(data);
 			}
 		});
+
+		state.on(EVENTS.APP_LOADED, this.#onAppLoaded);
 	}
+
+	#onAppLoaded = () => {
+		/// #if DEBUG
+		if (app.debug?.urlParams.has('noServer')) return;
+		/// #endif
+
+		this.#connection = new WebSocket(import.meta.env.OLYMPIC_WSS);
+		this.#connection.onmessage = this.#onMessage;
+		console.info('Websocket connected');
+	};
 
 	/**
 	 * Listen events and dispatch state
@@ -84,7 +94,7 @@ export default class ServerController {
 	#onConnectState(data) {
 		console.log(data);
 		store.set(STORE_KEYS.USER_ID, data.user_id);
-		GlobalApp.game.setState(data);
+		app.game.setState(data);
 	}
 
 	/**
@@ -93,7 +103,7 @@ export default class ServerController {
 	 * @param {JoinStatePayload} data
 	 */
 	#onJoinState(data) {
-		GlobalApp.game.userJoin(data);
+		app.game.userJoin(data);
 	}
 
 	/**
@@ -102,7 +112,7 @@ export default class ServerController {
 	 * @param {VoteResultsPayload} data
 	 */
 	#onVoteResults(data) {
-		GlobalApp.game.voteResults(data);
+		app.game.voteResults(data);
 	}
 
 	/**
@@ -124,7 +134,7 @@ export default class ServerController {
 	 * @param {MedalApparitionPayload} data
 	 */
 	#onMedalApparition(data) {
-		GlobalApp.game.addMedals(data);
+		app.game.addMedals(data);
 	}
 
 	/**
@@ -133,7 +143,7 @@ export default class ServerController {
 	 * @param {MedalCollectionPayload} data
 	 */
 	#onMedalCollection(data) {
-		GlobalApp.game.medalCollect(data);
+		app.game.medalCollect(data);
 	}
 
 	/**
@@ -151,7 +161,7 @@ export default class ServerController {
 	 * @param {NewTeamPayload} data
 	 */
 	#onNewTeam(data) {
-		GlobalApp.game.createTeam(data);
+		app.game.createTeam(data);
 	}
 
 	/* ######## EMITTERS ######## */

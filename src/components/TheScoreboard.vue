@@ -12,7 +12,7 @@ const flag = {
 };
 
 const getFlag = (iso) => {
-	if (iso === 'BZH') return `<img v-if="domGameStore.playerCountry === 'BZH'" style="width: 27px; margin: 0 2px 0 0;" src="../../public/assets/images/BZH.png" alt="" />`;
+	if (iso === 'BZH') return `<img v-if="domGameStore.playerCountry === 'BZH'" style="width: 27px; margin: 0 2px 0 0;" src="/assets/images/BZH.png" alt="" />`;
 	return flag[iso];
 };
 </script>
@@ -20,7 +20,7 @@ const getFlag = (iso) => {
 <template>
 	<div class="Scoreboard">
 		<div class="MainButton">
-			<img src="../../public/assets/images/Gold.png" alt="" srcset="" />
+			<img src="/assets/images/Gold.png" alt="" srcset="" />
 		</div>
 		<div class="Podium">
 			<div v-for="(team, i) in domGameStore.scoreboard" :key="team.name" class="Podium-item" :class="{ none: i > 2 }">

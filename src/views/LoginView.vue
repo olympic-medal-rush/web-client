@@ -1,9 +1,8 @@
 <script setup>
 import { store } from '@/Store';
-import { GlobalApp } from '@/main';
 import router from '@/router';
-import { GameController } from '@game/GameController';
 import { useGameStore } from '@stores/game';
+import { app } from '@webglApp/App';
 import { onMounted, ref } from 'vue';
 import { STORE_KEYS } from '@utils/constants';
 import VButton from './../components/Inputs/VButton.vue';
@@ -33,7 +32,7 @@ const login = () => {
 	console.log('Login Country : ' + selectedCountry.value);
 	domGameStore.setPlayerCountry(selectedCountry.value);
 	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
-	GlobalApp.server.userJoin({ iso: selectedCountry.value, user_id: store.get(STORE_KEYS.USER_ID) });
+	app.server.userJoin({ iso: selectedCountry.value, user_id: store.get(STORE_KEYS.USER_ID) });
 
 	router.push('/game');
 };
@@ -44,7 +43,7 @@ const login = () => {
 		<TheLogo />
 		<div class="Pays-container">
 			<div id="BZH" class="Pays-item select" @click="selectCountry('BZH')">
-				<span><img src="../../public/assets/images/BZH.png" alt="" /></span>
+				<span><img src="/assets/images/BZH.png" alt="" /></span>
 				<p>BZH</p>
 			</div>
 			<div id="FRA" class="Pays-item" @click="selectCountry('FRA')">
