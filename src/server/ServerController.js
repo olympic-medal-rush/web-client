@@ -104,6 +104,7 @@ export default class ServerController {
 	 */
 	#onJoinState(data) {
 		console.log(data, 'join');
+		this.domGameStore.updatePlayersCounter(data.playersCount);
 		app.game.userJoin(data);
 	}
 

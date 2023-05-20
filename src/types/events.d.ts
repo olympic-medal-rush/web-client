@@ -32,6 +32,7 @@ type TeamInfos = {
 
 type ConnectStatePayload = {
 	user_id: string;
+	playersCount: number;
 	teamsStates: Record<string, TeamInfos>;
 	medalsInGame: MedalInGame[];
 };
@@ -48,7 +49,7 @@ type JoinStatePayload = {
 	voteProgress: number;
 	voteId: number;
 	iso: string;
-	playerCount: number;
+	playersCount: number;
 };
 
 type UserVotePayload = {
