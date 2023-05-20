@@ -1,5 +1,13 @@
 <script setup>
+import TheLoader from '@components/TheLoader.vue';
+import { ref } from 'vue';
 import { RouterView } from 'vue-router';
+import { EVENTS } from '@utils/constants';
+import { state } from './State';
+
+const loaded = ref(false);
+
+state.on(EVENTS.APP_LOADED, () => (loaded.value = true));
 </script>
 
 <template>
@@ -13,7 +21,8 @@ import { RouterView } from 'vue-router';
 			</div>
 		</header> -->
 		<main>
-			<RouterView />
+			<TheLoader v-if="!loaded"></TheLoader>
+			<RouterView v-if="loaded" />
 		</main>
 		<footer></footer>
 	</div>

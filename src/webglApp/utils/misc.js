@@ -78,4 +78,30 @@ function instanciateMesh(reference, meshes, parent) {
 	return instances;
 }
 
+export function applyInstances(object) {
+	const instances = {};
+	let name;
+	const addeds = [];
+
+	object.traverse((child) => {
+		name = child.name.replace('.', '');
+		instances[name] = [child];
+
+		object.traverse((child2) => {
+			if (child.name === child2.name || !child.geometry || !child2.geometry || addeds.indexOf(child2.name) >= 0 || addeds.indexOf(child.name) >= 0 || child.parent != child2.parent)
+				return;
+			if (child.geometry.uuid === child2.geometry.uuid) {
+				addeds.push(child2.name);
+				instances[name].push(child2);
+			}
+		});
+		if (instances[name].length <= 1) delete instances[name];
+	});
+
+	for (const i in instances) {
+		const instanceOf = object.getObjectByName(i);
+		instanciateMesh(instanceOf, instances[i], instanceOf.parent);
+	}
+}
+
 export { computeEnvmap, disposeMesh, instanciateMesh };
