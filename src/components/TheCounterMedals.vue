@@ -1,5 +1,4 @@
 <script setup>
-import Icon from '@/assets/svgs/MedalsIcon.svg';
 import { useGameStore } from '@stores/game';
 
 const domGameStore = useGameStore();

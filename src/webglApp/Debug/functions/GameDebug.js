@@ -162,6 +162,7 @@ function debug(_instance) {
 				right: 25,
 				up: 25,
 			},
+			playerCount: 1,
 		});
 	}
 }

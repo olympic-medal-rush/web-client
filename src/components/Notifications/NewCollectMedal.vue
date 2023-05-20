@@ -1,6 +1,6 @@
 <script setup>
 import { state } from '@/State';
-import Medal from '@components/Assets/Medal.vue';
+import MedalImg from '@components/Assets/MedalImg.vue';
 import { useGameStore } from '@stores/game';
 import { ref } from 'vue';
 import { EVENTS, MEDAL_TYPES } from '@utils/constants';
@@ -33,7 +33,7 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 <template>
 	<div class="NewCollectMedal">
 		<div ref="otherCountry" class="NewCollectMedal_OtherCountry">
-			<Medal :medal="collectType" />
+			<MedalImg :medal="collectType" />
 			<p class="NewCollectMedal_OtherCountry_Text">
 				Medaille collectée par l'equipe <b> {{ collectTeam }} </b>
 			</p>
@@ -43,7 +43,7 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 			<p>
 				Félicitations équipe <b>{{ collectTeam }}</b>
 			</p>
-			<Medal :medal="collectType" />
+			<MedalImg :medal="collectType" />
 		</div>
 	</div>
 </template>

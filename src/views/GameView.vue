@@ -40,7 +40,7 @@ onMounted(() => {
 		</div>
 		<TheScoreboard />
 		<VoteArrows />
-		<MedalCompass v-for="medal in domGameStore.medals" :id="medal.id" :key="medal.id" :position="app.webgl.medals.get(medal.id).screenPosition"></MedalCompass>
+		<MedalCompass v-for="medal in domGameStore.medals" :id="medal.id" :key="medal.id" :medal="app.webgl.medals.get(medal.id)"></MedalCompass>
 		<!-- Notifications -->
 		<NewMedal />
 		<NewCollectMedal />

@@ -105,7 +105,7 @@ class MainCamera extends PerspectiveCamera {
 	}
 
 	getAngleTo(x, y) {
-		return Math.atan2(y - this.position.y + CAMERA.zoomOffsetY * this.#lerpedZoom, x - this.position.x);
+		return Math.atan2(y - this.position.z + CAMERA.zoomOffsetY * this.#lerpedZoom, x - this.position.x);
 	}
 
 	get playerPosition() {

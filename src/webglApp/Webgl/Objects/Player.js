@@ -169,7 +169,7 @@ class Player extends Object3D {
 
 		const t = { value: 0 };
 		const delay = this.animations[0].duration / 3;
-		this.#moveTl.to(t, { value: 1, onUpdate: () => this.quaternion.slerp(this.#quat, t.value), duration: 0.25, ease: 'power3.out' }, 0);
+		this.#moveTl.to(t, { value: 1, onUpdate: () => this.quaternion.slerp(this.#quat, t.value), duration: delay, ease: 'power3.out' }, 0);
 		this.#moveTl.to(
 			this.position,
 			{
