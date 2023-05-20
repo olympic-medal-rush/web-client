@@ -4,6 +4,7 @@ import VoteArrows from '@components/Inputs/VoteArrows.vue';
 import MedalCompass from '@components/MedalCompass.vue';
 import NewCollectMedal from '@components/Notifications/NewCollectMedal.vue';
 import NewMedal from '@components/Notifications/NewMedal.vue';
+import NewTeam from '@components/Notifications/NewTeam.vue';
 import TheCounterMedals from '@components/TheCounterMedals.vue';
 import TheCounterPlayers from '@components/TheCounterPlayers.vue';
 import TheNotifications from '@components/TheNotifications.vue';
@@ -43,6 +44,7 @@ onMounted(() => {
 		<!-- Notifications -->
 		<NewMedal />
 		<NewCollectMedal />
+		<NewTeam />
 	</div>
 </template>
 
