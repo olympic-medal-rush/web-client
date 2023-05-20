@@ -42,12 +42,8 @@ class WebglController {
 	 * @param {import('@/types/env').StateReadyPayload} params
 	 */
 	onStateReady({ teams, medals }) {
-		console.log(teams);
 		teams.forEach((team) => this.onCreateTeam(team));
 		[...medals.values()].forEach(this.#createMedal);
-
-		// TODO: set camera focus of first team ?
-		// this.camera.playerFocus = ;
 	}
 
 	/**

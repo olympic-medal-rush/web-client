@@ -1,4 +1,4 @@
-type EventType = 'user_vote' | 'user_join' | 'medal_apparition' | 'medal_collection' | 'vote_results' | 'vote_count' | 'player_count' | 'new_team';
+type EventType = 'game_state' | 'join_state' | 'vote_results' | 'vote_count' | 'medal_apparition' | 'medal_collection' | 'new_team' | 'player_count';
 
 enum Direction {
 	up = 0,
@@ -48,6 +48,7 @@ type JoinStatePayload = {
 	voteProgress: number;
 	voteId: number;
 	iso: string;
+	playerCount: number;
 };
 
 type UserVotePayload = {
