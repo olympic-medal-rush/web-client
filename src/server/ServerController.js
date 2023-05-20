@@ -103,6 +103,7 @@ export default class ServerController {
 	 * @param {JoinStatePayload} data
 	 */
 	#onJoinState(data) {
+		console.log(data, 'join');
 		app.game.userJoin(data);
 	}
 
@@ -118,9 +119,10 @@ export default class ServerController {
 	/**
 	 * Vote count update during vote
 	 *
-	 * @param {VoteCountPayload} _data
+	 * @param {VoteCountPayload} data
 	 */
-	#onVoteCount(_data) {
+	#onVoteCount(data) {
+		console.log(data, 'votes count');
 		// TODO: update Vue store or something else supposed to show vote counts
 		// up: number;
 		// right: number;
@@ -161,6 +163,7 @@ export default class ServerController {
 	 * @param {NewTeamPayload} data
 	 */
 	#onNewTeam(data) {
+		console.log(data, 'new team');
 		app.game.createTeam(data);
 	}
 
