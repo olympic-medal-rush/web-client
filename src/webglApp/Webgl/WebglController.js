@@ -70,8 +70,8 @@ class WebglController {
 		medals.forEach(this.#createMedal);
 	}
 
-	onCollectMedal(medalId) {
-		this.medals.get(medalId).removeFromParent();
+	onCollectMedal(medal) {
+		this.medals.get(medal.id).removeFromParent();
 	}
 
 	#createTeam = (team) => {

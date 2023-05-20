@@ -90,7 +90,7 @@ class GameController {
 		medalCollectedTeam.collect(this.medals.get(medalCollectionPayload.medal.id));
 		this.medals.delete(medalCollectionPayload.medal.id);
 
-		state.emit(EVENTS.COLLECT_MEDAL, medalCollectionPayload.medal.id);
+		state.emit(EVENTS.COLLECT_MEDAL, medalCollectionPayload.medal, medalCollectedTeam);
 		this.domGameStore.updateScoreTeam(medalCollectedTeam);
 	}
 
