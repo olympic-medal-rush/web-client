@@ -26,7 +26,7 @@ class GameController {
 	setState(statePayload) {
 		console.log(statePayload);
 		this.userId = statePayload.user_id;
-		statePayload.medalsInGame?.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
+		statePayload.medals?.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(statePayload.teamsStates).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
 
 		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });

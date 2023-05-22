@@ -34,7 +34,7 @@ type ConnectStatePayload = {
 	user_id: string;
 	playersCount: number;
 	teamsStates: Record<string, TeamInfos>;
-	medalsInGame: MedalInGame[];
+	medals: MedalInGame[];
 };
 
 // type JoinStatePayload = ConnectStatePayload & {

@@ -137,7 +137,8 @@ export default class ServerController {
 	 * @param {MedalApparitionPayload} data
 	 */
 	#onMedalApparition(data) {
-		app.game.addMedals(data);
+		console.log(data);
+		app.game.addMedals({ medals: [data] });
 	}
 
 	/**

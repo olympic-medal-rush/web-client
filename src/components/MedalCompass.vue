@@ -113,7 +113,7 @@ $height: 30px;
 	}
 
 	&.visible {
-		// opacity: 1;
+		opacity: 1;
 	}
 }
 </style>
