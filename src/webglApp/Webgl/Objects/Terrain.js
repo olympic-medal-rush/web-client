@@ -1,6 +1,5 @@
 import terrainStructure from '@jsons/terrain_data.json';
 import { app } from '@webglApp/App';
-import { applyInstances } from '@webglApp/utils/misc';
 import { Color, Object3D } from 'three';
 import { CAMERA } from '@utils/config';
 import { BuildingMaterial } from '../Materials/Building/material';

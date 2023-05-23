@@ -22,16 +22,15 @@ import { Vector2 } from 'three';
 import { clamp } from 'three/src/math/MathUtils';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
-import MedalImg from './Assets/MedalImg.vue';
 
-// Needed in script
+// Needed in script tag
 const viewportMargin = 10;
 const size = new Vector2();
 
 const compassEl = ref();
 const circleEl = ref();
 
-// Used in template
+// Used in template tag
 const transform = ref({ x: 0, y: 0, angle: 0 });
 
 const props = defineProps({
@@ -62,6 +61,7 @@ const calculateScreenPosition = () => {
 
 	const xPixels = position.x * app.tools.viewport.width;
 	const yPixels = (1 - position.y) * app.tools.viewport.height;
+
 	const xMax = app.tools.viewport.width - viewportMargin - size.x;
 	const yMax = app.tools.viewport.height - viewportMargin - size.y;
 
@@ -71,7 +71,7 @@ const calculateScreenPosition = () => {
 	const isClamped = transform.value.x !== xPixels || transform.value.y !== yPixels;
 	compassEl.value.classList.toggle('visible', isClamped);
 
-	transform.value.angle = Math.PI - app.webgl.camera.getAngleTo(position.x, position.y);
+	transform.value.angle = app.webgl.camera.getAngleTo(position.x, position.y);
 };
 </script>
 
@@ -82,6 +82,7 @@ $width: 30px;
 $height: 30px;
 
 .compass-wrapper {
+	display: none;
 	position: absolute;
 	top: 0;
 	left: 0;

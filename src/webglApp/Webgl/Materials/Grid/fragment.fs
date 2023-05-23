@@ -13,7 +13,7 @@ varying vec4 vShadowCoord;
 #include <packing>
 
 #define CIRCLE_SIZE .4
-#define CIRCLE_GRADIENT .1
+#define CIRCLE_GRADIENT .07
 
 float readDepth(sampler2D depthSampler, vec2 coord) {
 	float fragCoordZ = texture2D(depthSampler, coord).x;

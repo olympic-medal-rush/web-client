@@ -17,5 +17,4 @@ void main() {
 	vec4 color = diffuse + vec4(emissive, length(emissive)) * uEmissiveIntensity;
 
 	gl_FragColor = color;
-// 	gl_FragColor = vec4(vec3(depth), 1.);
 }
