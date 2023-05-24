@@ -2,10 +2,6 @@
 import { useGameStore } from '@stores/game';
 
 const domGameStore = useGameStore();
-
-const getFlag = (iso) => {
-	return `<img v-if="domGameStore.playerCountry === 'BZH'" style="width: 27px; margin: 0 2px 0 0;" src="/assets/images/flags/${iso}.png" alt="" />`;
-};
 </script>
 
 <template>
@@ -16,7 +12,7 @@ const getFlag = (iso) => {
 		<div class="Podium">
 			<div v-for="(team, i) in domGameStore.scoreboard" :key="team.name" class="Podium-item" :class="{ none: i > 2 }">
 				<span :class="{ gold: i == 0, silver: i == 1, bronze: i == 2, none: i > 2 }">{{ i + 1 }}</span>
-				<div class="flag" v-html="getFlag(team.name)"></div>
+				<img :src="`/assets/images/flags/${team.name}.png`" alt="" />
 			</div>
 		</div>
 	</div>
@@ -83,8 +79,11 @@ const getFlag = (iso) => {
 					color: white;
 				}
 			}
-			.flag {
-				font-size: 31px;
+
+			img {
+				width: 27px;
+				height: 18px;
+				margin: 9px 2px 5px 0;
 			}
 
 			&.none {

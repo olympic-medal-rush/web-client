@@ -46,11 +46,11 @@ function createPane(pane, instance, name) {
 	});
 
 	folder.addButton({ title: 'Collect Medal' }).on('click', () => {
-		const rendomMedal = Array.from(app.game.medals);
+		const rendomMedal = [...app.game.medals.values()];
 		if (rendomMedal.length > 0) {
 			const medalCollect = {
 				iso: lastIso,
-				medal: rendomMedal[Math.floor(Math.random() * rendomMedal.length)][1],
+				medal: rendomMedal[Math.floor(Math.random() * rendomMedal.length)],
 			};
 			app.game.medalCollect(medalCollect);
 		} else {

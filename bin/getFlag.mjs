@@ -15,7 +15,7 @@ async function start() {
   countrysISO.forEach((iso) => {
     fetchFlag(iso[0].toLowerCase()).then(
       async (resp) => {
-        const img = await sharp(Buffer.from(resp)).resize({ width: 256, height: 256, fit: 'fill', kernel: 'nearest' }).toBuffer()
+        const img = await sharp(Buffer.from(resp)).toBuffer()
         writeFileSync(`${EXPORT_DIRECTORY}/${iso[1]}.png`, img);
         console.log(`🏳️  ${iso[1]} flag processed.`);
       }

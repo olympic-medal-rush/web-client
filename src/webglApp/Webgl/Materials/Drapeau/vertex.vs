@@ -6,10 +6,12 @@ uniform mat4 modelViewMatrix;
 uniform float uTime;
 
 varying vec2 vUv;
+varying float vDepth;
 
 void main() {
   vec3 newPos = position;
   vUv = uv;
-  newPos.y += sin(uTime * 0.005 + vUv.x) * 0.1 * position.x;
+  newPos.y += sin(uTime * 0.005 + vUv.x) * 0.12 * position.x;
+  vDepth = newPos.y;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.);
 }

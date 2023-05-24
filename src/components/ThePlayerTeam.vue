@@ -2,20 +2,11 @@
 import { useGameStore } from '@stores/game';
 
 const domGameStore = useGameStore();
-
-const flag = {
-	FRA: '🇫🇷',
-	ESP: '🇪🇸',
-	DEU: '🇩🇪',
-	ITA: '🇮🇹',
-	USA: '🇺🇸',
-};
 </script>
 
 <template>
 	<div class="ThePlayerTeam">
-		<img v-if="domGameStore.playerCountry === 'BZH'" src="/assets/images/flags/BZH.png" alt="" />
-		<span v-else>{{ flag[domGameStore.playerCountry] }}</span>
+		<img :src="'/assets/images/flags/' + domGameStore.playerCountry + '.png'" alt="" />
 	</div>
 </template>
 
@@ -29,11 +20,8 @@ const flag = {
 	border-radius: 0 100px 100px 0;
 
 	img {
-		width: 24px;
-	}
-
-	span {
-		font-size: 26px;
+		width: 28px;
+		height: 18px;
 	}
 }
 </style>

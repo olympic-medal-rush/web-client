@@ -1,5 +1,7 @@
+import { state } from '@/State';
 import { defineStore } from 'pinia';
 import { MEDAL_POINTS } from '@utils/config';
+import { EVENTS } from '@utils/constants';
 
 export const useGameStore = defineStore('game', {
 	state: () => {
@@ -15,15 +17,21 @@ export const useGameStore = defineStore('game', {
 				this.addNewTeamToScoreboard(value);
 			}
 			this.filterScoreboard();
+			console.log('Init store score');
+			state.emit(EVENTS.SCOREBOARD_UPDATE);
 		},
 		addNewTeamToScoreboard(data) {
 			const score = data.medals[0] * MEDAL_POINTS[0] + data.medals[1] * MEDAL_POINTS[1] + data.medals[2] * MEDAL_POINTS[2];
 			this.scoreboard.push({ name: data.iso, score: score });
+			console.log('Add new team store score');
+			state.emit(EVENTS.SCOREBOARD_UPDATE);
 		},
 		updateScoreTeam(data) {
 			const newScore = data.medals[0] * MEDAL_POINTS[0] + data.medals[1] * MEDAL_POINTS[1] + data.medals[2] * MEDAL_POINTS[2];
 			this.scoreboard[this.scoreboard.findIndex((team) => team.name === data.iso)].score = newScore;
 			this.filterScoreboard();
+			console.log('Update store score');
+			state.emit(EVENTS.SCOREBOARD_UPDATE);
 		},
 		filterScoreboard() {
 			this.scoreboard = this.scoreboard.sort((a, b) => b.score - a.score);
@@ -40,16 +48,16 @@ export const useGameStore = defineStore('game', {
 		removeMedal(medal) {
 			this.medals.slice(this.medals.indexOf(medal), 1);
 		},
-    
-    /** @param {import('../game/Team').Team} team*/
-    closestMedal(team) {
-      return this.medals.sort((a, b) => a.position.distanceTo(team.position) - b.position.distanceTo(team.position))[0];
-    },
-    
-    // Player Country
-    setPlayerCountry(iso){
-      this.playerCountry = iso
-    }
+
+		/** @param {import('../game/Team').Team} team*/
+		closestMedal(team) {
+			return this.medals.sort((a, b) => a.position.distanceTo(team.position) - b.position.distanceTo(team.position))[0];
+		},
+
+		// Player Country
+		setPlayerCountry(iso) {
+			this.playerCountry = iso;
+		},
 	},
 	getters: {},
 });

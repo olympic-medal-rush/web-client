@@ -24,7 +24,6 @@ class GameController {
 	 * @param {ConnectStatePayload} statePayload
 	 */
 	setState(statePayload) {
-		console.log(statePayload);
 		this.userId = statePayload.user_id;
 		statePayload.medals?.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(statePayload.teamsStates).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
@@ -101,11 +100,11 @@ class GameController {
 	voteResults(voteResultsPayload) {
 		if (!this.teams.has(voteResultsPayload.iso)) return console.error("Team doesn't exist");
 
-		console.log(voteResultsPayload, 'vote results');
+		// console.log(voteResultsPayload, 'vote results');
 		if (voteResultsPayload.direction === 4) return;
 
 		const movedTeam = this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
-		console.log(movedTeam);
+		// console.log(movedTeam);
 		state.emit(EVENTS.VOTE_RESULTS, movedTeam);
 	}
 

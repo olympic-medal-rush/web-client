@@ -1,11 +1,11 @@
+import { state } from '@/State';
 import terrainStructure from '@jsons/terrain_data.json';
+import { useGameStore } from '@stores/game';
 import { app } from '@webglApp/App';
-<<<<<<< HEAD
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
-=======
->>>>>>> 4c18b0f8d3841422eb1ff676c88ce3fb3b3307f4
-import { Color, Object3D } from 'three';
+import { Color, Object3D, TextureLoader } from 'three';
 import { CAMERA } from '@utils/config';
+import { EVENTS } from '@utils/constants';
 import { BuildingMaterial } from '../Materials/Building/material';
 import { ColorMaterial } from '../Materials/Color/material';
 import { DrapeauMaterial } from '../Materials/Drapeau/material';
@@ -25,15 +25,21 @@ class Terrain extends Object3D {
 			},
 		});
 		this.glb = glb;
+		this.flagLoader = new TextureLoader();
+		this.domGameStore = useGameStore();
+		this.flagObject = null;
 
 		this.glb.traverse((child) => {
 			if (child.isMesh) child.material = globalMaterial;
-			if (child.name === 'Drapeau')
+			if (child.name === 'Drapeau') {
 				child.material = new DrapeauMaterial({
 					uniforms: {
 						uTime: globalUniforms.uTime,
+						uTex: { value: this.getWinnerFlag() },
 					},
 				});
+				this.flagObject = child;
+			}
 		});
 
 		this.grid = new Grid(terrainStructure);
@@ -48,6 +54,18 @@ class Terrain extends Object3D {
 				}
 			},
 		);
+
+		state.on(EVENTS.SCOREBOARD_UPDATE, () => this.updateFlag());
+	}
+
+	getWinnerFlag() {
+		if (this.domGameStore.scoreboard[0] && this.domGameStore.scoreboard[0].score && this.domGameStore.scoreboard[0].score > 0)
+			return this.flagLoader.load(`/assets/images/flags/${this.domGameStore.scoreboard[0].name}.png`);
+		else return this.flagLoader.load(`/assets/images/flags/JO-flag.png`);
+	}
+
+	updateFlag() {
+		this.flagObject.material.uniforms.uTex.value = this.getWinnerFlag();
 	}
 }
 

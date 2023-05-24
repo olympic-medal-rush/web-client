@@ -62,6 +62,7 @@ const SERVER_EVENTS = {
 	MEDAL_COLLECTION: 'medal_collection',
 	NEW_TEAM: 'new_team',
 	PLAYER_COUNT: 'player_count',
+	SCOREBOARD_UPDATE: 'scoreboard_update',
 
 	// EMITTERS
 	USER_VOTE: 'user_vote',
