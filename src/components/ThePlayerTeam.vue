@@ -14,7 +14,7 @@ const flag = {
 
 <template>
 	<div class="ThePlayerTeam">
-		<img v-if="domGameStore.playerCountry === 'BZH'" src="/assets/images/BZH.png" alt="" />
+		<img v-if="domGameStore.playerCountry === 'BZH'" src="/assets/images/flags/BZH.png" alt="" />
 		<span v-else>{{ flag[domGameStore.playerCountry] }}</span>
 	</div>
 </template>

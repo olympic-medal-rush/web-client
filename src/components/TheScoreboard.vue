@@ -3,17 +3,8 @@ import { useGameStore } from '@stores/game';
 
 const domGameStore = useGameStore();
 
-const flag = {
-	FRA: '🇫🇷',
-	ESP: '🇪🇸',
-	DEU: '🇩🇪',
-	ITA: '🇮🇹',
-	USA: '🇺🇸',
-};
-
 const getFlag = (iso) => {
-	if (iso === 'BZH') return `<img v-if="domGameStore.playerCountry === 'BZH'" style="width: 27px; margin: 0 2px 0 0;" src="/assets/images/BZH.png" alt="" />`;
-	return flag[iso];
+	return `<img v-if="domGameStore.playerCountry === 'BZH'" style="width: 27px; margin: 0 2px 0 0;" src="/assets/images/flags/${iso}.png" alt="" />`;
 };
 </script>
 
@@ -28,9 +19,6 @@ const getFlag = (iso) => {
 				<div class="flag" v-html="getFlag(team.name)"></div>
 			</div>
 		</div>
-		<!-- <ul>
-      <li v-for="team in domGameStore.scoreboard" :key="team.name">{{ team.name }} => {{ team.score }}</li>
-    </ul> -->
 	</div>
 </template>
 

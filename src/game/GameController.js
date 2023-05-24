@@ -3,14 +3,14 @@ import { useGameStore } from '@stores/game';
 import { app } from '@webglApp/App';
 import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
+import { MedalsMap } from './MedalsMap';
 import { Team } from './Team';
 
 class GameController {
 	constructor() {
 		/** @type Map<string, Team> */
 		this.teams = new Map();
-		/** @type Map<number, Medal> */
-		this.medals = new Map();
+		this.medals = new MedalsMap();
 
 		this.domGameStore = useGameStore();
 

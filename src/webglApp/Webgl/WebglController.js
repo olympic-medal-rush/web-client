@@ -83,6 +83,17 @@ class WebglController {
 		const newMedal = new Medal(app.core.assetsManager.get('medals'), medal);
 		app.webgl.medals.set(medal.id, newMedal);
 		this.#dynamicGroup.add(newMedal);
+		// switch (medal.type) {
+		// 	case MEDAL_TYPES.bronze:
+		// 		app.webgl.scene.instancedBronzeMedals.count = app.game.medals.bronzeSize;
+		// 		break;
+		// 	case MEDAL_TYPES.silver:
+		// 		app.webgl.scene.instancedSilverMedals.count = app.game.medals.silverSize;
+		// 		break;
+		// 	case MEDAL_TYPES.gold:
+		// 		app.webgl.scene.instancedGoldMedals.count = app.game.medals.goldSize;
+		// 		break;
+		// }
 	};
 
 	onTick({ et }) {

@@ -44,7 +44,7 @@ const login = () => {
 		<TheLogo />
 		<div class="Pays-container">
 			<div id="BZH" class="Pays-item select" @click="selectCountry('BZH')">
-				<span><img src="/assets/images/BZH.png" alt="" /></span>
+				<span><img src="/assets/images/flags/BZH.png" alt="" /></span>
 				<p>BZH</p>
 			</div>
 			<div id="FRA" class="Pays-item" @click="selectCountry('FRA')">

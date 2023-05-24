@@ -3,6 +3,7 @@ import { computeEnvmap } from '@webglApp/utils/misc';
 import { AmbientLight, Color, DepthTexture, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { TERRAIN } from '@utils/config';
 import { state } from '../../State';
+import { InstancedMedals } from './Objects/InstancedMedals';
 import { Terrain } from './Objects/Terrain.js';
 
 class MainScene extends Scene {
@@ -52,6 +53,12 @@ class MainScene extends Scene {
 		this.userData.backgrounds = [this.background, new Color(0x000000)];
 
 		this.terrain = new Terrain(app.core.assetsManager.get('terrain'));
+
+		// this.instancedBronzeMedals = new InstancedMedals({ type: 'bronze', count: app.game.medals.bronzeSize });
+		// this.instancedSilverMedals = new InstancedMedals({ type: 'silver', count: app.game.medals.silverSize });
+		// this.instancedGoldMedals = new InstancedMedals({ type: 'gold', count: app.game.medals.goldSize });
+
+		// this.add(this.terrain, this.instancedBronzeMedals, this.instancedSilverMedals, this.instancedGoldMedals);
 		this.add(this.terrain);
 
 		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'));

@@ -142,12 +142,16 @@ function debug(_instance) {
 				ITA: { iso: 'ITA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 9, 1: 0, 2: 7 } },
 				USA: { iso: 'USA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 12, 1: 4, 2: 3 } },
 			},
-			medalsInGame: [
+			medals: [
+				{ id: -7, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				{ id: -6, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				{ id: -5, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 				{ id: -4, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 				{ id: -3, type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 				{ id: -2, type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 				{ id: -1, type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 			],
+			playersCount: 1,
 		});
 
 		const debugTeam = app.debug.urlParams.getString('team') || 'FRA';
@@ -162,7 +166,7 @@ function debug(_instance) {
 				right: 25,
 				up: 25,
 			},
-			playerCount: 1,
+			playersCount: 1,
 		});
 	}
 }
