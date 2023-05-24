@@ -1,10 +1,11 @@
 import terrainStructure from '@jsons/terrain_data.json';
 import { app } from '@webglApp/App';
-import { applyInstances } from '@webglApp/utils/misc';
+import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { Color, Object3D } from 'three';
 import { CAMERA } from '@utils/config';
 import { BuildingMaterial } from '../Materials/Building/material';
 import { ColorMaterial } from '../Materials/Color/material';
+import { DrapeauMaterial } from '../Materials/Drapeau/material';
 import { Grid } from './Grid';
 
 class Terrain extends Object3D {
@@ -24,6 +25,12 @@ class Terrain extends Object3D {
 
 		this.glb.traverse((child) => {
 			if (child.isMesh) child.material = globalMaterial;
+			if (child.name === 'Drapeau')
+				child.material = new DrapeauMaterial({
+					uniforms: {
+						uTime: globalUniforms.uTime,
+					},
+				});
 		});
 
 		this.grid = new Grid(terrainStructure);

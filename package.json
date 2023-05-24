@@ -9,7 +9,8 @@
     "staging": "vite build -m staging -c config/vite.config.js",
     "preview": "vite preview -c config/vite.config.js",
     "translate": "node bin/translate.mjs 1mf5qJUxz7tg0WNmle_UGAahXapRGeWrUklk0KTwKOUc ./src/assets/locales/",
-    "flags": "node bin/flagColors.mjs ./src/assets/jsons/"
+    "color-flags": "node bin/flagColors.mjs ./src/assets/jsons/",
+    "flags": "node bin/getFlag.mjs ./public/assets/images/flags/"
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.9.3",
