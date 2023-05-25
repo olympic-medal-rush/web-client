@@ -12,7 +12,7 @@ import { DrapeauMaterial } from '../Materials/Drapeau/material';
 import { Grid } from './Grid';
 
 class Terrain extends Object3D {
-	#nonEmissiveMaterial = new ColorMaterial({ uniforms: { uColor: { value: new Color(0x000000) } } });
+	#nonEmissiveMaterial = new ColorMaterial({ uniforms: { uColor: { value: new Color(0x000000) } }, defines: { NEAR: `${CAMERA.near}.`, FAR: `${CAMERA.far}.` } });
 	constructor(glb) {
 		super();
 		const globalMaterial = new BuildingMaterial({
