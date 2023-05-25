@@ -72,7 +72,7 @@ const calculateScreenPosition = () => {
 	const isClamped = transform.value.x !== xPixels || transform.value.y !== yPixels;
 	compassEl.value.classList.toggle('visible', isClamped);
 
-	transform.value.angle = Math.PI * 2 - app.webgl.camera.getAngleTo(position.x, position.y);
+	transform.value.angle = Math.PI + app.webgl.camera.getAngleTo(closestMedal.position.x, closestMedal.position.z);
 };
 
 const getClosestMedal = () => {

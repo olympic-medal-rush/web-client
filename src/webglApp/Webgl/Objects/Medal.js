@@ -43,7 +43,8 @@ class Medal extends Object3D {
 	get isInScreen() {
 		this.#mat4.multiplyMatrices(app.webgl.camera.projectionMatrix, app.webgl.camera.matrixWorldInverse);
 		this.#frustum.setFromProjectionMatrix(this.#mat4);
-		return this.#frustum.containsPoint(this.position);
+		// return this.#frustum.containsPoint(this.position);
+		return false;
 	}
 }
 
