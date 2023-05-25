@@ -3,7 +3,7 @@ import { state } from '@/State';
 import MedalImg from '@components/Assets/MedalImg.vue';
 import { useGameStore } from '@stores/game';
 import { ref } from 'vue';
-import { EVENTS, MEDAL_TYPES } from '@utils/constants';
+import { EVENTS } from '@utils/constants';
 
 const domGameStore = useGameStore();
 
@@ -26,7 +26,7 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 			otherCountry.value.classList.remove('active');
 		}, 3000);
 	}
-	collectType.value = Object.keys(MEDAL_TYPES)[medal.type];
+	collectType.value = medal.typeStr;
 });
 </script>
 
