@@ -39,6 +39,7 @@ const type = ref('');
 onMounted(() => {
 	state.on(EVENTS.TICK, calculateScreenPosition);
 	state.on(EVENTS.RESIZE, onResize);
+	onResize();
 });
 
 onUnmounted(() => {

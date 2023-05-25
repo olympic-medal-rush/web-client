@@ -37,7 +37,7 @@ onMounted(() => {
 		</div>
 		<TheScoreboard />
 		<VoteArrows />
-		<MedalCompass v-for="medal in domGameStore.medals" :key="medal.id" :medal="medal"></MedalCompass>
+		<MedalCompass v-for="medal in domGameStore.medals" :key="medal.id"></MedalCompass>
 
 		<!-- Notifications -->
 		<NewMedal />
@@ -47,6 +47,10 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+.game {
+	width: 100vw;
+	overflow: hidden;
+}
 .Header {
 	display: flex;
 	flex-direction: row;
