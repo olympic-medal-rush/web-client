@@ -50,7 +50,7 @@ function createPane(pane, instance, name) {
 		if (rendomMedal.length > 0) {
 			const medalCollect = {
 				iso: lastIso,
-				medal: rendomMedal[Math.floor(Math.random() * rendomMedal.length)],
+				medal_id: rendomMedal[Math.floor(Math.random() * rendomMedal.length)].id,
 			};
 			app.game.medalCollect(medalCollect);
 		} else {
@@ -95,7 +95,7 @@ function createPane(pane, instance, name) {
 			})
 			.on('click', (ev) => {
 				if (teamList && ev.cell.title !== '-') {
-					app.game.voteResults({ iso: teamList.value, direction: DIRECTIONS[ev.cell.title.toLowerCase()], nextVoteId: 0 });
+					app.game.voteResults({ iso: teamList.value, direction: DIRECTIONS[ev.cell.title.toLowerCase()], next_vote_id: 0 });
 					// console.log('Move Team', teamList?.value, ev.cell.title);
 				}
 			});
@@ -116,16 +116,16 @@ function debug(_instance) {
 		state.on(EVENTS.KEY_DOWN, (key) => {
 			switch (key) {
 				case 'ArrowUp':
-					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.up, nextVoteId: 0 });
+					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.up, next_vote_id: 0 });
 					break;
 				case 'ArrowDown':
-					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.down, nextVoteId: 0 });
+					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.down, next_vote_id: 0 });
 					break;
 				case 'ArrowLeft':
-					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.left, nextVoteId: 0 });
+					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.left, next_vote_id: 0 });
 					break;
 				case 'ArrowRight':
-					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.right, nextVoteId: 0 });
+					app.game.voteResults({ iso: lastIso, direction: DIRECTIONS.right, next_vote_id: 0 });
 					break;
 				default:
 					break;
@@ -134,7 +134,7 @@ function debug(_instance) {
 
 		app.game.setState({
 			user_id: 'userId',
-			teamsStates: {
+			countries_states: {
 				BZH: { iso: 'BZH', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 5, 1: 2, 2: 15 } },
 				ESP: { iso: 'ESP', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 1, 1: 2, 2: 3 } },
 				FRA: { iso: 'FRA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 7, 1: 4, 2: 12 } },
@@ -151,22 +151,21 @@ function debug(_instance) {
 				{ id: -2, type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 				{ id: -1, type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 			],
-			playersCount: 1,
 		});
 
 		const debugTeam = app.debug.urlParams.getString('team') || 'FRA';
 
 		app.game.userJoin({
 			iso: debugTeam,
-			voteId: 1,
-			voteProgress: 0.5,
+			vote_id: 1,
+			vote_progress: 0.5,
 			votes: {
 				down: 25,
 				left: 25,
 				right: 25,
 				up: 25,
 			},
-			playersCount: 1,
+			player_count: 10,
 		});
 	}
 }
