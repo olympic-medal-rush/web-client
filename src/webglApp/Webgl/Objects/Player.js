@@ -1,12 +1,14 @@
 import { state } from '@/State';
+import { store } from '@/Store';
 import flagColors from '@jsons/flag_colors.json';
 import { app } from '@webglApp/App';
 import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { computeEnvmap } from '@webglApp/utils/misc';
 import gsap from 'gsap';
-import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, RepeatWrapping, Vector3 } from 'three';
+import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, Raycaster, RepeatWrapping, Vector3 } from 'three';
 import { Euler } from 'three';
 import { MATERIALS } from '@utils/config';
+import { EVENTS } from '@utils/constants';
 import { PlayerBodyMaterial } from '../Materials/PlayerBody/material';
 import { PlayerFaceMaterial } from '../Materials/PlayerFace/material';
 import { PlayerGoldMaterial } from '../Materials/PlayerGold/material';
@@ -43,6 +45,7 @@ class Player extends Object3D {
 		const body = model.getObjectByName('body');
 		const face = model.getObjectByName('face');
 		const gold = model.getObjectByName('gold');
+		this.raycastCube = model.getObjectByName('raycastCube');
 
 		const { face: faceMatParams, body: bodyMatParams, gold: goldMatParams } = MATERIALS;
 
@@ -101,6 +104,8 @@ class Player extends Object3D {
 			},
 		});
 
+		this.raycastCube.visible = false;
+
 		this.headBone = model.getObjectByName('tête2');
 
 		// Set model transformations
@@ -130,6 +135,15 @@ class Player extends Object3D {
 
 	onTick({ dt }) {
 		this.mixer.update(dt);
+	}
+
+	addRaycaster() {
+		this.raycaster = new Raycaster();
+		state.on(EVENTS.POINTER_DOWN, (e) => {
+			this.raycaster.setFromCamera(e.webgl, app.webgl.camera);
+			const intersects = this.raycaster.intersectObject(this.raycastCube);
+			if (intersects.length > 0) app.webgl.camera.focusPlayer = true;
+		});
 	}
 
 	move() {
