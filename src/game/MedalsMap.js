@@ -10,7 +10,7 @@ class MedalsMap {
 
 	/**
 	 *
-	 * @param {number} key
+	 * @param {string} key
 	 * @param {import('@game/Medal').Medal} value
 	 */
 	set(key, value) {
