@@ -14,6 +14,12 @@ enum MedalType {
 	gold = 2,
 }
 
+type MedalInGame = {
+	id: string;
+	type: MedalType;
+	position: Position;
+};
+
 type Event<T> = {
 	type: EventType;
 	Payload: T;
@@ -30,35 +36,18 @@ type TeamInfos = {
 	medals?: Record<MedalType, number>;
 };
 
-type ConnectStatePayload = {
+type GameStatePayload = {
 	user_id: string;
-	playersCount: number;
-	teamsStates: Record<string, TeamInfos>;
+	countries_states: Record<string, TeamInfos>;
 	medals: MedalInGame[];
 };
 
-type JoinStatePayload = {
+type CountryStatePayload = {
+	iso: string;
+	vote_id: number;
+	vote_progress: number;
 	votes: VoteCountPayload;
-	voteProgress: number;
-	voteId: number;
-	iso: string;
-	playersCount: number;
-};
-
-type UserVotePayload = {
-	user_id: string;
-	direction: Direction;
-};
-
-type UserJoinPayload = {
-	user_id: string;
-	iso: string;
-};
-
-type VoteResultsPayload = {
-	iso: string;
-	direction: Direction;
-	nextVoteId: number;
+	player_count: number;
 };
 
 type VoteCountPayload = {
@@ -68,29 +57,37 @@ type VoteCountPayload = {
 	left: number;
 };
 
-type MedalInGame = {
-	id: number;
-	type: MedalType;
-	position: Position;
+type VoteResultsPayload = {
+	iso: string;
+	direction: Direction;
+	next_vote_id: number;
 };
 
-type MedalCollectionPayload = {
+type NewCountryPayload = {
 	iso: string;
-	medal: MedalInGame;
+	position: Position;
 };
 
 type MedalApparitionPayload = {
 	medals: MedalInGame[];
 };
 
-type PlayerCountPayload = {
+type MedalCollectionPayload = {
 	iso: string;
-	count: number;
+	medal_id: MedalInGame;
 };
 
-type NewTeamPayload = {
+type PlayerCountsPayload = Record<string, number>;
+
+// EMITTERS PAYLOADS
+
+type UserVotePayload = {
+	user_id: string;
+	direction: Direction;
+};
+
+type UserJoinPayload = {
 	iso: string;
-	position: Position;
 };
 
 type EventUserVote = Event<UserVotePayload>;
@@ -100,4 +97,4 @@ type EventVoteCount = Event<VoteCountPayload>;
 type EventMedalApparition = Event<MedalApparitionPayload>;
 type EventMedalCollection = Event<MedalCollectionPayload>;
 type EventPlayerCount = Event<PlayerCountPayload>;
-type EventNewTeam = Event<NewTeamPayload>;
+type EventNewTeam = Event<NewCountryPayload>;

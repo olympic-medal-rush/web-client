@@ -37,8 +37,7 @@ const login = () => {
 	console.log('Login Country : ' + selectedCountry.value);
 	domGameStore.setPlayerCountry(selectedCountry.value);
 	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
-	app.game.currentTeam = selectedCountry.value;
-	app.server.userJoin({ iso: selectedCountry.value, user_id: store.get(STORE_KEYS.USER_ID) });
+	app.server.userJoin({ iso: selectedCountry.value });
 	app.webgl.renderLogin = false;
 
 	router.push('/game');
@@ -111,7 +110,7 @@ const login = () => {
 		&.select {
 			background-color: #f2f2e9a3;
 			border-radius: 12px;
-			border: solid $gold;
+			border: solid $gold-ui;
 		}
 
 		img {

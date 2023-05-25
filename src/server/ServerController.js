@@ -12,15 +12,15 @@ export default class ServerController {
 		this.domGameStore = useGameStore();
 
 		// TODO: MAËLLE FOR EVENT TEST
-		window.addEventListener('keydown', (e) => {
-			if (e.key === 'p') {
-				const data = {
-					iso: 'FRA',
-					count: Math.floor(Math.random() * 100),
-				};
-				this.#onPlayerCount(data);
-			}
-		});
+		// window.addEventListener('keydown', (e) => {
+		// 	if (e.key === 'p') {
+		// 		const data = {
+		// 			iso: 'FRA',
+		// 			count: Math.floor(Math.random() * 100),
+		// 		};
+		// 		this.#onPlayerCount(data);
+		// 	}
+		// });
 
 		state.on(EVENTS.APP_LOADED, this.#onAppLoaded);
 	}
@@ -55,11 +55,11 @@ export default class ServerController {
 	 */
 	#routeEvent(evt) {
 		switch (evt.type) {
-			case SERVER_EVENTS.CONNECT_STATE:
-				this.#onConnectState(evt.payload);
+			case SERVER_EVENTS.GAME_STATE:
+				this.#onGameState(evt.payload);
 				break;
-			case SERVER_EVENTS.JOIN_STATE:
-				this.#onJoinState(evt.payload);
+			case SERVER_EVENTS.COUNTRY_STATE:
+				this.#onCountryState(evt.payload);
 				break;
 			case SERVER_EVENTS.VOTE_RESULTS:
 				this.#onVoteResults(evt.payload);
@@ -73,8 +73,8 @@ export default class ServerController {
 			case SERVER_EVENTS.MEDAL_COLLECTION:
 				this.#onMedalCollection(evt.payload);
 				break;
-			case SERVER_EVENTS.NEW_TEAM:
-				this.#onNewTeam(evt.payload);
+			case SERVER_EVENTS.NEW_COUNTRY:
+				this.#onNewCountry(evt.payload);
 				break;
 			case SERVER_EVENTS.PLAYER_COUNT:
 				this.#onPlayerCount(evt.payload);
@@ -89,10 +89,10 @@ export default class ServerController {
 	/**
 	 * Get current game state to initialize
 	 *
-	 * @param {ConnectStatePayload} data
+	 * @param {GameStatePayload} data
 	 */
-	#onConnectState(data) {
-		console.log(data);
+	#onGameState(data) {
+		console.log(data, 'onGameState');
 		store.set(STORE_KEYS.USER_ID, data.user_id);
 		app.game.setState(data);
 	}
@@ -100,11 +100,11 @@ export default class ServerController {
 	/**
 	 * Response to user join with current vote state
 	 *
-	 * @param {JoinStatePayload} data
+	 * @param {CountryStatePayload} data
 	 */
-	#onJoinState(data) {
-		console.log(data, 'join');
-		this.domGameStore.updatePlayersCounter(data.playersCount);
+	#onCountryState(data) {
+		console.log(data, 'onCountryState');
+		this.domGameStore.updatePlayersCounter(data.player_count);
 		app.game.userJoin(data);
 	}
 
@@ -114,6 +114,7 @@ export default class ServerController {
 	 * @param {VoteResultsPayload} data
 	 */
 	#onVoteResults(data) {
+		console.log(data, 'onVoteResults');
 		app.game.voteResults(data);
 	}
 
@@ -123,7 +124,7 @@ export default class ServerController {
 	 * @param {VoteCountPayload} data
 	 */
 	#onVoteCount(data) {
-		console.log(data, 'votes count');
+		console.log(data, 'onVoteCount');
 		// TODO: update Vue store or something else supposed to show vote counts
 		// up: number;
 		// right: number;
@@ -137,8 +138,8 @@ export default class ServerController {
 	 * @param {MedalApparitionPayload} data
 	 */
 	#onMedalApparition(data) {
-		console.log(data);
-		app.game.addMedals({ medals: [data] });
+		console.log(data, 'onMedalApparition');
+		app.game.addMedals(data);
 	}
 
 	/**
@@ -147,25 +148,27 @@ export default class ServerController {
 	 * @param {MedalCollectionPayload} data
 	 */
 	#onMedalCollection(data) {
+		console.log(data, 'onMedalCollection');
 		app.game.medalCollect(data);
 	}
 
 	/**
 	 * Receive player count regularly
 	 *
-	 * @param {PlayerCountPayload} data
+	 * @param {PlayerCountsPayload} data
 	 */
 	#onPlayerCount(data) {
+		console.log(data, 'onPlayerCount');
 		this.domGameStore.updatePlayersCounter(data.count);
 	}
 
 	/**
 	 * New team just joined
 	 *
-	 * @param {NewTeamPayload} data
+	 * @param {NewCountryPayload} data
 	 */
-	#onNewTeam(data) {
-		console.log(data, 'new team');
+	#onNewCountry(data) {
+		console.log(data, 'onNewCountry');
 		app.game.createTeam(data);
 	}
 
@@ -177,7 +180,7 @@ export default class ServerController {
 	 * @param {UserVotePayload} userVotePlayload
 	 */
 	userVote(userVotePlayload) {
-		console.log(store.get(STORE_KEYS.USER_ID));
+		console.log(userVotePlayload, 'userVote');
 		this.#send(SERVER_EVENTS.USER_VOTE, userVotePlayload);
 	}
 
@@ -189,7 +192,7 @@ export default class ServerController {
 	userJoin(userJoinPayload) {
 		// store.set(STORE_KEYS.USER_ISO, iso);
 		// window.localStorage.setItem('USER_ISO', iso);
-
+		console.log(userJoinPayload, 'userJoin');
 		this.#send(SERVER_EVENTS.USER_JOIN, userJoinPayload);
 	}
 }

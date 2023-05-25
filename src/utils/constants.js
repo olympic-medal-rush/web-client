@@ -55,19 +55,25 @@ const STORE_KEYS = {
 
 const SERVER_EVENTS = {
 	// LISTENERS
-	CONNECT_STATE: 'game_state',
-	JOIN_STATE: 'join_state',
+	GAME_STATE: 'game_state',
+	COUNTRY_STATE: 'country_state',
+
 	VOTE_RESULTS: 'vote_results',
 	VOTE_COUNT: 'vote_count',
+
 	MEDAL_APPARITION: 'medal_apparition',
 	MEDAL_COLLECTION: 'medal_collection',
-	NEW_TEAM: 'new_team',
+
+	NEW_COUNTRY: 'new_country',
+
 	PLAYER_COUNT: 'player_count',
-	SCOREBOARD_UPDATE: 'scoreboard_update',
 
 	// EMITTERS
 	USER_VOTE: 'user_vote',
 	USER_JOIN: 'user_join',
+
+	// TODO: move to events
+	SCOREBOARD_UPDATE: 'scoreboard_update',
 };
 
 const DIRECTIONS = {

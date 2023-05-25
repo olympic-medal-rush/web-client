@@ -11,12 +11,9 @@ import TheNotifications from '@components/TheNotifications.vue';
 import ThePlayerCountry from '@components/ThePlayerTeam.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import { useGameStore } from '@stores/game';
-import { app } from '@webglApp/App';
 import { onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { EVENTS } from '@utils/constants';
 
-const { t } = useI18n();
 const domGameStore = useGameStore();
 
 const game = ref();
@@ -40,7 +37,8 @@ onMounted(() => {
 		</div>
 		<TheScoreboard />
 		<VoteArrows />
-		<MedalCompass v-for="medal in domGameStore.medals" :id="medal.id" :key="medal.id" :medal="app.webgl.medals.get(medal.id)"></MedalCompass>
+		<MedalCompass v-for="medal in domGameStore.medals" :key="medal.id" :medal="medal"></MedalCompass>
+
 		<!-- Notifications -->
 		<NewMedal />
 		<NewCollectMedal />
