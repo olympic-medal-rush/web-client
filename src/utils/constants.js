@@ -10,6 +10,7 @@ const EVENTS = {
 
 	// VUE
 	ROUTE_CHANGE: i++,
+	SELECT_TEAM_UPDATE: i++,
 
 	// TICKER
 	TICK: i++,

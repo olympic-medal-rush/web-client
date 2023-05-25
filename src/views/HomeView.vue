@@ -1,9 +1,11 @@
 <script setup>
 import router from '@/router';
+import { app } from '@webglApp/App';
 import VButton from './../components/Inputs/VButton.vue';
 import TheLogo from './../components/TheLogo.vue';
 
 const goChosePays = () => {
+	app.webgl.renderLogin = true;
 	router.push('/login');
 };
 </script>

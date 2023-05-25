@@ -2,9 +2,9 @@ import { app } from '@webglApp/App';
 import { computeEnvmap } from '@webglApp/utils/misc';
 import { AmbientLight, Color, DepthTexture, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { TERRAIN } from '@utils/config';
-import { state } from '../../State';
-import { InstancedMedals } from './Objects/InstancedMedals';
-import { Terrain } from './Objects/Terrain.js';
+import { state } from '../../../../State';
+import { InstancedMedals } from '../../Objects/InstancedMedals';
+import { Terrain } from '../../Objects/Terrain.js';
 
 class MainScene extends Scene {
 	constructor() {

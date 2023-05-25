@@ -60,7 +60,7 @@ function createPane(pane, instance, name) {
 
 /**
  *
- * @param {import('../../Webgl/MainCamera').MainCamera} instance
+ * @param {import('../../Webgl/Scenes/Main/MainCamera').MainCamera} instance
  */
 function debug(instance) {
 	state.on(EVENTS.KEY_DOWN, (key) => {

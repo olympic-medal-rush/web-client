@@ -1,20 +1,11 @@
 import { state } from '@/State';
-import { store } from '@/Store';
-import flagColors from '@jsons/flag_colors.json';
 import { app } from '@webglApp/App';
-import { globalUniforms } from '@webglApp/utils/globalUniforms';
-import { computeEnvmap } from '@webglApp/utils/misc';
 import gsap from 'gsap';
-import { AnimationMixer, Color, Matrix4, Object3D, Quaternion, Raycaster, RepeatWrapping, Vector3 } from 'three';
-import { Euler } from 'three';
-import { MATERIALS } from '@utils/config';
+import { Euler, Matrix4, Quaternion, Raycaster, Vector3 } from 'three';
 import { EVENTS } from '@utils/constants';
-import { PlayerBodyMaterial } from '../Materials/PlayerBody/material';
-import { PlayerFaceMaterial } from '../Materials/PlayerFace/material';
-import { PlayerGoldMaterial } from '../Materials/PlayerGold/material';
-import Flame from './Flame';
+import { BasePlayer } from './BasePlayer';
 
-class Player extends Object3D {
+class Player extends BasePlayer {
 	#moveTl;
 	#positionOnGrid;
 	#currentPosition = new Vector3();
@@ -26,98 +17,8 @@ class Player extends Object3D {
 	#vec3 = new Vector3();
 
 	constructor(model, team) {
-		super();
+		super(model, team.iso);
 		state.register(this);
-
-		this.name = team.iso;
-		this.model = model;
-
-		// const material = new MeshMatcapMaterial({ color: new Color(flagColors[team.iso][0]) });
-
-		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
-		const [aoMap, noise] = app.core.assetsManager.get('playerAo', 'noise');
-		aoMap.flipY = false;
-		aoMap.generateMipmaps = false;
-
-		noise.wrapS = noise.wrapT = RepeatWrapping;
-
-		// Set materials
-		const body = model.getObjectByName('body');
-		const face = model.getObjectByName('face');
-		const gold = model.getObjectByName('gold');
-		this.raycastCube = model.getObjectByName('raycastCube');
-
-		const { face: faceMatParams, body: bodyMatParams, gold: goldMatParams } = MATERIALS;
-
-		face.material = new PlayerFaceMaterial({
-			uniforms: {
-				uEmissiveOnly: globalUniforms.uEmissiveOnly,
-				uShadowOnly: globalUniforms.uShadowOnly,
-				uLightPosition: app.webgl.scene.commonShadowUniforms.uLightPosition,
-
-				uRoughness: { value: faceMatParams.roughness },
-				uMetalness: { value: faceMatParams.metalness },
-				uEnvMapIntensity: { value: faceMatParams.envMapIntensity },
-				uColor: { value: new Color(flagColors[team.iso][0]) },
-				tEnvMap: { value: envMap },
-				tAoMap: { value: aoMap },
-				uAoMapIntensity: { value: faceMatParams.aoMapIntensity },
-			},
-			defines: {
-				...envMap.userData,
-			},
-		});
-
-		body.material = new PlayerBodyMaterial({
-			uniforms: {
-				...app.webgl.scene.commonShadowUniforms,
-				...app.webgl.scene.staticShadowUniforms,
-
-				uEmissiveOnly: globalUniforms.uEmissiveOnly,
-				uShadowOnly: globalUniforms.uShadowOnly,
-
-				uColor1: { value: new Color(flagColors[team.iso][1]) },
-				uColor2: { value: new Color(flagColors[team.iso][0]) },
-				uColor3: { value: new Color(flagColors[team.iso][2] || 0xffffff) },
-				tAoMap: { value: aoMap },
-				uAoMapIntensity: { value: bodyMatParams.aoMapIntensity },
-				tNoise: { value: noise },
-			},
-			defines: {
-				...envMap.userData,
-				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
-				FAR: `${app.webgl.scene.shadowCamera.far}.`,
-			},
-		});
-		gold.material = new PlayerGoldMaterial({
-			uniforms: {
-				uEmissiveOnly: globalUniforms.uEmissiveOnly,
-				uShadowOnly: globalUniforms.uShadowOnly,
-				uLightPosition: app.webgl.scene.commonShadowUniforms.uLightPosition,
-
-				uRoughness: { value: goldMatParams.roughness },
-				uMetalness: { value: goldMatParams.metalness },
-				uEnvMapIntensity: { value: goldMatParams.envMapIntensity },
-
-				uColor: { value: goldMatParams.color },
-
-				tEnvMap: { value: envMap },
-
-				tAoMap: { value: aoMap },
-				uAoMapIntensity: { value: 1 },
-			},
-			defines: {
-				...envMap.userData,
-			},
-		});
-
-		this.raycastCube.visible = false;
-
-		this.headBone = model.getObjectByName('tête2');
-
-		// Set model transformations
-		this.model.scale.setScalar(0.4);
-		this.model.rotation.y = Math.PI;
 
 		// Initial position
 		this.#positionOnGrid = team.position;
@@ -126,22 +27,7 @@ class Player extends Object3D {
 
 		this.position.copy(this.#currentPosition);
 
-		// Create Flame
-		this.flame = new Flame();
-		this.flame.position.y = 1;
-
-		// Animations
-		this.mixer = new AnimationMixer(this.model);
-		this.animations = this.model.animations;
-
-		// Add to player wrapper
-		this.add(this.model, this.flame);
-
 		app.debug?.mapping.add(this, 'Player', 0, 'Player: ' + this.name);
-	}
-
-	onTick({ dt }) {
-		this.mixer.update(dt);
 	}
 
 	addRaycaster() {

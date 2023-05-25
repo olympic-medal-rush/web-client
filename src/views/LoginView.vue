@@ -1,10 +1,12 @@
 <script setup>
+import { state } from '@/State';
 import { store } from '@/Store';
 import router from '@/router';
 import { useGameStore } from '@stores/game';
 import { app } from '@webglApp/App';
 import { onMounted, ref } from 'vue';
 import { STORE_KEYS } from '@utils/constants';
+import { EVENTS } from '@utils/constants';
 import VButton from './../components/Inputs/VButton.vue';
 import TheLogo from './../components/TheLogo.vue';
 
@@ -13,12 +15,15 @@ const domGameStore = useGameStore();
 const selectedCountry = ref('BZH');
 let allBtn;
 
+app.webgl.renderLogin = true;
+
 onMounted(() => {
 	allBtn = document.querySelectorAll('.Pays-item');
 });
 
 const selectCountry = (id) => {
 	selectedCountry.value = id;
+	state.emit(EVENTS.SELECT_TEAM_UPDATE, id);
 	allBtn.forEach((btn) => {
 		if (btn.id === id) {
 			btn.classList.add('select');
@@ -34,6 +39,7 @@ const login = () => {
 	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
 	app.game.currentTeam = selectedCountry.value;
 	app.server.userJoin({ iso: selectedCountry.value, user_id: store.get(STORE_KEYS.USER_ID) });
+	app.webgl.renderLogin = false;
 
 	router.push('/game');
 };
@@ -75,7 +81,6 @@ const login = () => {
 <style lang="scss" scoped>
 @use '@styles/tools' as *;
 .Login-container {
-	background-color: $white;
 	height: 100vh;
 	display: flex;
 	justify-content: center;
@@ -104,7 +109,7 @@ const login = () => {
 		cursor: pointer;
 
 		&.select {
-			background-color: $light-camel;
+			background-color: #f2f2e9a3;
 			border-radius: 12px;
 			border: solid $gold;
 		}

@@ -3,12 +3,14 @@ import { globalUniforms } from '@webglApp/utils/globalUniforms';
 import { Group } from 'three';
 import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
 import { state } from '../../State';
-import { MainCamera } from './MainCamera';
-import { MainScene } from './MainScene';
 import { Medal } from './Objects/Medal';
 import { Player } from './Objects/Player';
 import { PostProcessing } from './PostProcessing';
 import { Renderer } from './Renderer';
+import { LoginCamera } from './Scenes/Login/LoginCamera';
+import { LoginScene } from './Scenes/Login/LoginScene';
+import { MainCamera } from './Scenes/Main/MainCamera';
+import { MainScene } from './Scenes/Main/MainScene';
 
 class WebglController {
 	#dynamicGroup = new Group();
@@ -25,7 +27,12 @@ class WebglController {
 		this.scene = new MainScene();
 		this.camera = new MainCamera();
 
+		this.loginScene = new LoginScene();
+		this.loginCamera = new LoginCamera();
+
 		this.scene.add(this.#dynamicGroup);
+
+		this.renderLogin = false;
 	}
 
 	onAttach() {
@@ -106,10 +113,18 @@ class WebglController {
 	onRender() {
 		this.renderer.clear();
 
-		this.#renderDynamicShadows();
-		this.#renderDiffuse();
-		this.#renderEmissive();
-		this.#renderPostProcessing();
+		if (this.renderLogin) {
+			this.#renderLogin();
+		} else {
+			this.#renderDynamicShadows();
+			this.#renderDiffuse();
+			this.#renderEmissive();
+			this.#renderPostProcessing();
+		}
+	}
+
+	#renderLogin() {
+		this.renderer.render(this.loginScene, this.loginCamera);
 	}
 
 	#renderDiffuse() {

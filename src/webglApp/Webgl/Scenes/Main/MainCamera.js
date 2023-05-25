@@ -5,7 +5,7 @@ import { PerspectiveCamera, Vector2, Vector3 } from 'three';
 import { clamp, damp, mapLinear, smoothstep } from 'three/src/math/MathUtils';
 import { CAMERA, TERRAIN } from '@utils/config';
 import { STORE_KEYS } from '@utils/constants';
-import { globalUniforms } from '../utils/globalUniforms';
+import { globalUniforms } from '../../../utils/globalUniforms';
 
 class MainCamera extends PerspectiveCamera {
 	orbitControls;
