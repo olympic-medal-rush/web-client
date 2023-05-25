@@ -52,15 +52,15 @@ const login = () => {
 				<span><img src="/assets/images/flags/BZH.png" alt="" /></span>
 				<p>BZH</p>
 			</div>
-			<div id="FRA" class="Pays-item" @click="selectCountry('FRA')">
-				<span>🇫🇷</span>
-				<p>FRA</p>
+			<div id="GRC" class="Pays-item" @click="selectCountry('GRC')">
+				<span>🇬🇷</span>
+				<p>GRC</p>
 			</div>
-			<div id="ESP" class="Pays-item" @click="selectCountry('ESP')">
-				<span>🇪🇸</span>
-				<p>ESP</p>
+			<div id="PRT" class="Pays-item" @click="selectCountry('PRT')">
+				<span>🇵🇹</span>
+				<p>PRT</p>
 			</div>
-			<div id="DEU" class="Pays-item" @click="selectCountry('DEU')">
+			<!-- <div id="DEU" class="Pays-item" @click="selectCountry('DEU')">
 				<span>🇩🇪</span>
 				<p>DEU</p>
 			</div>
@@ -71,9 +71,9 @@ const login = () => {
 			<div id="USA" class="Pays-item" @click="selectCountry('USA')">
 				<span>🇺🇸</span>
 				<p>USA</p>
-			</div>
+			</div> -->
 		</div>
-		<VButton @click="login()">Confirmer le pays</VButton>
+		<VButton class="confirm-btn" @click="login()">Confirmer le pays</VButton>
 	</div>
 </template>
 
@@ -84,6 +84,7 @@ const login = () => {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
 
 .Pays-container {
@@ -93,6 +94,7 @@ const login = () => {
 	align-items: center;
 	gap: 12px;
 	width: 100vw;
+	margin-top: auto;
 
 	.Pays-item {
 		display: flex;
@@ -126,5 +128,12 @@ const login = () => {
 			transform: translate(0, -10px);
 		}
 	}
+}
+</style>
+
+<style lang="scss">
+div.confirm-btn {
+	position: static;
+	margin-bottom: 50px;
 }
 </style>
