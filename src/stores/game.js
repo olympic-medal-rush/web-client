@@ -52,7 +52,9 @@ export const useGameStore = defineStore('game', {
 
 		closestMedal() {
 			const currentPlayer = app.webgl.players.get(app.game.teams.get(this.playerCountry));
-			return [...app.webgl.medals.values()]?.sort((a, b) => a.position.distanceTo(currentPlayer.position) - b.position.distanceTo(currentPlayer.position))[0];
+			return [...app.webgl.medals.values()]
+				?.sort((a, b) => a.position.distanceTo(currentPlayer.position) - b.position.distanceTo(currentPlayer.position))
+				.filter((medal) => !medal.isInScreen)[0];
 		},
 
 		// Player Country

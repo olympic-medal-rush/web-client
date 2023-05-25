@@ -54,7 +54,7 @@ const STORE_KEYS = {
 
 const SERVER_EVENTS = {
 	// LISTENERS
-	CONNECT_STATE: 'game_state',
+	GAME_STATE: 'game_state',
 	COUNTRY_STATE: 'country_state',
 
 	VOTE_RESULTS: 'vote_results',

@@ -13,10 +13,10 @@ const props = defineProps({
 <style lang="scss" scoped>
 div {
 	width: 100%;
-	height: auto;
+	height: 100%;
 	img {
 		width: 100%;
-		height: auto;
+		height: 100%;
 	}
 }
 </style>

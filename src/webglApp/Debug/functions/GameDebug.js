@@ -37,9 +37,9 @@ function createPane(pane, instance, name) {
 	// SPAWN_MEDALS
 	folder.addButton({ title: 'Spawn Medals' }).on('click', () => {
 		const newMedals = [
-			{ id: i++, type: 0, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-			{ id: i++, type: 1, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-			{ id: i++, type: 2, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+			{ id: (i++).toString(), type: 0, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+			{ id: (i++).toString(), type: 1, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+			{ id: (i++).toString(), type: 2, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 		];
 		app.game.addMedals({ medals: newMedals });
 		// console.log('Spawn Medals', newMedals);
@@ -143,13 +143,13 @@ function debug(_instance) {
 				USA: { iso: 'USA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 12, 1: 4, 2: 3 } },
 			},
 			medals: [
-				{ id: -7, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: -6, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: -5, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: -4, type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: -3, type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: -2, type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: -1, type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				{ id: (-7).toString(), type: MEDAL_TYPES.bronze, position: { x: 20, y: 20 } },
+				// { id: (-6).toString(), type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				// { id: (-5).toString(), type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				// { id: (-4).toString(), type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				// { id: (-3).toString(), type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				// { id: (-2).toString(), type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				// { id: (-1).toString(), type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
 			],
 		});
 

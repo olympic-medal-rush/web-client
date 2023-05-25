@@ -105,7 +105,7 @@ const login = () => {
 		&.select {
 			background-color: $light-camel;
 			border-radius: 12px;
-			border: solid $gold;
+			border: solid $gold-ui;
 		}
 
 		img {

@@ -15,7 +15,7 @@ enum MedalType {
 }
 
 type MedalInGame = {
-	id: number;
+	id: string;
 	type: MedalType;
 	position: Position;
 };
@@ -87,7 +87,6 @@ type UserVotePayload = {
 };
 
 type UserJoinPayload = {
-	user_id: string;
 	iso: string;
 };
 

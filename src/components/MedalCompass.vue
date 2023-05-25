@@ -1,7 +1,7 @@
 <template>
-	<div ref="compassEl" :style="{ transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }" class="compass-wrapper">
+	<div ref="compassEl" :class="type" :style="{ transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }" class="compass-wrapper">
 		<div ref="circleEl" class="compass-circle">
-			<!-- <MedalImg :type="medal.type" /> -->
+			<MedalImg :medal="type" />
 		</div>
 		<div class="pin-wrapper" :style="{ transform: `rotate(${transform.angle}rad)` }">
 			<svg class="compass-pin" width="30" height="27" viewBox="0 0 30 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,14 +16,16 @@
 
 <script setup>
 import { state } from '@/State';
+import { useGameStore } from '@stores/game';
 import { app } from '@webglApp/App';
-import { Medal } from '@webglApp/Webgl/Objects/Medal';
 import { Vector2 } from 'three';
 import { clamp } from 'three/src/math/MathUtils';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import MedalImg from './Assets/MedalImg.vue';
 
 // Needed in script tag
+const domGameStore = useGameStore();
 const viewportMargin = 10;
 const size = new Vector2();
 
@@ -32,13 +34,7 @@ const circleEl = ref();
 
 // Used in template tag
 const transform = ref({ x: 0, y: 0, angle: 0 });
-
-const props = defineProps({
-	medal: {
-		required: true,
-		type: Medal,
-	},
-});
+const type = ref('');
 
 onMounted(() => {
 	state.on(EVENTS.TICK, calculateScreenPosition);
@@ -57,12 +53,15 @@ const onResize = () => {
 };
 
 const calculateScreenPosition = () => {
-	if (!props.medal) return;
+	const closestMedal = getClosestMedal();
+	compassEl.value.classList.remove('visible');
+	if (!closestMedal) return;
 
-	const { screenPosition: position } = props.medal;
+	const { screenPosition: position } = closestMedal;
+	type.value = closestMedal.medalType;
 
-	const xPixels = position.x * app.tools.viewport.width;
-	const yPixels = (1 - position.y) * app.tools.viewport.height;
+	const xPixels = position.x * app.tools.viewport.width - size.x * 0.5;
+	const yPixels = (1 - position.y) * app.tools.viewport.height - size.y * 0.5;
 
 	const xMax = app.tools.viewport.width - viewportMargin - size.x;
 	const yMax = app.tools.viewport.height - viewportMargin - size.y;
@@ -73,17 +72,25 @@ const calculateScreenPosition = () => {
 	const isClamped = transform.value.x !== xPixels || transform.value.y !== yPixels;
 	compassEl.value.classList.toggle('visible', isClamped);
 
-	transform.value.angle = app.webgl.camera.getAngleTo(position.x, position.y);
+	transform.value.angle = Math.PI * 2 - app.webgl.camera.getAngleTo(position.x, position.y);
+};
+
+const getClosestMedal = () => {
+	const currentPlayer = app.webgl.players.get(app.game.teams.get(domGameStore.playerCountry));
+	return [...app.webgl.medals.values()]
+		?.sort((a, b) => a.position.distanceTo(currentPlayer.position) - b.position.distanceTo(currentPlayer.position))
+		.filter((medal) => !medal.isInScreen)[0];
 };
 </script>
 
 <style lang="scss">
 @use '@/assets/styles/tools' as *;
 
-$width: 30px;
-$height: 30px;
+$width: 50px;
+$height: 50px;
 
 .compass-wrapper {
+	z-index: 10;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -95,9 +102,12 @@ $height: 30px;
 	.compass-circle {
 		position: absolute;
 		border-radius: 50%;
-		border: $yellow 5px solid;
 		width: 100%;
 		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 2px;
 	}
 
 	.pin-wrapper {
@@ -110,12 +120,40 @@ $height: 30px;
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 10px;
-		transform: translate3d(-7px, 0, 0) rotate(-90deg);
+		height: 100%;
+		transform: translate3d(-20px, 0, 0) rotate(-90deg) scale(0.7);
 	}
 
 	&.visible {
 		opacity: 1;
+	}
+
+	&.bronze {
+		.compass-circle {
+			border: $bronze-ui 5px solid;
+		}
+
+		.pin-wrapper path {
+			fill: $bronze-ui;
+		}
+	}
+
+	&.silver {
+		.compass-circle {
+			border: $silver-ui 5px solid;
+		}
+		.pin-wrapper path {
+			fill: $silver-ui;
+		}
+	}
+
+	&.gold {
+		.compass-circle {
+			border: $gold-ui 5px solid;
+		}
+		.pin-wrapper path {
+			fill: $gold-ui;
+		}
 	}
 }
 </style>

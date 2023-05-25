@@ -37,7 +37,8 @@ onMounted(() => {
 		</div>
 		<TheScoreboard />
 		<VoteArrows />
-		<MedalCompass :medal="domGameStore.closestMedal()"></MedalCompass>
+		<MedalCompass v-for="medal in domGameStore.medals" :key="medal.id" :medal="medal"></MedalCompass>
+
 		<!-- Notifications -->
 		<NewMedal />
 		<NewCollectMedal />
