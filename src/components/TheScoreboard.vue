@@ -11,7 +11,7 @@ const domGameStore = useGameStore();
 		</div>
 		<div class="Podium">
 			<div v-for="(team, i) in domGameStore.scoreboard" :key="team.name" class="Podium-item" :class="{ none: i > 2 }">
-				<span :class="{ gold: i == 0, silver: i == 1, bronze: i == 2, none: i > 2 }">{{ i + 1 }}</span>
+				<span v-if="team.score" :class="{ gold: i == 0, silver: i == 1, bronze: i == 2, none: i > 2 }">{{ i + 1 }}</span>
 				<img :src="`/assets/images/flags/${team.name}.png`" alt="" />
 			</div>
 		</div>

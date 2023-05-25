@@ -5,7 +5,7 @@ import { app } from '@webglApp/App';
 import { ref } from 'vue';
 import { STORE_KEYS } from '@utils/constants';
 
-const focus = ref(false);
+const focus = ref(true);
 
 const handleClick = (e) => {
 	app.server.userVote({
