@@ -5,7 +5,7 @@ uniform mat4 viewMatrix;
 
 // Base params
 uniform float uRoughness, uMetalness;
-uniform vec3 uColor;
+uniform vec3 uColor, uLightPosition;
 
 // Emissive
 uniform bool uEmissiveOnly;
@@ -34,7 +34,7 @@ void main() {
 
 	// Color
 	vec3 diffuse = vec3(uColor);
-	vec4 color = vec4(diffuse, 1.);
+	vec4 final = vec4(diffuse, 1.);
 
 	vec3 reflectVec = reflect(vEyeToSurfaceDir, normal);
 
@@ -44,15 +44,25 @@ void main() {
 	reflectVec = normalize((vec4(reflectVec, 0.0) * viewMatrix * mat4(rotationMatrix)).xyz);
 	vec3 envMapColor = textureCubeUV(tEnvMap, reflectVec, roughness).rgb * uEnvMapIntensity;
 
-	color.rgb += envMapColor * smoothstep(0., 1., length(envMapColor) - length(color.rgb));
-	color.rgb -= (1. - envMapColor) * metalness;
+	final.rgb += envMapColor * smoothstep(0., 1., length(envMapColor) - length(final.rgb));
+	final.rgb -= (1. - envMapColor) * metalness;
 
 	vec3 aoMap = texture2D(tAoMap, vUv).rgb;
-	color.rgb *= mix(vec3(1.), aoMap, uAoMapIntensity);
+	final.rgb *= mix(vec3(1.), aoMap, uAoMapIntensity);
 
 	// Emissive
-	color.rgb = mix(color.rgb, smoothstep(.4, 1., color.rgb) * .3, float(uEmissiveOnly));
+	final.rgb = mix(final.rgb, smoothstep(.4, 1., final.rgb) * .3, float(uEmissiveOnly));
 
-	gl_FragColor = color;
+	// Shading 
+	float cosTheta = dot(normalize(uLightPosition), normal);
+	float bias = 0.005 * tan(acos(cosTheta));
+	bias = clamp(bias, 0.0, 0.01);
+
+	float difLight = max(0.0, cosTheta);
+	float shading = difLight;
+
+	final.rgb = mix(final.rgb - .1, final.rgb + .1, shading);
+
+	gl_FragColor = final;
 	#include <dithering_fragment>
 }

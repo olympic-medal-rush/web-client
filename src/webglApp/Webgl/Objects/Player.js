@@ -50,6 +50,7 @@ class Player extends Object3D {
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uShadowOnly: globalUniforms.uShadowOnly,
+				uLightPosition: app.webgl.scene.commonShadowUniforms.uLightPosition,
 
 				uRoughness: { value: faceMatParams.roughness },
 				uMetalness: { value: faceMatParams.metalness },
@@ -66,6 +67,9 @@ class Player extends Object3D {
 
 		body.material = new PlayerBodyMaterial({
 			uniforms: {
+				...app.webgl.scene.commonShadowUniforms,
+				...app.webgl.scene.staticShadowUniforms,
+
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uShadowOnly: globalUniforms.uShadowOnly,
 
@@ -78,12 +82,15 @@ class Player extends Object3D {
 			},
 			defines: {
 				...envMap.userData,
+				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
+				FAR: `${app.webgl.scene.shadowCamera.far}.`,
 			},
 		});
 		gold.material = new PlayerGoldMaterial({
 			uniforms: {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uShadowOnly: globalUniforms.uShadowOnly,
+				uLightPosition: app.webgl.scene.commonShadowUniforms.uLightPosition,
 
 				uRoughness: { value: goldMatParams.roughness },
 				uMetalness: { value: goldMatParams.metalness },
