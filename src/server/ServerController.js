@@ -177,7 +177,6 @@ export default class ServerController {
 	 * @param {UserVotePayload} userVotePlayload
 	 */
 	userVote(userVotePlayload) {
-		console.log(store.get(STORE_KEYS.USER_ID));
 		this.#send(SERVER_EVENTS.USER_VOTE, userVotePlayload);
 	}
 

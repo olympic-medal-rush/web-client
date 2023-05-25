@@ -135,7 +135,7 @@ function debug(_instance) {
 		app.game.setState({
 			user_id: 'userId',
 			teamsStates: {
-				BZH: { iso: 'BZH', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 5, 1: 2, 2: 15 } },
+				BZH: { iso: 'BZH', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 42, 1: 2, 2: 15 } },
 				ESP: { iso: 'ESP', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 1, 1: 2, 2: 3 } },
 				FRA: { iso: 'FRA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 7, 1: 4, 2: 12 } },
 				DEU: { iso: 'DEU', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 10, 1: 2, 2: 5 } },
