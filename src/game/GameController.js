@@ -21,12 +21,12 @@ class GameController {
 
 	/**
 	 *
-	 * @param {ConnectStatePayload} statePayload
+	 * @param {GameStatePayload} statePayload
 	 */
 	setState(statePayload) {
 		this.userId = statePayload.user_id;
 		statePayload.medals?.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
-		Object.entries(statePayload.teamsStates).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
+		Object.entries(statePayload.countries_states).forEach(([key, teamInfos]) => this.teams.set(key, new Team(teamInfos)));
 
 		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
 		this.domGameStore.initScoreboard(this.teams);
@@ -35,10 +35,10 @@ class GameController {
 
 	/**
 	 *
-	 * @param {JoinStatePayload} joinStatePayload
+	 * @param {CountryStatePayload} joinStatePayload
 	 */
 	userJoin(joinStatePayload) {
-		this.voteId = joinStatePayload.voteId;
+		this.voteId = joinStatePayload.vote_id;
 		// This assumes that the new team event has already been received
 		this.currentTeam = this.teams.get(joinStatePayload.iso);
 
@@ -48,7 +48,7 @@ class GameController {
 
 	/**
 	 *
-	 * @param {NewTeamPayload} newTeamPayload
+	 * @param {NewCountryPayload} newTeamPayload
 	 * @returns
 	 */
 	createTeam(newTeamPayload) {
@@ -83,13 +83,13 @@ class GameController {
 	 * @param {MedalCollectionPayload} medalCollectionPayload
 	 */
 	medalCollect(medalCollectionPayload) {
-		if (!this.teams.has(medalCollectionPayload.iso) || !this.medals.has(medalCollectionPayload.medal.id)) return console.error("Medal or team doesn't exist");
+		if (!this.teams.has(medalCollectionPayload.iso) || !this.medals.has(medalCollectionPayload.medal_id)) return console.error("Medal or team doesn't exist");
 
 		const medalCollectedTeam = this.teams.get(medalCollectionPayload.iso);
-		medalCollectedTeam.collect(this.medals.get(medalCollectionPayload.medal.id));
-		this.medals.delete(medalCollectionPayload.medal.id);
+		medalCollectedTeam.collect(this.medals.get(medalCollectionPayload.medal_id));
+		this.medals.delete(medalCollectionPayload.medal_id);
 
-		state.emit(EVENTS.COLLECT_MEDAL, medalCollectionPayload.medal, medalCollectedTeam);
+		state.emit(EVENTS.COLLECT_MEDAL, medalCollectionPayload.medal_id, medalCollectedTeam);
 		this.domGameStore.updateScoreTeam(medalCollectedTeam);
 	}
 

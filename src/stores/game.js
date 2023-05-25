@@ -1,4 +1,5 @@
 import { state } from '@/State';
+import { app } from '@webglApp/App';
 import { defineStore } from 'pinia';
 import { MEDAL_POINTS } from '@utils/config';
 import { EVENTS } from '@utils/constants';
@@ -49,9 +50,9 @@ export const useGameStore = defineStore('game', {
 			this.medals.slice(this.medals.indexOf(medal), 1);
 		},
 
-		/** @param {import('../game/Team').Team} team*/
-		closestMedal(team) {
-			return this.medals.sort((a, b) => a.position.distanceTo(team.position) - b.position.distanceTo(team.position))[0];
+		closestMedal() {
+			const currentPlayer = app.webgl.players.get(app.game.teams.get(this.playerCountry));
+			return [...app.webgl.medals.values()]?.sort((a, b) => a.position.distanceTo(currentPlayer.position) - b.position.distanceTo(currentPlayer.position))[0];
 		},
 
 		// Player Country

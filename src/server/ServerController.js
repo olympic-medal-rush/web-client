@@ -12,15 +12,15 @@ export default class ServerController {
 		this.domGameStore = useGameStore();
 
 		// TODO: MAËLLE FOR EVENT TEST
-		window.addEventListener('keydown', (e) => {
-			if (e.key === 'p') {
-				const data = {
-					iso: 'FRA',
-					count: Math.floor(Math.random() * 100),
-				};
-				this.#onPlayerCount(data);
-			}
-		});
+		// window.addEventListener('keydown', (e) => {
+		// 	if (e.key === 'p') {
+		// 		const data = {
+		// 			iso: 'FRA',
+		// 			count: Math.floor(Math.random() * 100),
+		// 		};
+		// 		this.#onPlayerCount(data);
+		// 	}
+		// });
 
 		state.on(EVENTS.APP_LOADED, this.#onAppLoaded);
 	}
@@ -58,7 +58,7 @@ export default class ServerController {
 			case SERVER_EVENTS.CONNECT_STATE:
 				this.#onConnectState(evt.payload);
 				break;
-			case SERVER_EVENTS.JOIN_STATE:
+			case SERVER_EVENTS.COUNTRY_STATE:
 				this.#onJoinState(evt.payload);
 				break;
 			case SERVER_EVENTS.VOTE_RESULTS:
@@ -73,7 +73,7 @@ export default class ServerController {
 			case SERVER_EVENTS.MEDAL_COLLECTION:
 				this.#onMedalCollection(evt.payload);
 				break;
-			case SERVER_EVENTS.NEW_TEAM:
+			case SERVER_EVENTS.NEW_COUNTRY:
 				this.#onNewTeam(evt.payload);
 				break;
 			case SERVER_EVENTS.PLAYER_COUNT:
@@ -89,7 +89,7 @@ export default class ServerController {
 	/**
 	 * Get current game state to initialize
 	 *
-	 * @param {ConnectStatePayload} data
+	 * @param {GameStatePayload} data
 	 */
 	#onConnectState(data) {
 		console.log(data);
@@ -100,11 +100,11 @@ export default class ServerController {
 	/**
 	 * Response to user join with current vote state
 	 *
-	 * @param {JoinStatePayload} data
+	 * @param {CountryStatePayload} data
 	 */
 	#onJoinState(data) {
 		console.log(data, 'join');
-		this.domGameStore.updatePlayersCounter(data.playersCount);
+		this.domGameStore.updatePlayersCounter(data.player_count);
 		app.game.userJoin(data);
 	}
 
@@ -138,7 +138,7 @@ export default class ServerController {
 	 */
 	#onMedalApparition(data) {
 		console.log(data);
-		app.game.addMedals({ medals: [data] });
+		app.game.addMedals(data);
 	}
 
 	/**
@@ -153,7 +153,7 @@ export default class ServerController {
 	/**
 	 * Receive player count regularly
 	 *
-	 * @param {PlayerCountPayload} data
+	 * @param {PlayerCountsPayload} data
 	 */
 	#onPlayerCount(data) {
 		this.domGameStore.updatePlayersCounter(data.count);
@@ -162,7 +162,7 @@ export default class ServerController {
 	/**
 	 * New team just joined
 	 *
-	 * @param {NewTeamPayload} data
+	 * @param {NewCountryPayload} data
 	 */
 	#onNewTeam(data) {
 		console.log(data, 'new team');

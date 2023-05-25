@@ -57,6 +57,8 @@ const onResize = () => {
 };
 
 const calculateScreenPosition = () => {
+	if (!props.medal) return;
+
 	const { screenPosition: position } = props.medal;
 
 	const xPixels = position.x * app.tools.viewport.width;
@@ -82,7 +84,6 @@ $width: 30px;
 $height: 30px;
 
 .compass-wrapper {
-	display: none;
 	position: absolute;
 	top: 0;
 	left: 0;

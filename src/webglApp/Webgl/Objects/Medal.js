@@ -24,6 +24,7 @@ class Medal extends Object3D {
 		});
 
 		this.position.setX(data.position.x + 0.5).setZ(data.position.y + 0.5);
+		this.position.y = 0.5;
 
 		this.add(this.mesh);
 	}

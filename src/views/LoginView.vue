@@ -32,7 +32,6 @@ const login = () => {
 	console.log('Login Country : ' + selectedCountry.value);
 	domGameStore.setPlayerCountry(selectedCountry.value);
 	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
-	app.game.currentTeam = selectedCountry.value;
 	app.server.userJoin({ iso: selectedCountry.value, user_id: store.get(STORE_KEYS.USER_ID) });
 
 	router.push('/game');

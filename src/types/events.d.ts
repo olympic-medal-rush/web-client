@@ -14,6 +14,12 @@ enum MedalType {
 	gold = 2,
 }
 
+type MedalInGame = {
+	id: number;
+	type: MedalType;
+	position: Position;
+};
+
 type Event<T> = {
 	type: EventType;
 	Payload: T;
@@ -30,20 +36,50 @@ type TeamInfos = {
 	medals?: Record<MedalType, number>;
 };
 
-type ConnectStatePayload = {
+type GameStatePayload = {
 	user_id: string;
-	playersCount: number;
-	teamsStates: Record<string, TeamInfos>;
+	countries_states: Record<string, TeamInfos>;
 	medals: MedalInGame[];
 };
 
-type JoinStatePayload = {
-	votes: VoteCountPayload;
-	voteProgress: number;
-	voteId: number;
+type CountryStatePayload = {
 	iso: string;
-	playersCount: number;
+	vote_id: number;
+	vote_progress: number;
+	votes: VoteCountPayload;
+	player_count: number;
 };
+
+type VoteCountPayload = {
+	up: number;
+	right: number;
+	down: number;
+	left: number;
+};
+
+type VoteResultsPayload = {
+	iso: string;
+	direction: Direction;
+	next_vote_id: number;
+};
+
+type NewCountryPayload = {
+	iso: string;
+	position: Position;
+};
+
+type MedalApparitionPayload = {
+	medals: MedalInGame[];
+};
+
+type MedalCollectionPayload = {
+	iso: string;
+	medal_id: MedalInGame;
+};
+
+type PlayerCountsPayload = Record<string, number>;
+
+// EMITTERS PAYLOADS
 
 type UserVotePayload = {
 	user_id: string;
@@ -55,44 +91,6 @@ type UserJoinPayload = {
 	iso: string;
 };
 
-type VoteResultsPayload = {
-	iso: string;
-	direction: Direction;
-	nextVoteId: number;
-};
-
-type VoteCountPayload = {
-	up: number;
-	right: number;
-	down: number;
-	left: number;
-};
-
-type MedalInGame = {
-	id: number;
-	type: MedalType;
-	position: Position;
-};
-
-type MedalCollectionPayload = {
-	iso: string;
-	medal: MedalInGame;
-};
-
-type MedalApparitionPayload = {
-	medals: MedalInGame[];
-};
-
-type PlayerCountPayload = {
-	iso: string;
-	count: number;
-};
-
-type NewTeamPayload = {
-	iso: string;
-	position: Position;
-};
-
 type EventUserVote = Event<UserVotePayload>;
 type EventUserJoin = Event<UserJoinPayload>;
 type EventVoteResults = Event<VoteResultsPayload>;
@@ -100,4 +98,4 @@ type EventVoteCount = Event<VoteCountPayload>;
 type EventMedalApparition = Event<MedalApparitionPayload>;
 type EventMedalCollection = Event<MedalCollectionPayload>;
 type EventPlayerCount = Event<PlayerCountPayload>;
-type EventNewTeam = Event<NewTeamPayload>;
+type EventNewTeam = Event<NewCountryPayload>;
