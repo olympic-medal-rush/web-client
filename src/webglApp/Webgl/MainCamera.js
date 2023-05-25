@@ -104,7 +104,6 @@ class MainCamera extends PerspectiveCamera {
 		this.zoomEase = CAMERA.zoomEase;
 	}
 
-	// return Math.atan2(y - this.position.z + CAMERA.zoomOffsetY * this.#lerpedZoom, x - this.position.x);
 	getAngleTo(x, y) {
 		return Math.atan2(y - this.position.z + CAMERA.zoomOffsetY * this.#lerpedZoom, x - this.position.x);
 	}

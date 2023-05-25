@@ -34,7 +34,7 @@ class Medal extends Object3D {
 	}
 
 	onTick({ et }) {
-		this.rotation.y = et * 0.01 * this.seed;
+		this.rotation.y = et * 0.005;
 
 		this.#projectedPosition.copy(this.position).project(app.webgl.camera).multiplyScalar(0.5).addScalar(0.5);
 		this.screenPosition.set(this.#projectedPosition.x, this.#projectedPosition.y);
