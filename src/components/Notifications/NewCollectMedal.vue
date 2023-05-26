@@ -20,6 +20,9 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 		myCountry.value.addEventListener('click', () => {
 			myCountry.value.classList.remove('active');
 		});
+		setTimeout(() => {
+			myCountry.value.classList.remove('active');
+		}, 2000);
 	} else {
 		otherCountry.value.classList.add('active');
 		setTimeout(() => {
