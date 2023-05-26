@@ -82,6 +82,8 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 	}
 
 	&_MyCountry {
+		pointer-events: all;
+		cursor: pointer;
 		position: absolute;
 		top: 100%;
 		opacity: 0;
