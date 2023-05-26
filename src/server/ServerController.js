@@ -159,7 +159,9 @@ export default class ServerController {
 	 */
 	#onPlayerCount(data) {
 		console.log(data, 'onPlayerCount');
-		this.domGameStore.updatePlayersCounter(data.count);
+
+		this.domGameStore.updatePlayersCounter(Object.values(data)[0]);
+		// TODO: update this when Antoine is ready
 	}
 
 	/**
