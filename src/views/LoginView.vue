@@ -108,6 +108,7 @@ const login = () => {
 
 		font-family: 'Paris 24';
 		cursor: pointer;
+		pointer-events: all;
 
 		&.select {
 			background-color: #f2f2e9a3;

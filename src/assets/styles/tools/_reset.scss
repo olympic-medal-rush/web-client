@@ -15,6 +15,7 @@ html {
 	width: 100%;
 	height: 100%;
 	-webkit-tap-highlight-color: transparent;
+	pointer-events: none;
 }
 
 body {
@@ -53,4 +54,5 @@ img {
 
 #vue-app {
 	height: 100%;
+	pointer-events: none;
 }

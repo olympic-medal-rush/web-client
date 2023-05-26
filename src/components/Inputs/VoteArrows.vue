@@ -112,6 +112,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 	padding: 12px;
 	border-radius: 999px;
 	cursor: pointer;
+	pointer-events: all;
 
 	&.left {
 		transform: rotateZ(-90deg);
@@ -146,5 +147,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 	font-family: 'Paris 24';
 	padding: 19px 23px;
 	border-radius: 30px;
+	pointer-events: all;
+	cursor: pointer;
 }
 </style>

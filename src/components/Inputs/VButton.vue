@@ -16,5 +16,6 @@ div {
 	padding: 12px 24px;
 	border-radius: 12px;
 	cursor: pointer;
+	pointer-events: all;
 }
 </style>
