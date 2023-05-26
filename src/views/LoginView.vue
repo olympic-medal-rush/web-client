@@ -80,7 +80,7 @@ const login = () => {
 <style lang="scss" scoped>
 @use '@styles/tools' as *;
 .Login-container {
-	height: 100vh;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;

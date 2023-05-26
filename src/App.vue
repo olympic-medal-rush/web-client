@@ -28,4 +28,9 @@ state.on(EVENTS.APP_LOADED, () => (loaded.value = true));
 	</div>
 </template>
 
-<style lang="scss"></style>
+<style scoped lang="scss">
+.container,
+main {
+	height: 100%;
+}
+</style>
