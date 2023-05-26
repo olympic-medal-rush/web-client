@@ -114,7 +114,7 @@ export default class ServerController {
 	 * @param {VoteResultsPayload} data
 	 */
 	#onVoteResults(data) {
-		console.log(data, 'onVoteResults');
+		// console.log(data, 'onVoteResults');
 		app.game.voteResults(data);
 	}
 
@@ -124,7 +124,8 @@ export default class ServerController {
 	 * @param {VoteCountPayload} data
 	 */
 	#onVoteCount(data) {
-		console.log(data, 'onVoteCount');
+		// console.log(data, 'onVoteCount');
+		app.game.voteCount(data);
 		// TODO: update Vue store or something else supposed to show vote counts
 		// up: number;
 		// right: number;
@@ -158,7 +159,7 @@ export default class ServerController {
 	 * @param {PlayerCountsPayload} data
 	 */
 	#onPlayerCount(data) {
-		console.log(data, 'onPlayerCount');
+		// console.log(data, 'onPlayerCount');
 
 		this.domGameStore.updatePlayersCounter(Object.values(data)[0]);
 		// TODO: update this when Antoine is ready
@@ -182,7 +183,7 @@ export default class ServerController {
 	 * @param {UserVotePayload} userVotePlayload
 	 */
 	userVote(userVotePlayload) {
-		console.log(userVotePlayload, 'userVote');
+		// console.log(userVotePlayload, 'userVote');
 		this.#send(SERVER_EVENTS.USER_VOTE, userVotePlayload);
 	}
 

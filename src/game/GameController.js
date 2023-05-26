@@ -117,6 +117,14 @@ class GameController {
 	userVote(userVotePlayload) {
 		app.server.userVote(userVotePlayload);
 	}
+
+	/**
+	 *
+	 * @param {VoteCountPayload} voteCountPayload
+	 */
+	voteCount(voteCountPayload) {
+		state.emit(EVENTS.VOTE_COUNT, voteCountPayload);
+	}
 }
 
 export { GameController };

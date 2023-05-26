@@ -7,12 +7,16 @@ import { BasePlayer } from './BasePlayer';
 
 class Player extends BasePlayer {
 	#moveTl;
+	#rotateTl;
 	#positionOnGrid;
 	#currentPosition = new Vector3();
 	#nextPosition = new Vector3();
+	#trendingNextPosition = new Vector3();
 	#matrix = new Matrix4();
+	#matrixTrend = new Matrix4();
 	#quat = new Quaternion();
 	#quat2 = new Quaternion();
+	#quatTrend = new Quaternion();
 	#euler = new Euler();
 	#vec3 = new Vector3();
 
@@ -90,6 +94,39 @@ class Player extends BasePlayer {
 			},
 			0,
 		);
+	}
+
+	/**
+	 *
+	 * @param {VoteCountPayload} voteCountPayload
+	 */
+	onVoteCount(voteCountPayload) {
+		// console.log('voteCount', voteCountPayload);
+		// // if (this.#moveTl?.isActive()) return;
+		// const direction = Object.entries(voteCountPayload).sort(([, valueB], [, valueA]) => valueA - valueB)[0][0];
+		// this.#trendingNextPosition.copy(this.position);
+		// switch (direction) {
+		// 	case 'up':
+		// 		this.#trendingNextPosition.z -= 10;
+		// 		break;
+		// 	case 'right':
+		// 		this.#trendingNextPosition.x += 10;
+		// 		break;
+		// 	case 'down':
+		// 		this.#trendingNextPosition.z += 10;
+		// 		break;
+		// 	case 'left':
+		// 		this.#trendingNextPosition.x -= 10;
+		// 		break;
+		// }
+		// this.#matrixTrend.identity();
+		// this.#matrixTrend.lookAt(this.#currentPosition, this.#trendingNextPosition, this.up);
+		// this.#quatTrend.setFromRotationMatrix(this.#matrixTrend);
+		// this.quaternion.copy(this.#quatTrend);
+		// this.#rotateTl?.kill();
+		// this.#rotateTl = gsap.timeline();
+		// const t = { value: 0 };
+		// this.#rotateTl.to(t, { value: 1, onUpdate: () => this.quaternion.slerp(this.#quatTrend, t.value), duration: 0.1, ease: 'power3.out' }, 0);
 	}
 }
 

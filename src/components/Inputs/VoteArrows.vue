@@ -45,7 +45,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 				<div data-dir="0" class="arrow up" @click="handleClick"><Arrow /></div>
 				<div class="VoteArrow_horz">
 					<div data-dir="3" class="arrow left" @click="handleClick"><Arrow /></div>
-					<span class="chrono"> 2s</span>
+					<span class="chrono"> 3s</span>
 					<div data-dir="1" class="arrow right" @click="handleClick"><Arrow /></div>
 				</div>
 				<div data-dir="2" class="arrow down" @click="handleClick"><Arrow /></div>

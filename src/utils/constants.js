@@ -32,6 +32,7 @@ const EVENTS = {
 	JOIN_READY: i++,
 	CREATE_TEAM: i++,
 	SPAWN_MEDALS: i++,
+	VOTE_COUNT: i++,
 	VOTE_RESULTS: i++,
 	COLLECT_MEDAL: i++,
 };
