@@ -1,0 +1,106 @@
+import { app } from '@/App.js';
+import { state } from '@/State.js';
+import { AmbientLight, Color, DepthTexture, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
+import { Group } from 'three';
+import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
+import { Medal } from '@Webgl/Objects/Medal.js';
+import { Player } from '@Webgl/Objects/Player.js';
+import { TERRAIN } from '@utils/config.js';
+import { computeEnvmap } from '@utils/misc.js';
+import { Terrain } from '../../Objects/Terrain.js';
+
+class MainScene extends Scene {
+	dynamicGroup = new Group();
+	constructor() {
+		super();
+		state.register(this);
+
+		this.add(this.dynamicGroup);
+		this.add(new AmbientLight(0xffffff, 1));
+
+		const halfTerrain = TERRAIN.size * 0.5 + 5;
+		this.shadowCamera = new OrthographicCamera(-halfTerrain, halfTerrain, halfTerrain, -halfTerrain, 1, 100);
+		this.shadowCamera.position.set(-5, 40, 5);
+		this.shadowCamera.lookAt(halfTerrain, 0, halfTerrain);
+
+		const rtSize = 4096;
+
+		// Dynamic Shadows
+		this.dynamicShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
+		this.dynamicShadowUniforms = {
+			tDynamicShadows: { value: this.dynamicShadowRenderTarget.depthTexture },
+		};
+
+		// Static Shadows
+		this.staticShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
+		this.staticShadowUniforms = {
+			tStaticShadows: { value: this.staticShadowRenderTarget.depthTexture },
+		};
+
+		// Common to both shadow types
+		this.commonShadowUniforms = {
+			uLightPosition: { value: this.shadowCamera.position },
+			uShadowProjectionMatrix: { value: this.shadowCamera.projectionMatrix },
+			uShadowMatrixInverse: { value: this.shadowCamera.matrixWorldInverse },
+		};
+	}
+
+	#createShadowRenderTarget = (size) => {
+		const renderTarget = new WebGLRenderTarget(size, size);
+		renderTarget.depthTexture = new DepthTexture(size, size);
+
+		return renderTarget;
+	};
+
+	onAppLoaded() {
+		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('skybox'), false);
+		this.background = envMap;
+		this.userData.backgrounds = [this.background, new Color(0x000000)];
+
+		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'));
+
+		this.terrain = new Terrain(app.core.assetsManager.get('terrain'));
+		this.add(this.terrain);
+
+		app.debug?.mapping.add(this, 'Scene');
+	}
+
+	onAttach() {
+		this.render();
+		this.#renderStaticShadows();
+	}
+
+	createTeam = (team) => {
+		const baseModel = app.core.assetsManager.get('player');
+		const mesh = skeletonClone(baseModel);
+		mesh.animations = baseModel.animations;
+		const player = new Player(mesh, team);
+		app.webgl.players.set(team, player);
+		this.dynamicGroup.add(player);
+	};
+
+	createMedal = (medal) => {
+		const newMedal = new Medal(app.core.assetsManager.get('medals'), medal);
+		app.webgl.medals.set(medal.id, newMedal);
+		this.dynamicGroup.add(newMedal);
+	};
+
+	#renderDiffuse() {
+		app.webgl.renderer.renderRenderTarget(this, app.webgl.camera, app.webgl.postProcessing.renderTarget);
+	}
+
+	#renderDynamicShadows() {
+		app.webgl.renderer.renderRenderTarget(this.dynamicGroup, this.shadowCamera, this.dynamicShadowRenderTarget);
+	}
+
+	#renderStaticShadows() {
+		app.webgl.renderer.renderRenderTarget(this.terrain, this.shadowCamera, this.staticShadowRenderTarget);
+	}
+
+	render() {
+		this.#renderDynamicShadows();
+		this.#renderDiffuse();
+	}
+}
+
+export { MainScene };

@@ -1,6 +1,6 @@
+import { app } from '@/App';
 import { state } from '@/State';
-import { useGameStore } from '@stores/game';
-import { app } from '@webglApp/App';
+import { useGameStore } from '@Vue/stores/game';
 import { EVENTS, SERVER_EVENTS, STORE_KEYS } from '@utils/constants';
 import { store } from '../Store';
 
