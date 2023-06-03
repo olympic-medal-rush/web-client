@@ -1,5 +1,4 @@
-import { InstancedMesh } from 'three';
-import { CubeUVReflectionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, PMREMGenerator } from 'three';
+import { CubeUVReflectionMapping, EquirectangularReflectionMapping, EquirectangularRefractionMapping, InstancedMesh, PMREMGenerator } from 'three';
 
 function computeEnvmap(renderer, texture, refraction = false) {
 	texture.mapping = refraction ? EquirectangularRefractionMapping : EquirectangularReflectionMapping;
@@ -88,7 +87,7 @@ export function applyInstances(object) {
 		instances[name] = [child];
 
 		object.traverse((child2) => {
-			if (child.name === child2.name || !child.geometry || !child2.geometry || addeds.indexOf(child2.name) >= 0 || addeds.indexOf(child.name) >= 0 || child.parent != child2.parent)
+			if (child.name === child2.name || !child.geometry || !child2.geometry || addeds.indexOf(child2.name) >= 0 || addeds.indexOf(child.name) >= 0 || child.parent !== child2.parent)
 				return;
 			if (child.geometry.uuid === child2.geometry.uuid) {
 				addeds.push(child2.name);
