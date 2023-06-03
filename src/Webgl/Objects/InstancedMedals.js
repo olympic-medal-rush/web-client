@@ -1,3 +1,4 @@
+import { app } from '@/App';
 import { Color, DataTexture, DynamicDrawUsage, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, RGBAFormat } from 'three';
 import { MedalsMaterial } from '@Webgl/Materials/Medals/material';
 import { Bimap } from '@utils/BiMap';
@@ -74,6 +75,9 @@ class InstancedMedals extends Mesh {
 	}
 
 	#createMaterial() {
+		const medalHeights = app.core.assetsManager.get('medalHeights');
+		medalHeights.flipY = false;
+
 		const material = new MedalsMaterial({
 			uniforms: {
 				// globals
@@ -81,6 +85,7 @@ class InstancedMedals extends Mesh {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 
 				tMedalColor: { value: this.#createColorsDataTexture() },
+				tMedalHeights: { value: medalHeights },
 			},
 			defines: {
 				COLOR_COUNT: MEDAL_COLORS.length,
