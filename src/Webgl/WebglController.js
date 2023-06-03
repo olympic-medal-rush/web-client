@@ -14,8 +14,6 @@ class WebglController {
 
 		/** @type {Map<import('@/Game/Team').Team, import('@Webgl/Objects/Player').Player>} */
 		this.players = new Map();
-		/** @type {Map<string,  import('@Webgl/Objects/Medal').Medal>} */
-		this.medals = new Map();
 
 		this.renderer = new Renderer();
 		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2);
@@ -45,7 +43,7 @@ class WebglController {
 	 */
 	onStateReady({ teams, medals }) {
 		teams.forEach((team) => this.onCreateTeam(team));
-		// [...medals.values()].forEach(this.scene.createMedal);
+
 		this.scene.initMedals([...medals.values()]);
 	}
 
@@ -69,7 +67,7 @@ class WebglController {
 	}
 
 	onSpawnMedals(medals) {
-		medals.forEach(this.scene.addMedal);
+		this.scene.addMedals(medals);
 	}
 
 	onCollectMedal(medal) {

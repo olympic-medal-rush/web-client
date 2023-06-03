@@ -1,15 +1,21 @@
 attribute vec3 position, normal;
 
 attribute vec2 aInstancePosition;
+attribute float aMedalType;
 
+uniform float uTime;
 uniform mat4 modelViewMatrix, projectionMatrix;
 
-varying vec3 vNormal;
+varying float vMedalType;
+
+#include ../Global/chunks/rotation.glsl
 
 void main() {
-  vNormal = normalize(normal);
+  vMedalType = aMedalType;
 
-  vec3 instancePosition = vec3(aInstancePosition.x, 0., aInstancePosition.y);
+  vec4 instancePosition = vec4(position, 1.);
+  instancePosition *= rotation3d(vec3(0., 1., 0.), uTime * .005);
+  instancePosition.xz += aInstancePosition;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position + instancePosition, 1.);
+  gl_Position = projectionMatrix * modelViewMatrix * instancePosition;
 }

@@ -86,16 +86,13 @@ class MainScene extends Scene {
 		this.dynamicGroup.add(player);
 	};
 
-	addMedal = (medal) => {
-		this.medals.addInstance(medal);
-		// const newMedal = new Medal(app.core.assetsManager.get('medal'), medal);
-		// app.webgl.medals.set(medal.id, newMedal);
-		// this.dynamicGroup.add(newMedal);
-	};
+	addMedals(medals) {
+		this.medals.addInstances(medals);
+	}
 
-	removeMedal = (medal) => {
+	removeMedal(medal) {
 		this.medals.removeInstance(medal);
-	};
+	}
 
 	#renderDiffuse() {
 		app.webgl.renderer.renderRenderTarget(this, app.webgl.camera, app.webgl.postProcessing.renderTarget);
