@@ -1,9 +1,8 @@
 import { app } from '@/App.js';
 import { state } from '@/State.js';
-import { AmbientLight, Color, DepthTexture, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
-import { Group } from 'three';
+import { AmbientLight, Color, DepthTexture, Group, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
-import { Medal } from '@Webgl/Objects/Medal.js';
+import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
 import { Player } from '@Webgl/Objects/Player.js';
 import { TERRAIN } from '@utils/config.js';
 import { computeEnvmap } from '@utils/misc.js';
@@ -70,6 +69,14 @@ class MainScene extends Scene {
 		this.#renderStaticShadows();
 	}
 
+	initMedals(medals) {
+		this.medals = new InstancedMedals({ medals, model: app.core.assetsManager.get('medal') });
+		this.medals.position.y += 0.5;
+		this.dynamicGroup.add(this.medals);
+	}
+
+	initTeams() {}
+
 	createTeam = (team) => {
 		const baseModel = app.core.assetsManager.get('player');
 		const mesh = skeletonClone(baseModel);
@@ -79,10 +86,15 @@ class MainScene extends Scene {
 		this.dynamicGroup.add(player);
 	};
 
-	createMedal = (medal) => {
-		const newMedal = new Medal(app.core.assetsManager.get('medals'), medal);
-		app.webgl.medals.set(medal.id, newMedal);
-		this.dynamicGroup.add(newMedal);
+	addMedal = (medal) => {
+		this.medals.addInstance(medal);
+		// const newMedal = new Medal(app.core.assetsManager.get('medal'), medal);
+		// app.webgl.medals.set(medal.id, newMedal);
+		// this.dynamicGroup.add(newMedal);
+	};
+
+	removeMedal = (medal) => {
+		this.medals.removeInstance(medal);
 	};
 
 	#renderDiffuse() {

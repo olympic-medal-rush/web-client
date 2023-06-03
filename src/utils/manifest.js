@@ -28,7 +28,7 @@ const manifest = {
 	models: {
 		terrain: { path: `${import.meta.env.BASE_URL}assets/models/terrain.glb` },
 		player: { path: `${import.meta.env.BASE_URL}assets/models/character.glb` },
-		medals: { path: `${import.meta.env.BASE_URL}assets/models/medals.glb` },
+		medal: { path: `${import.meta.env.BASE_URL}assets/models/medal.glb` },
 	},
 	jsons: {},
 	sounds: {

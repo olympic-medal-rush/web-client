@@ -45,7 +45,8 @@ class WebglController {
 	 */
 	onStateReady({ teams, medals }) {
 		teams.forEach((team) => this.onCreateTeam(team));
-		[...medals.values()].forEach(this.scene.createMedal);
+		// [...medals.values()].forEach(this.scene.createMedal);
+		this.scene.initMedals([...medals.values()]);
 	}
 
 	/**
@@ -68,11 +69,11 @@ class WebglController {
 	}
 
 	onSpawnMedals(medals) {
-		medals.forEach(this.scene.createMedal);
+		medals.forEach(this.scene.addMedal);
 	}
 
 	onCollectMedal(medal) {
-		this.medals.get(medal.id).removeFromParent();
+		this.scene.removeMedal(medal);
 	}
 
 	// UPDATE AND RENDER

@@ -1,10 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { MeshMatcapMaterial, Object3D } from 'three';
-import { Vector2 } from 'three';
-import { Vector3 } from 'three';
-import { Matrix4 } from 'three';
-import { Frustum } from 'three';
+import { Frustum, Matrix4, MeshMatcapMaterial, Object3D, Vector2, Vector3 } from 'three';
 import { MEDAL_COLORS } from '@utils/config';
 import { MEDAL_TYPES } from '@utils/constants';
 
@@ -14,12 +10,12 @@ class Medal extends Object3D {
 	#frustum = new Frustum();
 
 	screenPosition = new Vector2();
-	constructor(models, data) {
+	constructor(model, data) {
 		super();
 		state.register(this);
 
 		this.medalType = Object.keys(MEDAL_TYPES)[data.type];
-		this.mesh = models.getObjectByName(this.medalType).clone();
+		this.mesh = model.clone();
 		this.seed = Math.random();
 
 		const material = new MeshMatcapMaterial({ color: MEDAL_COLORS[data.type] });
