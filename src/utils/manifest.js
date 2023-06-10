@@ -17,11 +17,15 @@ const manifest = {
 		seamless2: { path: `${import.meta.env.BASE_URL}assets/textures/seamless7.png` },
 		seamless3: { path: `${import.meta.env.BASE_URL}assets/textures/seamless6.png` },
 		seamless4: { path: `${import.meta.env.BASE_URL}assets/textures/seamless4.png` },
-		playerAo: { path: `${import.meta.env.BASE_URL}assets/textures/player-ao.jpg` },
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noiseFbm1.png` },
 		skybox: { path: `${import.meta.env.BASE_URL}assets/textures/skybox.png` },
 
 		medalHeights: { path: `${import.meta.env.BASE_URL}assets/textures/medal-heights.png` },
+
+		playerAo: { path: `${import.meta.env.BASE_URL}assets/textures/player-ao.jpg` },
+		playerMetalness: { path: `${import.meta.env.BASE_URL}assets/textures/player-metalness.png` },
+		playerPositionOffsets: { path: `${import.meta.env.BASE_URL}assets/textures/offsets.png` },
+		playerNormalOffsets: { path: `${import.meta.env.BASE_URL}assets/textures/normals.png` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/forest.hdr` },

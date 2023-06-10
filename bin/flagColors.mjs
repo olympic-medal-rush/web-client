@@ -6,6 +6,9 @@ const args = process.argv.slice(2);
 const imageOutputPath = args[0];
 const jsonOutputPath = args[1];
 
+// https://en.wikipedia.org/wiki/National_colours
+// if colors are not correct for any reason
+
 const API_URL = 'https://flagcdn.com/';
 const PIXEL_THRESHOLD = 5000;
 
@@ -18,8 +21,10 @@ async function start() {
 	for (const [alpha2, alpha3] of entries) countryColors[alpha3] = await getFlagColors(alpha2);
 
 	countryColors['BZH'] = ['#000000', '#ffffff'];
+	countryColors['NONE'] = ['#000000', '#000000', '#000000'];
 
-	await generateAtlas(countryColors);
+	// await generateAtlas(countryColors);
+	writeFileSync(jsonOutputPath, JSON.stringify(countryColors), { encoding: 'utf-8' });
 
 	console.log(`🚀 ${Object.keys(countryColors).length} flags processed.`);
 }

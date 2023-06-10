@@ -1,6 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { WebGLRenderer, sRGBEncoding } from 'three';
+import { LinearSRGBColorSpace, WebGLRenderer } from 'three';
 import { DEBUG } from '@utils/config';
 
 class Renderer extends WebGLRenderer {
@@ -8,7 +8,7 @@ class Renderer extends WebGLRenderer {
 		super({ antialias: false, powerPreference: 'high-performance' });
 		state.register(this);
 
-		this.outputEncoding = sRGBEncoding;
+		this.outputColorSpace = LinearSRGBColorSpace;
 		this.autoClear = false;
 		this.debug.checkShaderErrors = DEBUG;
 	}

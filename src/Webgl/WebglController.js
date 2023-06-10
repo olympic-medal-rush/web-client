@@ -12,8 +12,8 @@ class WebglController {
 	constructor() {
 		state.register(this);
 
-		/** @type {Map<import('@/Game/Team').Team, import('@Webgl/Objects/Player').Player>} */
-		this.players = new Map();
+		// /** @type {Map<import('@/Game/Team').Team, import('@Webgl/Objects/Player').Player>} */
+		// this.players = new Map();
 
 		this.renderer = new Renderer();
 		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2);
@@ -42,8 +42,7 @@ class WebglController {
 	 * @param {import('@/types/env').StateReadyPayload} params
 	 */
 	onStateReady({ teams, medals }) {
-		teams.forEach((team) => this.onCreateTeam(team));
-
+		this.scene.initTeams([...teams.values()]);
 		this.scene.initMedals([...medals.values()]);
 	}
 
@@ -52,18 +51,18 @@ class WebglController {
 	 * @param {import('@/Game/Team').Team} currentTeam
 	 */
 	onJoinReady(currentTeam) {
-		const currentPlayer = this.players.get(currentTeam);
-		this.camera.playerPosition = currentPlayer.position;
-		this.camera.focusPlayer = true;
-		currentPlayer.addRaycaster();
+		// const currentPlayer = this.players.get(currentTeam);
+		// this.camera.playerPosition = currentPlayer.position;
+		// this.camera.focusPlayer = true;
+		// currentPlayer.addRaycaster();
 	}
 
 	onCreateTeam(team) {
-		this.scene.createTeam(team);
+		this.scene.addTeam(team);
 	}
 
 	onVoteResults(team) {
-		this.players.get(team).move();
+		this.scene.moveTeam(team);
 	}
 
 	onSpawnMedals(medals) {

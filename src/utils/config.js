@@ -39,6 +39,13 @@ const BREAKPOINTS = {
 };
 
 const MATERIALS = {
+	teams: {
+		aoMapIntensity: 0.75,
+		roughness: 0.185,
+		metalness: 0.7,
+		gold: new Color(0xfdf3a9),
+		envMapIntensity: 0.3,
+	},
 	body: {
 		aoMapIntensity: 0.7,
 	},

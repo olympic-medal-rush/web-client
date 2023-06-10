@@ -21,29 +21,6 @@ float readDepth(sampler2D depthSampler, vec2 coord) {
 	return viewZToOrthographicDepth(viewZ, NEAR, FAR);
 }
 
-// Returns height difference between current texel and neighbors (on both screen coordinates axes)
-vec2 dHdxy_fwd(vec3 baseSample, sampler2D sampler, vec2 uv, float bumpScale) {
-	vec2 dSTdx = dFdx(uv);
-	vec2 dSTdy = dFdy(uv);
-
-	float Hll = bumpScale * baseSample.r;
-	float dBx = bumpScale * texture2D(sampler, uv + dSTdx).r - Hll;
-	float dBy = bumpScale * texture2D(sampler, uv + dSTdy).r - Hll;
-
-	return vec2(dBx, dBy);
-}
-
-vec3 perturbNormalArb(vec3 surf_pos, vec3 surf_norm, vec2 dHdxy) {
-	vec3 vSigmaX = dFdx(surf_pos.xyz);
-	vec3 vSigmaY = dFdy(surf_pos.xyz);
-	vec3 vN = surf_norm;
-	vec3 R1 = cross(vSigmaY, vN);
-	vec3 R2 = cross(vN, vSigmaX);
-	float fDet = dot(vSigmaX, R1);
-	vec3 vGrad = sign(fDet) * (dHdxy.x * R1 + dHdxy.y * R2);
-	return normalize(abs(fDet) * surf_norm - vGrad);
-}
-
 void main() {
 	vec3 normal = vNormal;
 

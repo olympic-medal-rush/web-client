@@ -1,10 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { gsap } from 'gsap';
 import { Color, Scene } from 'three';
-import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
-import { BasePlayer } from '@Webgl/Objects/BasePlayer';
-import { EVENTS } from '@utils/constants';
 
 class LoginScene extends Scene {
 	constructor() {
@@ -14,23 +10,19 @@ class LoginScene extends Scene {
 	}
 
 	onAppLoaded() {
-		const baseModel = app.core.assetsManager.get('player');
-		const mesh = skeletonClone(baseModel);
-		mesh.animations = baseModel.animations;
-
-		this.player = new BasePlayer(mesh, 'BZH');
-		this.player.rotation.y = 170 * (Math.PI / 180);
-		this.player.position.z = -4;
-		this.player.position.y = -1;
-
-		this.player.startIdle();
-
-		this.add(this.player);
-
-		state.on(EVENTS.SELECT_TEAM_UPDATE, (iso) => {
-			this.player.updateISO(iso);
-			gsap.to(this.player.rotation, { y: this.player.rotation.y + Math.PI * 2, duration: 0.5 });
-		});
+		// const baseModel = app.core.assetsManager.get('player');
+		// const mesh = skeletonClone(baseModel);
+		// mesh.animations = baseModel.animations;
+		// this.player = new BasePlayer(mesh, 'BZH');
+		// this.player.rotation.y = 170 * (Math.PI / 180);
+		// this.player.position.z = -4;
+		// this.player.position.y = -1;
+		// this.player.startIdle();
+		// this.add(this.player);
+		// state.on(EVENTS.SELECT_TEAM_UPDATE, (iso) => {
+		// 	this.player.updateISO(iso);
+		// 	gsap.to(this.player.rotation, { y: this.player.rotation.y + Math.PI * 2, duration: 0.5 });
+		// });
 	}
 
 	render() {

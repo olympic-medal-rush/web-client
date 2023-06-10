@@ -1,5 +1,5 @@
 import { app } from '@/App';
-import { Color, DataTexture, DynamicDrawUsage, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, RGBAFormat } from 'three';
+import { Color, DataTexture, DynamicDrawUsage, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, LinearSRGBColorSpace, Mesh, RGBAFormat } from 'three';
 import { MedalsMaterial } from '@Webgl/Materials/Medals/material';
 import { Bimap } from '@utils/BiMap';
 import { MEDAL_COLORS } from '@utils/config';
@@ -13,7 +13,7 @@ class InstancedMedals extends Mesh {
 		medalType: null,
 	};
 	/** @type {import('three').InstancedInterleavedBuffer} */
-	#instanceInterleaveBuffer;
+	#instancedInterleaveBuffer;
 	#instancesStride = 0;
 
 	constructor({ medals = [], model, maxCount = 100 }) {
@@ -64,9 +64,9 @@ class InstancedMedals extends Mesh {
 		}
 
 		// @ts-ignore
-		this.#instanceInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(instancesData), this.#instancesStride).setUsage(DynamicDrawUsage);
-		this.#attributes.instancePosition = new InterleavedBufferAttribute(this.#instanceInterleaveBuffer, 2, 0, false);
-		this.#attributes.medalType = new InterleavedBufferAttribute(this.#instanceInterleaveBuffer, 1, 2, false);
+		this.#instancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(instancesData), this.#instancesStride).setUsage(DynamicDrawUsage);
+		this.#attributes.instancePosition = new InterleavedBufferAttribute(this.#instancedInterleaveBuffer, 2, 0, false);
+		this.#attributes.medalType = new InterleavedBufferAttribute(this.#instancedInterleaveBuffer, 1, 2, false);
 
 		geometry.setAttribute('aInstancePosition', this.#attributes.instancePosition);
 		geometry.setAttribute('aMedalType', this.#attributes.medalType);
@@ -96,7 +96,7 @@ class InstancedMedals extends Mesh {
 	}
 
 	#createColorsDataTexture() {
-		const colors = MEDAL_COLORS.map((color) => new Color(color));
+		const colors = MEDAL_COLORS.map((color) => new Color().setHex(color, LinearSRGBColorSpace));
 
 		const data = [];
 
@@ -115,7 +115,6 @@ class InstancedMedals extends Mesh {
 		medals.forEach((medal) => {
 			if (this.#medals.hasValue(medal)) return console.error('Medal instance already exists');
 			this.#medals.add(this.#count, medal);
-			console.log('added', medal.type, this.#count);
 
 			this.#attributes.instancePosition.setXY(this.#count, medal.position.x + 0.5, medal.position.y + 0.5);
 			this.#attributes.medalType.setX(this.#count, medal.type / MEDAL_COLORS.length);
@@ -123,9 +122,9 @@ class InstancedMedals extends Mesh {
 			this.#count++;
 		});
 
-		this.#instanceInterleaveBuffer.updateRange.offset = (this.#count - medals.length) * this.#instancesStride;
-		this.#instanceInterleaveBuffer.updateRange.count = medals.length * this.#instancesStride;
-		this.#instanceInterleaveBuffer.needsUpdate = true;
+		this.#instancedInterleaveBuffer.updateRange.offset = (this.#count - medals.length) * this.#instancesStride;
+		this.#instancedInterleaveBuffer.updateRange.count = medals.length * this.#instancesStride;
+		this.#instancedInterleaveBuffer.needsUpdate = true;
 	}
 
 	/**
@@ -148,9 +147,9 @@ class InstancedMedals extends Mesh {
 		this.#medals.delete(lastMedalIndex, medal);
 
 		// This is mandatory to make sure we only update the range needed to be updated
-		this.#instanceInterleaveBuffer.updateRange.offset = medalIndex * this.#instancesStride;
-		this.#instanceInterleaveBuffer.updateRange.count = 1 * this.#instancesStride;
-		this.#instanceInterleaveBuffer.needsUpdate = true;
+		this.#instancedInterleaveBuffer.updateRange.offset = medalIndex * this.#instancesStride;
+		this.#instancedInterleaveBuffer.updateRange.count = 1 * this.#instancesStride;
+		this.#instancedInterleaveBuffer.needsUpdate = true;
 
 		this.#count--;
 	}
