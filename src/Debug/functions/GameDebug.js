@@ -141,6 +141,7 @@ function debug(_instance) {
 				DEU: { iso: 'DEU', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 10, 1: 2, 2: 5 } },
 				ITA: { iso: 'ITA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 9, 1: 0, 2: 7 } },
 				USA: { iso: 'USA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 12, 1: 4, 2: 3 } },
+				BRA: { iso: 'BRA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 12, 1: 4, 2: 3 } },
 			},
 			medals: [
 				{ id: (-7).toString(), type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },

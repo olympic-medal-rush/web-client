@@ -16,7 +16,7 @@ varying vec4 vShadowCoord;
 #include ../Global/chunks/envmap_pars_fragment.glsl
 
 #include <packing>
-#include <dithering_pars_fragment>
+// #include <dithering_pars_fragment>
 
 float readDepth(sampler2D depthSampler, vec2 coord) {
 	float fragCoordZ = texture2D(depthSampler, coord).x;
@@ -85,9 +85,9 @@ void main() {
 	final.rgb = mix(final.rgb - .1, final.rgb + .1, shading);
 
 	gl_FragColor = final;
-	// gl_FragColor = vec4(vec3(gold), 1.);
 
 	// Emissive
+	// gl_FragColor.rgb = vNormal;
 	gl_FragColor.rgb *= (1. - float(uEmissiveOnly));
-	#include <dithering_fragment>
+	// #include <dithering_fragment>
 }

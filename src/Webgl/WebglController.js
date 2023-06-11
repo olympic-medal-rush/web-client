@@ -69,8 +69,8 @@ class WebglController {
 		this.scene.addMedals(medals);
 	}
 
-	onCollectMedal(medal) {
-		this.scene.removeMedal(medal);
+	onCollectMedal(medal, team) {
+		this.scene.collectMedal(medal, team);
 	}
 
 	// UPDATE AND RENDER

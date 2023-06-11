@@ -1,5 +1,7 @@
 import { app } from '@/App';
 import flagColors from '@jsons/flag_atlas.json';
+import { frame_count as frameCountJump, max_value as maxValueJump, min_value as minValueJump } from '@jsons/vat_jump.json';
+import { frame_count as frameCountMedal, max_value as maxValueMedal, min_value as minValueMedal } from '@jsons/vat_medal.json';
 import { gsap } from 'gsap';
 import {
 	BufferAttribute,
@@ -8,6 +10,7 @@ import {
 	InstancedBufferGeometry,
 	InstancedInterleavedBuffer,
 	InterleavedBufferAttribute,
+	LinearFilter,
 	LinearSRGBColorSpace,
 	Matrix4,
 	Mesh,
@@ -17,7 +20,6 @@ import {
 	StreamDrawUsage,
 	Vector3,
 } from 'three';
-import { lerp } from 'three/src/math/MathUtils';
 import { TeamsMaterial } from '@Webgl/Materials/Teams/material';
 import { Bimap } from '@utils/BiMap';
 import { MATERIALS } from '@utils/config';
@@ -26,6 +28,8 @@ import { computeEnvmap } from '@utils/misc';
 
 class InstancedTeams extends Mesh {
 	#teams;
+	/** @type {Set<import('@Game/Team').Team>} */
+	#justWonMedalTeams = new Set();
 	/** @type {Record<string, import('three').InterleavedBufferAttribute>} */
 	#staticAttributes = {
 		color1: null,
@@ -35,7 +39,7 @@ class InstancedTeams extends Mesh {
 	/** @type {Record<string, import('three').InterleavedBufferAttribute>} */
 	#streamAttributes = {
 		instancePositionAttribute: null,
-		jumpProgress: null,
+		animationProgress: null,
 		rotationY: null,
 	};
 	/** @type {import('three').InstancedInterleavedBuffer} */
@@ -44,6 +48,11 @@ class InstancedTeams extends Mesh {
 	#streamInstancedInterleaveBuffer;
 	#staticInstancesStride = 0;
 	#streamInstancesStride = 0;
+
+	#animationsSteps = {
+		jump: 0,
+		medal: 0,
+	};
 
 	#matrix = new Matrix4();
 	#quat = new Quaternion();
@@ -54,6 +63,10 @@ class InstancedTeams extends Mesh {
 		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
 
 		this.maxCount = maxCount;
+
+		const totalFrames = frameCountJump + frameCountMedal;
+		this.#animationsSteps.jump = frameCountJump / totalFrames;
+		this.#animationsSteps.medal = 1;
 
 		this.geometry = this.#createGeometry({ baseGeometry: model.getObjectByName('player').geometry });
 		this.material = this.#createMaterial();
@@ -74,12 +87,12 @@ class InstancedTeams extends Mesh {
 		geometry.instanceCount = this.maxCount;
 
 		geometry.index = baseGeometry.index;
-		geometry.attributes = baseGeometry.attributes;
-		geometry.setAttribute('aVertexID', this.#createVertexIDAttribute(geometry.getAttribute('uv1')));
-		geometry.deleteAttribute('uv1');
+		geometry.setAttribute('position', baseGeometry.getAttribute('position'));
+		geometry.setAttribute('uv', baseGeometry.getAttribute('uv'));
+		geometry.setAttribute('aVertexID', baseGeometry.getAttribute('_vertexid'));
 
 		this.#staticInstancesStride = 3 + 3 + 3;
-		this.#streamInstancesStride = 2 + 1 + 1;
+		this.#streamInstancesStride = 2 + 1 + 1 + 1;
 
 		const instancesDynamicData = [];
 		const instancesStreamData = [];
@@ -100,8 +113,10 @@ class InstancedTeams extends Mesh {
 			instancesStreamData[streamIncrement++] = teamsArr[i]?.position.x + 0.5 || 0;
 			instancesStreamData[streamIncrement++] = teamsArr[i]?.position.y + 0.5 || 0;
 
-			// Set jumpProgress
+			// Set animationProgress
 			instancesStreamData[streamIncrement++] = 1;
+			// Set animationMix
+			instancesStreamData[streamIncrement++] = 0;
 			// Set rotationY
 			instancesStreamData[streamIncrement++] = 0;
 
@@ -129,7 +144,7 @@ class InstancedTeams extends Mesh {
 		this.#staticAttributes.color3 = new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 3, 6, false);
 
 		this.#streamAttributes.instancePosition = new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 2, 0, false);
-		this.#streamAttributes.jumpProgress = new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 1, 2, false);
+		this.#streamAttributes.animationProgress = new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 1, 2, false);
 		this.#streamAttributes.rotationY = new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 1, 3, false);
 
 		geometry.setAttribute('aColor1', this.#staticAttributes.color1);
@@ -137,7 +152,7 @@ class InstancedTeams extends Mesh {
 		geometry.setAttribute('aColor3', this.#staticAttributes.color3);
 
 		geometry.setAttribute('aInstancePosition', this.#streamAttributes.instancePosition);
-		geometry.setAttribute('aJumpProgress', this.#streamAttributes.jumpProgress);
+		geometry.setAttribute('aAnimationProgress', this.#streamAttributes.animationProgress);
 		geometry.setAttribute('aRotationY', this.#streamAttributes.rotationY);
 
 		return geometry;
@@ -156,15 +171,10 @@ class InstancedTeams extends Mesh {
 
 	#createMaterial() {
 		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
-		const [positionOffsets, normalOffsets, metalnessMap, aoMap, noise] = app.core.assetsManager.get(
-			'playerPositionOffsets',
-			'playerNormalOffsets',
-			'playerMetalness',
-			'playerAo',
-			'noise',
-		);
-		positionOffsets.flipY = normalOffsets.flipY = aoMap.flipY = metalnessMap.flipY = false;
-		positionOffsets.generateMipmaps = normalOffsets.generateMipmaps = aoMap.generateMipmaps = false;
+		const [positionOffsets, normal, metalnessMap, aoMap, noise] = app.core.assetsManager.get('playerPositionOffsets', 'playerNormal', 'playerMetalness', 'playerAo', 'noise');
+		positionOffsets.flipY = normal.flipY = aoMap.flipY = metalnessMap.flipY = false;
+		positionOffsets.generateMipmaps = normal.generateMipmaps = aoMap.generateMipmaps = metalnessMap.generateMipmaps = false;
+		positionOffsets.magFilter = positionOffsets.minFilter = LinearFilter;
 		noise.wrapS = noise.wrapT = RepeatWrapping;
 
 		const material = new TeamsMaterial({
@@ -183,7 +193,7 @@ class InstancedTeams extends Mesh {
 				uMetalness: { value: MATERIALS.teams.metalness },
 
 				tPositionOffsets: { value: positionOffsets },
-				tNormalOffsets: { value: normalOffsets },
+				tNormal: { value: normal },
 
 				tMetalnessMap: { value: metalnessMap },
 				tAoMap: { value: aoMap },
@@ -193,6 +203,11 @@ class InstancedTeams extends Mesh {
 				...envMap.userData,
 				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
 				FAR: `${app.webgl.scene.shadowCamera.far}.`,
+				MIN_OFFSET_JUMP: `${minValueJump}`,
+				MAX_OFFSET_JUMP: `${maxValueJump}`,
+				MIN_OFFSET_MEDAL: `${minValueMedal}`,
+				MAX_OFFSET_MEDAL: `${maxValueMedal}`,
+				JUMP_PROGRESS_STEP: `${this.#animationsSteps.jump}`,
 			},
 		});
 
@@ -254,29 +269,37 @@ class InstancedTeams extends Mesh {
 		const currentRotationY = this.#streamAttributes.rotationY.getX(teamIndex);
 		const nextRotationY = this.#euler.y;
 
-		const t = { value: 0 };
+		const t = { positionProgress: 0, animationProgress: 0, rotationProgress: 0 };
 
-		const tl = gsap.timeline();
-		tl.to(
-			t,
-			{
-				value: 1,
-				ease: 'power3.inOut',
-				duration: 2,
-				onUpdate: () => {
-					animatedPosition.lerpVectors(currentPosition, nextPosition, t.value);
+		let animationProgressTarget = this.#animationsSteps.jump - 0.01;
+		let animationDuration = 1.5;
+		if (this.#justWonMedalTeams.has(team)) {
+			this.#justWonMedalTeams.delete(team);
+			animationProgressTarget = this.#animationsSteps.medal;
+			animationDuration += 1;
+		}
 
-					this.#streamAttributes.instancePosition.setXY(teamIndex, animatedPosition.x, animatedPosition.z);
-					this.#streamAttributes.jumpProgress.setX(teamIndex, t.value);
-					this.#streamAttributes.rotationY.setX(teamIndex, lerp(currentRotationY, nextRotationY, t.value));
+		const tl = gsap.timeline({
+			onUpdate: () => {
+				animatedPosition.lerpVectors(currentPosition, nextPosition, t.positionProgress);
 
-					this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
-					this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
-					this.#streamInstancedInterleaveBuffer.needsUpdate = true;
-				},
+				this.#streamAttributes.instancePosition.setXY(teamIndex, animatedPosition.x, animatedPosition.z);
+				this.#streamAttributes.animationProgress.setX(teamIndex, t.animationProgress);
+				// this.#streamAttributes.rotationY.setX(teamIndex, lerp(currentRotationY, nextRotationY, t.value));
+
+				this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
+				this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
+				this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 			},
-			0,
-		);
+		});
+		tl.to(t, { animationProgress: animationProgressTarget, ease: 'linear', duration: animationDuration }, 0);
+		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0.6);
+	}
+
+	collectMedal(team) {
+		if (!this.#teams.hasValue(team)) return console.error("Team instance doesn't exist");
+
+		this.#justWonMedalTeams.add(team);
 	}
 
 	set #count(value) {

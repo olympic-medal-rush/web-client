@@ -92,7 +92,8 @@ class MainScene extends Scene {
 		this.medals.addInstances(medals);
 	}
 
-	removeMedal(medal) {
+	collectMedal(medal, team) {
+		this.teams.collectMedal(team);
 		this.medals.removeInstance(medal);
 	}
 
