@@ -8,19 +8,24 @@
 		"module": "ESNext",
 		"baseUrl": ".",
 		"paths": {
+			"@components/*": ["./src/Vue/components/*"],
+			"@stores/*": ["./src/Vue/stores/*"],
+			"@views/*": ["./src/Vue/views/*"],
+
 			"@styles/*": ["./src/assets/styles/*"],
 			"@jsons/*": ["./src/assets/jsons/*"],
-			"@components/*": ["./src/components/*"],
-			"@stores/*": ["./src/stores/*"],
-			"@views/*": ["./src/views/*"],
+
 			"@utils/*": ["./src/utils/*"],
-			"@webglApp/*": ["./src/webglApp/*"],
-			"@game/*": ["./src/game/*"],
-			"@server/*": ["./src/server/*"],
-			"@Core/*": ["./src/webglApp/Core/*"],
-			"@Debug/*": ["./src/webglApp/Debug/*"],
-			"@Tools/*": ["./src/webglApp/Tools/*"],
-			"@Webgl/*": ["./src/webglApp/Webgl/*"],
+
+			"@Core/*": ["src/Core/*"],
+			"@Debug/*": ["./src/Debug/*"],
+			"@Game/*": ["src/Game/*"],
+			"@Server/*": ["src/Server/*"],
+			"@Sound/*": ["src/Sound/*"],
+			"@Tools/*": ["./src/Tools/*"],
+			"@Vue/*": ["./src/Vue/*"],
+			"@Webgl/*": ["./src/Webgl/*"],
+
 			"@/*": ["./src/*"]
 		}
 	},

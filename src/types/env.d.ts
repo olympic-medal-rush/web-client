@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pwa/client" />
-import { Medal } from '@game/Medal';
-import { Team } from '@game/Team';
+import { Medal } from '@/Game/Medal';
+import { Team } from '@/Game/Team';
 
 interface ImportMetaEnv {
 	readonly OLYMPIC_DEBUG: string;
@@ -19,6 +19,6 @@ type StateReadyPayload = {
 };
 
 type TerrainData = {
-	data: number[][],
-	mapping: Record<number, string>
-}
+	data: number[][];
+	mapping: Record<number, string>;
+};

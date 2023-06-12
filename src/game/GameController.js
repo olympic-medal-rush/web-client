@@ -1,6 +1,6 @@
+import { app } from '@/App';
 import { state } from '@/State';
-import { useGameStore } from '@stores/game';
-import { app } from '@webglApp/App';
+import { useGameStore } from '@Vue/stores/game';
 import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
 import { MedalsMap } from './MedalsMap';
@@ -86,10 +86,12 @@ class GameController {
 		if (!this.teams.has(medalCollectionPayload.iso) || !this.medals.has(medalCollectionPayload.medal_id)) return console.error("Medal or team doesn't exist");
 
 		const medalCollectedTeam = this.teams.get(medalCollectionPayload.iso);
+		const collectedMedal = this.medals.get(medalCollectionPayload.medal_id);
+
 		medalCollectedTeam.collect(this.medals.get(medalCollectionPayload.medal_id));
 		this.medals.delete(medalCollectionPayload.medal_id);
 
-		state.emit(EVENTS.COLLECT_MEDAL, medalCollectionPayload.medal_id, medalCollectedTeam);
+		state.emit(EVENTS.COLLECT_MEDAL, collectedMedal, medalCollectedTeam);
 		this.domGameStore.updateScoreTeam(medalCollectedTeam);
 	}
 
@@ -114,6 +116,14 @@ class GameController {
 	 */
 	userVote(userVotePlayload) {
 		app.server.userVote(userVotePlayload);
+	}
+
+	/**
+	 *
+	 * @param {VoteCountPayload} voteCountPayload
+	 */
+	voteCount(voteCountPayload) {
+		state.emit(EVENTS.VOTE_COUNT, voteCountPayload);
 	}
 }
 

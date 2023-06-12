@@ -11,6 +11,7 @@ const EVENTS = {
 	// VUE
 	ROUTE_CHANGE: i++,
 	SELECT_TEAM_UPDATE: i++,
+	SCOREBOARD_UPDATE: i++,
 
 	// TICKER
 	TICK: i++,
@@ -32,6 +33,7 @@ const EVENTS = {
 	JOIN_READY: i++,
 	CREATE_TEAM: i++,
 	SPAWN_MEDALS: i++,
+	VOTE_COUNT: i++,
 	VOTE_RESULTS: i++,
 	COLLECT_MEDAL: i++,
 };
@@ -71,9 +73,6 @@ const SERVER_EVENTS = {
 	// EMITTERS
 	USER_VOTE: 'user_vote',
 	USER_JOIN: 'user_join',
-
-	// TODO: move to events
-	SCOREBOARD_UPDATE: 'scoreboard_update',
 };
 
 const DIRECTIONS = {

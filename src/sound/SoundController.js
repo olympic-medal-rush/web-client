@@ -1,7 +1,7 @@
+import { app } from '@/App';
 import { state } from '@/State';
-import { app } from '@webglApp/App';
-import { manifest } from '@webglApp/utils/manifest';
 import { EVENTS } from '@utils/constants';
+import { manifest } from '@utils/manifest';
 import SingleAudio from './SingleAudio';
 
 class SoundController {

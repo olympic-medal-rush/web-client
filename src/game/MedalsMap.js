@@ -11,7 +11,7 @@ class MedalsMap {
 	/**
 	 *
 	 * @param {string} key
-	 * @param {import('@game/Medal').Medal} value
+	 * @param {import('@/Game/Medal').Medal} value
 	 */
 	set(key, value) {
 		this.#map.set(key, value);
