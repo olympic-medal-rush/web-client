@@ -20,11 +20,7 @@ mat3 rotateY(float angle) {
   float c = cos(angle);
   float s = sin(angle);
 
-  return mat3(
-    c, 0.0, -s,
-    0.0, 1.0, 0.0,
-    s, 0.0, c
-  );
+  return mat3(c, 0.0, -s, 0.0, 1.0, 0.0, s, 0.0, c);
 }
 
 float map(float value, float min1, float max1, float min2, float max2) {
@@ -45,7 +41,7 @@ void main() {
   objectPosition += positionOffset;
 
   // objectPosition = rotateY(aRotationY) * objectPosition; 
-  
+
   vec4 instancePosition = vec4(objectPosition, 1.);
   instancePosition.xz += aInstancePosition;
 

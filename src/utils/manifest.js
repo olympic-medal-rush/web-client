@@ -26,6 +26,7 @@ const manifest = {
 		playerMetalness: { path: `${import.meta.env.BASE_URL}assets/textures/players/player-metalness.jpg` },
 		playerPositionOffsets: { path: `${import.meta.env.BASE_URL}assets/textures/players/offsetsCombined.png` },
 		playerNormal: { path: `${import.meta.env.BASE_URL}assets/textures/players/normalsCombined.png` },
+		reactmoji: { path: `${import.meta.env.BASE_URL}assets/textures/players/reactmoji.png` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/forest.hdr` },

@@ -4,6 +4,7 @@ import { AmbientLight, Color, DepthTexture, Group, OrthographicCamera, Scene, We
 import { InstancedFlames } from '@Webgl/Objects/InstancedFlames.js';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
 import { InstancedTeams } from '@Webgl/Objects/InstancedTeams.js';
+import Reactmoji from '@Webgl/Objects/Reactmoji.js';
 import { TERRAIN } from '@utils/config.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { Terrain } from '../../Objects/Terrain.js';
@@ -79,6 +80,11 @@ class MainScene extends Scene {
 		this.teams = new InstancedTeams({ teams, model: app.core.assetsManager.get('player') });
 		this.flames = new InstancedFlames({ teams });
 		this.dynamicGroup.add(this.teams, this.flames);
+
+		const reactmoji = new Reactmoji();
+		reactmoji.position.y += 5;
+		this.add(reactmoji);
+		this.dynamicGroup.add(this.teams);
 	}
 
 	addMedals(medals) {
