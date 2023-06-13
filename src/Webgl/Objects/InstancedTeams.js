@@ -275,15 +275,17 @@ class InstancedTeams extends Mesh {
 
 				this.#streamAttributes.instancePosition.setXY(teamIndex, animatedPosition.x, animatedPosition.z);
 				this.#streamAttributes.animationProgress.setX(teamIndex, t.animationProgress);
-				this.#streamAttributes.rotationY.setX(teamIndex, lerp(currentRotationY, nextRotationY, t.value));
+				this.#streamAttributes.rotationY.setX(teamIndex, lerp(currentRotationY, nextRotationY, t.rotationProgress));
 
 				this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
 				this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
 				this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 			},
 		});
-		tl.to(t, { animationProgress: animationProgressTarget, ease: 'linear', duration: animationDuration }, 0);
-		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0.6);
+
+		tl.to(t, { rotationProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0);
+		tl.to(t, { animationProgress: animationProgressTarget, ease: 'linear', duration: animationDuration }, 0.6);
+		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 1.2);
 	}
 
 	collectMedal(team) {

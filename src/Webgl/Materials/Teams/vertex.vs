@@ -31,7 +31,7 @@ void main() {
   vec2 offsetsUv = vec2(aVertexID, aAnimationProgress);
 
   vec3 objectNormal = texture2D(tNormal, offsetsUv).xzy;
-  vec3 objectPosition = position * .6; // TODO: scale model instead
+  vec3 objectPosition = position * .6;
   
   vec3 positionOffset = texture2D(tPositionOffsets, offsetsUv).xyz;
   positionOffset = vec3(positionOffset.x, positionOffset.z, positionOffset.y) * step(0., aAnimationProgress);
@@ -40,9 +40,8 @@ void main() {
   positionOffset.z = map(positionOffset.z, 0., 1., MIN_OFFSET, MAX_OFFSET);
   objectPosition += positionOffset;
 
-  // objectPosition = rotateY(aRotationY) * objectPosition; 
 
-  vec4 instancePosition = vec4(objectPosition, 1.);
+  vec4 instancePosition = vec4(objectPosition * rotateY(aRotationY), 1.);
   instancePosition.xz += aInstancePosition;
 
   vec4 mvPosition = modelViewMatrix * instancePosition;
