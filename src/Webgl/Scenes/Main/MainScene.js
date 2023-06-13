@@ -3,6 +3,7 @@ import { state } from '@/State.js';
 import { AmbientLight, Color, DepthTexture, Group, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
 import { InstancedTeams } from '@Webgl/Objects/InstancedTeams.js';
+import Reactmoji from '@Webgl/Objects/Reactmoji.js';
 import { TERRAIN } from '@utils/config.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { Terrain } from '../../Objects/Terrain.js';
@@ -76,6 +77,9 @@ class MainScene extends Scene {
 
 	initTeams(teams) {
 		this.teams = new InstancedTeams({ teams, model: app.core.assetsManager.get('player') });
+		const reactmoji = new Reactmoji();
+		reactmoji.position.y += 5;
+		this.add(reactmoji);
 		this.dynamicGroup.add(this.teams);
 	}
 

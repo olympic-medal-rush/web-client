@@ -70,6 +70,8 @@ const SERVER_EVENTS = {
 
 	PLAYER_COUNT: 'player_count',
 
+	REACT_MOJI: 'react_moji',
+
 	// EMITTERS
 	USER_VOTE: 'user_vote',
 	USER_JOIN: 'user_join',
@@ -99,4 +101,4 @@ const MEDAL_TYPES = {
 
 // const COLORS = Object.fromEntries(cssColors);
 
-export { EVENTS, EVENTS_MAP, STORE_KEYS, SERVER_EVENTS, DIRECTIONS, MEDAL_TYPES };
+export { DIRECTIONS, EVENTS, EVENTS_MAP, MEDAL_TYPES, SERVER_EVENTS, STORE_KEYS };

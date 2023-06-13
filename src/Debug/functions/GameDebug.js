@@ -2,6 +2,7 @@ import { app } from '@/App';
 import { state } from '@/State';
 import flagColors from '@/assets/jsons/flag_colors.json';
 import terrainData from '@/assets/jsons/terrain_data.json';
+import MojiData from '@jsons/reactmoji.json';
 import { randInt } from 'three/src/math/MathUtils';
 import { DIRECTIONS, EVENTS, MEDAL_TYPES } from '@utils/constants';
 
@@ -105,6 +106,10 @@ function createPane(pane, instance, name) {
 
 			const teamPos = app.game.teams.get(teamList.value).position;
 			console.log(terrainData.mapping[terrainData.data[teamPos.y][teamPos.x]], teamPos.x, teamPos.y);
+		});
+
+		folder.addButton({ title: 'ReactMoji' }).on('click', () => {
+			state.emit(EVENTS.REACT_MOJI, app.game.teams.get(teamList.value).iso, Math.floor(Math.random() * MojiData.frames.length));
 		});
 	}
 
