@@ -46,7 +46,8 @@ void main() {
 	float shadowFactor = step(depthShadowCoord - bias, depthShadowMap);
 
 	float difLight = max(.5, cosTheta);
-	float shading = shadowFactor * difLight;
+	// float shading = shadowFactor * difLight;
+	float shading =  difLight;
 
 	// GRADIENT NOISE
 	float noise1 = (texture2D(tNoise, vPosition.xy * .1).r + texture2D(tNoise, vPosition.yz * .1).r) * 1.;

@@ -23,9 +23,9 @@ const manifest = {
 		medalHeights: { path: `${import.meta.env.BASE_URL}assets/textures/medals/medal-heights.png` },
 
 		playerAo: { path: `${import.meta.env.BASE_URL}assets/textures/players/player-ao.jpg` },
-		playerMetalness: { path: `${import.meta.env.BASE_URL}assets/textures/players/player-metalness.png` },
-		playerPositionOffsets: { path: `${import.meta.env.BASE_URL}assets/textures/players/offsets.png` },
-		playerNormal: { path: `${import.meta.env.BASE_URL}assets/textures/players/normals.png` },
+		playerMetalness: { path: `${import.meta.env.BASE_URL}assets/textures/players/player-metalness.jpg` },
+		playerPositionOffsets: { path: `${import.meta.env.BASE_URL}assets/textures/players/offsetsCombined.png` },
+		playerNormal: { path: `${import.meta.env.BASE_URL}assets/textures/players/normalsCombined.png` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/forest.hdr` },

@@ -10,7 +10,8 @@
     "preview": "vite preview -c config/vite.config.js",
     "translate": "node bin/translate.mjs 1mf5qJUxz7tg0WNmle_UGAahXapRGeWrUklk0KTwKOUc ./src/assets/locales/",
     "color-flags": "node bin/flagColors.mjs ./public/assets/textures/flags-atlas.png  ./src/assets/jsons/flag_atlas.json",
-    "flags": "node bin/getFlag.mjs ./public/assets/images/flags/"
+    "flags": "node bin/getFlag.mjs ./public/assets/images/flags/",
+    "flags-atlas": "node bin/flagAtlas.mjs ./public/assets/images/flags/ ./"
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.9.3",
@@ -27,6 +28,7 @@
     "@rushstack/eslint-patch": "^1.2.0",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@tweakpane/plugin-essentials": "^0.1.8",
+    "@types/three": "^0.152.1",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vue/compiler-sfc": "^3.2.47",
     "@vue/eslint-config-prettier": "^7.1.0",

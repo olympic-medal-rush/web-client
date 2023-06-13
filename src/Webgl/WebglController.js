@@ -12,9 +12,6 @@ class WebglController {
 	constructor() {
 		state.register(this);
 
-		// /** @type {Map<import('@/Game/Team').Team, import('@Webgl/Objects/Player').Player>} */
-		// this.players = new Map();
-
 		this.renderer = new Renderer();
 		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2);
 
@@ -51,9 +48,8 @@ class WebglController {
 	 * @param {import('@/Game/Team').Team} currentTeam
 	 */
 	onJoinReady(currentTeam) {
-		// const currentPlayer = this.players.get(currentTeam);
-		// this.camera.playerPosition = currentPlayer.position;
-		// this.camera.focusPlayer = true;
+		this.camera.playerPosition = this.scene.teams.positions.get(currentTeam);
+		this.camera.focusPlayer = true;
 		// currentPlayer.addRaycaster();
 	}
 

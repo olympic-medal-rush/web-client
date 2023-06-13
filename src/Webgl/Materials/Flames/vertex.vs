@@ -1,11 +1,13 @@
-attribute vec3 position;
-attribute vec3 normal;
 attribute vec2 uv;
+attribute vec3 position, normal;
 
+// Particles atttributes
+attribute float aSize, aSpeed, aRad;
 attribute vec3 aColor;
-attribute float aSize;
-attribute float aSpeed;
-attribute float aRad;
+
+// Instances attributes
+attribute vec2 aInstancePosition;
+attribute float aRotationY;
 
 uniform mat4 projectionMatrix, modelViewMatrix;
 uniform float uTime;
@@ -35,19 +37,26 @@ void main() {
   vNormal = normal;
 
   vec3 pos = position;
-  // Update size
   float size = smoothstep(0., 0.7, fract(-uTime * aSpeed * uGlobalSpead)) * aSize;
-  pos *= size;
 
   // Update pos
   float radus = uRadius - (pos.y * aSpeed * 800. * aSize);
   pos.y += fract(uTime * aSpeed * uGlobalSpead) * uElevation;
   pos.x += radus * cos(aRad);
   pos.z += radus * sin(aRad);
+  
+  // Update size
+  pos *= size;
+  
+  pos.xz += aInstancePosition;
+  pos.y += 2.;
+
+
 
   // Update rotate
-  mat4 rotationMatrix = rotation3d(vec3(0., 1., 0.), aRad);
-  vec4 transfomedPos = rotationMatrix * vec4(pos, 1.);
+  // mat4 rotationMatrix = rotation3d(vec3(0., 1., 0.), aRad);
+  // vec4 transfomedPos = rotationMatrix * vec4(pos, 1.);
+  vec4 transfomedPos = vec4(pos, 1.);
 
   gl_Position = projectionMatrix * modelViewMatrix * transfomedPos;
 
