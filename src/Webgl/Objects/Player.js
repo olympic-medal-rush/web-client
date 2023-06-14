@@ -1,132 +1,121 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import gsap from 'gsap';
-import { Euler, Matrix4, Quaternion, Raycaster, Vector3 } from 'three';
-import { EVENTS } from '@utils/constants';
-import { BasePlayer } from './BasePlayer';
+import flagColors from '@jsons/flag_colors.json';
+import { frame_count as frameCount, max_value as maxValue, min_value as minValue, steps } from '@jsons/vat_combined.json';
+import { gsap } from 'gsap';
+import { BufferGeometry, Color, LinearFilter, LinearSRGBColorSpace, Mesh, RepeatWrapping } from 'three';
+import { TeamsMaterial } from '@Webgl/Materials/Teams/material';
+import { MATERIALS } from '@utils/config';
+import { globalUniforms } from '@utils/globalUniforms';
 
-class Player extends BasePlayer {
-	#moveTl;
-	#rotateTl;
-	#positionOnGrid;
-	#currentPosition = new Vector3();
-	#nextPosition = new Vector3();
-	#trendingNextPosition = new Vector3();
-	#matrix = new Matrix4();
-	#matrixTrend = new Matrix4();
-	#quat = new Quaternion();
-	#quat2 = new Quaternion();
-	#quatTrend = new Quaternion();
-	#euler = new Euler();
-	#vec3 = new Vector3();
-
-	constructor(model, team) {
-		super(model, team.iso);
+class Player extends Mesh {
+	#animationsSteps = {
+		jump: 0,
+		medal: 0,
+	};
+	constructor(model, teamIso) {
+		super();
 		state.register(this);
 
-		// Initial position
-		this.#positionOnGrid = team.position;
-		this.#currentPosition.set(this.#positionOnGrid.x + 0.5, 0, this.#positionOnGrid.y + 0.5);
-		this.#nextPosition.copy(this.#currentPosition);
+		const totalFrames = frameCount;
+		this.#animationsSteps.jump = steps[1] / totalFrames;
+		this.#animationsSteps.medal = 1;
 
-		this.position.copy(this.#currentPosition);
+		this.geometry = this.#createGeometry({ baseGeometry: model.getObjectByName('player').geometry });
+		this.material = this.#createMaterial(teamIso);
 
-		app.debug?.mapping.add(this, 'Player', 0, 'Player: ' + this.name);
+		app.debug?.mapping.add(this.material, 'TeamsMaterial');
 	}
 
-	addRaycaster() {
-		this.raycaster = new Raycaster();
-		state.on(EVENTS.POINTER_DOWN, (e) => {
-			this.raycaster.setFromCamera(e.webgl, app.webgl.camera);
-			const intersects = this.raycaster.intersectObject(this.raycastCube);
-			if (intersects.length > 0) app.webgl.camera.focusPlayer = true;
+	#createGeometry({ baseGeometry }) {
+		const geometry = new BufferGeometry();
+
+		geometry.index = baseGeometry.index;
+		geometry.setAttribute('position', baseGeometry.getAttribute('position'));
+		geometry.setAttribute('uv', baseGeometry.getAttribute('uv'));
+		geometry.setAttribute('aVertexID', baseGeometry.getAttribute('_vertexid'));
+
+		return geometry;
+	}
+
+	#createMaterial(teamIso) {
+		const [positionOffsets, normal, metalnessMap, aoMap, noise] = app.core.assetsManager.get('playerPositionOffsets', 'playerNormal', 'playerMetalness', 'playerAo', 'noise');
+		positionOffsets.flipY = normal.flipY = aoMap.flipY = metalnessMap.flipY = false;
+		positionOffsets.generateMipmaps = normal.generateMipmaps = aoMap.generateMipmaps = metalnessMap.generateMipmaps = false;
+		positionOffsets.magFilter = positionOffsets.minFilter = LinearFilter;
+		noise.wrapS = noise.wrapT = RepeatWrapping;
+
+		const { color1, color2, color3 } = this.#getTeamColors(teamIso);
+
+		const material = new TeamsMaterial({
+			uniforms: {
+				// globals
+				uTime: globalUniforms.uTime,
+				uEmissiveOnly: globalUniforms.uEmissiveOnly,
+				...app.webgl.scene.commonShadowUniforms,
+				...app.webgl.scene.staticShadowUniforms,
+
+				uGold: { value: MATERIALS.teams.gold },
+				uAoMapIntensity: { value: MATERIALS.teams.aoMapIntensity },
+				uEnvMapIntensity: { value: MATERIALS.teams.envMapIntensity },
+
+				uRoughness: { value: MATERIALS.teams.roughness },
+				uMetalness: { value: MATERIALS.teams.metalness },
+
+				tPositionOffsets: { value: positionOffsets },
+				tNormal: { value: normal },
+
+				tMetalnessMap: { value: metalnessMap },
+				tAoMap: { value: aoMap },
+				tEnvMap: { value: app.webgl.scene.environment },
+
+				uColor1: { value: color1 },
+				uColor2: { value: color2 },
+				uColor3: { value: color3 },
+
+				uAnimationProgress: { value: 0 },
+			},
+			defines: {
+				...app.webgl.scene.environment.userData,
+				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
+				FAR: `${app.webgl.scene.shadowCamera.far}.`,
+				MIN_OFFSET: `${minValue}`,
+				MAX_OFFSET: `${maxValue}`,
+			},
 		});
+
+		return material;
 	}
 
-	move() {
-		this.#moveTl?.kill();
-		this.#moveTl = gsap.timeline({
-			onStart: () => {
-				this.mixer.clipAction(this.animations[0]).play();
-			},
-			onUpdate: () => {
-				this.headBone.getWorldPosition(this.#vec3);
-				this.#euler.setFromQuaternion(this.headBone.getWorldQuaternion(this.#quat2));
+	#getTeamColors(iso = 'NONE') {
+		const colors = flagColors[iso];
+		const color1 = new Color().setStyle(colors[0], LinearSRGBColorSpace);
+		const color2 = new Color().setStyle(colors[1] || colors[0], LinearSRGBColorSpace);
+		const color3 = new Color().setStyle(colors[2] || colors[1] || colors[0], LinearSRGBColorSpace);
 
-				// this.flame.rotation.copy(this.#euler);
-				// this.flame.applyQuaternion(this.#quat);
-
-				if (this.#quat.y === 0) {
-					this.flame.position.z = (this.#vec3.z - this.position.z) * 5;
-				} else if (this.#quat.y === 1) {
-					this.flame.position.z = -(this.#vec3.z - this.position.z) * 5;
-				} else if (this.#quat.y > 0) {
-					this.flame.position.z = (this.#vec3.x - this.position.x) * 5;
-				} else {
-					this.flame.position.z = -(this.#vec3.x - this.position.x) * 5;
-				}
-			},
-			onComplete: () => {
-				this.mixer.clipAction(this.animations[0]).stop();
-			},
-		});
-
-		this.#currentPosition.set(this.#nextPosition.x, 0, this.#nextPosition.z);
-		this.#nextPosition.set(this.#positionOnGrid.x + 0.5, 0, this.#positionOnGrid.y + 0.5);
-
-		this.#matrix.identity();
-		this.#matrix.lookAt(this.#currentPosition, this.#nextPosition, this.up);
-		this.#quat.setFromRotationMatrix(this.#matrix);
-
-		const t = { value: 0 };
-		const delay = this.animations[0].duration / 3;
-		this.#moveTl.to(t, { value: 1, onUpdate: () => this.quaternion.slerp(this.#quat, t.value), duration: delay, ease: 'power3.out' }, 0);
-		this.#moveTl.to(
-			this.position,
-			{
-				x: this.#nextPosition.x,
-				z: this.#nextPosition.z,
-				duration: this.animations[0].duration - delay,
-				// duration: 2,
-				// ease: 'playerJump',
-				ease: 'power3.inOut',
-				delay,
-			},
-			0,
-		);
+		return { color1, color2, color3 };
 	}
 
-	/**
-	 *
-	 * @param {VoteCountPayload} voteCountPayload
-	 */
-	onVoteCount(voteCountPayload) {
-		// console.log('voteCount', voteCountPayload);
-		// // if (this.#moveTl?.isActive()) return;
-		// const direction = Object.entries(voteCountPayload).sort(([, valueB], [, valueA]) => valueA - valueB)[0][0];
-		// this.#trendingNextPosition.copy(this.position);
-		// switch (direction) {
-		// 	case 'up':
-		// 		this.#trendingNextPosition.z -= 10;
-		// 		break;
-		// 	case 'right':
-		// 		this.#trendingNextPosition.x += 10;
-		// 		break;
-		// 	case 'down':
-		// 		this.#trendingNextPosition.z += 10;
-		// 		break;
-		// 	case 'left':
-		// 		this.#trendingNextPosition.x -= 10;
-		// 		break;
-		// }
-		// this.#matrixTrend.identity();
-		// this.#matrixTrend.lookAt(this.#currentPosition, this.#trendingNextPosition, this.up);
-		// this.#quatTrend.setFromRotationMatrix(this.#matrixTrend);
-		// this.quaternion.copy(this.#quatTrend);
-		// this.#rotateTl?.kill();
-		// this.#rotateTl = gsap.timeline();
-		// const t = { value: 0 };
-		// this.#rotateTl.to(t, { value: 1, onUpdate: () => this.quaternion.slerp(this.#quatTrend, t.value), duration: 0.1, ease: 'power3.out' }, 0);
+	updateISO(iso) {
+		const { color1, color2, color3 } = this.#getTeamColors(iso);
+
+		const tl = gsap.timeline();
+
+		tl.to(this.rotation, { y: `+=${Math.PI * 2}`, duration: 0.5, ease: 'power3.inOut' }, 0);
+		tl.to(this.uniforms.uColor1.value, { r: color1.r, g: color1.g, b: color1.b, duration: 0.5, ease: 'linear' }, 0);
+		tl.to(this.uniforms.uColor2.value, { r: color2.r, g: color2.g, b: color2.b, duration: 0.5, ease: 'linear' }, 0);
+		tl.to(this.uniforms.uColor3.value, { r: color3.r, g: color3.g, b: color3.b, duration: 0.5, ease: 'linear' }, 0);
+		tl.fromTo(this.uniforms.uAnimationProgress, { value: this.#animationsSteps.jump }, { value: 1, duration: 1, ease: 'linear' }, 0);
+	}
+
+	dispose() {
+		this.geometry.dispose();
+		this.material.dispose();
+		this.dispose();
+	}
+
+	get uniforms() {
+		return this.material.uniforms;
 	}
 }
 

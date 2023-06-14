@@ -5,8 +5,7 @@ import { store } from '@/Store';
 import router from '@Vue/router';
 import { useGameStore } from '@Vue/stores/game';
 import { onMounted, ref } from 'vue';
-import { STORE_KEYS } from '@utils/constants';
-import { EVENTS } from '@utils/constants';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 import VButton from './../components/Inputs/VButton.vue';
 import TheLogo from './../components/TheLogo.vue';
 
@@ -39,6 +38,7 @@ const login = () => {
 	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
 	app.server.userJoin({ iso: selectedCountry.value });
 	app.webgl.renderLogin = false;
+	app.webgl.loginScene.dispose();
 
 	router.push('/game');
 };
