@@ -27,6 +27,7 @@ const manifest = {
 		playerPositionOffsets: { path: `${import.meta.env.BASE_URL}assets/textures/players/offsetsCombined.png` },
 		playerNormal: { path: `${import.meta.env.BASE_URL}assets/textures/players/normalsCombined.png` },
 		reactmoji: { path: `${import.meta.env.BASE_URL}assets/textures/players/reactmoji.png` },
+		flagsatlas: { path: `${import.meta.env.BASE_URL}assets/textures/atlasFlag.webp` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },

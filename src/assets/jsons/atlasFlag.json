@@ -1,0 +1,1514 @@
+[
+    {
+        "filename": "ABW",
+        "ratio": 1.5,
+        "left": 0,
+        "top": 0
+    },
+    {
+        "filename": "AFG",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 0
+    },
+    {
+        "filename": "AGO",
+        "ratio": 1.5,
+        "left": 256,
+        "top": 0
+    },
+    {
+        "filename": "AIA",
+        "ratio": 2,
+        "left": 384,
+        "top": 0
+    },
+    {
+        "filename": "ALA",
+        "ratio": 1.5294117647058822,
+        "left": 512,
+        "top": 0
+    },
+    {
+        "filename": "ALB",
+        "ratio": 1.4,
+        "left": 640,
+        "top": 0
+    },
+    {
+        "filename": "AND",
+        "ratio": 1.4285714285714286,
+        "left": 768,
+        "top": 0
+    },
+    {
+        "filename": "ARE",
+        "ratio": 2,
+        "left": 896,
+        "top": 0
+    },
+    {
+        "filename": "ARG",
+        "ratio": 1.6,
+        "left": 1024,
+        "top": 0
+    },
+    {
+        "filename": "ARM",
+        "ratio": 2,
+        "left": 1152,
+        "top": 0
+    },
+    {
+        "filename": "ASM",
+        "ratio": 2,
+        "left": 1280,
+        "top": 0
+    },
+    {
+        "filename": "ATA",
+        "ratio": 1.5,
+        "left": 1408,
+        "top": 0
+    },
+    {
+        "filename": "ATF",
+        "ratio": 1.5,
+        "left": 1536,
+        "top": 0
+    },
+    {
+        "filename": "ATG",
+        "ratio": 1.5,
+        "left": 1664,
+        "top": 0
+    },
+    {
+        "filename": "AUS",
+        "ratio": 2,
+        "left": 1792,
+        "top": 0
+    },
+    {
+        "filename": "AUT",
+        "ratio": 1.5,
+        "left": 1920,
+        "top": 0
+    },
+    {
+        "filename": "AZE",
+        "ratio": 2,
+        "left": 0,
+        "top": 128
+    },
+    {
+        "filename": "BDI",
+        "ratio": 1.6666666666666667,
+        "left": 128,
+        "top": 128
+    },
+    {
+        "filename": "BEL",
+        "ratio": 1.1538461538461537,
+        "left": 256,
+        "top": 128
+    },
+    {
+        "filename": "BEN",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 128
+    },
+    {
+        "filename": "BES",
+        "ratio": 1.5,
+        "left": 512,
+        "top": 128
+    },
+    {
+        "filename": "BFA",
+        "ratio": 1.5,
+        "left": 640,
+        "top": 128
+    },
+    {
+        "filename": "BGD",
+        "ratio": 1.6666666666666667,
+        "left": 768,
+        "top": 128
+    },
+    {
+        "filename": "BGR",
+        "ratio": 1.6666666666666667,
+        "left": 896,
+        "top": 128
+    },
+    {
+        "filename": "BHR",
+        "ratio": 1.6666666666666667,
+        "left": 1024,
+        "top": 128
+    },
+    {
+        "filename": "BHS",
+        "ratio": 2,
+        "left": 1152,
+        "top": 128
+    },
+    {
+        "filename": "BIH",
+        "ratio": 2,
+        "left": 1280,
+        "top": 128
+    },
+    {
+        "filename": "BLM",
+        "ratio": 1.5,
+        "left": 1408,
+        "top": 128
+    },
+    {
+        "filename": "BLR",
+        "ratio": 2,
+        "left": 1536,
+        "top": 128
+    },
+    {
+        "filename": "BLZ",
+        "ratio": 1.6666666666666667,
+        "left": 1664,
+        "top": 128
+    },
+    {
+        "filename": "BMU",
+        "ratio": 2,
+        "left": 1792,
+        "top": 128
+    },
+    {
+        "filename": "BOL",
+        "ratio": 1.4666666666666666,
+        "left": 1920,
+        "top": 128
+    },
+    {
+        "filename": "BRA",
+        "ratio": 1.4285714285714286,
+        "left": 0,
+        "top": 256
+    },
+    {
+        "filename": "BRB",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 256
+    },
+    {
+        "filename": "BRN",
+        "ratio": 2,
+        "left": 256,
+        "top": 256
+    },
+    {
+        "filename": "BTN",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 256
+    },
+    {
+        "filename": "BVT",
+        "ratio": 1.375,
+        "left": 512,
+        "top": 256
+    },
+    {
+        "filename": "BWA",
+        "ratio": 1.5,
+        "left": 640,
+        "top": 256
+    },
+    {
+        "filename": "BZH",
+        "ratio": 1.5,
+        "left": 768,
+        "top": 256
+    },
+    {
+        "filename": "CAF",
+        "ratio": 1.5,
+        "left": 896,
+        "top": 256
+    },
+    {
+        "filename": "CAN",
+        "ratio": 2,
+        "left": 1024,
+        "top": 256
+    },
+    {
+        "filename": "CCK",
+        "ratio": 2,
+        "left": 1152,
+        "top": 256
+    },
+    {
+        "filename": "CHE",
+        "ratio": 1,
+        "left": 1280,
+        "top": 256
+    },
+    {
+        "filename": "CHL",
+        "ratio": 1.5,
+        "left": 1408,
+        "top": 256
+    },
+    {
+        "filename": "CHN",
+        "ratio": 1.5,
+        "left": 1536,
+        "top": 256
+    },
+    {
+        "filename": "CIV",
+        "ratio": 1.5,
+        "left": 1664,
+        "top": 256
+    },
+    {
+        "filename": "CMR",
+        "ratio": 1.5,
+        "left": 1792,
+        "top": 256
+    },
+    {
+        "filename": "COD",
+        "ratio": 1.3333333333333333,
+        "left": 1920,
+        "top": 256
+    },
+    {
+        "filename": "COG",
+        "ratio": 1.5,
+        "left": 0,
+        "top": 384
+    },
+    {
+        "filename": "COK",
+        "ratio": 2,
+        "left": 128,
+        "top": 384
+    },
+    {
+        "filename": "COL",
+        "ratio": 1.5,
+        "left": 256,
+        "top": 384
+    },
+    {
+        "filename": "COM",
+        "ratio": 1.6666666666666667,
+        "left": 384,
+        "top": 384
+    },
+    {
+        "filename": "CPV",
+        "ratio": 1.7,
+        "left": 512,
+        "top": 384
+    },
+    {
+        "filename": "CRI",
+        "ratio": 1.6666666666666667,
+        "left": 640,
+        "top": 384
+    },
+    {
+        "filename": "CUB",
+        "ratio": 2,
+        "left": 768,
+        "top": 384
+    },
+    {
+        "filename": "CUW",
+        "ratio": 1.5,
+        "left": 896,
+        "top": 384
+    },
+    {
+        "filename": "CXR",
+        "ratio": 2,
+        "left": 1024,
+        "top": 384
+    },
+    {
+        "filename": "CYM",
+        "ratio": 2,
+        "left": 1152,
+        "top": 384
+    },
+    {
+        "filename": "CYP",
+        "ratio": 1.5,
+        "left": 1280,
+        "top": 384
+    },
+    {
+        "filename": "CZE",
+        "ratio": 1.5,
+        "left": 1408,
+        "top": 384
+    },
+    {
+        "filename": "DEU",
+        "ratio": 1.6666666666666667,
+        "left": 1536,
+        "top": 384
+    },
+    {
+        "filename": "DJI",
+        "ratio": 1.5,
+        "left": 1664,
+        "top": 384
+    },
+    {
+        "filename": "DMA",
+        "ratio": 2,
+        "left": 1792,
+        "top": 384
+    },
+    {
+        "filename": "DNK",
+        "ratio": 1.3214285714285714,
+        "left": 1920,
+        "top": 384
+    },
+    {
+        "filename": "DOM",
+        "ratio": 1.5,
+        "left": 0,
+        "top": 512
+    },
+    {
+        "filename": "DZA",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 512
+    },
+    {
+        "filename": "ECU",
+        "ratio": 1.5,
+        "left": 256,
+        "top": 512
+    },
+    {
+        "filename": "EGY",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 512
+    },
+    {
+        "filename": "ERI",
+        "ratio": 2,
+        "left": 512,
+        "top": 512
+    },
+    {
+        "filename": "ESH",
+        "ratio": 2,
+        "left": 640,
+        "top": 512
+    },
+    {
+        "filename": "ESP",
+        "ratio": 1.5,
+        "left": 768,
+        "top": 512
+    },
+    {
+        "filename": "EST",
+        "ratio": 1.5714285714285714,
+        "left": 896,
+        "top": 512
+    },
+    {
+        "filename": "ETH",
+        "ratio": 2,
+        "left": 1024,
+        "top": 512
+    },
+    {
+        "filename": "FIN",
+        "ratio": 1.6363636363636365,
+        "left": 1152,
+        "top": 512
+    },
+    {
+        "filename": "FJI",
+        "ratio": 2,
+        "left": 1280,
+        "top": 512
+    },
+    {
+        "filename": "FLK",
+        "ratio": 2,
+        "left": 1408,
+        "top": 512
+    },
+    {
+        "filename": "FRA",
+        "ratio": 1.5,
+        "left": 1536,
+        "top": 512
+    },
+    {
+        "filename": "FRO",
+        "ratio": 1.375,
+        "left": 1664,
+        "top": 512
+    },
+    {
+        "filename": "FSM",
+        "ratio": 1.9,
+        "left": 1792,
+        "top": 512
+    },
+    {
+        "filename": "GAB",
+        "ratio": 1.3333333333333333,
+        "left": 1920,
+        "top": 512
+    },
+    {
+        "filename": "GBR",
+        "ratio": 2,
+        "left": 0,
+        "top": 640
+    },
+    {
+        "filename": "GEO",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 640
+    },
+    {
+        "filename": "GGY",
+        "ratio": 1.5,
+        "left": 256,
+        "top": 640
+    },
+    {
+        "filename": "GHA",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 640
+    },
+    {
+        "filename": "GIB",
+        "ratio": 2,
+        "left": 512,
+        "top": 640
+    },
+    {
+        "filename": "GIN",
+        "ratio": 1.5,
+        "left": 640,
+        "top": 640
+    },
+    {
+        "filename": "GLP",
+        "ratio": 1.5,
+        "left": 768,
+        "top": 640
+    },
+    {
+        "filename": "GMB",
+        "ratio": 1.5,
+        "left": 896,
+        "top": 640
+    },
+    {
+        "filename": "GNB",
+        "ratio": 2,
+        "left": 1024,
+        "top": 640
+    },
+    {
+        "filename": "GNQ",
+        "ratio": 1.5,
+        "left": 1152,
+        "top": 640
+    },
+    {
+        "filename": "GRC",
+        "ratio": 1.5,
+        "left": 1280,
+        "top": 640
+    },
+    {
+        "filename": "GRD",
+        "ratio": 1.6666666666666667,
+        "left": 1408,
+        "top": 640
+    },
+    {
+        "filename": "GRL",
+        "ratio": 1.5,
+        "left": 1536,
+        "top": 640
+    },
+    {
+        "filename": "GTM",
+        "ratio": 1.6,
+        "left": 1664,
+        "top": 640
+    },
+    {
+        "filename": "GUF",
+        "ratio": 1.5,
+        "left": 1792,
+        "top": 640
+    },
+    {
+        "filename": "GUM",
+        "ratio": 1.8636363636363635,
+        "left": 1920,
+        "top": 640
+    },
+    {
+        "filename": "GUY",
+        "ratio": 1.6666666666666667,
+        "left": 0,
+        "top": 768
+    },
+    {
+        "filename": "HKG",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 768
+    },
+    {
+        "filename": "HMD",
+        "ratio": 2,
+        "left": 256,
+        "top": 768
+    },
+    {
+        "filename": "HND",
+        "ratio": 2,
+        "left": 384,
+        "top": 768
+    },
+    {
+        "filename": "HRV",
+        "ratio": 2,
+        "left": 512,
+        "top": 768
+    },
+    {
+        "filename": "HTI",
+        "ratio": 1.6666666666666667,
+        "left": 640,
+        "top": 768
+    },
+    {
+        "filename": "HUN",
+        "ratio": 2,
+        "left": 768,
+        "top": 768
+    },
+    {
+        "filename": "IDN",
+        "ratio": 1.5,
+        "left": 896,
+        "top": 768
+    },
+    {
+        "filename": "IMN",
+        "ratio": 2,
+        "left": 1024,
+        "top": 768
+    },
+    {
+        "filename": "IND",
+        "ratio": 1.5,
+        "left": 1152,
+        "top": 768
+    },
+    {
+        "filename": "IOT",
+        "ratio": 2,
+        "left": 1280,
+        "top": 768
+    },
+    {
+        "filename": "IRL",
+        "ratio": 2,
+        "left": 1408,
+        "top": 768
+    },
+    {
+        "filename": "IRN",
+        "ratio": 1.75,
+        "left": 1536,
+        "top": 768
+    },
+    {
+        "filename": "IRQ",
+        "ratio": 1.5,
+        "left": 1664,
+        "top": 768
+    },
+    {
+        "filename": "ISL",
+        "ratio": 1.3888888888888888,
+        "left": 1792,
+        "top": 768
+    },
+    {
+        "filename": "ISR",
+        "ratio": 1.375,
+        "left": 1920,
+        "top": 768
+    },
+    {
+        "filename": "ITA",
+        "ratio": 1.5,
+        "left": 0,
+        "top": 896
+    },
+    {
+        "filename": "JAM",
+        "ratio": 2,
+        "left": 128,
+        "top": 896
+    },
+    {
+        "filename": "JEY",
+        "ratio": 1.6666666666666667,
+        "left": 256,
+        "top": 896
+    },
+    {
+        "filename": "JO-flag",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 896
+    },
+    {
+        "filename": "JOR",
+        "ratio": 2,
+        "left": 512,
+        "top": 896
+    },
+    {
+        "filename": "JPN",
+        "ratio": 1.5,
+        "left": 640,
+        "top": 896
+    },
+    {
+        "filename": "KAZ",
+        "ratio": 2,
+        "left": 768,
+        "top": 896
+    },
+    {
+        "filename": "KEN",
+        "ratio": 1.5,
+        "left": 896,
+        "top": 896
+    },
+    {
+        "filename": "KGZ",
+        "ratio": 1.6666666666666667,
+        "left": 1024,
+        "top": 896
+    },
+    {
+        "filename": "KHM",
+        "ratio": 1.5625,
+        "left": 1152,
+        "top": 896
+    },
+    {
+        "filename": "KIR",
+        "ratio": 2,
+        "left": 1280,
+        "top": 896
+    },
+    {
+        "filename": "KNA",
+        "ratio": 1.5,
+        "left": 1408,
+        "top": 896
+    },
+    {
+        "filename": "KOR",
+        "ratio": 1.5,
+        "left": 1536,
+        "top": 896
+    },
+    {
+        "filename": "KWT",
+        "ratio": 2,
+        "left": 1664,
+        "top": 896
+    },
+    {
+        "filename": "LAO",
+        "ratio": 1.5,
+        "left": 1792,
+        "top": 896
+    },
+    {
+        "filename": "LBN",
+        "ratio": 1.5,
+        "left": 1920,
+        "top": 896
+    },
+    {
+        "filename": "LBR",
+        "ratio": 1.9,
+        "left": 0,
+        "top": 1024
+    },
+    {
+        "filename": "LBY",
+        "ratio": 2,
+        "left": 128,
+        "top": 1024
+    },
+    {
+        "filename": "LCA",
+        "ratio": 2,
+        "left": 256,
+        "top": 1024
+    },
+    {
+        "filename": "LIE",
+        "ratio": 1.6666666666666667,
+        "left": 384,
+        "top": 1024
+    },
+    {
+        "filename": "LKA",
+        "ratio": 2,
+        "left": 512,
+        "top": 1024
+    },
+    {
+        "filename": "LSO",
+        "ratio": 1.5,
+        "left": 640,
+        "top": 1024
+    },
+    {
+        "filename": "LTU",
+        "ratio": 1.6666666666666667,
+        "left": 768,
+        "top": 1024
+    },
+    {
+        "filename": "LUX",
+        "ratio": 1.6666666666666667,
+        "left": 896,
+        "top": 1024
+    },
+    {
+        "filename": "LVA",
+        "ratio": 2,
+        "left": 1024,
+        "top": 1024
+    },
+    {
+        "filename": "MAC",
+        "ratio": 1.5,
+        "left": 1152,
+        "top": 1024
+    },
+    {
+        "filename": "MAF",
+        "ratio": 1.5,
+        "left": 1280,
+        "top": 1024
+    },
+    {
+        "filename": "MAR",
+        "ratio": 1.5,
+        "left": 1408,
+        "top": 1024
+    },
+    {
+        "filename": "MCO",
+        "ratio": 1.25,
+        "left": 1536,
+        "top": 1024
+    },
+    {
+        "filename": "MDA",
+        "ratio": 2,
+        "left": 1664,
+        "top": 1024
+    },
+    {
+        "filename": "MDG",
+        "ratio": 1.5,
+        "left": 1792,
+        "top": 1024
+    },
+    {
+        "filename": "MDV",
+        "ratio": 1.5,
+        "left": 1920,
+        "top": 1024
+    },
+    {
+        "filename": "MEX",
+        "ratio": 1.75,
+        "left": 0,
+        "top": 1152
+    },
+    {
+        "filename": "MHL",
+        "ratio": 1.9,
+        "left": 128,
+        "top": 1152
+    },
+    {
+        "filename": "MKD",
+        "ratio": 2,
+        "left": 256,
+        "top": 1152
+    },
+    {
+        "filename": "MLI",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 1152
+    },
+    {
+        "filename": "MLT",
+        "ratio": 1.5,
+        "left": 512,
+        "top": 1152
+    },
+    {
+        "filename": "MMR",
+        "ratio": 1.5,
+        "left": 640,
+        "top": 1152
+    },
+    {
+        "filename": "MNE",
+        "ratio": 2,
+        "left": 768,
+        "top": 1152
+    },
+    {
+        "filename": "MNG",
+        "ratio": 2,
+        "left": 896,
+        "top": 1152
+    },
+    {
+        "filename": "MNP",
+        "ratio": 2,
+        "left": 1024,
+        "top": 1152
+    },
+    {
+        "filename": "MOZ",
+        "ratio": 1.5,
+        "left": 1152,
+        "top": 1152
+    },
+    {
+        "filename": "MRT",
+        "ratio": 1.5,
+        "left": 1280,
+        "top": 1152
+    },
+    {
+        "filename": "MSR",
+        "ratio": 2,
+        "left": 1408,
+        "top": 1152
+    },
+    {
+        "filename": "MTQ",
+        "ratio": 1.5,
+        "left": 1536,
+        "top": 1152
+    },
+    {
+        "filename": "MUS",
+        "ratio": 1.5,
+        "left": 1664,
+        "top": 1152
+    },
+    {
+        "filename": "MWI",
+        "ratio": 1.5,
+        "left": 1792,
+        "top": 1152
+    },
+    {
+        "filename": "MYS",
+        "ratio": 2,
+        "left": 1920,
+        "top": 1152
+    },
+    {
+        "filename": "MYT",
+        "ratio": 1.5,
+        "left": 0,
+        "top": 1280
+    },
+    {
+        "filename": "NAM",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 1280
+    },
+    {
+        "filename": "NCL",
+        "ratio": 2,
+        "left": 256,
+        "top": 1280
+    },
+    {
+        "filename": "NER",
+        "ratio": 1.1666666666666667,
+        "left": 384,
+        "top": 1280
+    },
+    {
+        "filename": "NFK",
+        "ratio": 2,
+        "left": 512,
+        "top": 1280
+    },
+    {
+        "filename": "NGA",
+        "ratio": 2,
+        "left": 640,
+        "top": 1280
+    },
+    {
+        "filename": "NIC",
+        "ratio": 1.6666666666666667,
+        "left": 768,
+        "top": 1280
+    },
+    {
+        "filename": "NIU",
+        "ratio": 2,
+        "left": 896,
+        "top": 1280
+    },
+    {
+        "filename": "NLD",
+        "ratio": 1.5,
+        "left": 1024,
+        "top": 1280
+    },
+    {
+        "filename": "NOR",
+        "ratio": 1.375,
+        "left": 1152,
+        "top": 1280
+    },
+    {
+        "filename": "NPL",
+        "ratio": 0.8203389830508474,
+        "left": 1280,
+        "top": 1280
+    },
+    {
+        "filename": "NRU",
+        "ratio": 2,
+        "left": 1408,
+        "top": 1280
+    },
+    {
+        "filename": "NZL",
+        "ratio": 2,
+        "left": 1536,
+        "top": 1280
+    },
+    {
+        "filename": "OMN",
+        "ratio": 2,
+        "left": 1664,
+        "top": 1280
+    },
+    {
+        "filename": "PAK",
+        "ratio": 1.5,
+        "left": 1792,
+        "top": 1280
+    },
+    {
+        "filename": "PAN",
+        "ratio": 1.5,
+        "left": 1920,
+        "top": 1280
+    },
+    {
+        "filename": "PCN",
+        "ratio": 2,
+        "left": 0,
+        "top": 1408
+    },
+    {
+        "filename": "PER",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 1408
+    },
+    {
+        "filename": "PHL",
+        "ratio": 2,
+        "left": 256,
+        "top": 1408
+    },
+    {
+        "filename": "PLW",
+        "ratio": 1.6,
+        "left": 384,
+        "top": 1408
+    },
+    {
+        "filename": "PNG",
+        "ratio": 1.3333333333333333,
+        "left": 512,
+        "top": 1408
+    },
+    {
+        "filename": "POL",
+        "ratio": 1.6,
+        "left": 640,
+        "top": 1408
+    },
+    {
+        "filename": "PRI",
+        "ratio": 1.5,
+        "left": 768,
+        "top": 1408
+    },
+    {
+        "filename": "PRK",
+        "ratio": 2,
+        "left": 896,
+        "top": 1408
+    },
+    {
+        "filename": "PRT",
+        "ratio": 1.5,
+        "left": 1024,
+        "top": 1408
+    },
+    {
+        "filename": "PRY",
+        "ratio": 1.8181818181818181,
+        "left": 1152,
+        "top": 1408
+    },
+    {
+        "filename": "PSE",
+        "ratio": 2,
+        "left": 1280,
+        "top": 1408
+    },
+    {
+        "filename": "PYF",
+        "ratio": 1.5,
+        "left": 1408,
+        "top": 1408
+    },
+    {
+        "filename": "QAT",
+        "ratio": 2.5454545454545454,
+        "left": 1536,
+        "top": 1408
+    },
+    {
+        "filename": "REU",
+        "ratio": 1.5,
+        "left": 1664,
+        "top": 1408
+    },
+    {
+        "filename": "ROU",
+        "ratio": 1.5,
+        "left": 1792,
+        "top": 1408
+    },
+    {
+        "filename": "RUS",
+        "ratio": 1.5,
+        "left": 1920,
+        "top": 1408
+    },
+    {
+        "filename": "RWA",
+        "ratio": 1.5,
+        "left": 0,
+        "top": 1536
+    },
+    {
+        "filename": "SAU",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 1536
+    },
+    {
+        "filename": "SDN",
+        "ratio": 2,
+        "left": 256,
+        "top": 1536
+    },
+    {
+        "filename": "SEN",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 1536
+    },
+    {
+        "filename": "SGP",
+        "ratio": 1.5,
+        "left": 512,
+        "top": 1536
+    },
+    {
+        "filename": "SGS",
+        "ratio": 2,
+        "left": 640,
+        "top": 1536
+    },
+    {
+        "filename": "SHN",
+        "ratio": 2,
+        "left": 768,
+        "top": 1536
+    },
+    {
+        "filename": "SJM",
+        "ratio": 1.375,
+        "left": 896,
+        "top": 1536
+    },
+    {
+        "filename": "SLB",
+        "ratio": 2,
+        "left": 1024,
+        "top": 1536
+    },
+    {
+        "filename": "SLE",
+        "ratio": 1.5,
+        "left": 1152,
+        "top": 1536
+    },
+    {
+        "filename": "SLV",
+        "ratio": 1.7724867724867726,
+        "left": 1280,
+        "top": 1536
+    },
+    {
+        "filename": "SMR",
+        "ratio": 1.3333333333333333,
+        "left": 1408,
+        "top": 1536
+    },
+    {
+        "filename": "SOM",
+        "ratio": 1.5,
+        "left": 1536,
+        "top": 1536
+    },
+    {
+        "filename": "SPM",
+        "ratio": 1.5,
+        "left": 1664,
+        "top": 1536
+    },
+    {
+        "filename": "SRB",
+        "ratio": 1.125,
+        "left": 1792,
+        "top": 1536
+    },
+    {
+        "filename": "SSD",
+        "ratio": 2,
+        "left": 1920,
+        "top": 1536
+    },
+    {
+        "filename": "STP",
+        "ratio": 2,
+        "left": 0,
+        "top": 1664
+    },
+    {
+        "filename": "SUR",
+        "ratio": 1.5,
+        "left": 128,
+        "top": 1664
+    },
+    {
+        "filename": "SVK",
+        "ratio": 1.5,
+        "left": 256,
+        "top": 1664
+    },
+    {
+        "filename": "SVN",
+        "ratio": 2,
+        "left": 384,
+        "top": 1664
+    },
+    {
+        "filename": "SWE",
+        "ratio": 1.6,
+        "left": 512,
+        "top": 1664
+    },
+    {
+        "filename": "SWZ",
+        "ratio": 1.5,
+        "left": 640,
+        "top": 1664
+    },
+    {
+        "filename": "SXM",
+        "ratio": 1.5,
+        "left": 768,
+        "top": 1664
+    },
+    {
+        "filename": "SYC",
+        "ratio": 2,
+        "left": 896,
+        "top": 1664
+    },
+    {
+        "filename": "SYR",
+        "ratio": 1.5,
+        "left": 1024,
+        "top": 1664
+    },
+    {
+        "filename": "TCA",
+        "ratio": 2,
+        "left": 1152,
+        "top": 1664
+    },
+    {
+        "filename": "TCD",
+        "ratio": 1.5,
+        "left": 1280,
+        "top": 1664
+    },
+    {
+        "filename": "TGO",
+        "ratio": 1.618,
+        "left": 1408,
+        "top": 1664
+    },
+    {
+        "filename": "THA",
+        "ratio": 1.5,
+        "left": 1536,
+        "top": 1664
+    },
+    {
+        "filename": "TJK",
+        "ratio": 2,
+        "left": 1664,
+        "top": 1664
+    },
+    {
+        "filename": "TKL",
+        "ratio": 2,
+        "left": 1792,
+        "top": 1664
+    },
+    {
+        "filename": "TKM",
+        "ratio": 1.5,
+        "left": 1920,
+        "top": 1664
+    },
+    {
+        "filename": "TLS",
+        "ratio": 2,
+        "left": 0,
+        "top": 1792
+    },
+    {
+        "filename": "TON",
+        "ratio": 2,
+        "left": 128,
+        "top": 1792
+    },
+    {
+        "filename": "TTO",
+        "ratio": 1.6666666666666667,
+        "left": 256,
+        "top": 1792
+    },
+    {
+        "filename": "TUN",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 1792
+    },
+    {
+        "filename": "TUR",
+        "ratio": 1.5,
+        "left": 512,
+        "top": 1792
+    },
+    {
+        "filename": "TUV",
+        "ratio": 2,
+        "left": 640,
+        "top": 1792
+    },
+    {
+        "filename": "TWN",
+        "ratio": 1.5,
+        "left": 768,
+        "top": 1792
+    },
+    {
+        "filename": "TZA",
+        "ratio": 1.5,
+        "left": 896,
+        "top": 1792
+    },
+    {
+        "filename": "UGA",
+        "ratio": 1.5,
+        "left": 1024,
+        "top": 1792
+    },
+    {
+        "filename": "UKR",
+        "ratio": 1.5,
+        "left": 1152,
+        "top": 1792
+    },
+    {
+        "filename": "UMI",
+        "ratio": 1.9,
+        "left": 1280,
+        "top": 1792
+    },
+    {
+        "filename": "URY",
+        "ratio": 1.5,
+        "left": 1408,
+        "top": 1792
+    },
+    {
+        "filename": "USA",
+        "ratio": 1.9,
+        "left": 1536,
+        "top": 1792
+    },
+    {
+        "filename": "UZB",
+        "ratio": 2,
+        "left": 1664,
+        "top": 1792
+    },
+    {
+        "filename": "VAT",
+        "ratio": 1,
+        "left": 1792,
+        "top": 1792
+    },
+    {
+        "filename": "VCT",
+        "ratio": 1.5,
+        "left": 1920,
+        "top": 1792
+    },
+    {
+        "filename": "VEN",
+        "ratio": 1.5,
+        "left": 0,
+        "top": 1920
+    },
+    {
+        "filename": "VGB",
+        "ratio": 2,
+        "left": 128,
+        "top": 1920
+    },
+    {
+        "filename": "VIR",
+        "ratio": 1.5,
+        "left": 256,
+        "top": 1920
+    },
+    {
+        "filename": "VNM",
+        "ratio": 1.5,
+        "left": 384,
+        "top": 1920
+    },
+    {
+        "filename": "VUT",
+        "ratio": 1.6666666666666667,
+        "left": 512,
+        "top": 1920
+    },
+    {
+        "filename": "WLF",
+        "ratio": 1.5,
+        "left": 640,
+        "top": 1920
+    },
+    {
+        "filename": "WSM",
+        "ratio": 2,
+        "left": 768,
+        "top": 1920
+    },
+    {
+        "filename": "XKX",
+        "ratio": 1.4,
+        "left": 896,
+        "top": 1920
+    },
+    {
+        "filename": "YEM",
+        "ratio": 1.5,
+        "left": 1024,
+        "top": 1920
+    },
+    {
+        "filename": "ZAF",
+        "ratio": 1.5,
+        "left": 1152,
+        "top": 1920
+    },
+    {
+        "filename": "ZMB",
+        "ratio": 1.5,
+        "left": 1280,
+        "top": 1920
+    },
+    {
+        "filename": "ZWE",
+        "ratio": 2,
+        "left": 1408,
+        "top": 1920
+    }
+]

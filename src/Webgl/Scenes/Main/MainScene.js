@@ -1,6 +1,7 @@
 import { app } from '@/App.js';
 import { state } from '@/State.js';
 import { AmbientLight, Color, DepthTexture, Group, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
+import { InstancedFlags } from '@Webgl/Objects/InstancedFlags.js';
 import { InstancedFlames } from '@Webgl/Objects/InstancedFlames.js';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
 import { InstancedTeams } from '@Webgl/Objects/InstancedTeams.js';
@@ -78,8 +79,9 @@ class MainScene extends Scene {
 
 	initTeams(teams) {
 		this.teams = new InstancedTeams({ teams, model: app.core.assetsManager.get('player') });
+		this.flags = new InstancedFlags({ teams });
 		this.flames = new InstancedFlames({ teams });
-		this.dynamicGroup.add(this.teams, this.flames);
+		this.dynamicGroup.add(this.teams, this.flames, this.flags);
 
 		const reactmoji = new Reactmoji();
 		reactmoji.position.y += 5;
