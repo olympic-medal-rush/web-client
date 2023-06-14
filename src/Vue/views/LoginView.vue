@@ -56,9 +56,9 @@ const login = () => {
 				<span>🇬🇷</span>
 				<p>GRC</p>
 			</div>
-			<div id="PRT" class="Pays-item" @click="selectCountry('PRT')">
-				<span>🇵🇹</span>
-				<p>PRT</p>
+			<div id="PRT" class="Pays-item" @click="selectCountry('ESP')">
+				<span>🇪🇸</span>
+				<p>ESP</p>
 			</div>
 			<!-- <div id="DEU" class="Pays-item" @click="selectCountry('DEU')">
 				<span>🇩🇪</span>

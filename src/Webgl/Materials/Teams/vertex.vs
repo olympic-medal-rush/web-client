@@ -48,13 +48,13 @@ void main() {
     animationProgress = aAnimationProgress;
     rotationY = aRotationY;
     color1 = aColor1;
-    color1 = aColor2;
+    color2 = aColor2;
     color3 = aColor3;
   #else
     animationProgress = uAnimationProgress;
     rotationY = uRotationY;
     color1 = uColor1;
-    color1 = uColor1;
+    color2 = uColor2;
     color3 = uColor3;
   #endif
 
@@ -62,9 +62,10 @@ void main() {
 
   vec3 objectNormal = texture2D(tNormal, offsetsUv).xzy;
   vec3 objectPosition = position * .6;
+  // vec3 objectPosition = position;
 
   vec3 positionOffset = texture2D(tPositionOffsets, offsetsUv).xyz;
-  positionOffset = vec3(positionOffset.x, positionOffset.z, positionOffset.y) * step(0., animationProgress);
+  positionOffset = positionOffset.xzy * step(0., animationProgress);
   positionOffset.x = map(positionOffset.x, 0., 1., MIN_OFFSET, MAX_OFFSET);
   positionOffset.y = map(positionOffset.y, 0., 1., MIN_OFFSET, MAX_OFFSET);
   positionOffset.z = map(positionOffset.z, 0., 1., MIN_OFFSET, MAX_OFFSET);

@@ -1,3 +1,5 @@
+import { ColorDebugHelper } from '@Debug/debugConfig';
+
 /**
  *
  * @param {*} pane
@@ -15,6 +17,7 @@ function createPane(pane, instance, name) {
 
 	if (instance.uniforms.uAnimationProgress) folder.addInput(instance.uniforms.uAnimationProgress, 'value', { min: 0, max: 1, label: 'uAnimationProgress' });
 	if (instance.uniforms.uRotationY) folder.addInput(instance.uniforms.uRotationY, 'value', { min: 0, max: 1, label: 'uRotationY' });
+	folder.addInput(new ColorDebugHelper(instance.uniforms.uGold, 'value'), 'value', { label: 'uGold' });
 
 	return folder;
 }

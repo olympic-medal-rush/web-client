@@ -70,6 +70,8 @@ class Player extends Mesh {
 				tAoMap: { value: aoMap },
 				tEnvMap: { value: app.webgl.scene.environment },
 
+				tNoise: { value: noise },
+
 				uColor1: { value: color1 },
 				uColor2: { value: color2 },
 				uColor3: { value: color3 },

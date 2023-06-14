@@ -29,7 +29,7 @@ const manifest = {
 		reactmoji: { path: `${import.meta.env.BASE_URL}assets/textures/players/reactmoji.png` },
 	},
 	envMaps: {
-		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/forest.hdr` },
+		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },
 		// ...
 	},
 	models: {

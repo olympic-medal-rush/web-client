@@ -25,17 +25,15 @@ varying vec3 vColor1, vColor2, vColor3;
 		return viewZToOrthographicDepth(viewZ, NEAR, FAR);
 	}
 
-
 #endif
 
 #include ../Global/chunks/saturation.glsl
 #include ../Global/chunks/envmap_pars_fragment.glsl
 
 void main() {
-	float metalness = uMetalness;
-	metalness = metalness * (texture2D(tMetalnessMap, vUv).r);
-
-	float roughness = (1. - metalness) * uRoughness;
+	float metalnessMap = texture2D(tMetalnessMap, vUv).r;
+	float metalness = uMetalness * metalnessMap;
+	float roughness = (1. - metalnessMap) * uRoughness;
 
 	vec3 normal = vNormal;
 
@@ -58,8 +56,8 @@ void main() {
 
 
 	// GRADIENT NOISE
-	float noise1 = (texture2D(tNoise, vPosition.xy * .1).r + texture2D(tNoise, vPosition.yz * .1).r) * 1.;
-	float noise2 = (smoothstep(.3, 1., texture2D(tNoise, vPosition.xy * 5.).r) + smoothstep(.3, 1., texture2D(tNoise, vPosition.yz * 5.).r)) * .5;
+	// float noise1 = (texture2D(tNoise, vPosition.xy * .1).r + texture2D(tNoise, vPosition.yz * .1).r) * 1.;
+	// float noise2 = (smoothstep(.3, 1., texture2D(tNoise, vPosition.xy * 5.).r) + smoothstep(.3, 1., texture2D(tNoise, vPosition.yz * 5.).r)) * .5;
 
 	// FLAG COLORS
 	// vec3 color1 = adjustSaturation(clamp(vColor1, vec3(.1), vec3(1.)), .7);
@@ -69,7 +67,8 @@ void main() {
 	vec3 color2 = vColor2;
 	vec3 color3 = vColor3;
 
-	vec3 diffuse = mix(color1, color2, smoothstep(2. + noise1 * .1, .5 + noise1 * .1, vPosition.y));
+	// vec3 diffuse = mix(color1, color2, smoothstep(2. + noise1 * .1, .5 + noise1 * .1, vPosition.y));
+	vec3 diffuse = mix(color1, color2, smoothstep(2., .5, vPosition.y));
 	float face = step(.001, smoothstep(0.51, .5, abs(vPosition.y - 1.7)) * metalness);
 	float gold = step(.001, metalness * (1. - face * 2.));
 
@@ -80,7 +79,7 @@ void main() {
 	vec3 reflectVec = reflect(vEyeToSurfaceDir, normal);
 
 	reflectVec = normalize((vec4(reflectVec, 0.0) * viewMatrix).xyz);
-	vec3 envMapColor = textureCubeUV(tEnvMap, reflectVec, roughness * (1. - metalness)).rgb * uEnvMapIntensity;
+	vec3 envMapColor = textureCubeUV(tEnvMap, reflectVec, roughness * (1. - metalness)).rgb * uEnvMapIntensity * smoothstep(2.7, 2., vPosition.y);
 
 	diffuse.rgb += envMapColor * smoothstep(0., 1., length(envMapColor) - length(diffuse.rgb));
 	diffuse.rgb -= (1. - envMapColor) * metalness;
