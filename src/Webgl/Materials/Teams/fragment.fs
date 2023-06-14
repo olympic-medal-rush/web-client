@@ -1,28 +1,35 @@
 precision highp float;
 
 uniform float uEmissiveOnly, uAoMapIntensity, uEnvMapIntensity, uRoughness, uMetalness;
-uniform vec3 uLightPosition;
 uniform vec3 uGold;
 uniform mat4 viewMatrix;
-uniform sampler2D tNoise, tStaticShadows, tMetalnessMap, tAoMap, tEnvMap;
+uniform sampler2D tNoise, tMetalnessMap, tAoMap, tEnvMap;
 
 varying vec2 vUv;
 varying vec3 vPosition;
 varying vec3 vNormal, vEyeToSurfaceDir;
 varying vec3 vColor1, vColor2, vColor3;
-varying vec4 vShadowCoord;
+
+// SHADOWS
+#ifdef USE_SHADOWS
+	uniform vec3 uLightPosition;
+	uniform sampler2D tStaticShadows;
+
+	varying vec4 vShadowCoord;
+
+	#include <packing>
+
+	float readDepth(sampler2D depthSampler, vec2 coord) {
+		float fragCoordZ = texture2D(depthSampler, coord).x;
+		float viewZ = perspectiveDepthToViewZ(fragCoordZ, NEAR, FAR);
+		return viewZToOrthographicDepth(viewZ, NEAR, FAR);
+	}
+
+
+#endif
 
 #include ../Global/chunks/saturation.glsl
 #include ../Global/chunks/envmap_pars_fragment.glsl
-
-#include <packing>
-// #include <dithering_pars_fragment>
-
-float readDepth(sampler2D depthSampler, vec2 coord) {
-	float fragCoordZ = texture2D(depthSampler, coord).x;
-	float viewZ = perspectiveDepthToViewZ(fragCoordZ, NEAR, FAR);
-	return viewZToOrthographicDepth(viewZ, NEAR, FAR);
-}
 
 void main() {
 	float metalness = uMetalness;
@@ -33,21 +40,22 @@ void main() {
 	vec3 normal = vNormal;
 
 	// SHADOWS
-	vec3 shadowCoord = vShadowCoord.xyz / vShadowCoord.w * 0.5 + 0.5;
-	float depthShadowCoord = shadowCoord.z;
+	#ifdef USE_SHADOWS
+		vec3 shadowCoord = vShadowCoord.xyz / vShadowCoord.w * 0.5 + 0.5;
+		float depthShadowCoord = shadowCoord.z;
 
-	vec2 depthMapUv = shadowCoord.xy;
-	float depthShadowMap = readDepth(tStaticShadows, depthMapUv);
+		vec2 depthMapUv = shadowCoord.xy;
+		float depthShadowMap = readDepth(tStaticShadows, depthMapUv);
+		float cosTheta = dot(normalize(uLightPosition), normal);
+		float bias = .005 * tan(acos(cosTheta));
+		bias = clamp(bias, 0., .01);
 
-	float cosTheta = dot(normalize(uLightPosition), normal);
-	float bias = .005 * tan(acos(cosTheta));
-	bias = clamp(bias, 0., .01);
+		float shadowFactor = step(depthShadowCoord - bias, depthShadowMap);
 
-	float shadowFactor = step(depthShadowCoord - bias, depthShadowMap);
+		float difLight = max(.5, cosTheta);
+		float shading = shadowFactor * difLight;
+	#endif
 
-	float difLight = max(.5, cosTheta);
-	// float shading = shadowFactor * difLight;
-	float shading =  difLight;
 
 	// GRADIENT NOISE
 	float noise1 = (texture2D(tNoise, vPosition.xy * .1).r + texture2D(tNoise, vPosition.yz * .1).r) * 1.;
@@ -83,7 +91,9 @@ void main() {
 	final.rgb *= mix(vec3(1.), vec3(ao), uAoMapIntensity);
 
 	// Shading
+	#ifdef USE_SHADOWS
 	final.rgb = mix(final.rgb - .1, final.rgb + .1, shading);
+	#endif
 
 	gl_FragColor = final;
 

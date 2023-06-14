@@ -23,7 +23,6 @@ import { TeamsMaterial } from '@Webgl/Materials/Teams/material';
 import { Bimap } from '@utils/BiMap';
 import { MATERIALS } from '@utils/config';
 import { globalUniforms } from '@utils/globalUniforms';
-import { computeEnvmap } from '@utils/misc';
 
 class InstancedTeams extends Mesh {
 	positions;
@@ -76,7 +75,7 @@ class InstancedTeams extends Mesh {
 		this.#count = teams.length;
 		this.frustumCulled = false;
 
-		app.debug?.mapping.add(this, 'InstancedTeams');
+		app.debug?.mapping.add(this.material, 'TeamsMaterial');
 	}
 
 	/**
@@ -159,7 +158,6 @@ class InstancedTeams extends Mesh {
 	}
 
 	#createMaterial() {
-		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'), false);
 		const [positionOffsets, normal, metalnessMap, aoMap, noise] = app.core.assetsManager.get('playerPositionOffsets', 'playerNormal', 'playerMetalness', 'playerAo', 'noise');
 		positionOffsets.flipY = normal.flipY = aoMap.flipY = metalnessMap.flipY = false;
 		positionOffsets.generateMipmaps = normal.generateMipmaps = aoMap.generateMipmaps = metalnessMap.generateMipmaps = false;
@@ -186,14 +184,16 @@ class InstancedTeams extends Mesh {
 
 				tMetalnessMap: { value: metalnessMap },
 				tAoMap: { value: aoMap },
-				tEnvMap: { value: envMap },
+				tEnvMap: { value: app.webgl.scene.environment },
 			},
 			defines: {
-				...envMap.userData,
+				...app.webgl.scene.environment.userData,
 				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
 				FAR: `${app.webgl.scene.shadowCamera.far}.`,
 				MIN_OFFSET: `${minValue}`,
 				MAX_OFFSET: `${maxValue}`,
+				USE_INSTANCING: true,
+				USE_SHADOWS: true,
 			},
 		});
 
@@ -282,10 +282,11 @@ class InstancedTeams extends Mesh {
 				this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 			},
 		});
+		const shouldRotate = Math.abs(nextRotationY - currentRotationY) > 0.01;
 
-		tl.to(t, { rotationProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0);
-		tl.to(t, { animationProgress: animationProgressTarget, ease: 'linear', duration: animationDuration }, 0.6);
-		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 1.2);
+		if (shouldRotate) tl.to(t, { rotationProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0);
+		tl.to(t, { animationProgress: animationProgressTarget, ease: 'linear', duration: animationDuration }, shouldRotate ? '>-.5' : 0);
+		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, '<.7');
 	}
 
 	collectMedal(team) {
