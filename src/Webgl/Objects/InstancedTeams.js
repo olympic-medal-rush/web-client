@@ -59,7 +59,7 @@ class InstancedTeams extends Mesh {
 	#quat = new Quaternion();
 	#euler = new Euler();
 
-	constructor({ teams = [], model, maxCount = 100 }) {
+	constructor({ teams = [], model, maxCount = 210 }) {
 		super();
 		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
 		this.positions = new Map(teams.map((team) => [team, team.position.clone().addScalar(0.5)]));
