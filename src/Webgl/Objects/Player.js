@@ -13,6 +13,7 @@ class Player extends Mesh {
 		jump: 0,
 		medal: 0,
 	};
+	#updateTl;
 	constructor(model, teamIso) {
 		super();
 		state.register(this);
@@ -99,7 +100,8 @@ class Player extends Mesh {
 	updateISO(iso) {
 		const { color1, color2, color3 } = this.#getTeamColors(iso);
 
-		const tl = gsap.timeline();
+		this.#updateTl?.kill();
+		const tl = (this.#updateTl = gsap.timeline());
 
 		tl.to(this.rotation, { y: `+=${Math.PI * 2}`, duration: 0.5, ease: 'power3.inOut' }, 0);
 		tl.to(this.uniforms.uColor1.value, { r: color1.r, g: color1.g, b: color1.b, duration: 0.5, ease: 'linear' }, 0);

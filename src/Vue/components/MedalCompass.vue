@@ -77,8 +77,8 @@ const calculateScreenPosition = () => {
 };
 
 const getClosestMedal = () => {
-	// const currentPlayer = app.webgl.players.get(app.game.teams.get(domGameStore.playerCountry));
-	// return [...app.game.medals.values()]?.sort((a, b) => a.scenePosition.distanceTo(currentPlayer.position) - b.scenePosition.distanceTo(currentPlayer.position))[0];
+	const currentPlayer = app.game.teams.get(domGameStore.playerCountry);
+	return [...app.game.medals.values()]?.sort((a, b) => a.position.distanceTo(currentPlayer.position) - b.position.distanceTo(currentPlayer.position))[0];
 	// .filter((medal) => !medal.isInScreen)[0];
 };
 </script>

@@ -9,7 +9,7 @@ class LoginScene extends Scene {
 	constructor() {
 		super();
 
-		this.background = new Color('#FFF');
+		this.background = new Color(0xffffff);
 
 		state.on(EVENTS.ATTACH, this.#onAppLoaded);
 		state.on(EVENTS.SELECT_TEAM_UPDATE, this.#onSelectTeamUpdate);
