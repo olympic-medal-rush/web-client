@@ -24,12 +24,12 @@ class Grid extends Mesh {
 		this.obstacleFlorData = terrainData.data;
 		this.obstacleFlorData.forEach((row, i) => {
 			row.forEach((col, j) => {
-				col === 0 ? (this.obstacleFlorData[i][j] = 0) : (this.obstacleFlorData[i][j] = 1);
+				col === 1 ? (this.obstacleFlorData[i][j] = 1) : (this.obstacleFlorData[i][j] = 0);
 			});
 		});
 		this.grid = new pathfinding.Grid(this.obstacleFlorData);
 		// 2. create finder A*
-		this.finder = new pathfinding.BiAStarFinder();
+		this.finder = new pathfinding.AStarFinder();
 
 		state.on(EVENTS.JOIN_READY, () => this.#findPath());
 		state.on(EVENTS.VOTE_RESULTS, () => this.#findPath());
