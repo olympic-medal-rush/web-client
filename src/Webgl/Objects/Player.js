@@ -1,7 +1,7 @@
 import { app } from '@/App';
 import { state } from '@/State';
 import flagColors from '@jsons/flag_colors.json';
-import { frame_count as frameCount, max_value as maxValue, min_value as minValue, steps } from '@jsons/vat_combined.json';
+import { frame_count as frameCount, max_value as maxValue, min_value as minValue, steps } from '@jsons/vat.json';
 import { gsap } from 'gsap';
 import { BufferGeometry, Color, LinearFilter, LinearSRGBColorSpace, Mesh, RepeatWrapping } from 'three';
 import { TeamsMaterial } from '@Webgl/Materials/Teams/material';

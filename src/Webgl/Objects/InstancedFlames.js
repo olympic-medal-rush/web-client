@@ -1,4 +1,6 @@
-import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, StreamDrawUsage } from 'three';
+import { app } from '@/App';
+import { max_value as maxValue, min_value as minValue } from '@jsons/vat.json';
+import { BoxGeometry, CanvasTexture, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, StreamDrawUsage } from 'three';
 import { randFloat } from 'three/src/math/MathUtils';
 import { FlamesMaterial } from '@Webgl/Materials/Flames/material';
 import { Bimap } from '@utils/BiMap';
@@ -20,6 +22,8 @@ class InstancedFlames extends Mesh {
 	#staticInstancesStride = 0;
 	#streamInstancesStride = 0;
 
+	#headTopVertexID = 0.217677;
+
 	constructor({ teams = [], maxCount = 210, particlesCount = 100 }) {
 		super();
 
@@ -33,6 +37,8 @@ class InstancedFlames extends Mesh {
 
 		this.#count = teams.length;
 		this.frustumCulled = false;
+
+		app.debug?.mapping.add(this.material, 'FlamesMaterial');
 	}
 
 	#createGeometry() {
@@ -115,15 +121,37 @@ class InstancedFlames extends Mesh {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				uShadowOnly: globalUniforms.uShadowOnly,
 
-				uGlobalSpead: { value: 1 },
-				uRadius: { value: 0.23 },
-				uColor: { value: new Color('orange') },
-				uElevation: { value: 0.8 },
+				tAnimation: { value: this.#createHeadTopVerticeAnimationTexture() },
+				uAnimationProgress: { value: 0 },
 			},
-			defines: {},
+			defines: {
+				MIN_OFFSET: `${minValue}`,
+				MAX_OFFSET: `${maxValue}`,
+			},
 		});
 
 		return material;
+	}
+
+	#createHeadTopVerticeAnimationTexture() {
+		const vertexAnimationTexture = app.core.assetsManager.get('playerPositionOffsets');
+		const { height, width: originalWidth } = vertexAnimationTexture.source.data;
+		const width = 1;
+
+		const canvas = document.createElement('canvas');
+		canvas.width = width;
+		canvas.height = height;
+
+		// canvas.style.width = width * 100 + 'px';
+		// canvas.style.height = height * 10 + 'px';
+
+		const ctx = canvas.getContext('2d');
+		ctx.drawImage(vertexAnimationTexture.source.data, this.#headTopVertexID * originalWidth, 0, width, height, 0, 0, width, height);
+
+		// document.body.prepend(canvas);
+		const texture = new CanvasTexture(canvas);
+		texture.flipY = false;
+		return texture;
 	}
 
 	set #count(value) {

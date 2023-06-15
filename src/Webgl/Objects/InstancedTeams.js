@@ -1,6 +1,6 @@
 import { app } from '@/App';
 import flagColors from '@jsons/flag_atlas.json';
-import { frame_count as frameCount, max_value as maxValue, min_value as minValue, steps } from '@jsons/vat_combined.json';
+import { frame_count as frameCount, max_value as maxValue, min_value as minValue, steps } from '@jsons/vat.json';
 import { gsap } from 'gsap';
 import {
 	Color,
