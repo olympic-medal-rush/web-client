@@ -1,8 +1,8 @@
-import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh } from 'three';
+import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, StreamDrawUsage } from 'three';
 import { randFloat } from 'three/src/math/MathUtils';
+import { FlamesMaterial } from '@Webgl/Materials/Flames/material';
 import { Bimap } from '@utils/BiMap';
 import { globalUniforms } from '@utils/globalUniforms';
-import { FlamesMaterial } from '../Materials/Flames/material';
 
 class InstancedFlames extends Mesh {
 	#teams;
@@ -20,7 +20,7 @@ class InstancedFlames extends Mesh {
 	#staticInstancesStride = 0;
 	#streamInstancesStride = 0;
 
-	constructor({ teams = [], maxCount = 100, particlesCount = 100 }) {
+	constructor({ teams = [], maxCount = 210, particlesCount = 100 }) {
 		super();
 
 		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
@@ -44,51 +44,66 @@ class InstancedFlames extends Mesh {
 		geometry.attributes = cube.attributes;
 
 		this.#staticInstancesStride = 3;
-		const staticInstancesData = [];
+		const particlesData = [];
 
 		let increment = 0;
 
 		// Common particles attributes
-		for (let i = 0; i < this.particlesCount; i++) {
+		for (let i = 0; i < this.maxCount * this.particlesCount; i++) {
 			const instancedIndexStride = i * this.#staticInstancesStride;
 			increment = instancedIndexStride;
 
 			// Add random size
-			staticInstancesData[increment++] = randFloat(0.05, 0.15);
+			particlesData[increment++] = randFloat(0.05, 0.15);
 
 			// Add random speed
-			staticInstancesData[increment++] = randFloat(0.0005, 0.001);
+			particlesData[increment++] = randFloat(0.0005, 0.001);
 
-			// Add random pos angle to Instances
-			staticInstancesData[increment++] = randFloat(0, 2 * Math.PI);
+			// Add random angle to instances
+			particlesData[increment++] = randFloat(0, 2 * Math.PI);
 		}
 
-		this.#staticInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(staticInstancesData), this.#staticInstancesStride, this.maxCount);
+		this.#staticInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(particlesData), this.#staticInstancesStride);
 		geometry.setAttribute('aSize', new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 0, false));
 		geometry.setAttribute('aSpeed', new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 1, false));
 		geometry.setAttribute('aRad', new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 2, false));
 
-		this.#streamInstancesStride = 2 + 1;
-		const streamInstancesData = [];
+		// Instances attributes
+		this.#streamInstancesStride = 8;
 
+		const instanceData = [];
 		const teamsArr = [...this.#teams.values()];
 
-		// Instanced attributes
 		for (let i = 0; i < this.maxCount; i++) {
 			const instancedIndexStride = i * this.#streamInstancesStride;
 			increment = instancedIndexStride;
 
-			// Set instancePosition
-			streamInstancesData[increment++] = teamsArr[i]?.position.x + 0.5 || 0;
-			streamInstancesData[increment++] = teamsArr[i]?.position.y + 0.5 || 0;
+			// Instance position
+			instanceData[increment++] = teamsArr[i]?.position.x + 0.5 || 0;
+			instanceData[increment++] = teamsArr[i]?.position.y + 0.5 || 0;
 
-			// Set rotationY
-			streamInstancesData[increment++] = 0;
+			// speed
+			instanceData[increment++] = 1;
+
+			// radius
+			instanceData[increment++] = 0.3;
+
+			// elevation
+			instanceData[increment++] = 0.8;
+
+			// color
+			const color = new Color('orange');
+			instanceData[increment++] = color.r;
+			instanceData[increment++] = color.g;
+			instanceData[increment++] = color.b;
 		}
 
-		this.#streamInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(streamInstancesData), this.#streamInstancesStride);
+		this.#streamInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(instanceData), this.#streamInstancesStride, this.particlesCount).setUsage(StreamDrawUsage);
 		geometry.setAttribute('aInstancePosition', new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 2, 0, false));
-		geometry.setAttribute('aRotationY', new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 1, 2, false));
+		geometry.setAttribute('aGlobalSpeed', new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 1, 2, false));
+		geometry.setAttribute('aGlobalRadius', new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 1, 3, false));
+		geometry.setAttribute('aGlobalElevation', new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 1, 4, false));
+		geometry.setAttribute('aColor', new InterleavedBufferAttribute(this.#streamInstancedInterleaveBuffer, 3, 5, false));
 
 		return geometry;
 	}
@@ -105,13 +120,14 @@ class InstancedFlames extends Mesh {
 				uColor: { value: new Color('orange') },
 				uElevation: { value: 0.8 },
 			},
+			defines: {},
 		});
 
 		return material;
 	}
 
 	set #count(value) {
-		this.geometry.instanceCount = value;
+		this.geometry.instanceCount = value * this.particlesCount;
 		this.visible = value !== 0;
 	}
 

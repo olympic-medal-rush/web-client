@@ -81,7 +81,8 @@ class MainScene extends Scene {
 		this.teams = new InstancedTeams({ teams, model: app.core.assetsManager.get('player') });
 		this.flags = new InstancedFlags({ teams });
 		this.flames = new InstancedFlames({ teams });
-		this.dynamicGroup.add(this.teams, this.flames, this.flags);
+		this.dynamicGroup.add(this.teams, this.flames);
+		this.add(this.flags);
 
 		const reactmoji = new Reactmoji();
 		reactmoji.position.y += 5;
