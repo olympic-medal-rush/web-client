@@ -104,13 +104,16 @@ class MainScene extends Scene {
 
 	addTeam(team) {
 		this.teamsPositions.set(team, team.position.clone());
+
 		this.teams.addInstance(team);
 		this.flames.addInstance(team);
+		this.flags.addInstance(team);
 	}
 
 	moveTeam(team) {
 		this.teams.moveInstance(team);
 		this.flames.moveInstance(team);
+		this.flags.moveInstance(team);
 	}
 
 	#renderDiffuse() {

@@ -76,7 +76,7 @@ function createPane(pane, instance, name) {
 
 		const teamsIsos = [...app.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
 		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: lastIso }).on('change', (ev) => {
-			app.webgl.camera.playerPosition = app.webgl.scene.teams.positions.get(app.game.teams.get(ev.value));
+			app.webgl.camera.playerPosition = app.webgl.scene.teamsPositions.get(app.game.teams.get(ev.value));
 			app.webgl.camera.focusPlayer = true;
 			lastIso = ev.value;
 		});

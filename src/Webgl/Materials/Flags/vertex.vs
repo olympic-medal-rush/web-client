@@ -1,6 +1,6 @@
 attribute vec3 position;
 attribute vec2 uv;
-attribute vec2 aPlacing;
+attribute vec2 aInstancePosition;
 attribute vec2 aOffset;
 attribute float aRatio;
 attribute float aIsMyTeam;
@@ -25,8 +25,8 @@ void main() {
   vOffset = offset;
 
   vec3 pos = position;
-  pos.xz += aPlacing + 0.5;
-  pos.y += 2.5 + vIsMyTeam * .1;
+  pos.xz += aInstancePosition;
+  pos.y += 2.6 + vIsMyTeam * .1;
 
   // Rotate
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
