@@ -17,7 +17,7 @@ const manifest = {
 		seamless2: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless7.png` },
 		seamless3: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless6.png` },
 		seamless4: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless4.png` },
-		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noiseFbm1.png` },
+		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.png` },
 		skybox: { path: `${import.meta.env.BASE_URL}assets/textures/skybox.png` },
 
 		medalHeights: { path: `${import.meta.env.BASE_URL}assets/textures/medals/medal-heights.png` },

@@ -24,6 +24,7 @@ uniform float uTime;
 uniform mat4 modelViewMatrix, projectionMatrix, viewMatrix, modelMatrix;
 uniform sampler2D tPositionOffsets, tNormal;
 
+varying float vAnimationProgress;
 varying vec2 vUv;
 varying vec3 vPosition;
 varying vec3 vNormal, vEyeToSurfaceDir;
@@ -62,7 +63,6 @@ void main() {
 
   vec3 objectNormal = texture2D(tNormal, offsetsUv).xzy;
   vec3 objectPosition = position * .6;
-  // vec3 objectPosition = position;
 
   vec3 positionOffset = texture2D(tPositionOffsets, offsetsUv).xyz;
   positionOffset = positionOffset.xzy * step(0., animationProgress);
@@ -81,17 +81,16 @@ void main() {
 
   gl_Position = projectionMatrix * mvPosition;
 
+  vAnimationProgress = animationProgress;
   vUv = uv;
   vPosition = position;
   vNormal = normalize(viewMatrix * modelMatrix * vec4(objectNormal, 0.0)).xyz;
   vEyeToSurfaceDir = normalize(mvPosition.xyz);
-  
-  #ifdef USE_SHADOWS
-    vShadowCoord = uShadowProjectionMatrix * uShadowMatrixInverse * modelMatrix * finalPosition;
-  #endif
-
-
   vColor1 = color1;
   vColor2 = color2;
   vColor3 = color3;
+
+  #ifdef USE_SHADOWS
+    vShadowCoord = uShadowProjectionMatrix * uShadowMatrixInverse * modelMatrix * finalPosition;
+  #endif
 }

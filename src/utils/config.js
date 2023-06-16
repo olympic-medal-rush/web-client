@@ -42,7 +42,7 @@ const MATERIALS = {
 	teams: {
 		gold: new Color(0xfff6b4),
 		roughness: 0.65,
-		metalness: 0.4,
+		metalness: 0.3,
 		aoMapIntensity: 0.75,
 		envMapIntensity: 0.33,
 	},

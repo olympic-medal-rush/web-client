@@ -60,7 +60,7 @@ class Flames extends Mesh {
 				...commonUniforms,
 
 				uGlobalSpeed: { value: 1 },
-				uGlobalRadius: { value: 0.3 },
+				uGlobalRadius: { value: 0.38 },
 				uGlobalElevation: { value: 0.8 },
 				uColor: { value: new Color('orange') },
 
