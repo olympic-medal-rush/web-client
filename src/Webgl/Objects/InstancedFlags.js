@@ -89,7 +89,7 @@ class InstancedFlags extends Mesh {
 			staticInstancesData[staticIncrement++] = offsetFlag.ratio;
 
 			// Add isMyTeam Flag
-			staticInstancesData[staticIncrement++] = posFlags.iso === this.domGameStore.playerCountry ? 1 : 0;
+			staticInstancesData[staticIncrement++] = 0;
 		}
 
 		this.#streamInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(streamInstancesData), this.#streamInstancesStride);
@@ -198,6 +198,21 @@ class InstancedFlags extends Mesh {
 		});
 
 		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, `<${0.7}`);
+	}
+
+	/**
+	 *
+	 * @param {import('@Game/Team').Team} team
+	 */
+	setIsMyTeam(team) {
+		if (!this.#teams.hasValue(team)) return console.error("Team instance doesn't exist");
+
+		const teamIndex = this.#teams.getKey(team);
+
+		this.#staticAttributes.isMyTeam.setX(teamIndex, 1);
+		this.#staticInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#staticInstancesStride;
+		this.#staticInstancedInterleaveBuffer.updateRange.count = this.#staticInstancesStride;
+		this.#staticInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
 	set #count(value) {
