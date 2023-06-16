@@ -25,8 +25,6 @@ import { MATERIALS } from '@utils/config';
 import { globalUniforms } from '@utils/globalUniforms';
 
 class InstancedTeams extends Mesh {
-	positions;
-
 	#teams;
 	/** @type {Set<import('@Game/Team').Team>} */
 	#justWonMedalTeams = new Set();
@@ -61,7 +59,6 @@ class InstancedTeams extends Mesh {
 	constructor({ teams = [], model, maxCount = 210 }) {
 		super();
 		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
-		this.positions = new Map(teams.map((team) => [team, team.position.clone().addScalar(0.5)]));
 
 		this.maxCount = maxCount;
 
@@ -111,8 +108,8 @@ class InstancedTeams extends Mesh {
 			streamIncrement = streamInstancedIndexStride;
 
 			// Add instancePosition
-			instancesStreamData[streamIncrement++] = this.positions.get(teamsArr[i])?.x || 0;
-			instancesStreamData[streamIncrement++] = this.positions.get(teamsArr[i])?.y || 0;
+			instancesStreamData[streamIncrement++] = app.webgl.scene.teamsPositions.get(teamsArr[i])?.x || 0;
+			instancesStreamData[streamIncrement++] = app.webgl.scene.teamsPositions.get(teamsArr[i])?.y || 0;
 
 			// Set animationProgress
 			instancesStreamData[streamIncrement++] = 1;
@@ -217,7 +214,6 @@ class InstancedTeams extends Mesh {
 		if (this.#teams.hasValue(team)) return console.error('Team instance already exists');
 		this.#teams.add(this.#count, team);
 
-		this.positions.set(team, team.position.clone());
 		this.#streamAttributes.instancePosition.setXY(this.#count, team.position.x + 0.5, team.position.y + 0.5);
 
 		const { color1, color2, color3 } = this.#getTeamColors(team.iso);
@@ -249,7 +245,7 @@ class InstancedTeams extends Mesh {
 		const currentPosition = new Vector3(this.#streamAttributes.instancePosition.getX(teamIndex), 0, this.#streamAttributes.instancePosition.getY(teamIndex));
 		const nextPosition = new Vector3(team.position.x + 0.5, 0, team.position.y + 0.5);
 
-		const teamPosition = this.positions.get(team);
+		const teamPosition = app.webgl.scene.teamsPositions.get(team);
 
 		this.#matrix.identity();
 		this.#matrix.lookAt(currentPosition, nextPosition, this.up);

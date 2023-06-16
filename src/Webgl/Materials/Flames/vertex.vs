@@ -5,13 +5,12 @@ attribute vec2 uv;
 attribute float aSize, aSpeed, aRad;
 
 // Instance attributes
-attribute float aGlobalSpeed, aGlobalRadius, aGlobalElevation;
+attribute float aGlobalSpeed, aGlobalRadius, aGlobalElevation, aAnimationProgress, aRotationY;
 attribute vec2 aInstancePosition;
 attribute vec3 aColor;
 
 uniform mat4 projectionMatrix, modelViewMatrix;
 uniform float uTime;
-uniform float uAnimationProgress;
 uniform sampler2D tAnimation;
 
 
@@ -22,13 +21,11 @@ varying float vSize;
 
 #define PI 3.14159265
 
-mat4 rotation3d(vec3 axis, float angle) {
-  axis = normalize(axis);
-  float s = sin(angle);
+mat3 rotateY(float angle) {
   float c = cos(angle);
-  float oc = 1.0 - c;
+  float s = sin(angle);
 
-  return mat4(oc * axis.x * axis.x + c, oc * axis.x * axis.y - axis.z * s, oc * axis.z * axis.x + axis.y * s, 0.0, oc * axis.x * axis.y + axis.z * s, oc * axis.y * axis.y + c, oc * axis.y * axis.z - axis.x * s, 0.0, oc * axis.z * axis.x - axis.y * s, oc * axis.y * axis.z + axis.x * s, oc * axis.z * axis.z + c, 0.0, 0.0, 0.0, 0.0, 1.0);
+  return mat3(c, 0.0, -s, 0.0, 1.0, 0.0, s, 0.0, c);
 }
 
 float map(float value, float min1, float max1, float min2, float max2) {
@@ -55,18 +52,18 @@ void main() {
   pos.z += radus * sin(aRad);
 
   // Update rotate
-  mat4 rotationMatrix = rotation3d(vec3(0., 1., 0.), aRad);
-  vec4 transfomedPos = rotationMatrix * vec4(pos, 1.);
+  vec3 transfomedPos = pos * rotateY(aRad);
 
-  vec3 animationOffset = texture2D(tAnimation, vec2(0., uAnimationProgress)).xzy;
+  vec3 animationOffset = texture2D(tAnimation, vec2(0., aAnimationProgress)).xzy;
   animationOffset.x = map(animationOffset.x, 0., 1., MIN_OFFSET, MAX_OFFSET);
   animationOffset.y = map(animationOffset.y, 0., 1., MIN_OFFSET, MAX_OFFSET);
   animationOffset.z = map(animationOffset.z, 0., 1., MIN_OFFSET, MAX_OFFSET);
 
+  transfomedPos += animationOffset;
+  transfomedPos = transfomedPos * rotateY(aRotationY);
   transfomedPos.xz += aInstancePosition;
-  transfomedPos.xyz += animationOffset;
 
-  gl_Position = projectionMatrix * modelViewMatrix * transfomedPos;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(transfomedPos, 1.);
 
   vSize = size;
 }

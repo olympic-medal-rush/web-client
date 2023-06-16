@@ -12,6 +12,7 @@ import { Terrain } from '../../Objects/Terrain.js';
 
 class MainScene extends Scene {
 	dynamicGroup = new Group();
+	teamsPositions;
 	constructor() {
 		super();
 		state.register(this);
@@ -78,6 +79,8 @@ class MainScene extends Scene {
 	}
 
 	initTeams(teams) {
+		this.teamsPositions = new Map(teams.map((team) => [team, team.position.clone().addScalar(0.5)]));
+
 		this.teams = new InstancedTeams({ teams, model: app.core.assetsManager.get('player') });
 		this.flags = new InstancedFlags({ teams });
 		this.flames = new InstancedFlames({ teams });
@@ -100,11 +103,14 @@ class MainScene extends Scene {
 	}
 
 	addTeam(team) {
+		this.teamsPositions.set(team, team.position.clone());
 		this.teams.addInstance(team);
+		this.flames.addInstance(team);
 	}
 
 	moveTeam(team) {
 		this.teams.moveInstance(team);
+		this.flames.moveInstance(team);
 	}
 
 	#renderDiffuse() {

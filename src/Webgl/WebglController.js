@@ -48,7 +48,7 @@ class WebglController {
 	 * @param {import('@/Game/Team').Team} currentTeam
 	 */
 	onJoinReady(currentTeam) {
-		this.camera.playerPosition = this.scene.teams.positions.get(currentTeam);
+		this.camera.playerPosition = this.scene.teamsPositions.get(currentTeam);
 		this.camera.focusPlayer = true;
 		// currentPlayer.addRaycaster();
 	}
