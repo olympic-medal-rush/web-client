@@ -20,6 +20,9 @@ class Grid extends Mesh {
 		this.material = this.#createMaterial(this.size);
 
 		//Pathfinding
+		this.nbPix = this.size * this.size;
+		this.data = new Uint8Array(this.nbPix * 4);
+		this.dataTex = null;
 		// 1. change flor data format
 		this.obstacleFlorData = terrainData.data;
 		this.obstacleFlorData.forEach((row, i) => {
@@ -31,6 +34,7 @@ class Grid extends Mesh {
 		// 2. create finder A*
 		this.finder = new pathfinding.AStarFinder();
 
+		this.#resetPath();
 		state.on(EVENTS.JOIN_READY, () => this.#findPath());
 		state.on(EVENTS.VOTE_RESULTS, () => this.#findPath());
 		state.on(EVENTS.SPAWN_MEDALS, () => this.#findPath());
@@ -84,9 +88,6 @@ class Grid extends Mesh {
 	}
 
 	#createPathFindingDataTex() {
-		const nbPix = this.size * this.size;
-		const data = new Uint8Array(nbPix * 4);
-
 		let rowIndex = 0;
 
 		const allMedalPos = [];
@@ -94,7 +95,7 @@ class Grid extends Mesh {
 			allMedalPos.push([medal.position.x, medal.position.y]);
 		});
 
-		for (let i = 0; i < nbPix; i++) {
+		for (let i = 0; i < this.nbPix; i++) {
 			const stride = i * 4;
 
 			const colIndex = i % this.size;
@@ -105,24 +106,24 @@ class Grid extends Mesh {
 				(!this.path.find((coord) => coord[0] === colIndex && coord[1] === this.size - 1 - rowIndex) &&
 					!allMedalPos.find((coord) => coord[0] === colIndex && coord[1] === this.size - 1 - rowIndex))
 			) {
-				data[stride + 0] = 0;
-				data[stride + 1] = 0;
-				data[stride + 2] = 0;
-				data[stride + 3] = 255;
+				this.data[stride + 0] = 0;
+				this.data[stride + 1] = 0;
+				this.data[stride + 2] = 0;
+				this.data[stride + 3] = 255;
 			} else {
-				data[stride + 0] = 255;
-				data[stride + 1] = 255;
-				data[stride + 2] = 255;
-				data[stride + 3] = 255;
+				this.data[stride + 0] = 255;
+				this.data[stride + 1] = 255;
+				this.data[stride + 2] = 255;
+				this.data[stride + 3] = 255;
 			}
 
 			if (colIndex === this.size - 1) rowIndex++;
 		}
 
-		const tex = new DataTexture(data, this.size, this.size);
-		tex.needsUpdate = true;
+		if (!this.dataTex) this.dataTex = new DataTexture(this.data, this.size, this.size);
+		this.dataTex.needsUpdate = true;
 
-		return tex;
+		return this.dataTex;
 	}
 
 	#resetPath() {
@@ -133,21 +134,25 @@ class Grid extends Mesh {
 	}
 
 	#findPath() {
-		this.#resetPath();
 		// 3. find coord team
 		const coordTeam = app.game.currentTeam.position;
 		// 4. find coord nearest medal
 		// 5. find path
-		app.game.medals.forEach((medal) => {
-			const testCoordMedal = medal.position;
-			const testPath = this.finder.findPath(coordTeam.x, coordTeam.y, testCoordMedal.x, testCoordMedal.y, this.grid.clone());
-			if (testPath.length !== 0 && testPath.length < this.path.length) {
-				this.path = testPath;
-			}
-		});
+		if (coordTeam.x === this.path[1][0] && coordTeam.y === this.path[1][1]) {
+			this.path.shift();
+		} else {
+			// console.log('FindPath');
+			this.#resetPath();
+			app.game.medals.forEach((medal) => {
+				const testCoordMedal = medal.position;
+				const testPath = this.finder.findPath(coordTeam.x, coordTeam.y, testCoordMedal.x, testCoordMedal.y, this.grid.clone());
+				if (testPath.length !== 0 && testPath.length < this.path.length) {
+					this.path = testPath;
+				}
+			});
+		}
 
 		this.material.uniforms.tPathFinding.value = this.#createPathFindingDataTex();
-		this.material.uniforms.tPathFinding.value.needsUpdate = true;
 	}
 }
 
