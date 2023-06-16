@@ -33,6 +33,8 @@ class Grid extends Mesh {
 
 		state.on(EVENTS.JOIN_READY, () => this.#findPath());
 		state.on(EVENTS.VOTE_RESULTS, () => this.#findPath());
+		state.on(EVENTS.SPAWN_MEDALS, () => this.#findPath());
+		state.on(EVENTS.COLLECT_MEDAL, () => this.#findPath());
 	}
 
 	#createGeometry(size) {
