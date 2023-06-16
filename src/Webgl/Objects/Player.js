@@ -7,6 +7,7 @@ import { BufferGeometry, Color, LinearFilter, LinearSRGBColorSpace, Mesh, Repeat
 import { TeamsMaterial } from '@Webgl/Materials/Teams/material';
 import { MATERIALS } from '@utils/config';
 import { globalUniforms } from '@utils/globalUniforms';
+import { Flames } from './Flames';
 
 class Player extends Mesh {
 	#animationsSteps = {
@@ -22,8 +23,15 @@ class Player extends Mesh {
 		this.#animationsSteps.jump = steps[1] / totalFrames;
 		this.#animationsSteps.medal = 1;
 
+		this.commonUniforms = {
+			uAnimationProgress: { value: 0 },
+		};
+
 		this.geometry = this.#createGeometry({ baseGeometry: model.getObjectByName('player').geometry });
 		this.material = this.#createMaterial(teamIso);
+
+		this.flames = new Flames({ commonUniforms: this.commonUniforms });
+		this.add(this.flames);
 
 		app.debug?.mapping.add(this.material, 'TeamsMaterial');
 	}
@@ -55,6 +63,7 @@ class Player extends Mesh {
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
 				...app.webgl.scene.commonShadowUniforms,
 				...app.webgl.scene.staticShadowUniforms,
+				...this.commonUniforms,
 
 				uGold: { value: MATERIALS.teams.gold },
 				uAoMapIntensity: { value: MATERIALS.teams.aoMapIntensity },
@@ -75,8 +84,6 @@ class Player extends Mesh {
 				uColor1: { value: color1 },
 				uColor2: { value: color2 },
 				uColor3: { value: color3 },
-
-				uAnimationProgress: { value: 0 },
 			},
 			defines: {
 				...app.webgl.scene.environment.userData,

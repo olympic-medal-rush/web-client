@@ -1,3 +1,5 @@
+import { ColorDebugHelper } from '@Debug/debugConfig';
+
 /**
  *
  * @param {*} pane
@@ -8,7 +10,9 @@
 function createPane(pane, instance, name) {
 	const folder = pane.addFolder({ title: name, expanded: true });
 
-	folder.addInput(instance.uniforms.uAnimationProgress, 'value', { min: 0, max: 1, label: 'uAnimationProgress' });
+	if (instance.uniforms.uColor) folder.addInput(new ColorDebugHelper(instance.uniforms.uColor, 'value'), 'value');
+	if (instance.uniforms.uAnimationProgress) folder.addInput(instance.uniforms.uAnimationProgress, 'value', { min: 0, max: 1, label: 'uAnimationProgress' });
+	if (instance.uniforms.uGlobalSpeed) folder.addInput(instance.uniforms.uGlobalSpeed, 'value', { min: 0, max: 1, label: 'uGlobalSpeed' });
 
 	return folder;
 }

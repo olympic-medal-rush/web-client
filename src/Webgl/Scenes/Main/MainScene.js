@@ -1,6 +1,6 @@
 import { app } from '@/App.js';
 import { state } from '@/State.js';
-import { AmbientLight, Color, DepthTexture, Group, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
+import { AmbientLight, CanvasTexture, Color, DepthTexture, Group, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { InstancedFlags } from '@Webgl/Objects/InstancedFlags.js';
 import { InstancedFlames } from '@Webgl/Objects/InstancedFlames.js';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
@@ -13,6 +13,8 @@ import { Terrain } from '../../Objects/Terrain.js';
 class MainScene extends Scene {
 	dynamicGroup = new Group();
 	teamsPositions;
+
+	#headTopVertexID = 0.217677;
 	constructor() {
 		super();
 		state.register(this);
@@ -63,6 +65,8 @@ class MainScene extends Scene {
 
 		this.terrain = new Terrain(app.core.assetsManager.get('terrain'));
 		this.add(this.terrain);
+
+		this.topHeadAnimationTexture = this.#createHeadTopVerticeAnimationTexture();
 
 		app.debug?.mapping.add(this, 'Scene');
 	}
@@ -126,6 +130,23 @@ class MainScene extends Scene {
 
 	#renderStaticShadows() {
 		app.webgl.renderer.renderRenderTarget(this.terrain, this.shadowCamera, this.staticShadowRenderTarget);
+	}
+
+	#createHeadTopVerticeAnimationTexture() {
+		const vertexAnimationTexture = app.core.assetsManager.get('playerPositionOffsets');
+		const { height, width: originalWidth } = vertexAnimationTexture.source.data;
+		const width = 1;
+
+		const canvas = document.createElement('canvas');
+		canvas.width = width;
+		canvas.height = height;
+
+		const ctx = canvas.getContext('2d');
+		ctx.drawImage(vertexAnimationTexture.source.data, this.#headTopVertexID * originalWidth, 0, width, height, 0, 0, width, height);
+
+		const texture = new CanvasTexture(canvas);
+		texture.flipY = false;
+		return texture;
 	}
 
 	render() {

@@ -8,7 +8,7 @@ class LoginCamera extends PerspectiveCamera {
 		super(CAMERA.baseFov, app.tools.viewport.ratio, CAMERA.near, CAMERA.far);
 		state.register(this);
 
-		this.position.z += 5;
+		this.position.z += 6;
 	}
 
 	onResize({ ratio }) {

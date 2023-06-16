@@ -3,7 +3,6 @@ import { frame_count as frameCount, max_value as maxValue, min_value as minValue
 import { gsap } from 'gsap';
 import {
 	BoxGeometry,
-	CanvasTexture,
 	Color,
 	Euler,
 	InstancedBufferGeometry,
@@ -47,8 +46,6 @@ class InstancedFlames extends Mesh {
 	#particleInstancesStride = 0;
 	#staticInstancesStride = 0;
 	#streamInstancesStride = 0;
-
-	#headTopVertexID = 0.217677;
 
 	#animationsSteps = {
 		jump: 0,
@@ -175,10 +172,15 @@ class InstancedFlames extends Mesh {
 			StaticDrawUsage,
 		);
 
-		geometry.setAttribute('aGlobalSpeed', new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 0, false));
-		geometry.setAttribute('aGlobalRadius', new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 1, false));
-		geometry.setAttribute('aGlobalElevation', new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 2, false));
-		geometry.setAttribute('aColor', new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 3, 3, false));
+		this.#staticAttributes.globalSpeed = new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 0, false);
+		this.#staticAttributes.globalRadius = new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 1, false);
+		this.#staticAttributes.globalElevation = new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 1, 2, false);
+		this.#staticAttributes.color = new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 3, 3, false);
+
+		geometry.setAttribute('aGlobalSpeed', this.#staticAttributes.globalSpeed);
+		geometry.setAttribute('aGlobalRadius', this.#staticAttributes.globalRadius);
+		geometry.setAttribute('aGlobalElevation', this.#staticAttributes.globalElevation);
+		geometry.setAttribute('aColor', this.#staticAttributes.color);
 
 		return geometry;
 	}
@@ -188,35 +190,17 @@ class InstancedFlames extends Mesh {
 			uniforms: {
 				uTime: globalUniforms.uTime,
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
-				uShadowOnly: globalUniforms.uShadowOnly,
 
-				tAnimation: { value: this.#createHeadTopVerticeAnimationTexture() },
-				uAnimationProgress: { value: 0 },
+				tAnimation: { value: app.webgl.scene.topHeadAnimationTexture },
 			},
 			defines: {
+				USE_INSTANCING: true,
 				MIN_OFFSET: `${minValue}`,
 				MAX_OFFSET: `${maxValue}`,
 			},
 		});
 
 		return material;
-	}
-
-	#createHeadTopVerticeAnimationTexture() {
-		const vertexAnimationTexture = app.core.assetsManager.get('playerPositionOffsets');
-		const { height, width: originalWidth } = vertexAnimationTexture.source.data;
-		const width = 1;
-
-		const canvas = document.createElement('canvas');
-		canvas.width = width;
-		canvas.height = height;
-
-		const ctx = canvas.getContext('2d');
-		ctx.drawImage(vertexAnimationTexture.source.data, this.#headTopVertexID * originalWidth, 0, width, height, 0, 0, width, height);
-
-		const texture = new CanvasTexture(canvas);
-		texture.flipY = false;
-		return texture;
 	}
 
 	/**
