@@ -250,11 +250,9 @@ class InstancedTeams extends Mesh {
 		let rotationDiff = targetRotationY - currentRotationY;
 
 		while (Math.abs(rotationDiff) > Math.PI) {
-			if (rotationDiff > Math.PI) {
-				currentRotationY += 2 * Math.PI;
-			} else {
-				currentRotationY -= 2 * Math.PI;
-			}
+			if (rotationDiff > Math.PI) currentRotationY += 2 * Math.PI;
+			else currentRotationY -= 2 * Math.PI;
+
 			rotationDiff = targetRotationY - currentRotationY;
 		}
 

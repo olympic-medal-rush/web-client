@@ -20,13 +20,33 @@ const router = createRouter({
 		{
 			path: '/game',
 			name: 'game',
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
 			component: () => import('../views/GameView.vue'),
-			beforeEnter: () => {
-				// if (!app.game.currentTeam) router.push('/');
-			},
+			children: [
+				{
+					path: 'scoreboard',
+					name: 'scoreboard',
+					component: () => import('../views/game/ScoreboardView.vue'),
+					children: [
+						{
+							path: ':team',
+							name: 'team',
+							component: () => import('../views/game/scoreboard/TeamScoresView.vue'),
+						},
+					],
+				},
+				{
+					path: 'medals',
+					name: 'medals',
+					component: () => import('../views/game/MedalsView.vue'),
+					children: [
+						{
+							path: ':id',
+							name: 'medal',
+							component: () => import('../views/game/medals/MedalView.vue'),
+						},
+					],
+				},
+			],
 		},
 	],
 });

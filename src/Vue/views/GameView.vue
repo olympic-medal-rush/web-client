@@ -43,6 +43,7 @@ onMounted(() => {
 		<NewMedal />
 		<NewCollectMedal />
 		<NewTeam />
+		<RouterView />
 	</div>
 </template>
 
