@@ -1,5 +1,6 @@
 <script setup>
 import Arrow from '@/assets/svgs/GreyArrow.svg';
+import router from '@Vue/router';
 import { useGameStore } from '@stores/game';
 import { ref } from 'vue';
 import RoundFlag from './Assets/RoundFlag.vue';
@@ -14,7 +15,7 @@ const togglePodium = () => {
 };
 
 const toScoreboardVue = () => {
-	alert('Redirect Scorebord vue');
+	router.push('/game/scoreboard');
 };
 </script>
 
