@@ -1,20 +1,7 @@
 import { app } from '@/App';
 import { frame_count as frameCount, max_value as maxValue, min_value as minValue, steps } from '@jsons/vat.json';
 import { gsap } from 'gsap';
-import {
-	BoxGeometry,
-	Color,
-	Euler,
-	InstancedBufferGeometry,
-	InstancedInterleavedBuffer,
-	InterleavedBufferAttribute,
-	Matrix4,
-	Mesh,
-	Quaternion,
-	StaticDrawUsage,
-	StreamDrawUsage,
-	Vector3,
-} from 'three';
+import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, StaticDrawUsage, StreamDrawUsage, Vector3 } from 'three';
 import { randFloat } from 'three/src/math/MathUtils';
 import { lerp } from 'three/src/math/MathUtils.js';
 import { FlamesMaterial } from '@Webgl/Materials/Flames/material';
@@ -51,10 +38,6 @@ class InstancedFlames extends Mesh {
 		jump: 0,
 		medal: 0,
 	};
-
-	#matrix = new Matrix4();
-	#quat = new Quaternion();
-	#euler = new Euler();
 
 	constructor({ teams = [], maxCount = 210, particlesCount = 100 }) {
 		super();
@@ -232,15 +215,23 @@ class InstancedFlames extends Mesh {
 		const animatedPosition = new Vector3();
 		const currentPosition = new Vector3(this.#streamAttributes.instancePosition.getX(teamIndex), 0, this.#streamAttributes.instancePosition.getY(teamIndex));
 		const nextPosition = new Vector3(team.position.x + 0.5, 0, team.position.y + 0.5);
+		let currentRotationY = this.#streamAttributes.rotationY.getX(teamIndex);
 
-		// const teamPosition = app.webgl.scene.teamsPositions.get(team);
+		const direction = nextPosition.clone().sub(currentPosition).normalize();
+		const targetRotationY = Math.atan2(-direction.x, direction.z);
 
-		this.#matrix.identity();
-		this.#matrix.lookAt(currentPosition, nextPosition, this.up);
-		this.#euler.setFromRotationMatrix(this.#matrix);
+		let rotationDiff = targetRotationY - currentRotationY;
 
-		const currentRotationY = this.#streamAttributes.rotationY.getX(teamIndex);
-		const nextRotationY = this.#euler.y;
+		while (Math.abs(rotationDiff) > Math.PI) {
+			if (rotationDiff > Math.PI) {
+				currentRotationY += 2 * Math.PI;
+			} else {
+				currentRotationY -= 2 * Math.PI;
+			}
+			rotationDiff = targetRotationY - currentRotationY;
+		}
+
+		const nextRotationY = currentRotationY + rotationDiff;
 
 		const t = { positionProgress: 0, animationProgress: 0, rotationProgress: 0 };
 

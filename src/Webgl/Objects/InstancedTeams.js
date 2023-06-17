@@ -4,15 +4,12 @@ import { frame_count as frameCount, max_value as maxValue, min_value as minValue
 import { gsap } from 'gsap';
 import {
 	Color,
-	Euler,
 	InstancedBufferGeometry,
 	InstancedInterleavedBuffer,
 	InterleavedBufferAttribute,
 	LinearFilter,
 	LinearSRGBColorSpace,
-	Matrix4,
 	Mesh,
-	Quaternion,
 	RepeatWrapping,
 	StaticDrawUsage,
 	StreamDrawUsage,
@@ -51,10 +48,6 @@ class InstancedTeams extends Mesh {
 		jump: 0,
 		medal: 0,
 	};
-
-	#matrix = new Matrix4();
-	#quat = new Quaternion();
-	#euler = new Euler();
 
 	constructor({ teams = [], model, maxCount = 210 }) {
 		super();
@@ -247,15 +240,25 @@ class InstancedTeams extends Mesh {
 		const animatedPosition = new Vector3();
 		const currentPosition = new Vector3(this.#streamAttributes.instancePosition.getX(teamIndex), 0, this.#streamAttributes.instancePosition.getY(teamIndex));
 		const nextPosition = new Vector3(team.position.x + 0.5, 0, team.position.y + 0.5);
+		let currentRotationY = this.#streamAttributes.rotationY.getX(teamIndex);
 
 		const teamPosition = app.webgl.scene.teamsPositions.get(team);
 
-		this.#matrix.identity();
-		this.#matrix.lookAt(currentPosition, nextPosition, this.up);
-		this.#euler.setFromRotationMatrix(this.#matrix);
+		const direction = nextPosition.clone().sub(currentPosition).normalize();
+		const targetRotationY = Math.atan2(-direction.x, direction.z);
 
-		const currentRotationY = this.#streamAttributes.rotationY.getX(teamIndex);
-		const nextRotationY = this.#euler.y;
+		let rotationDiff = targetRotationY - currentRotationY;
+
+		while (Math.abs(rotationDiff) > Math.PI) {
+			if (rotationDiff > Math.PI) {
+				currentRotationY += 2 * Math.PI;
+			} else {
+				currentRotationY -= 2 * Math.PI;
+			}
+			rotationDiff = targetRotationY - currentRotationY;
+		}
+
+		const nextRotationY = currentRotationY + rotationDiff;
 
 		const t = { positionProgress: 0, animationProgress: 0, rotationProgress: 0 };
 
