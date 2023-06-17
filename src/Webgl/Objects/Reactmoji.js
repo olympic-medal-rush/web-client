@@ -1,43 +1,38 @@
 import { app } from '@/App';
 import { state } from '@/State';
 import MojiData from '@jsons/reactmoji.json';
-import { InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, NearestFilter, PlaneGeometry } from 'three';
+import { InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, NearestFilter, PlaneGeometry, Vector2 } from 'three';
 import { randFloat } from 'three/src/math/MathUtils';
 import { EVENTS } from '@utils/constants';
 import { globalUniforms } from '@utils/globalUniforms';
 import { ReactmojiMaterial } from '../Materials/Reactmoji/material';
 
 export default class Reactmoji extends Mesh {
-	constructor() {
+	#textureDimensions = new Vector2();
+
+	constructor({ particlesCount = 50, maxCount = 210 } = {}) {
 		super();
 
-		this.maxCount = 50;
+		const tex = app.core.assetsManager.get('reactmoji');
+		const { width, height } = tex.source.data;
+		this.#textureDimensions.set(width, height);
+
+		this.particlesCount = particlesCount;
+		this.maxCount = maxCount;
+
 		this.geometry = this.#createGeometry();
 		this.material = this.#createMaterial();
+
 		this.useInstances = [];
 
 		this.frustumCulled = false;
 
-		state.on(EVENTS.REACT_MOJI, (iso, type) => {
-			// console.log('REACTMOJI', type);
-			const newOffset = this.#getReactmoji(type);
-			const index = this.#getFreeInstance();
-			if (index || index === 0) {
-				this.useInstances.push(index);
-				this.geometry.getAttribute('aOffset').setXY(index, newOffset.x, newOffset.y);
-				this.intanceInterleavedBuffer.updateRange.offset = this.intancesStride * index;
-				this.intanceInterleavedBuffer.updateRange.count = 1 * this.intancesStride;
-
-				this.intanceInterleavedBuffer.needsUpdate = true;
-
-				setTimeout(() => this.#resetMoji(index), 1500);
-			}
-		});
+		state.on(EVENTS.REACT_MOJI, this.#onReactMoji);
 	}
 
 	#createGeometry() {
 		const geometry = new InstancedBufferGeometry();
-		geometry.instanceCount = this.maxCount;
+		geometry.instanceCount = this.particlesCount;
 		const plane = new PlaneGeometry(1, 1);
 
 		geometry.index = plane.index;
@@ -80,7 +75,7 @@ export default class Reactmoji extends Mesh {
 	#getReactmoji(id) {
 		let offset;
 		if (id || id === 0) {
-			offset = { x: MojiData.frames[id].frame.x / 128, y: MojiData.frames[id].frame.y / 256 };
+			offset = { x: MojiData.frames[id].frame.x / this.#textureDimensions.x, y: MojiData.frames[id].frame.y / this.#textureDimensions.y };
 		} else {
 			offset = { x: 1, y: 1 };
 		}
@@ -131,4 +126,20 @@ export default class Reactmoji extends Mesh {
 		// Si tous les index sont utilisés, renvoyer undefined ou une valeur spéciale pour indiquer qu'aucun index n'est disponible
 		return undefined;
 	}
+
+	#onReactMoji = (iso, type) => {
+		// console.log('REACTMOJI', type);
+		const newOffset = this.#getReactmoji(type);
+		const index = this.#getFreeInstance();
+		if (index || index === 0) {
+			this.useInstances.push(index);
+			this.geometry.getAttribute('aOffset').setXY(index, newOffset.x, newOffset.y);
+			this.intanceInterleavedBuffer.updateRange.offset = this.intancesStride * index;
+			this.intanceInterleavedBuffer.updateRange.count = 1 * this.intancesStride;
+
+			this.intanceInterleavedBuffer.needsUpdate = true;
+
+			setTimeout(() => this.#resetMoji(index), 1500);
+		}
+	};
 }

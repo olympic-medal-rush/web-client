@@ -36,6 +36,7 @@ const EVENTS = {
 	VOTE_COUNT: i++,
 	VOTE_RESULTS: i++,
 	COLLECT_MEDAL: i++,
+	REACT_MOJI: i++,
 };
 
 const EVENTS_MAP = Object.fromEntries(
