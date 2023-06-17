@@ -9,8 +9,9 @@ import { InstancedFlames } from './InstancedFlames';
 import { InstancedTeams } from './InstancedTeams';
 
 class TeamsWrapper {
-	#teams;
 	positions;
+
+	#teams;
 	#rotationsY;
 	#animationsSteps = {
 		jump: 0,

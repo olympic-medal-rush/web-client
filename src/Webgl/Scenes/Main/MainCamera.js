@@ -36,7 +36,7 @@ class MainCamera extends PerspectiveCamera {
 
 		const cameraHalfWidth = this.getVisibleWidthAtZDepth() * 0.5;
 		const cameraHalfHeight = this.getVisibleHeightAtZDepth() * 0.5;
-		this.#targetPosition.x -= diff.x * cameraHalfWidth;
+		this.#targetPosition.x -= diff.x * cameraHalfWidth * (this.#lerpedZoom + 1);
 		this.#targetPosition.y += diff.y * cameraHalfHeight * (this.#lerpedZoom + 1);
 	}
 
