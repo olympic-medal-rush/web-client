@@ -50,6 +50,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .game {
 	width: 100vw;
+	height: 100%;
 	overflow: hidden;
 }
 .Header {
