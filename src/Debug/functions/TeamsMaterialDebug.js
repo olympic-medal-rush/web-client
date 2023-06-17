@@ -8,7 +8,7 @@ import { ColorDebugHelper } from '@Debug/debugConfig';
  * @returns
  */
 function createPane(pane, instance, name) {
-	const folder = pane.addFolder({ title: name, expanded: true });
+	const folder = pane.addFolder({ title: name, expanded: false });
 
 	folder.addInput(instance.uniforms.uMetalness, 'value', { min: 0, max: 5, label: 'uMetalness' });
 	folder.addInput(instance.uniforms.uRoughness, 'value', { min: 0, max: 5, label: 'uRoughness' });

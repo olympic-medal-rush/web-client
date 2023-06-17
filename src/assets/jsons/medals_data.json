@@ -1,0 +1,123 @@
+[
+    {
+        "id": 1,
+        "type": 0,
+        "athlete": "Isabella Hassan",
+        "nationality": "ITA",
+        "event_name": "Event Name",
+        "sport": "Sport Name",
+        "datetime": "2023-06-17T19:58:47.939Z",
+        "city": "Paris",
+        "description": "L’Italie remporte une médaille d’or grâce à la performance d’Isabella Pininfarina sur ce magnifique dépassement sur la coureuse tchèque Maria Polenta."
+    },
+    {
+        "id": 2,
+        "type": 0,
+        "athlete": "John Kipling",
+        "nationality": "USA",
+        "event_name": "Men's 100m Sprint",
+        "sport": "Athletics",
+        "datetime": "2023-06-17T20:30:00.939Z",
+        "city": "Paris",
+        "description": "John Kipling from USA grabs the gold with an electrifying sprint, leaving behind Canada's Robert Callaghan."
+    },
+    {
+        "id": 3,
+        "type": 1,
+        "athlete": "Chen Wei",
+        "nationality": "CHN",
+        "event_name": "Women's Singles",
+        "sport": "Table Tennis",
+        "datetime": "2023-06-17T21:00:00.939Z",
+        "city": "Paris",
+        "description": "Chen Wei from China secures a silver medal in an intense face-off against Japan's Ayako Kurosawa."
+    },
+    {
+        "id": 4,
+        "type": 2,
+        "athlete": "Ivan Dmitriev",
+        "nationality": "RUS",
+        "event_name": "Men's Heavyweight",
+        "sport": "Boxing",
+        "datetime": "2023-06-17T21:30:00.939Z",
+        "city": "Paris",
+        "description": "Ivan Dmitriev from Russia takes the bronze medal after a tough fight with Nigeria's Samuel Akinola."
+    },
+    {
+        "id": 5,
+        "type": 0,
+        "athlete": "Alice Martins",
+        "nationality": "BRA",
+        "event_name": "Women's Individual All-Around",
+        "sport": "Gymnastics",
+        "datetime": "2023-06-17T22:00:00.939Z",
+        "city": "Paris",
+        "description": "Alice Martins from Brazil dazzles the crowd, taking home the gold medal in a stellar performance."
+    },
+    {
+        "id": 6,
+        "type": 1,
+        "athlete": "Hans Schmidt",
+        "nationality": "GER",
+        "event_name": "Men's Javelin Throw",
+        "sport": "Athletics",
+        "datetime": "2023-06-17T22:30:00.939Z",
+        "city": "Paris",
+        "description": "Germany's Hans Schmidt shows great skill and precision, securing the silver medal in Javelin Throw."
+    },
+    {
+        "id": 7,
+        "type": 2,
+        "athlete": "Emma Larsen",
+        "nationality": "SWE",
+        "event_name": "Women's 400m Hurdles",
+        "sport": "Athletics",
+        "datetime": "2023-06-17T23:00:00.939Z",
+        "city": "Paris",
+        "description": "Emma Larsen from Sweden crosses the finish line to earn a well-deserved bronze medal."
+    },
+    {
+        "id": 8,
+        "type": 0,
+        "athlete": "Ko Hei",
+        "nationality": "JPN",
+        "event_name": "Men's Individual Medley",
+        "sport": "Swimming",
+        "datetime": "2023-06-17T23:30:00.939Z",
+        "city": "Paris",
+        "description": "Ko Hei from Japan dominates the pool, swimming his way to a gold medal."
+    },
+    {
+        "id": 9,
+        "type": 1,
+        "athlete": "Yara Sánchez",
+        "nationality": "ESP",
+        "event_name": "Women's Singles",
+        "sport": "Badminton",
+        "datetime": "2023-06-18T00:00:00.939Z",
+        "city": "Paris",
+        "description": "Spain's Yara Sánchez secures the silver medal with an excellent performance in the badminton court."
+    },
+    {
+        "id": 10,
+        "type": 2,
+        "athlete": "Dennis van Aert",
+        "nationality": "NED",
+        "event_name": "Men's Keirin",
+        "sport": "Cycling",
+        "datetime": "2023-06-18T00:30:00.939Z",
+        "city": "Paris",
+        "description": "Dutch cyclist Dennis van Aert rides to a bronze medal in a thrilling race."
+    },
+    {
+        "id": 11,
+        "type": 0,
+        "athlete": "Amina El Allam",
+        "nationality": "MAR",
+        "event_name": "Women's 5000m",
+        "sport": "Athletics",
+        "datetime": "2023-06-18T01:00:00.939Z",
+        "city": "Paris",
+        "description": "Amina El Allam from Morocco wins the gold medal in a spectacular run, outpacing Ethiopia's Meseret Tola."
+    }
+]

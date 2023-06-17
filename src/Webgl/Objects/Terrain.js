@@ -44,8 +44,7 @@ class Terrain extends Object3D {
 
 		this.grid = new Grid(terrainStructure);
 
-		this.add(this.glb);
-		this.add(this.grid);
+		this.add(this.glb, this.grid);
 
 		this.traverse(
 			/** @param {import('three').Mesh} child*/ (child) => {

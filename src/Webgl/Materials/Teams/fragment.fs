@@ -90,8 +90,8 @@ void main() {
 	vec4 final = vec4(diffuse, 1.);
 
 	float ao = texture2D(tAoMap, vUv).r;
-	float animationProgressFade = smoothstep(0.0, 0.3, vAnimationProgress) * smoothstep(0.4, 0.3, vAnimationProgress) * smoothstep(0.5, 0.4, vAnimationProgress);
-	ao = mix(ao, 1., animationProgressFade * smoothstep(1.5, 2., vPosition.y) * body);
+	float animationProgressFade = max(.6, smoothstep(0.0, 0.3, vAnimationProgress) * smoothstep(0.4, 0.3, vAnimationProgress) * smoothstep(0.5, 0.4, vAnimationProgress));
+	ao = mix(ao, 1.,  animationProgressFade * smoothstep(1.5, 2., vPosition.y) * body);
 	final.rgb *= mix(1., ao, uAoMapIntensity);
 
 	// Shading
