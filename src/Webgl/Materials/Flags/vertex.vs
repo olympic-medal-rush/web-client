@@ -11,20 +11,23 @@ uniform mat4 modelViewMatrix;
 
 varying vec2 vUv;
 varying vec2 vOffset;
-varying float vIsMyTeam;
+varying float vIsMyTeam, vRatio;
 
 void main() {
-  vUv = uv;
-  vIsMyTeam = aIsMyTeam;
-
   vec2 offset = uv + .5;
   offset *= UV_SCALE;
   offset += aOffset - .5 * UV_SCALE;
-  vOffset = offset;
+
 
   vec3 pos = position;
+  pos.x *= aRatio;
   pos.xz += aInstancePosition;
-  pos.y += vIsMyTeam * .1;
+  pos.y += aIsMyTeam * .1;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
+
+  vOffset = offset;
+  vUv = uv;
+  vIsMyTeam = aIsMyTeam;
+  vRatio = aRatio;
 }

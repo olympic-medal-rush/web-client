@@ -46,6 +46,8 @@ class TeamsWrapper {
 	addInstance(team) {
 		if (this.#teams.hasValue(team)) return console.error('Team instance already exists');
 		this.#teams.add(this.#count, team);
+		this.positions.set(team, team.position.clone().addScalar(0.5));
+		this.#rotationsY.set(team, { value: 0 });
 
 		this.instancedTeams.addInstance(team);
 		this.instancedFlames.addInstance(team);
