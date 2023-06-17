@@ -16,13 +16,14 @@ class Grid extends Mesh {
 		super();
 		this.size = structure.data[0].length;
 
-		this.geometry = this.#createGeometry(this.size);
-		this.material = this.#createMaterial(this.size);
-
 		//Pathfinding
 		this.nbPix = this.size * this.size;
 		this.data = new Uint8Array(this.nbPix * 4);
 		this.dataTex = null;
+
+		this.geometry = this.#createGeometry(this.size);
+		this.material = this.#createMaterial(this.size);
+
 		// 1. change flor data format
 		this.obstacleFlorData = terrainData.data;
 		this.obstacleFlorData.forEach((row, i) => {
@@ -35,10 +36,10 @@ class Grid extends Mesh {
 		this.finder = new pathfinding.AStarFinder();
 
 		this.#resetPath();
-		state.on(EVENTS.JOIN_READY, () => this.#findPath());
-		state.on(EVENTS.VOTE_RESULTS, () => this.#findPath());
-		state.on(EVENTS.SPAWN_MEDALS, () => this.#findPath());
-		state.on(EVENTS.COLLECT_MEDAL, () => this.#findPath());
+		state.on(EVENTS.JOIN_READY, this.#findPath);
+		state.on(EVENTS.VOTE_RESULTS, this.#findPath);
+		state.on(EVENTS.SPAWN_MEDALS, this.#findPath);
+		state.on(EVENTS.COLLECT_MEDAL, this.#findPath);
 	}
 
 	#createGeometry(size) {
@@ -133,7 +134,7 @@ class Grid extends Mesh {
 		}
 	}
 
-	#findPath() {
+	#findPath = () => {
 		// 3. find coord team
 		const coordTeam = app.game.currentTeam.position;
 		// 4. find coord nearest medal
@@ -153,7 +154,7 @@ class Grid extends Mesh {
 		}
 
 		this.material.uniforms.tPathFinding.value = this.#createPathFindingDataTex();
-	}
+	};
 }
 
 export { Grid };

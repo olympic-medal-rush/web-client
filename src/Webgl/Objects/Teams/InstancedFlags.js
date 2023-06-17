@@ -1,14 +1,12 @@
 import { app } from '@/App';
 import { useGameStore } from '@Vue/stores/game';
 import FlagAtlas from '@jsons/atlasFlag.json';
-import { gsap } from 'gsap';
-import { BackSide, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, PlaneGeometry, Vector2, Vector3 } from 'three';
+import { BackSide, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, PlaneGeometry, Vector2 } from 'three';
 import { FlagsMaterial } from '@Webgl/Materials/Flags/material';
-import { Bimap } from '@utils/BiMap';
 import { globalUniforms } from '@utils/globalUniforms';
 
 class InstancedFlags extends Mesh {
-	#teams;
+	teams;
 	#streamAttributes = {
 		instancePosition: null,
 	};
@@ -27,12 +25,13 @@ class InstancedFlags extends Mesh {
 
 	#textureDimensions = new Vector2();
 
-	constructor({ teams = [], maxCount = 210 }) {
+	constructor({ teams, maxCount = 210 }) {
 		super();
 
 		this.domGameStore = useGameStore();
 
-		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
+		this.teams = teams;
+
 		this.step = 0;
 		this.maxCount = maxCount;
 
@@ -43,7 +42,7 @@ class InstancedFlags extends Mesh {
 		this.geometry = this.#createGeometry();
 		this.material = this.#createMaterial();
 
-		this.#count = teams.length;
+		this.#count = teams.size;
 
 		this.frustumCulled = false;
 
@@ -70,7 +69,7 @@ class InstancedFlags extends Mesh {
 		let staticIncrement,
 			streamIncrement = 0;
 
-		const teamsArr = [...this.#teams.values()];
+		const teamsArr = [...this.teams.values()];
 
 		for (let i = 0; i < this.maxCount; i++) {
 			const streamInstancedIndexStride = i * this.#streamInstancesStride;
@@ -156,9 +155,6 @@ class InstancedFlags extends Mesh {
 	 * @param {import('@Game/Team').Team} team
 	 */
 	addInstance(team) {
-		if (this.#teams.hasValue(team)) return console.error('Team instance already exists');
-		this.#teams.add(this.#count, team);
-
 		this.#streamAttributes.instancePosition.setXY(this.#count, team.position.x + 0.5, team.position.y + 0.5);
 
 		const offsetFlag = this.#getOffsetFlag(team.iso);
@@ -176,34 +172,12 @@ class InstancedFlags extends Mesh {
 		this.#staticInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
-	/**
-	 *
-	 * @param {import('@Game/Team').Team} team
-	 */
-	moveInstance(team) {
-		if (!this.#teams.hasValue(team)) return console.error("Team instance doesn't exist");
+	moveInstanceUpdate({ teamIndex, animatedPosition }) {
+		this.#streamAttributes.instancePosition.setXY(teamIndex, animatedPosition.x, animatedPosition.y);
 
-		const teamIndex = this.#teams.getKey(team);
-
-		const animatedPosition = new Vector3();
-		const currentPosition = new Vector3(this.#streamAttributes.instancePosition.getX(teamIndex), 0, this.#streamAttributes.instancePosition.getY(teamIndex));
-		const nextPosition = new Vector3(team.position.x + 0.5, 0, team.position.y + 0.5);
-
-		const t = { positionProgress: 0 };
-
-		const tl = gsap.timeline({
-			onUpdate: () => {
-				animatedPosition.lerpVectors(currentPosition, nextPosition, t.positionProgress);
-
-				this.#streamAttributes.instancePosition.setXY(teamIndex, animatedPosition.x, animatedPosition.z);
-
-				this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
-				this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
-				this.#streamInstancedInterleaveBuffer.needsUpdate = true;
-			},
-		});
-
-		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, `<${0.7}`);
+		this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
+		this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
+		this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
 	/**
@@ -211,9 +185,9 @@ class InstancedFlags extends Mesh {
 	 * @param {import('@Game/Team').Team} team
 	 */
 	setIsMyTeam(team) {
-		if (!this.#teams.hasValue(team)) return console.error("Team instance doesn't exist");
+		if (!this.teams.hasValue(team)) return console.error("Team instance doesn't exist");
 
-		const teamIndex = this.#teams.getKey(team);
+		const teamIndex = this.teams.getKey(team);
 
 		this.#staticAttributes.isMyTeam.setX(teamIndex, 1);
 		this.#staticInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#staticInstancesStride;

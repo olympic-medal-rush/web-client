@@ -44,6 +44,10 @@ class Bimap {
 	values() {
 		return this.#keyToValue.values();
 	}
+
+	get size() {
+		return this.#keyToValue.size;
+	}
 }
 
 export { Bimap };

@@ -1,18 +1,13 @@
 import { app } from '@/App';
-import { frame_count as frameCount, max_value as maxValue, min_value as minValue, steps } from '@jsons/vat.json';
-import { gsap } from 'gsap';
-import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, StaticDrawUsage, StreamDrawUsage, Vector3 } from 'three';
+import { max_value as maxValue, min_value as minValue } from '@jsons/vat.json';
+import { BoxGeometry, Color, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, StaticDrawUsage, StreamDrawUsage } from 'three';
 import { randFloat } from 'three/src/math/MathUtils';
-import { lerp } from 'three/src/math/MathUtils.js';
 import { FlamesMaterial } from '@Webgl/Materials/Flames/material';
-import { Bimap } from '@utils/BiMap';
 import { globalUniforms } from '@utils/globalUniforms';
 
 class InstancedFlames extends Mesh {
-	#teams;
-	/** @type {Set<import('@Game/Team').Team>} */
-	#justWonMedalTeams = new Set();
-	/** @type {Record<string, import('three').InterleavedBufferAttribute>} */
+	teams;
+
 	#streamAttributes = {
 		instancePosition: null,
 		animationProgress: null,
@@ -34,27 +29,18 @@ class InstancedFlames extends Mesh {
 	#staticInstancesStride = 0;
 	#streamInstancesStride = 0;
 
-	#animationsSteps = {
-		jump: 0,
-		medal: 0,
-	};
-
-	constructor({ teams = [], maxCount = 210, particlesCount = 100 }) {
+	constructor({ teams, maxCount = 210, particlesCount = 100 }) {
 		super();
 
-		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
+		this.teams = teams;
 
 		this.maxCount = maxCount;
 		this.particlesCount = particlesCount;
 
-		const totalFrames = frameCount;
-		this.#animationsSteps.jump = steps[1] / totalFrames;
-		this.#animationsSteps.medal = 1;
-
 		this.geometry = this.#createGeometry();
 		this.material = this.#createMaterial();
 
-		this.#count = teams.length;
+		this.#count = teams.size;
 		this.frustumCulled = false;
 
 		app.debug?.mapping.add(this.material, 'FlamesMaterial');
@@ -103,7 +89,7 @@ class InstancedFlames extends Mesh {
 		let staticIncrement,
 			streamIncrement = 0;
 
-		const teamsArr = [...this.#teams.values()];
+		const teamsArr = [...this.teams.values()];
 
 		for (let i = 0; i < this.maxCount; i++) {
 			const staticInstancedIndexStride = i * this.#staticInstancesStride;
@@ -191,9 +177,6 @@ class InstancedFlames extends Mesh {
 	 * @param {import('@Game/Team').Team} team
 	 */
 	addInstance(team) {
-		if (this.#teams.hasValue(team)) return console.error('Team instance already exists');
-		this.#teams.add(this.#count, team);
-
 		this.#streamAttributes.instancePosition.setXY(this.#count, team.position.x + 0.5, team.position.y + 0.5);
 
 		this.#count++;
@@ -203,64 +186,15 @@ class InstancedFlames extends Mesh {
 		this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
-	/**
-	 *
-	 * @param {import('@Game/Team').Team} team
-	 */
-	moveInstance(team) {
-		if (!this.#teams.hasValue(team)) return console.error("Team instance doesn't exist");
+	moveInstanceUpdate({ teamIndex, animatedPosition, animationProgress, animatedRotation }) {
+		this.#streamAttributes.instancePosition.setXY(teamIndex, animatedPosition.x, animatedPosition.y);
+		this.#streamAttributes.animationProgress.setX(teamIndex, animationProgress);
+		this.#streamAttributes.rotationY.setX(teamIndex, animatedRotation);
 
-		const teamIndex = this.#teams.getKey(team);
+		this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
+		this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
 
-		const animatedPosition = new Vector3();
-		const currentPosition = new Vector3(this.#streamAttributes.instancePosition.getX(teamIndex), 0, this.#streamAttributes.instancePosition.getY(teamIndex));
-		const nextPosition = new Vector3(team.position.x + 0.5, 0, team.position.y + 0.5);
-		let currentRotationY = this.#streamAttributes.rotationY.getX(teamIndex);
-
-		const direction = nextPosition.clone().sub(currentPosition).normalize();
-		const targetRotationY = Math.atan2(-direction.x, direction.z);
-
-		let rotationDiff = targetRotationY - currentRotationY;
-
-		while (Math.abs(rotationDiff) > Math.PI) {
-			if (rotationDiff > Math.PI) {
-				currentRotationY += 2 * Math.PI;
-			} else {
-				currentRotationY -= 2 * Math.PI;
-			}
-			rotationDiff = targetRotationY - currentRotationY;
-		}
-
-		const nextRotationY = currentRotationY + rotationDiff;
-
-		const t = { positionProgress: 0, animationProgress: 0, rotationProgress: 0 };
-
-		let animationProgressTarget = this.#animationsSteps.jump;
-		let animationDuration = 1.5;
-		if (this.#justWonMedalTeams.has(team)) {
-			this.#justWonMedalTeams.delete(team);
-			animationProgressTarget = this.#animationsSteps.medal;
-			animationDuration += 1;
-		}
-
-		const tl = gsap.timeline({
-			onUpdate: () => {
-				animatedPosition.lerpVectors(currentPosition, nextPosition, t.positionProgress);
-
-				this.#streamAttributes.instancePosition.setXY(teamIndex, animatedPosition.x, animatedPosition.z);
-				this.#streamAttributes.animationProgress.setX(teamIndex, t.animationProgress);
-				this.#streamAttributes.rotationY.setX(teamIndex, lerp(currentRotationY, nextRotationY, t.rotationProgress));
-
-				this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
-				this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
-				this.#streamInstancedInterleaveBuffer.needsUpdate = true;
-			},
-		});
-		const shouldRotate = Math.abs(nextRotationY - currentRotationY) > 0.01;
-
-		if (shouldRotate) tl.to(t, { rotationProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0);
-		tl.to(t, { animationProgress: animationProgressTarget, ease: 'linear', duration: animationDuration }, shouldRotate ? '>-.5' : 0);
-		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, '<.7');
+		this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
 	set #count(value) {

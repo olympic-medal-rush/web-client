@@ -34,12 +34,6 @@ void main() {
 	// r: grass, g: sand, b: rock, water if 0
   vec3 seamlessData = texture2D(tData, vUv).rgb;
 
-	// // Derivatives for bump
-	// vec2 dSTdx = dFdx(seamlessUv);
-	// vec2 dSTdy = dFdy(seamlessUv);
-	// float bumpScale = 1.;
-
-	// normal = perturbNormalArb(-vViewPosition, normal, dHdxy_fwd(seamless1, tSeamless1, seamlessUv, .5 *));
   float pathFindingData = texture2D(tPathFinding, vUv).r;
 
 	// Circle grid pattern on normals

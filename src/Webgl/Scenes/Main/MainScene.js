@@ -1,18 +1,15 @@
 import { app } from '@/App.js';
 import { state } from '@/State.js';
 import { AmbientLight, CanvasTexture, Color, DepthTexture, Group, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
-import { InstancedFlags } from '@Webgl/Objects/InstancedFlags.js';
-import { InstancedFlames } from '@Webgl/Objects/InstancedFlames.js';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
-import { InstancedTeams } from '@Webgl/Objects/InstancedTeams.js';
 import Reactmoji from '@Webgl/Objects/Reactmoji.js';
+import { TeamsWrapper } from '@Webgl/Objects/Teams/TeamsWrapper.js';
 import { TERRAIN } from '@utils/config.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { Terrain } from '../../Objects/Terrain.js';
 
 class MainScene extends Scene {
 	dynamicGroup = new Group();
-	teamsPositions;
 
 	#headTopVertexID = 0.217677;
 	constructor() {
@@ -83,18 +80,13 @@ class MainScene extends Scene {
 	}
 
 	initTeams(teams) {
-		this.teamsPositions = new Map(teams.map((team) => [team, team.position.clone().addScalar(0.5)]));
-
-		this.teams = new InstancedTeams({ teams, model: app.core.assetsManager.get('player') });
-		this.flags = new InstancedFlags({ teams });
-		this.flames = new InstancedFlames({ teams });
-		this.dynamicGroup.add(this.teams, this.flames);
-		this.add(this.flags);
+		this.teamsWrapper = new TeamsWrapper({ teams });
+		this.dynamicGroup.add(this.teamsWrapper.instancedTeams, this.teamsWrapper.instancedFlames);
+		this.add(this.teamsWrapper.instancedFlags);
 
 		const reactmoji = new Reactmoji();
 		reactmoji.position.y += 5;
 		this.add(reactmoji);
-		this.dynamicGroup.add(this.teams);
 	}
 
 	addMedals(medals) {
@@ -102,22 +94,16 @@ class MainScene extends Scene {
 	}
 
 	collectMedal(medal, team) {
-		this.teams.collectMedal(team);
+		this.teamsWrapper.collectMedal(team);
 		this.medals.removeInstance(medal);
 	}
 
 	addTeam(team) {
-		this.teamsPositions.set(team, team.position.clone());
-
-		this.teams.addInstance(team);
-		this.flames.addInstance(team);
-		this.flags.addInstance(team);
+		this.teamsWrapper.addInstance(team);
 	}
 
 	moveTeam(team) {
-		this.teams.moveInstance(team);
-		this.flames.moveInstance(team);
-		this.flags.moveInstance(team);
+		this.teamsWrapper.moveInstance(team);
 	}
 
 	#renderDiffuse() {
