@@ -10,7 +10,6 @@ const domGameStore = useGameStore();
 const scoreboard = ref();
 
 const togglePodium = () => {
-	console.log('toggle');
 	scoreboard.value.classList.toggle('active');
 };
 

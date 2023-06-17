@@ -16,9 +16,6 @@ class Grid extends Mesh {
 		super();
 		this.size = structure.data[0].length;
 
-		this.geometry = this.#createGeometry(this.size);
-		this.material = this.#createMaterial(this.size);
-
 		//Pathfinding
 		this.nbPix = this.size * this.size;
 		this.data = new Uint8Array(this.nbPix * 4);
@@ -39,6 +36,9 @@ class Grid extends Mesh {
 		state.on(EVENTS.VOTE_RESULTS, () => this.#findPath());
 		state.on(EVENTS.SPAWN_MEDALS, () => this.#findPath());
 		state.on(EVENTS.COLLECT_MEDAL, () => this.#findPath());
+
+		this.geometry = this.#createGeometry(this.size);
+		this.material = this.#createMaterial(this.size);
 	}
 
 	#createGeometry(size) {
@@ -138,7 +138,7 @@ class Grid extends Mesh {
 		const coordTeam = app.game.currentTeam.position;
 		// 4. find coord nearest medal
 		// 5. find path
-		if (coordTeam.x === this.path[1][0] && coordTeam.y === this.path[1][1]) {
+		if (this.path.length > 1 && coordTeam.x === this.path[1][0] && coordTeam.y === this.path[1][1]) {
 			this.path.shift();
 		} else {
 			// console.log('FindPath');
