@@ -67,8 +67,8 @@ void main() {
 	
 
 	// FLAG COLORS
-	vec3 color1 = vColor1;
-	vec3 color2 = vColor2;
+	vec3 color1 = clamp(vec3(0.), vec3(.8), vColor1);
+	vec3 color2 = clamp(vec3(0.), vec3(.8), vColor2);
 	vec3 color3 = vColor3;
 
 	vec3 diffuse = mix(color1, mix(color2, mix(color3, color2, noise1), smoothstep(.9 - noise1 * .1, .5 - noise1 * .1, vPosition.y + sin(vPosition.x * 20. - 10.) * .03)), smoothstep(1.8, .8, vPosition.y));
@@ -102,6 +102,5 @@ void main() {
 	gl_FragColor = final;
 
 	// Emissive
-	gl_FragColor.rgb *= (1. - float(uEmissiveOnly));
-	// #include <dithering_fragment>
+	gl_FragColor.rgb = mix(gl_FragColor.rgb, gl_FragColor.rgb * (1. - face) * smoothstep(.0, 3., min(1., length(gl_FragColor.rgb))) * .2, float(uEmissiveOnly));
 }

@@ -10,14 +10,14 @@ import { ReactmojiMaterial } from '../Materials/Reactmoji/material';
 export default class Reactmoji extends Mesh {
 	#textureDimensions = new Vector2();
 
-	constructor({ particlesCount = 50, maxCount = 210 } = {}) {
+	constructor({ maxCount = 50 } = {}) {
 		super();
 
 		const tex = app.core.assetsManager.get('reactmoji');
 		const { width, height } = tex.source.data;
 		this.#textureDimensions.set(width, height);
 
-		this.particlesCount = particlesCount;
+		// this.particlesCount = particlesCount;
 		this.maxCount = maxCount;
 
 		this.geometry = this.#createGeometry();
@@ -32,7 +32,7 @@ export default class Reactmoji extends Mesh {
 
 	#createGeometry() {
 		const geometry = new InstancedBufferGeometry();
-		geometry.instanceCount = this.particlesCount;
+		geometry.instanceCount = this.maxCount;
 		const plane = new PlaneGeometry(1, 1);
 
 		geometry.index = plane.index;

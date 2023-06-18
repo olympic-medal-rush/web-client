@@ -2,7 +2,6 @@ import { app } from '@/App.js';
 import { state } from '@/State.js';
 import { AmbientLight, CanvasTexture, Color, DepthTexture, Group, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
-import Reactmoji from '@Webgl/Objects/Reactmoji.js';
 import { TeamsWrapper } from '@Webgl/Objects/Teams/TeamsWrapper.js';
 import { TERRAIN } from '@utils/config.js';
 import { computeEnvmap } from '@utils/misc.js';
@@ -82,11 +81,7 @@ class MainScene extends Scene {
 	initTeams(teams) {
 		this.teamsWrapper = new TeamsWrapper({ teams });
 		this.dynamicGroup.add(this.teamsWrapper.instancedTeams, this.teamsWrapper.instancedFlames);
-		this.add(this.teamsWrapper.instancedFlags);
-
-		const reactmoji = new Reactmoji();
-		reactmoji.position.y += 5;
-		this.add(reactmoji);
+		this.add(this.teamsWrapper.instancedFlags, this.teamsWrapper.reactmoji);
 	}
 
 	addMedals(medals) {

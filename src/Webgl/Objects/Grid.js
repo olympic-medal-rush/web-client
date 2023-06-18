@@ -15,6 +15,7 @@ class Grid extends Mesh {
 	constructor(structure) {
 		super();
 		this.size = structure.data[0].length;
+		this.scaleFactor = 1.5;
 
 		//Pathfinding
 		this.nbPix = this.size * this.size;
@@ -43,7 +44,7 @@ class Grid extends Mesh {
 	}
 
 	#createGeometry(size) {
-		const geometry = new PlaneGeometry(size, size, 1, 1);
+		const geometry = new PlaneGeometry(size * this.scaleFactor, size * this.scaleFactor, 1, 1);
 		geometry.rotateX(-Math.PI * 0.5);
 		geometry.translate(size * 0.5, 0, size * 0.5);
 
@@ -68,7 +69,6 @@ class Grid extends Mesh {
 
 				uZoom: globalUniforms.uZoom,
 
-				uSize: { value: size },
 				uFloorColor: { value: new Vector3(0, 0.39, 0.45) },
 				uGridColor: { value: new Vector3(0, 0, 0) },
 
@@ -82,6 +82,8 @@ class Grid extends Mesh {
 			defines: {
 				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
 				FAR: `${app.webgl.scene.shadowCamera.far}.`,
+				GRID_SIZE: `${size}.`,
+				GRID_SIZE_FACTOR: `${this.scaleFactor}`,
 			},
 		});
 

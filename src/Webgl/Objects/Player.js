@@ -123,7 +123,6 @@ class Player extends Mesh {
 	dispose() {
 		this.geometry.dispose();
 		this.material.dispose();
-		this.dispose();
 	}
 
 	get uniforms() {
