@@ -1,6 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { Color, Scene } from 'three';
+import { Color, LinearSRGBColorSpace, Scene } from 'three';
 import { Player } from '@Webgl/Objects/Player';
 import { EVENTS } from '@utils/constants';
 
@@ -9,7 +9,7 @@ class LoginScene extends Scene {
 	constructor() {
 		super();
 
-		this.background = new Color(0xfbf9ec);
+		this.background = new Color().setHex(0xfbf9ec, LinearSRGBColorSpace);
 		this.userData.backgrounds = [this.background, new Color(0x000000)];
 
 		state.on(EVENTS.ATTACH, this.#onAppLoaded);
