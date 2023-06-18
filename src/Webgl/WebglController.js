@@ -9,6 +9,8 @@ import { MainCamera } from './Scenes/Main/MainCamera';
 import { MainScene } from './Scenes/Main/MainScene';
 
 class WebglController {
+	#currentScene = null;
+	#currentCamera = null;
 	constructor() {
 		state.register(this);
 
@@ -80,18 +82,14 @@ class WebglController {
 	onRender() {
 		this.renderer.clear();
 
-		if (this.renderLogin) {
-			this.loginScene.render();
-		} else {
-			this.scene.render();
-			this.postProcessing.render(this.scene, this.camera);
-		}
+		this.#currentScene.render();
+		this.postProcessing.render(this.#currentScene, this.#currentCamera);
 	}
 
 	set emissiveOnly(value) {
 		globalUniforms.uEmissiveOnly.value = value;
-		this.scene.background = this.scene.userData.backgrounds[+value];
-		this.scene?.terrain?.traverse(
+		this.#currentScene.background = this.#currentScene.userData.backgrounds[+value];
+		this.#currentScene?.terrain?.traverse(
 			/** @param {import('three').Mesh} child*/ (child) => {
 				if (child.isMesh) child.material = child.userData.materials[+value];
 			},
@@ -100,6 +98,15 @@ class WebglController {
 
 	get emissiveOnly() {
 		return globalUniforms.uEmissiveOnly.value;
+	}
+
+	set renderLogin(value) {
+		this.#currentScene = value ? this.loginScene : this.scene;
+		this.#currentCamera = value ? this.loginCamera : this.camera;
+	}
+
+	get renderLogin() {
+		return this.#currentScene === this.loginScene;
 	}
 }
 

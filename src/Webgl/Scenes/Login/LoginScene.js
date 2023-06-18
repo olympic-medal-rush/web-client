@@ -9,7 +9,8 @@ class LoginScene extends Scene {
 	constructor() {
 		super();
 
-		this.background = new Color(0xffffff);
+		this.background = new Color(0xfbf9ec);
+		this.userData.backgrounds = [this.background, new Color(0x000000)];
 
 		state.on(EVENTS.ATTACH, this.#onAppLoaded);
 		state.on(EVENTS.SELECT_TEAM_UPDATE, this.#onSelectTeamUpdate);
@@ -28,7 +29,7 @@ class LoginScene extends Scene {
 	};
 
 	render() {
-		app.webgl.renderer.render(this, app.webgl.loginCamera);
+		app.webgl.renderer.renderRenderTarget(this, app.webgl.loginCamera, app.webgl.postProcessing.renderTarget);
 	}
 
 	dispose() {
