@@ -9,8 +9,8 @@
     "staging": "vite build -m staging -c config/vite.config.js",
     "preview": "vite preview -c config/vite.config.js",
     "translate": "node bin/translate.mjs 1mf5qJUxz7tg0WNmle_UGAahXapRGeWrUklk0KTwKOUc ./src/assets/locales/",
-    "color-flags": "node bin/flagColors.mjs ./public/assets/textures/flags-atlas.png  ./src/assets/jsons/flag_atlas.json",
-    "flags": "node bin/getFlag.mjs ./public/assets/images/flags/",
+    "flags-images": "node bin/flagImages.mjs ./public/assets/images/flags/",
+    "flags-color": "node bin/flagColors.mjs ./public/assets/textures/flags-atlas.png  ./src/assets/jsons/flag_colors.json",
     "flags-atlas": "node bin/flagAtlas.mjs ./public/assets/images/flags/ ./"
   },
   "dependencies": {

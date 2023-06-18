@@ -1,5 +1,5 @@
 import { app } from '@/App';
-import flagColors from '@jsons/flag_atlas.json';
+import flagColors from '@jsons/flag_colors.json';
 import { max_value as maxValue, min_value as minValue } from '@jsons/vat.json';
 import {
 	Color,

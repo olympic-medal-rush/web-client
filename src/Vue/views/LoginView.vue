@@ -33,7 +33,6 @@ const selectCountry = (id) => {
 };
 
 const login = () => {
-	console.log('Login Country : ' + selectedCountry.value);
 	domGameStore.setPlayerCountry(selectedCountry.value);
 	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
 	app.server.userJoin({ iso: selectedCountry.value });
