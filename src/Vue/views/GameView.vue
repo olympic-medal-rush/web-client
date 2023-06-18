@@ -11,8 +11,8 @@ import TheCounterPlayers from '@components/TheCounterPlayers.vue';
 import TheNotifications from '@components/TheNotifications.vue';
 import ThePlayerCountry from '@components/ThePlayerTeam.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
-import { onMounted, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import { onMounted, ref } from 'vue';
 
 const domGameStore = useGameStore();
 
@@ -30,12 +30,12 @@ onMounted(() => {
 <template>
 	<div ref="game" class="game">
 		<ThePlayerCountry />
+		<TheScoreboard />
 		<div class="Header">
 			<TheCounterMedals />
 			<TheCounterPlayers />
 			<TheNotifications />
 		</div>
-		<TheScoreboard />
 		<VoteArrows />
 		<MedalCompass v-for="medal in domGameStore.medals" :key="medal.id"></MedalCompass>
 
@@ -56,7 +56,11 @@ onMounted(() => {
 .Header {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
-	margin: 16px 10px 0 10px;
+	justify-content: space-between;
+	z-index: 3;
+	position: absolute;
+	top: 20px;
+	left: 13px;
+	width: calc(100% - (2 * 13px));
 }
 </style>
