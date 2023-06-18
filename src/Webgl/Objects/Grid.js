@@ -2,7 +2,7 @@ import { app } from '@/App';
 import { state } from '@/State';
 import terrainData from '@jsons/terrain_data.json';
 import pathfinding from 'pathfinding';
-import { DataTexture, Mesh, PlaneGeometry, RepeatWrapping, Vector3 } from 'three';
+import { DataTexture, Mesh, MirroredRepeatWrapping, PlaneGeometry, RepeatWrapping, Vector3 } from 'three';
 import { EVENTS } from '@utils/constants';
 import { globalUniforms } from '@utils/globalUniforms';
 import { GridMaterial } from '../Materials/Grid/material';
@@ -15,6 +15,7 @@ class Grid extends Mesh {
 	constructor(structure) {
 		super();
 		this.size = structure.data[0].length;
+		this.scaleFactor = 2;
 
 		//Pathfinding
 		this.nbPix = this.size * this.size;
@@ -43,7 +44,7 @@ class Grid extends Mesh {
 	}
 
 	#createGeometry(size) {
-		const geometry = new PlaneGeometry(size, size, 1, 1);
+		const geometry = new PlaneGeometry(size * this.scaleFactor, size * this.scaleFactor, 1, 1);
 		geometry.rotateX(-Math.PI * 0.5);
 		geometry.translate(size * 0.5, 0, size * 0.5);
 
@@ -52,6 +53,8 @@ class Grid extends Mesh {
 
 	#createMaterial(size) {
 		const [groundData, seamless1, seamless2, seamless3, seamless4] = app.core.assetsManager.get('groundData', 'seamless1', 'seamless2', 'seamless3', 'seamless4');
+
+		groundData.wrapS = groundData.wrapT = MirroredRepeatWrapping;
 
 		seamless1.wrapS = seamless1.wrapT = RepeatWrapping;
 		seamless2.wrapS = seamless2.wrapT = RepeatWrapping;
@@ -68,7 +71,6 @@ class Grid extends Mesh {
 
 				uZoom: globalUniforms.uZoom,
 
-				uSize: { value: size },
 				uFloorColor: { value: new Vector3(0, 0.39, 0.45) },
 				uGridColor: { value: new Vector3(0, 0, 0) },
 
@@ -82,6 +84,8 @@ class Grid extends Mesh {
 			defines: {
 				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
 				FAR: `${app.webgl.scene.shadowCamera.far}.`,
+				GRID_SIZE: `${size}.`,
+				GRID_SIZE_FACTOR: `${this.scaleFactor.toFixed(2)}`,
 			},
 		});
 

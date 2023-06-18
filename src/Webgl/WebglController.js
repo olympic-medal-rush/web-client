@@ -53,7 +53,7 @@ class WebglController {
 		this.camera.playerPosition = this.scene.teamsWrapper.positions.get(currentTeam);
 		this.camera.focusPlayer = true;
 
-		this.scene.teamsWrapper.setIsMyTeam(currentTeam);
+		this.scene.teamsWrapper.setCurrentTeam(currentTeam);
 		// currentPlayer.addRaycaster();
 	}
 
