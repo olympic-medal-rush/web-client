@@ -24,13 +24,11 @@ float readDepth(sampler2D depthSampler, vec2 coord) {
 void main() {
   vec3 normal = vNormal;
 
-	// Bump deformation
   vec2 seamlessUv = vUv * 100.;
 
   vec3 seamless1 = texture2D(tSeamless1, seamlessUv).rgb;
   vec3 seamless2 = texture2D(tSeamless2, seamlessUv).rgb;
   vec3 seamless3 = texture2D(tSeamless3, seamlessUv).rgb;
-
 
   vec2 gameUv = (vUv - .5) * GRID_SIZE_FACTOR + .5;
 
@@ -61,19 +59,8 @@ void main() {
 
   float shadowFactor = step(depthShadowCoord - bias, depthShadowMap);
 
-	// bvec4 inFrustumVec = bvec4(shadowCoord.x >= 0.0, shadowCoord.x <= 1.0, shadowCoord.y >= 0.0, shadowCoord.y <= 1.0);
-	// bool inFrustum = all(inFrustumVec);
-
-	// bvec2 frustumTestVec = bvec2(inFrustum, shadowCoord.z <= 1.0);
-	// bool frustumTest = all(frustumTestVec);
-
-	// if(frustumTest == false)
-	// 	shadowFactor = 1.0;
-
   float difLight = max(0.0, cosTheta);
   float shading = shadowFactor * difLight;
-
-	// Texture samplings
 
   vec3 mix1 = mix(uFloorColor, seamless1, seamlessData.r);
   vec3 mix2 = mix(mix1, seamless2, seamlessData.g);
@@ -83,7 +70,7 @@ void main() {
   vec3 final = mix(gMix, mix3, seamlessData.b);
 
 	// Final shading
-  final = mix(final - .1, final + .1, shading);
+  final = mix(final - .1, final + .05, shading);
   final = mix(final, final + .3, pathFindingData * (gridCircle));
 
   gl_FragColor = vec4(final, 1.);
