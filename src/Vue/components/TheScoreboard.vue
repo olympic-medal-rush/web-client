@@ -22,6 +22,7 @@ const toScoreboardVue = () => {
 	<div ref="scoreboard" class="Scoreboard">
 		<div class="MyTeam">
 			<RoundFlag :iso="domGameStore.playerCountry" />
+			<span class="MyTeam-ranking">{{ domGameStore.scoreboard.indexOf(domGameStore.scoreboard.find((team) => team.name === domGameStore.playerCountry)) + 1 }}</span>
 		</div>
 		<div class="Podium" @click="toScoreboardVue">
 			<span class="separator"></span>
@@ -54,6 +55,21 @@ const toScoreboardVue = () => {
 
 	.MyTeam {
 		position: relative;
+
+		.MyTeam-ranking {
+			position: absolute;
+			bottom: -2px;
+			left: -2px;
+			color: $white;
+			font-family: 'ApfelGrotezk-Regular';
+			background-color: $black;
+			font-size: 12px;
+			line-height: 15px;
+			width: 15px;
+			height: 15px;
+			text-align: center;
+			border-radius: 9999px;
+		}
 	}
 
 	.Podium {
