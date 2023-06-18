@@ -24,7 +24,7 @@ class MainScene extends Scene {
 		this.shadowCamera.position.set(-5, 40, 5);
 		this.shadowCamera.lookAt(halfTerrain, 0, halfTerrain);
 
-		const rtSize = app.tools.viewport.breakpoint === 'mobile' ? 2048 : 4096;
+		const rtSize = app.tools.viewport.isMobileAtLaunch ? 2048 : 4096;
 
 		// Dynamic Shadows
 		this.dynamicShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
