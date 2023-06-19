@@ -47,7 +47,7 @@ const toggleModal = () => {
 
 .notif-enter-active,
 .notif-leave-active {
-	transition: all 0.5s ease;
+	transition: all 0.3s ease;
 }
 
 .notif-enter-from,
