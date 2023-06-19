@@ -1,22 +1,10 @@
 <script setup>
 import Icon from '@/assets/svgs/NotificationIcon.svg';
-import { ref } from 'vue';
-import NotificationsModal from './Modals/NotificationsModal.vue';
-
-const isModal = ref(false);
-const toggleModal = () => {
-	isModal.value = !isModal.value;
-};
 </script>
 
 <template>
-	<div>
-		<transition name="notif">
-			<NotificationsModal v-if="isModal" class="NotificationsModal" />
-		</transition>
-		<div class="Notif">
-			<Icon @click="toggleModal" />
-		</div>
+	<div class="Notif">
+		<Icon />
 	</div>
 </template>
 
@@ -25,6 +13,7 @@ const toggleModal = () => {
 
 .Notif {
 	width: max-content;
+	height: 47px;
 	padding: 13px 13px;
 	border-radius: 72px;
 	border: 2px solid rgba(0, 0, 0, 0.15);
@@ -33,27 +22,5 @@ const toggleModal = () => {
 	justify-content: center;
 	align-items: center;
 	pointer-events: all;
-	z-index: 6;
-}
-
-.NotificationsModal {
-	position: absolute;
-	top: -5px;
-	left: -5px;
-	width: calc(100vw - (2 * (13px - 5px)));
-	border-radius: 10px;
-	background-color: $bg-beige-ui;
-	z-index: 5;
-}
-
-.notif-enter-active,
-.notif-leave-active {
-	transition: all 0.3s ease;
-}
-
-.notif-enter-from,
-.notif-leave-to {
-	opacity: 0;
-	transform: scale(0.5) translateY(-30vh);
 }
 </style>

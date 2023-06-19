@@ -5,7 +5,7 @@ const domGameStore = useGameStore();
 </script>
 
 <template>
-	<div>
+	<div class="Medals">
 		<img src="/assets/images/Medals.png" alt="" srcset="" />
 		<span>{{ domGameStore.medals.length }}</span>
 		en jeu
@@ -15,9 +15,9 @@ const domGameStore = useGameStore();
 <style lang="scss" scoped>
 @use '@styles/tools' as *;
 
-div {
+.Medals {
 	display: flex;
-	width: max-content;
+	height: 47px;
 	align-items: center;
 	justify-content: center;
 	padding: 8px 15px;

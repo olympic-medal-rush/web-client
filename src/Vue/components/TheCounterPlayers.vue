@@ -65,7 +65,7 @@ const annimProgressBooster = () => {
 .counterPlayer {
 	position: relative;
 	display: flex;
-	width: max-content;
+	height: 47px;
 	align-items: center;
 	padding: 8px 45px 8px 15px;
 	border-radius: 72px;
@@ -85,7 +85,7 @@ const annimProgressBooster = () => {
 
 	.nextPowerUp {
 		position: absolute;
-		top: 0;
+		top: -2px;
 		right: 0;
 		display: flex;
 		justify-content: center;

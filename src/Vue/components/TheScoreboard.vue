@@ -7,24 +7,29 @@ import RoundFlag from './Assets/RoundFlag.vue';
 
 const domGameStore = useGameStore();
 
+const podium = ref();
+
 const scoreboard = ref();
+const isPodiumActive = ref(false);
 
 const togglePodium = () => {
+	if (!isPodiumActive.value) {
+		scoreboard.value.style.height = 68 + podium.value.clientHeight + 'px';
+	} else {
+		scoreboard.value.style.height = 73 + 'px';
+	}
+	isPodiumActive.value = !isPodiumActive.value;
 	scoreboard.value.classList.toggle('active');
-};
-
-const toScoreboardVue = () => {
-	router.push('/game/scoreboard');
 };
 </script>
 
 <template>
 	<div ref="scoreboard" class="Scoreboard">
-		<div class="MyTeam">
+		<router-link :to="'/game/scoreboard/' + domGameStore.playerCountry" class="MyTeam">
 			<RoundFlag :iso="domGameStore.playerCountry" />
 			<span class="MyTeam-ranking">{{ domGameStore.scoreboard.indexOf(domGameStore.scoreboard.find((team) => team.name === domGameStore.playerCountry)) + 1 }}</span>
-		</div>
-		<div class="Podium" @click="toScoreboardVue">
+		</router-link>
+		<div ref="podium" class="Podium" @click="() => router.push('/game/scoreboard')">
 			<span class="separator"></span>
 			<div v-for="(team, i) in domGameStore.scoreboard" :key="team.name" class="Podium-item" :class="{ none: i > 2 }">
 				<span v-if="team.score" :class="{ gold: i == 0, silver: i == 1, bronze: i == 2, none: i > 2 }">{{ i + 1 }}</span>
@@ -47,13 +52,12 @@ const toScoreboardVue = () => {
 	border: 2px solid rgba(0, 0, 0, 0.15);
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	pointer-events: all;
 	overflow: hidden;
 	height: 73px;
 	transition: height 0.3s;
-	z-index: 3;
 
 	.MyTeam {
 		position: relative;
@@ -77,6 +81,7 @@ const toScoreboardVue = () => {
 	.Podium {
 		opacity: 0;
 		position: absolute;
+		top: 36px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -136,10 +141,8 @@ const toScoreboardVue = () => {
 	}
 
 	&.active {
-		height: 189px;
 		.Podium {
 			opacity: 1;
-			position: relative;
 			pointer-events: all;
 			transition: opacity 1s;
 		}

@@ -1,5 +1,5 @@
 <script setup>
-import Icon from '@/assets/svgs/NotificationIcon.svg';
+import WIP from '@components/Utils/WIP.vue';
 
 const date = new Date();
 </script>
@@ -8,7 +8,6 @@ const date = new Date();
 	<div class="Modal">
 		<div class="Modal-header">
 			<p class="Modal-header-title">Notifications</p>
-			<div class="Modal-header-icon"><Icon /></div>
 		</div>
 		<p class="Modal-subtitle">
 			{{
@@ -20,6 +19,9 @@ const date = new Date();
 				})
 			}}
 		</p>
+		<div class="Modal-container">
+			<WIP />
+		</div>
 
 		<div class="Modal-handle">
 			<span></span>
@@ -32,34 +34,22 @@ const date = new Date();
 @use '@styles/tools' as *;
 .Modal {
 	padding: 5px 5px 20px 15px;
+	pointer-events: all;
 
-	&-header {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-
-		&-title {
-			font-family: 'ApfelGrotezk-Fett';
-			font-size: 35px;
-			line-height: 50px;
-		}
-
-		&-icon {
-			width: max-content;
-			padding: 13px 13px;
-			border-radius: 72px;
-			background-color: $darken-bg-beige-ui;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+	&-header-title {
+		font-family: 'ApfelGrotezk-Fett';
+		font-size: 35px;
+		line-height: 50px;
 	}
 
 	&-subtitle {
 		font-family: 'ApfelGrotezk-Regular';
 		font-size: 14px;
 		color: $silver-gray;
+	}
+
+	&-container {
+		margin: 20px 0;
 	}
 
 	&-handle {
