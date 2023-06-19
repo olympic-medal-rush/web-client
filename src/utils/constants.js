@@ -30,6 +30,7 @@ const EVENTS = {
 
 	// GAME EVENTS
 	STATE_READY: i++,
+	CLEAN_STATE: i++,
 	JOIN_READY: i++,
 	CREATE_TEAM: i++,
 	SPAWN_MEDALS: i++,
@@ -76,6 +77,7 @@ const SERVER_EVENTS = {
 	// EMITTERS
 	USER_VOTE: 'user_vote',
 	USER_JOIN: 'user_join',
+	USER_CATCHUP: 'user_catchup',
 };
 
 const DIRECTIONS = {

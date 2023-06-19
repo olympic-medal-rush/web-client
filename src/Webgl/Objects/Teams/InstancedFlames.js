@@ -197,6 +197,12 @@ class InstancedFlames extends Mesh {
 		this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
+	dispose() {
+		this.removeFromParent();
+		this.material.dispose();
+		this.geometry.dispose();
+	}
+
 	set #count(value) {
 		this.geometry.instanceCount = value * this.particlesCount;
 		this.visible = value !== 0;

@@ -154,6 +154,13 @@ class InstancedMedals extends Mesh {
 		this.#count--;
 	}
 
+	dispose() {
+		this.removeFromParent();
+		this.material.dispose();
+		this.material.uniforms.tMedalColor.value.dispose();
+		this.geometry.dispose();
+	}
+
 	set #count(value) {
 		this.geometry.instanceCount = value;
 		this.visible = value !== 0;

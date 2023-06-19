@@ -142,4 +142,10 @@ export default class Reactmoji extends Mesh {
 			setTimeout(() => this.#resetMoji(index), 1500);
 		}
 	};
+
+	dispose() {
+		this.removeFromParent();
+		this.material.dispose();
+		this.geometry.dispose();
+	}
 }

@@ -65,7 +65,6 @@ class InstancedTeams extends Mesh {
 
 		geometry.index = baseGeometry.index;
 		geometry.setAttribute('position', baseGeometry.getAttribute('position'));
-		// geometry.setAttribute('normal', baseGeometry.getAttribute('normal'));
 		geometry.setAttribute('uv', baseGeometry.getAttribute('uv'));
 		geometry.setAttribute('aVertexID', baseGeometry.getAttribute('_vertexid'));
 
@@ -220,6 +219,12 @@ class InstancedTeams extends Mesh {
 		this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
 		this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
 		this.#streamInstancedInterleaveBuffer.needsUpdate = true;
+	}
+
+	dispose() {
+		this.removeFromParent();
+		this.material.dispose();
+		this.geometry.dispose();
 	}
 
 	set count(value) {
