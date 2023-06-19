@@ -52,7 +52,7 @@ const toScoreboardVue = () => {
 	overflow: hidden;
 	height: 70px;
 	transition: height 0.3s;
-	z-index: 3;
+	// z-index: 3;
 
 	.MyTeam {
 		position: relative;

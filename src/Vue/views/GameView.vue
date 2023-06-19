@@ -11,8 +11,8 @@ import TheCounterPlayers from '@components/TheCounterPlayers.vue';
 import TheNotifications from '@components/TheNotifications.vue';
 import ThePlayerCountry from '@components/ThePlayerTeam.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
-import { EVENTS } from '@utils/constants';
 import { onMounted, ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 
 const domGameStore = useGameStore();
 
@@ -57,7 +57,7 @@ onMounted(() => {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	z-index: 3;
+	// z-index: 3;
 	position: absolute;
 	top: 20px;
 	left: 13px;
