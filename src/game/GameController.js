@@ -62,7 +62,6 @@ class GameController {
 	 */
 	updatePlayerCount(data) {
 		Object.entries(data).forEach(([iso, count]) => {
-			console.log(iso, count);
 			this.teamsStore.updatePlayerCount(iso, count);
 		});
 	}

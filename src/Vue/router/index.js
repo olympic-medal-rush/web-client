@@ -1,7 +1,8 @@
 import { state } from '@/State';
+import { store } from '@/Store';
 import { createRouter, createWebHistory } from 'vue-router';
 import { DEBUG } from '@utils/config';
-import { EVENTS } from '@utils/constants';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 
@@ -22,7 +23,7 @@ const router = createRouter({
 			path: '/game',
 			name: 'game',
 			beforeEnter: (from, to, next) => {
-				if (!DEBUG) next('/');
+				if (!DEBUG && !store.get(STORE_KEYS.USER_ISO)) next('/');
 				else next();
 			},
 			component: () => import('../views/GameView.vue'),

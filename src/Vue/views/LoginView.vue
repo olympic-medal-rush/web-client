@@ -4,7 +4,7 @@ import { state } from '@/State';
 import { store } from '@/Store';
 import router from '@Vue/router';
 import { useTeamsStore } from '@stores/teams';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { EVENTS, STORE_KEYS } from '@utils/constants';
 import VButton from './../components/Inputs/VButton.vue';
 import TheLogo from './../components/TheLogo.vue';
@@ -18,6 +18,11 @@ app.webgl.renderLogin = true;
 
 onMounted(() => {
 	allBtn = document.querySelectorAll('.Pays-item');
+	state.on(EVENTS.JOIN_READY, onJoinReady);
+});
+
+onUnmounted(() => {
+	state.off(EVENTS.JOIN_READY, onJoinReady);
 });
 
 const selectCountry = (id) => {
@@ -36,10 +41,12 @@ const login = () => {
 	teamsStore.setCurrent(selectedCountry.value);
 	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
 	app.server.userJoin({ iso: selectedCountry.value });
+};
+
+const onJoinReady = () => {
 	app.webgl.renderLogin = false;
 	app.webgl.loginScene.dispose();
-
-	router.push('/game');
+	router.replace('/game');
 };
 </script>
 
