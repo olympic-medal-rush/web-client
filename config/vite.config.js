@@ -33,7 +33,20 @@ export default ({ mode }) => {
 			hotEnvMap({ isDev: env.OLYMPIC_DEBUG === 'true' }),
 			ifdef({ DEBUG: env.OLYMPIC_DEBUG === 'true' }),
 			vue(),
-			svgLoader(),
+			svgLoader({
+				svgoConfig: {
+					plugins: [
+						{
+							name: 'preset-default',
+							params: {
+								overrides: {
+									removeViewBox: false,
+								},
+							},
+						},
+					],
+				},
+			}),
 			VitePWA(),
 			VueI18nPlugin({
 				include: resolve(dirname(fileURLToPath(import.meta.url)), '../src/assets/locales/**'),

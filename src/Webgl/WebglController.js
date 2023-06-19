@@ -73,6 +73,10 @@ class WebglController {
 		this.scene.collectMedal(medal, team);
 	}
 
+	onCleanState() {
+		this.scene.cleanUp();
+	}
+
 	// UPDATE AND RENDER
 
 	onTick({ et }) {

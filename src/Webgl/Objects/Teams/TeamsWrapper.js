@@ -139,6 +139,13 @@ class TeamsWrapper {
 		this.#justWonMedalTeams.add(team);
 	}
 
+	dispose() {
+		this.instancedFlags.dispose();
+		this.instancedFlames.dispose();
+		this.instancedTeams.dispose();
+		this.reactmoji.dispose();
+	}
+
 	get #count() {
 		return this.instancedTeams.count;
 	}

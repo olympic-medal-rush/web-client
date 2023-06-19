@@ -1,6 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { Vector2, WebGLRenderTarget } from 'three';
+import { LinearSRGBColorSpace, Vector2, WebGLRenderTarget } from 'three';
 import { EmissiveMaterial } from '../Materials/Emissive/material';
 
 class EmissivePass {
@@ -25,6 +25,7 @@ class EmissivePass {
 	#createRenderTarget() {
 		const renderTarget = new WebGLRenderTarget(app.tools.viewport.width * this.dpr, app.tools.viewport.height * this.dpr, {
 			samples: 0,
+			colorSpace: LinearSRGBColorSpace,
 		});
 
 		return renderTarget;

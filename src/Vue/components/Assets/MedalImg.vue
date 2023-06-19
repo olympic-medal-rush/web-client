@@ -1,12 +1,14 @@
 <script setup>
 const props = defineProps({
-	medal: { type: String, required: true },
+	type: { type: Number, required: true },
 });
+
+const type = props.type === 0 ? 'bronze' : props.type === 1 ? 'silver' : 'gold';
 </script>
 
 <template>
 	<div class="MedalImg">
-		<img :src="`/assets/images/medals/${props.medal}.png`" alt="" srcset="" />
+		<img :src="`/assets/images/medals/${type}.png`" alt="" srcset="" />
 	</div>
 </template>
 

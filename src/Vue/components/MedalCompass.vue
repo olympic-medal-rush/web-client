@@ -1,7 +1,7 @@
 <template>
-	<div ref="compassEl" :class="type" :style="{ transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }" class="compass-wrapper">
+	<div ref="compassEl" :class="typeStr" :style="{ transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }" class="compass-wrapper">
 		<div ref="circleEl" class="compass-circle">
-			<MedalImg :medal="type" />
+			<MedalImg :type="type" />
 		</div>
 		<div class="pin-wrapper" :style="{ transform: `rotate(${transform.angle}rad)` }">
 			<svg class="compass-pin" width="30" height="27" viewBox="0 0 30 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,8 @@ const circleEl = ref();
 
 // Used in template tag
 const transform = ref({ x: 0, y: 0, angle: 0 });
-const type = ref('');
+const type = ref(0);
+const typeStr = ref('');
 
 onMounted(() => {
 	state.on(EVENTS.TICK, calculateScreenPosition);
@@ -59,7 +60,8 @@ const calculateScreenPosition = () => {
 	if (!closestMedal) return;
 
 	const { screenPosition: position } = closestMedal;
-	type.value = closestMedal.typeStr;
+	type.value = closestMedal.type;
+	typeStr.value = closestMedal.typeStr;
 
 	const xPixels = position.x * app.tools.viewport.width - size.x * 0.5;
 	const yPixels = (1 - position.y) * app.tools.viewport.height - size.y * 0.5;

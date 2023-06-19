@@ -24,6 +24,7 @@ class GameController {
 	 * @param {GameStatePayload} statePayload
 	 */
 	setState(statePayload) {
+		if (this.userId) this.#cleanState();
 		this.userId = statePayload.user_id;
 		statePayload.medals?.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(statePayload.countries_states).forEach(([key, teamInfos]) => key !== 'ALL' && this.teams.set(key, new Team(teamInfos)));
@@ -125,6 +126,10 @@ class GameController {
 	 */
 	voteCount(voteCountPayload) {
 		state.emit(EVENTS.VOTE_COUNT, voteCountPayload);
+	}
+
+	#cleanState() {
+		state.emit(EVENTS.CLEAN_STATE, true);
 	}
 }
 

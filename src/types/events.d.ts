@@ -1,4 +1,4 @@
-type EventType = 'game_state' | 'join_state' | 'vote_results' | 'vote_count' | 'medal_apparition' | 'medal_collection' | 'new_team' | 'player_count';
+type EventType = 'game_state' | 'join_state' | 'vote_results' | 'vote_count' | 'medal_apparition' | 'medal_collection' | 'new_team' | 'player_count' | 'user_catchup';
 
 enum Direction {
 	up = 0,

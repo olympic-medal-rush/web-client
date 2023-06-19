@@ -11,7 +11,7 @@ const myCountry = ref();
 const otherCountry = ref();
 
 const collectTeam = ref('autre');
-const collectType = ref('gold');
+const collectType = ref(0);
 
 let timeout;
 
@@ -33,14 +33,14 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 			otherCountry.value.classList.remove('active');
 		}, 3000);
 	}
-	collectType.value = medal.typeStr;
+	collectType.value = medal.type;
 });
 </script>
 
 <template>
 	<div class="NewCollectMedal">
 		<div ref="otherCountry" class="NewCollectMedal_OtherCountry">
-			<MedalImg :medal="collectType" />
+			<MedalImg :type="collectType" />
 			<p class="NewCollectMedal_OtherCountry_Text">
 				Medaille collectée par l'equipe <b> {{ collectTeam }} </b>
 			</p>
@@ -50,7 +50,7 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 			<p>
 				Félicitations équipe <b>{{ collectTeam }}</b>
 			</p>
-			<MedalImg :medal="collectType" />
+			<MedalImg :type="collectType" />
 		</div>
 	</div>
 </template>

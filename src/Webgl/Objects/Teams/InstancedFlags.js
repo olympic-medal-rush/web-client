@@ -195,6 +195,12 @@ class InstancedFlags extends Mesh {
 		this.#staticInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
+	dispose() {
+		this.removeFromParent();
+		this.material.dispose();
+		this.geometry.dispose();
+	}
+
 	set #count(value) {
 		this.geometry.instanceCount = value;
 		this.visible = value !== 0;

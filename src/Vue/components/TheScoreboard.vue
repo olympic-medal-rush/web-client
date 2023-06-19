@@ -58,6 +58,10 @@ const togglePodium = () => {
 	overflow: hidden;
 	height: 73px;
 	transition: height 0.3s;
+<<<<<<< HEAD
+=======
+	// z-index: 3;
+>>>>>>> 5b03437fc9a56d346aae4c25633c3ac7a0609fb8
 
 	.MyTeam {
 		position: relative;

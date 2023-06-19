@@ -101,6 +101,11 @@ class MainScene extends Scene {
 		this.teamsWrapper.moveInstance(team);
 	}
 
+	cleanUp() {
+		this.medals.dispose();
+		this.teamsWrapper.dispose();
+	}
+
 	#renderDiffuse() {
 		app.webgl.renderer.renderRenderTarget(this, app.webgl.camera, app.webgl.postProcessing.renderTarget);
 	}

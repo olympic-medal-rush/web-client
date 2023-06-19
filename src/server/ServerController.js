@@ -10,18 +10,6 @@ export default class ServerController {
 
 	constructor() {
 		this.domGameStore = useGameStore();
-
-		// TODO: MAËLLE FOR EVENT TEST
-		// window.addEventListener('keydown', (e) => {
-		// 	if (e.key === 'p') {
-		// 		const data = {
-		// 			iso: 'FRA',
-		// 			count: Math.floor(Math.random() * 100),
-		// 		};
-		// 		this.#onPlayerCount(data);
-		// 	}
-		// });
-
 		state.on(EVENTS.APP_LOADED, this.#onAppLoaded);
 	}
 
@@ -33,6 +21,8 @@ export default class ServerController {
 		this.#connection = new WebSocket(import.meta.env.OLYMPIC_WSS);
 		this.#connection.onmessage = this.#onMessage;
 		console.info('Websocket connected');
+
+		window.addEventListener('visibilitychange', this.#onVisibilityChange);
 	};
 
 	/**
@@ -159,7 +149,7 @@ export default class ServerController {
 	 * @param {PlayerCountsPayload} data
 	 */
 	#onPlayerCount(data) {
-		// console.log(data, 'onPlayerCount');
+		console.log(data, 'onPlayerCount');
 
 		this.domGameStore.updatePlayersCounter(Object.values(data)[0]);
 		// TODO: update this when Antoine is ready
@@ -193,11 +183,18 @@ export default class ServerController {
 	 * @param {UserJoinPayload} userJoinPayload
 	 */
 	userJoin(userJoinPayload) {
-		// store.set(STORE_KEYS.USER_ISO, iso);
-		// window.localStorage.setItem('USER_ISO', iso);
 		console.log(userJoinPayload, 'userJoin');
 		this.#send(SERVER_EVENTS.USER_JOIN, userJoinPayload);
 	}
+
+	userCatchup() {
+		console.log('user_catchup');
+		this.#send(SERVER_EVENTS.USER_CATCHUP, true);
+	}
+
+	#onVisibilityChange = () => {
+		if (document.visibilityState === 'visible') this.userCatchup();
+	};
 }
 
 class Event {
