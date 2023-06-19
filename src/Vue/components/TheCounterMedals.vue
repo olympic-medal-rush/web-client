@@ -7,8 +7,8 @@ const domGameStore = useGameStore();
 <template>
 	<div>
 		<img src="/assets/images/Medals.png" alt="" srcset="" />
-		<span>en jeu :</span>
-		{{ domGameStore.medals.length }}
+		<span>{{ domGameStore.medals.length }}</span>
+		en jeu
 	</div>
 </template>
 
@@ -19,18 +19,34 @@ div {
 	display: flex;
 	width: max-content;
 	align-items: center;
+	justify-content: center;
 	padding: 8px 15px;
 	border-radius: 72px;
-	background-color: $light-camel;
+	border: 2px solid rgba(0, 0, 0, 0.15);
+	background-color: $bg-beige-ui;
+	pointer-events: all;
 
-	font-family: 'Paris 24 Semibold';
-	font-size: 28px;
-	line-height: 24px;
-	color: $silver-gray;
+	font-family: 'ApfelGrotezk-fett';
+	font-size: 16px;
+	color: $text-olive-ui;
+
+	img {
+		margin: 0 3px 0 0;
+	}
+
 	span {
-		width: max-content;
+		position: absolute;
+		bottom: 28px;
+		left: 33px;
+		color: $white;
+		font-family: 'ApfelGrotezk-Fett';
+		background-color: $text-olive-ui;
 		font-size: 14px;
-		margin: 0 7px;
+		line-height: 15px;
+		width: 15px;
+		height: 15px;
+		text-align: center;
+		border-radius: 9999px;
 	}
 }
 </style>

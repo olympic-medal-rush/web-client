@@ -44,13 +44,14 @@ const toScoreboardVue = () => {
 	background-color: $bg-beige-ui;
 	padding: 12px 11px;
 	border-radius: 9999px;
+	border: 2px solid rgba(0, 0, 0, 0.15);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	pointer-events: all;
 	overflow: hidden;
-	height: 70px;
+	height: 73px;
 	transition: height 0.3s;
 	// z-index: 3;
 
@@ -135,7 +136,7 @@ const toScoreboardVue = () => {
 	}
 
 	&.active {
-		height: 186px;
+		height: 189px;
 		.Podium {
 			opacity: 1;
 			position: relative;
