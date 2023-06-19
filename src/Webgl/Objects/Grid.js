@@ -139,6 +139,7 @@ class Grid extends Mesh {
 	}
 
 	#findPath = () => {
+		if (!app.game.currentTeam) return;
 		// 3. find coord team
 		const coordTeam = app.game.currentTeam.position;
 		// 4. find coord nearest medal
