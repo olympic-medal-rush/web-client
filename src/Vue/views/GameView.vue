@@ -1,6 +1,5 @@
 <script async setup>
 import { state } from '@/State';
-import { useGameStore } from '@Vue/stores/game';
 import VoteArrows from '@components/Inputs/VoteArrows.vue';
 import MedalCompass from '@components/MedalCompass.vue';
 import BoostModal from '@components/Modals/BoostModal.vue';
@@ -15,8 +14,9 @@ import TheCounterPlayers from '@components/TheCounterPlayers.vue';
 import TheNotifications from '@components/TheNotifications.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
-import { EVENTS } from '@utils/constants';
+import { useMedalsInGameStore } from '@stores/medalsInGame';
 import { onMounted, ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 
 const isModal = ref(false);
 const idModal = ref(0);
@@ -25,7 +25,7 @@ const toggleModal = (id) => {
 	isModal.value = !isModal.value;
 };
 
-const domGameStore = useGameStore();
+const medalsInGameStore = useMedalsInGameStore();
 
 const game = ref();
 
@@ -48,7 +48,7 @@ onMounted(() => {
 			<TheNotifications @click="() => toggleModal(2)" />
 		</div>
 		<VoteArrows />
-		<MedalCompass v-for="medal in domGameStore.medals" :key="medal.id"></MedalCompass>
+		<MedalCompass />
 
 		<!-- Modals -->
 		<Modal :is-active="isModal" :toogle-active="toggleModal">

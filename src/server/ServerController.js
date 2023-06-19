@@ -1,6 +1,5 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { useGameStore } from '@Vue/stores/game';
 import { EVENTS, SERVER_EVENTS, STORE_KEYS } from '@utils/constants';
 import { store } from '../Store';
 
@@ -9,7 +8,6 @@ export default class ServerController {
 	#connection;
 
 	constructor() {
-		this.domGameStore = useGameStore();
 		state.on(EVENTS.APP_LOADED, this.#onAppLoaded);
 	}
 
@@ -94,7 +92,6 @@ export default class ServerController {
 	 */
 	#onCountryState(data) {
 		console.log(data, 'onCountryState');
-		this.domGameStore.updatePlayersCounter(data.player_count);
 		app.game.userJoin(data);
 	}
 
@@ -149,10 +146,7 @@ export default class ServerController {
 	 * @param {PlayerCountsPayload} data
 	 */
 	#onPlayerCount(data) {
-		console.log(data, 'onPlayerCount');
-
-		this.domGameStore.updatePlayersCounter(Object.values(data)[0]);
-		// TODO: update this when Antoine is ready
+		app.game.updatePlayerCount(data);
 	}
 
 	/**

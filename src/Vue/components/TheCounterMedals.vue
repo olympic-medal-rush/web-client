@@ -1,13 +1,13 @@
 <script setup>
-import { useGameStore } from '@stores/game';
+import { useMedalsInGameStore } from '@stores/medalsInGame';
 
-const domGameStore = useGameStore();
+const medalsInGameStore = useMedalsInGameStore();
 </script>
 
 <template>
 	<div class="Medals">
 		<img src="/assets/images/Medals.png" alt="" srcset="" />
-		<span>{{ domGameStore.medals.length }}</span>
+		<span>{{ medalsInGameStore.count }}</span>
 		en jeu
 	</div>
 </template>

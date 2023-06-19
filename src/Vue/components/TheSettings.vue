@@ -1,8 +1,5 @@
 <script setup>
 import Icon from '@/assets/svgs/Settings.svg';
-import { useGameStore } from '@stores/game';
-
-const domGameStore = useGameStore();
 </script>
 
 <template>

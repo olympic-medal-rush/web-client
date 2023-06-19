@@ -1,7 +1,7 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { useGameStore } from '@Vue/stores/game';
 import terrainStructure from '@jsons/terrain_data.json';
+import { useTeamsStore } from '@stores/teams';
 import { Color, Object3D, TextureLoader } from 'three';
 import { CAMERA } from '@utils/config';
 import { EVENTS } from '@utils/constants';
@@ -26,7 +26,8 @@ class Terrain extends Object3D {
 		});
 		this.glb = glb;
 		this.flagLoader = new TextureLoader();
-		this.domGameStore = useGameStore();
+
+		this.teamsStore = useTeamsStore();
 		this.flagObject = null;
 
 		this.glb.traverse((child) => {
@@ -58,8 +59,7 @@ class Terrain extends Object3D {
 	}
 
 	getWinnerFlag() {
-		if (this.domGameStore.scoreboard[0] && this.domGameStore.scoreboard[0].score && this.domGameStore.scoreboard[0].score > 0)
-			return this.flagLoader.load(`/assets/images/flags/${this.domGameStore.scoreboard[0].name}.png`);
+		if (this.teamsStore.scoreboard[0]?.score > 0) return this.flagLoader.load(`/assets/images/flags/${this.teamsStore.scoreboard[0].name}.png`);
 		else return this.flagLoader.load(`/assets/images/flags/JO-FLAG.png`);
 	}
 

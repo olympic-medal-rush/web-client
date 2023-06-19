@@ -1,11 +1,11 @@
 <script setup>
 import Arrow from '@/assets/svgs/GreyArrow.svg';
 import router from '@Vue/router';
-import { useGameStore } from '@stores/game';
+import { useTeamsStore } from '@stores/teams';
 import { ref } from 'vue';
 import RoundFlag from './Assets/RoundFlag.vue';
 
-const domGameStore = useGameStore();
+const teamsStore = useTeamsStore();
 
 const podium = ref();
 
@@ -25,15 +25,15 @@ const togglePodium = () => {
 
 <template>
 	<div ref="scoreboard" class="Scoreboard">
-		<router-link :to="'/game/scoreboard/' + domGameStore.playerCountry" class="MyTeam">
-			<RoundFlag :iso="domGameStore.playerCountry" />
-			<span class="MyTeam-ranking">{{ domGameStore.scoreboard.indexOf(domGameStore.scoreboard.find((team) => team.name === domGameStore.playerCountry)) + 1 }}</span>
+		<router-link :to="'/game/scoreboard/' + teamsStore.currentIso" class="MyTeam">
+			<RoundFlag :iso="teamsStore.currentIso" />
+			<span class="MyTeam-ranking">{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.name === teamsStore.currentIso)) + 1 }}</span>
 		</router-link>
 		<div ref="podium" class="Podium" @click="() => router.push('/game/scoreboard')">
 			<span class="separator"></span>
-			<div v-for="(team, i) in domGameStore.scoreboard" :key="team.name" class="Podium-item" :class="{ none: i > 2 }">
+			<div v-for="(team, i) in teamsStore.scoreboard" :key="team.iso" class="Podium-item" :class="{ none: i > 2 }">
 				<span v-if="team.score" :class="{ gold: i == 0, silver: i == 1, bronze: i == 2, none: i > 2 }">{{ i + 1 }}</span>
-				<RoundFlag :iso="team.name" />
+				<RoundFlag :iso="team.iso" />
 			</div>
 		</div>
 		<Arrow class="Arrow" @click="togglePodium" />
@@ -58,10 +58,6 @@ const togglePodium = () => {
 	overflow: hidden;
 	height: 73px;
 	transition: height 0.3s;
-<<<<<<< HEAD
-=======
-	// z-index: 3;
->>>>>>> 5b03437fc9a56d346aae4c25633c3ac7a0609fb8
 
 	.MyTeam {
 		position: relative;

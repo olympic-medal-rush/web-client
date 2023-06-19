@@ -1,5 +1,6 @@
 import { state } from '@/State';
 import { createRouter, createWebHistory } from 'vue-router';
+import { DEBUG } from '@utils/config';
 import { EVENTS } from '@utils/constants';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
@@ -20,6 +21,10 @@ const router = createRouter({
 		{
 			path: '/game',
 			name: 'game',
+			beforeEnter: (from, to, next) => {
+				if (!DEBUG) next('/');
+				else next();
+			},
 			component: () => import('../views/GameView.vue'),
 			children: [
 				{
@@ -35,7 +40,7 @@ const router = createRouter({
 					],
 				},
 				{
-					path: 'medals',
+					path: 'medals/:iso',
 					name: 'medals',
 					component: () => import('../views/game/MedalsView.vue'),
 					children: [

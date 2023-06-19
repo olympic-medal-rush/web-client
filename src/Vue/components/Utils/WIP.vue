@@ -3,7 +3,7 @@
 		<img src="/assets/svgs/info.svg" alt="" srcset="" />
 		<div>
 			<p>Pas encore disponible !</p>
-			<span>ça ne serait tarder...</span>
+			<span>ça ne saurait tarder...</span>
 		</div>
 	</div>
 </template>

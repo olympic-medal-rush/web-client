@@ -1,6 +1,7 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { useGameStore } from '@Vue/stores/game';
+import { useMedalsInGameStore } from '@stores/medalsInGame';
+import { useTeamsStore } from '@stores/teams';
 import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
 import { Team } from './Team';
@@ -12,7 +13,8 @@ class GameController {
 		/** @type Map<string, Medal> */
 		this.medals = new Map();
 
-		this.domGameStore = useGameStore();
+		this.medalsInGameStore = useMedalsInGameStore();
+		this.teamsStore = useTeamsStore();
 
 		this.userId = null;
 		this.currentTeam = null;
@@ -27,10 +29,15 @@ class GameController {
 		if (this.userId) this.#cleanState();
 		this.userId = statePayload.user_id;
 		statePayload.medals?.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
-		Object.entries(statePayload.countries_states).forEach(([key, teamInfos]) => key !== 'ALL' && this.teams.set(key, new Team(teamInfos)));
+		Object.entries(statePayload.countries_states).forEach(([key, teamInfos]) => {
+			if (key !== 'ALL') {
+				this.teams.set(key, new Team(teamInfos));
+				this.teamsStore.add(this.teams.get(key));
+			}
+		});
 
-		this.domGameStore.initScoreboard(this.teams);
-		this.domGameStore.addMedals([...this.medals.values()]);
+		this.medalsInGameStore.add([...this.medals.values()]);
+
 		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
 	}
 
@@ -44,7 +51,20 @@ class GameController {
 		this.currentTeam = this.teams.get(joinStatePayload.iso);
 
 		state.emit(EVENTS.JOIN_READY, this.currentTeam);
-		this.domGameStore.setPlayerCountry(this.currentTeam.iso);
+
+		this.teamsStore.setCurrent(this.currentTeam.iso);
+	}
+
+	/**
+	 * Receive player count regularly
+	 *
+	 * @param {PlayerCountsPayload} data
+	 */
+	updatePlayerCount(data) {
+		Object.entries(data).forEach(([iso, count]) => {
+			console.log(iso, count);
+			this.teamsStore.updatePlayerCount(iso, count);
+		});
 	}
 
 	/**
@@ -59,7 +79,7 @@ class GameController {
 		this.teams.set(newTeamPayload.iso, team);
 
 		state.emit(EVENTS.CREATE_TEAM, team);
-		this.domGameStore.addNewTeamToScoreboard(team);
+		this.teamsStore.add(team);
 	}
 
 	/**
@@ -75,7 +95,8 @@ class GameController {
 			this.medals.set(medalInGame.id, medal);
 			newMedals.push(medal);
 		});
-		this.domGameStore.addMedals(newMedals);
+
+		this.medalsInGameStore.add(newMedals);
 		state.emit(EVENTS.SPAWN_MEDALS, newMedals);
 	}
 
@@ -94,7 +115,8 @@ class GameController {
 		this.medals.delete(medalCollectionPayload.medal_id);
 
 		state.emit(EVENTS.COLLECT_MEDAL, collectedMedal, medalCollectedTeam);
-		this.domGameStore.updateScoreTeam(medalCollectedTeam);
+
+		this.teamsStore.collectMedal(medalCollectionPayload.iso, collectedMedal);
 	}
 
 	/**
@@ -104,11 +126,9 @@ class GameController {
 	voteResults(voteResultsPayload) {
 		if (!this.teams.has(voteResultsPayload.iso)) return console.error("Team doesn't exist");
 
-		// console.log(voteResultsPayload, 'vote results');
 		if (voteResultsPayload.direction === 4) return;
 
 		const movedTeam = this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
-		// console.log(movedTeam);
 		state.emit(EVENTS.VOTE_RESULTS, movedTeam);
 	}
 

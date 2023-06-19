@@ -17,7 +17,7 @@
 <script setup>
 import { app } from '@/App';
 import { state } from '@/State';
-import { useGameStore } from '@stores/game';
+import { useTeamsStore } from '@stores/teams';
 import { Vector2 } from 'three';
 import { clamp } from 'three/src/math/MathUtils';
 import { onMounted, onUnmounted, ref } from 'vue';
@@ -25,7 +25,7 @@ import { EVENTS } from '@utils/constants';
 import MedalImg from './Assets/MedalImg.vue';
 
 // Needed in script tag
-const domGameStore = useGameStore();
+const teamsStore = useTeamsStore();
 const viewportMargin = 10;
 const size = new Vector2();
 
@@ -79,7 +79,7 @@ const calculateScreenPosition = () => {
 };
 
 const getClosestMedal = () => {
-	const currentPlayer = app.game.teams.get(domGameStore.playerCountry);
+	const currentPlayer = app.game.teams.get(teamsStore.currentIso);
 	return [...app.game.medals.values()]?.sort((a, b) => a.position.distanceTo(currentPlayer.position) - b.position.distanceTo(currentPlayer.position))[0];
 	// .filter((medal) => !medal.isInScreen)[0];
 };

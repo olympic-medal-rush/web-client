@@ -1,6 +1,5 @@
 <script setup>
 import Icon from '@/assets/svgs/Close.svg';
-import { defineProps } from 'vue';
 
 const props = defineProps({
 	isActive: Boolean,

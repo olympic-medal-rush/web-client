@@ -1,11 +1,11 @@
 <script setup>
 import Icon from '@/assets/svgs/PlayersIcon.svg?component';
 import BoostData from '@jsons/boost_data.json';
-import { useGameStore } from '@stores/game';
+import { useTeamsStore } from '@stores/teams';
 import { gsap } from 'gsap';
 import { onMounted, ref, watch } from 'vue';
 
-const domGameStore = useGameStore();
+const teamsStore = useTeamsStore();
 
 const path = ref(null);
 const lengthSvg = ref(0);
@@ -19,10 +19,10 @@ onMounted(() => {
 	annimProgressBooster();
 });
 
-watch(domGameStore, () => annimProgressBooster());
+watch(teamsStore, () => annimProgressBooster());
 
 const annimProgressBooster = () => {
-	const nbPlayer = domGameStore.playersCounter;
+	const nbPlayer = teamsStore.currentTeamCount;
 
 	BoostData.reverse();
 	BoostData.forEach((boost) => {
@@ -43,7 +43,7 @@ const annimProgressBooster = () => {
 <template>
 	<div class="counterPlayer">
 		<Icon />
-		<span>{{ domGameStore.playersCounter }} joueurs </span>
+		<span>{{ teamsStore.currentTeamCount }} joueurs </span>
 		<div class="nextPowerUp">
 			<svg width="48" height="47" viewBox="0 0 48 47" fill="none">
 				<path

@@ -1,16 +1,16 @@
 <script setup>
 import BoostData from '@jsons/boost_data.json';
-import { useGameStore } from '@stores/game';
+import { useTeamsStore } from '@stores/teams';
 import { onMounted, ref } from 'vue';
 
-const domGameStore = useGameStore();
+const teamsStore = useTeamsStore();
 const steps = ref();
 const progress = ref();
 const progressBar = ref();
 
 onMounted(() => {
 	progress.value.style.height = steps.value.clientHeight + 'px';
-	const stepBoost = domGameStore.playersCounter <= BoostData[0].step ? 1 : domGameStore.playersCounter <= BoostData[2].step ? 2 : 3;
+	const stepBoost = teamsStore.getPlayerCount(teamsStore.currentIso) <= BoostData[0].step ? 1 : teamsStore.getPlayerCount(teamsStore.currentIso) <= BoostData[2].step ? 2 : 3;
 	progressBar.value.style.height = (steps.value.clientHeight / 3) * stepBoost + 'px';
 });
 </script>

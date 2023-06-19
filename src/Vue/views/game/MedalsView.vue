@@ -11,7 +11,7 @@ const route = useRoute();
 <template>
 	<div class="medals-container">
 		<BackButton class="back-btn" />
-		<h2 class="title">Collection</h2>
+		<h2 class="title">Collection {{ route.params.iso }}</h2>
 
 		<div class="card-toggle">
 			<button class="selected">Paris 24</button>

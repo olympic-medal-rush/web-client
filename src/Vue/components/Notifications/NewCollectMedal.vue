@@ -1,11 +1,11 @@
 <script setup>
 import { state } from '@/State';
 import MedalImg from '@components/Assets/MedalImg.vue';
-import { useGameStore } from '@stores/game';
+import { useTeamsStore } from '@stores/teams';
 import { ref } from 'vue';
 import { EVENTS } from '@utils/constants';
 
-const domGameStore = useGameStore();
+const teamsStore = useTeamsStore();
 
 const myCountry = ref();
 const otherCountry = ref();
@@ -19,7 +19,7 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 	if (timeout) clearTimeout(timeout);
 
 	collectTeam.value = team.iso;
-	if (team.iso === domGameStore.playerCountry) {
+	if (team.iso === teamsStore.currentIso) {
 		myCountry.value.classList.add('active');
 		myCountry.value.addEventListener('click', () => {
 			myCountry.value.classList.remove('active');

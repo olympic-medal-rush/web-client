@@ -1,5 +1,4 @@
 import { app } from '@/App';
-import { useGameStore } from '@Vue/stores/game';
 import { BackSide, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, PlaneGeometry, Vector2 } from 'three';
 import { FlagsMaterial } from '@Webgl/Materials/Flags/material';
 import { globalUniforms } from '@utils/globalUniforms';
@@ -26,8 +25,6 @@ class InstancedFlags extends Mesh {
 
 	constructor({ teams, maxCount = 210 }) {
 		super();
-
-		this.domGameStore = useGameStore();
 
 		this.teams = teams;
 

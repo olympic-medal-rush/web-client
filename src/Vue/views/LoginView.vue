@@ -3,13 +3,13 @@ import { app } from '@/App';
 import { state } from '@/State';
 import { store } from '@/Store';
 import router from '@Vue/router';
-import { useGameStore } from '@Vue/stores/game';
+import { useTeamsStore } from '@stores/teams';
 import { onMounted, ref } from 'vue';
 import { EVENTS, STORE_KEYS } from '@utils/constants';
 import VButton from './../components/Inputs/VButton.vue';
 import TheLogo from './../components/TheLogo.vue';
 
-const domGameStore = useGameStore();
+const teamsStore = useTeamsStore();
 
 const selectedCountry = ref('BZH');
 let allBtn;
@@ -33,7 +33,7 @@ const selectCountry = (id) => {
 };
 
 const login = () => {
-	domGameStore.setPlayerCountry(selectedCountry.value);
+	teamsStore.setCurrent(selectedCountry.value);
 	store.set(STORE_KEYS.USER_ISO, selectedCountry.value);
 	app.server.userJoin({ iso: selectedCountry.value });
 	app.webgl.renderLogin = false;
