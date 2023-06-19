@@ -1,6 +1,6 @@
 import { app } from '@/App.js';
 import { state } from '@/State.js';
-import { AmbientLight, CanvasTexture, Color, DepthTexture, Group, LinearFilter, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
+import { CanvasTexture, Color, DepthTexture, Group, LinearFilter, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
 import { TeamsWrapper } from '@Webgl/Objects/Teams/TeamsWrapper.js';
 import { TERRAIN } from '@utils/config.js';
@@ -16,7 +16,6 @@ class MainScene extends Scene {
 		state.register(this);
 
 		this.add(this.dynamicGroup);
-		this.add(new AmbientLight(0xffffff, 1));
 
 		const halfTerrain = TERRAIN.size * 0.5 + 10;
 		this.shadowCamera = new OrthographicCamera(-halfTerrain, halfTerrain, halfTerrain, -halfTerrain, 1, 100);
@@ -55,6 +54,8 @@ class MainScene extends Scene {
 	onAppLoaded() {
 		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('skybox'), false);
 		this.background = envMap;
+		// this.background = new Color().setHex(0xfbf9ec, LinearSRGBColorSpace);
+
 		this.userData.backgrounds = [this.background, new Color(0x000000)];
 
 		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'));

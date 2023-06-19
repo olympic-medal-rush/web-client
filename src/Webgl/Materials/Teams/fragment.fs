@@ -29,7 +29,6 @@ varying vec3 vColor1, vColor2, vColor3;
 
 #endif
 
-#include ../Global/chunks/saturation.glsl
 #include ../Global/chunks/envmap_pars_fragment.glsl
 
 void main() {

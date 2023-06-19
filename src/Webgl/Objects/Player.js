@@ -75,12 +75,12 @@ class Player extends Mesh {
 				tPositionOffsets: { value: positionOffsets },
 				tNormal: { value: normal },
 
+				tNoise: { value: noise },
+				tGrain: { value: app.tools.noise.texture },
+
 				tMetalnessMap: { value: metalnessMap },
 				tAoMap: { value: aoMap },
 				tEnvMap: { value: app.webgl.scene.environment },
-
-				tNoise: { value: noise },
-				tGrain: { value: app.tools.noise.texture },
 
 				uColor1: { value: color1 },
 				uColor2: { value: color2 },

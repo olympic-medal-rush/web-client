@@ -71,7 +71,7 @@ class InstancedTeams extends Mesh {
 		this.#staticInstancesStride = 3 + 3 + 3;
 		this.#streamInstancesStride = 2 + 1 + 1 + 1;
 
-		const instancesDynamicData = [];
+		const instancesStaticData = [];
 		const instancesStreamData = [];
 
 		const teamsArr = [...this.teams.values()];
@@ -98,20 +98,20 @@ class InstancedTeams extends Mesh {
 			// Set colors
 			const { color1, color2, color3 } = this.#getTeamColors(teamsArr[i]?.iso);
 
-			instancesDynamicData[staticIncrement++] = color1.r;
-			instancesDynamicData[staticIncrement++] = color1.g;
-			instancesDynamicData[staticIncrement++] = color1.b;
+			instancesStaticData[staticIncrement++] = color1.r;
+			instancesStaticData[staticIncrement++] = color1.g;
+			instancesStaticData[staticIncrement++] = color1.b;
 
-			instancesDynamicData[staticIncrement++] = color2.r;
-			instancesDynamicData[staticIncrement++] = color2.g;
-			instancesDynamicData[staticIncrement++] = color2.b;
+			instancesStaticData[staticIncrement++] = color2.r;
+			instancesStaticData[staticIncrement++] = color2.g;
+			instancesStaticData[staticIncrement++] = color2.b;
 
-			instancesDynamicData[staticIncrement++] = color3.r;
-			instancesDynamicData[staticIncrement++] = color3.g;
-			instancesDynamicData[staticIncrement++] = color3.b;
+			instancesStaticData[staticIncrement++] = color3.r;
+			instancesStaticData[staticIncrement++] = color3.g;
+			instancesStaticData[staticIncrement++] = color3.b;
 		}
 
-		this.#staticInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Uint8ClampedArray(instancesDynamicData), this.#staticInstancesStride).setUsage(StaticDrawUsage);
+		this.#staticInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(instancesStaticData), this.#staticInstancesStride).setUsage(StaticDrawUsage);
 		this.#streamInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(instancesStreamData), this.#streamInstancesStride).setUsage(StreamDrawUsage);
 
 		this.#staticAttributes.color1 = new InterleavedBufferAttribute(this.#staticInstancedInterleaveBuffer, 3, 0, false);

@@ -8,7 +8,5 @@ const props = defineProps({
 </script>
 
 <template>
-	<div>
-		{{ props.medal.athlete }}
-	</div>
+	<div></div>
 </template>
