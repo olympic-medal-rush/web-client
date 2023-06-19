@@ -1,0 +1,20 @@
+[
+  {
+      "id": 0,
+      "step": 150,
+      "icon": "chrono",
+      "description": "Temps de vote réduit à 2s"
+  },
+  {
+      "id": 1,
+      "step": 500,
+      "icon": "path",
+      "description": "Chemin vers la médaille"
+  },
+  {
+      "id": 2,
+      "step": 1500,
+      "icon": "penalty",
+      "description": "Malus pour les adversaires"
+  }
+]

@@ -24,7 +24,7 @@ export const useGameStore = defineStore('game', {
 			let score = data.medals[0] * MEDAL_POINTS[0] + data.medals[1] * MEDAL_POINTS[1] + data.medals[2] * MEDAL_POINTS[2];
 			if (!score) score = 0;
 			this.scoreboard.push({ name: data.iso, score: score });
-			console.log('Add new team store score', { name: data.iso, score: score });
+			// console.log('Add new team store score', { name: data.iso, score: score });
 			state.emit(EVENTS.SCOREBOARD_UPDATE);
 		},
 		updateScoreTeam(data) {
