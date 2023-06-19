@@ -27,7 +27,7 @@ const manifest = {
 		playerPositionOffsets: { path: `${import.meta.env.BASE_URL}assets/textures/players/offsetsCombined.png` },
 		playerNormal: { path: `${import.meta.env.BASE_URL}assets/textures/players/normalsCombined.png` },
 		reactmoji: { path: `${import.meta.env.BASE_URL}assets/textures/players/reactmoji.png` },
-		flagsatlas: { path: `${import.meta.env.BASE_URL}assets/textures/atlasFlag.webp` },
+		flagsatlas: { path: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas.webp`, mobilePath: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas-mobile.webp` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },
@@ -38,7 +38,9 @@ const manifest = {
 		player: { path: `${import.meta.env.BASE_URL}assets/models/character.glb` },
 		medal: { path: `${import.meta.env.BASE_URL}assets/models/medal.glb` },
 	},
-	jsons: {},
+	jsons: {
+		flagsAtlas: { path: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas.json`, mobilePath: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas-mobile.json` },
+	},
 	sounds: {
 		mario: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },
 		mario2: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },

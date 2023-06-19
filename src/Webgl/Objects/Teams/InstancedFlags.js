@@ -1,6 +1,5 @@
 import { app } from '@/App';
 import { useGameStore } from '@Vue/stores/game';
-import FlagAtlas from '@jsons/atlasFlag.json';
 import { BackSide, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, PlaneGeometry, Vector2 } from 'three';
 import { FlagsMaterial } from '@Webgl/Materials/Flags/material';
 import { globalUniforms } from '@utils/globalUniforms';
@@ -142,8 +141,9 @@ class InstancedFlags extends Mesh {
 	}
 
 	#getOffsetFlag(iso) {
+		const flagAtlas = app.core.assetsManager.get('flagsAtlas');
 		if (iso) {
-			const data = FlagAtlas.find((flag) => flag.filename === iso);
+			const data = flagAtlas.find((flag) => flag.filename === iso);
 			return { filename: data.filename, left: data.left / this.#textureDimensions.x, top: data.top / this.#textureDimensions.y, ratio: data.ratio };
 		} else {
 			return { filename: null, left: this.#textureDimensions.x / this.#textureDimensions.x, top: 0 / this.#textureDimensions.y, ratio: 1 };

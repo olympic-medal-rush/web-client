@@ -27,7 +27,7 @@ uniform sampler2D tPositionOffsets, tNormal;
 varying float vAnimationProgress;
 varying vec2 vUv;
 varying vec3 vPosition;
-varying vec3 vNormal, vEyeToSurfaceDir;
+varying vec3 vNormal, vWorldNormal, vEyeToSurfaceDir;
 varying vec3 vColor1, vColor2, vColor3;
 
 mat3 rotateY(float angle) {
@@ -61,7 +61,7 @@ void main() {
 
   vec2 offsetsUv = vec2(aVertexID, animationProgress);
 
-  vec3 objectNormal = texture2D(tNormal, offsetsUv).xzy;
+  vec3 objectNormal = texture2D(tNormal, offsetsUv).xzy - .5;
   vec3 objectPosition = position * .6;
 
   vec3 positionOffset = texture2D(tPositionOffsets, offsetsUv).xyz;
@@ -84,7 +84,8 @@ void main() {
   vAnimationProgress = animationProgress;
   vUv = uv;
   vPosition = position;
-  vNormal = normalize(viewMatrix * modelMatrix * vec4(objectNormal, 0.0)).xyz;
+  vNormal = normalize(objectNormal);
+  vWorldNormal = normalize(viewMatrix * modelMatrix * vec4(objectNormal, 0.0)).xyz;
   vEyeToSurfaceDir = normalize(mvPosition.xyz);
   vColor1 = color1;
   vColor2 = color2;
