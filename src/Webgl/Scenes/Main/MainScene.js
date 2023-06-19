@@ -1,6 +1,6 @@
 import { app } from '@/App.js';
 import { state } from '@/State.js';
-import { AmbientLight, CanvasTexture, Color, DepthTexture, Group, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
+import { AmbientLight, CanvasTexture, Color, DepthTexture, Group, LinearFilter, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
 import { TeamsWrapper } from '@Webgl/Objects/Teams/TeamsWrapper.js';
 import { TERRAIN } from '@utils/config.js';
@@ -46,7 +46,7 @@ class MainScene extends Scene {
 	}
 
 	#createShadowRenderTarget = (size) => {
-		const renderTarget = new WebGLRenderTarget(size, size);
+		const renderTarget = new WebGLRenderTarget(size, size, { magFilter: LinearFilter, minFilter: LinearFilter });
 		renderTarget.depthTexture = new DepthTexture(size, size);
 
 		return renderTarget;

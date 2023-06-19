@@ -65,6 +65,7 @@ class InstancedTeams extends Mesh {
 
 		geometry.index = baseGeometry.index;
 		geometry.setAttribute('position', baseGeometry.getAttribute('position'));
+		// geometry.setAttribute('normal', baseGeometry.getAttribute('normal'));
 		geometry.setAttribute('uv', baseGeometry.getAttribute('uv'));
 		geometry.setAttribute('aVertexID', baseGeometry.getAttribute('_vertexid'));
 
