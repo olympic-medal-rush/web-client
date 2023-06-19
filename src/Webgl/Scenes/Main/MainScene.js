@@ -1,16 +1,16 @@
 import { app } from '@/App.js';
 import { state } from '@/State.js';
-import { AmbientLight, Color, DepthTexture, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
-import { Group } from 'three';
-import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
-import { Medal } from '@Webgl/Objects/Medal.js';
-import { Player } from '@Webgl/Objects/Player.js';
+import { AmbientLight, CanvasTexture, Color, DepthTexture, Group, LinearFilter, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
+import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
+import { TeamsWrapper } from '@Webgl/Objects/Teams/TeamsWrapper.js';
 import { TERRAIN } from '@utils/config.js';
 import { computeEnvmap } from '@utils/misc.js';
 import { Terrain } from '../../Objects/Terrain.js';
 
 class MainScene extends Scene {
 	dynamicGroup = new Group();
+
+	#headTopVertexID = 0.217677;
 	constructor() {
 		super();
 		state.register(this);
@@ -18,12 +18,12 @@ class MainScene extends Scene {
 		this.add(this.dynamicGroup);
 		this.add(new AmbientLight(0xffffff, 1));
 
-		const halfTerrain = TERRAIN.size * 0.5 + 5;
+		const halfTerrain = TERRAIN.size * 0.5 + 10;
 		this.shadowCamera = new OrthographicCamera(-halfTerrain, halfTerrain, halfTerrain, -halfTerrain, 1, 100);
 		this.shadowCamera.position.set(-5, 40, 5);
 		this.shadowCamera.lookAt(halfTerrain, 0, halfTerrain);
 
-		const rtSize = 4096;
+		const rtSize = app.tools.viewport.isMobileAtLaunch ? 2048 : 4096;
 
 		// Dynamic Shadows
 		this.dynamicShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
@@ -46,7 +46,7 @@ class MainScene extends Scene {
 	}
 
 	#createShadowRenderTarget = (size) => {
-		const renderTarget = new WebGLRenderTarget(size, size);
+		const renderTarget = new WebGLRenderTarget(size, size, { magFilter: LinearFilter, minFilter: LinearFilter });
 		renderTarget.depthTexture = new DepthTexture(size, size);
 
 		return renderTarget;
@@ -62,6 +62,8 @@ class MainScene extends Scene {
 		this.terrain = new Terrain(app.core.assetsManager.get('terrain'));
 		this.add(this.terrain);
 
+		this.topHeadAnimationTexture = this.#createHeadTopVerticeAnimationTexture();
+
 		app.debug?.mapping.add(this, 'Scene');
 	}
 
@@ -70,20 +72,34 @@ class MainScene extends Scene {
 		this.#renderStaticShadows();
 	}
 
-	createTeam = (team) => {
-		const baseModel = app.core.assetsManager.get('player');
-		const mesh = skeletonClone(baseModel);
-		mesh.animations = baseModel.animations;
-		const player = new Player(mesh, team);
-		app.webgl.players.set(team, player);
-		this.dynamicGroup.add(player);
-	};
+	initMedals(medals) {
+		this.medals = new InstancedMedals({ medals, model: app.core.assetsManager.get('medal') });
+		this.medals.position.y += 0.5;
+		this.dynamicGroup.add(this.medals);
+	}
 
-	createMedal = (medal) => {
-		const newMedal = new Medal(app.core.assetsManager.get('medals'), medal);
-		app.webgl.medals.set(medal.id, newMedal);
-		this.dynamicGroup.add(newMedal);
-	};
+	initTeams(teams) {
+		this.teamsWrapper = new TeamsWrapper({ teams });
+		this.dynamicGroup.add(this.teamsWrapper.instancedTeams, this.teamsWrapper.instancedFlames);
+		this.add(this.teamsWrapper.instancedFlags, this.teamsWrapper.reactmoji);
+	}
+
+	addMedals(medals) {
+		this.medals.addInstances(medals);
+	}
+
+	collectMedal(medal, team) {
+		this.teamsWrapper.collectMedal(team);
+		this.medals.removeInstance(medal);
+	}
+
+	addTeam(team) {
+		this.teamsWrapper.addInstance(team);
+	}
+
+	moveTeam(team) {
+		this.teamsWrapper.moveInstance(team);
+	}
 
 	#renderDiffuse() {
 		app.webgl.renderer.renderRenderTarget(this, app.webgl.camera, app.webgl.postProcessing.renderTarget);
@@ -95,6 +111,23 @@ class MainScene extends Scene {
 
 	#renderStaticShadows() {
 		app.webgl.renderer.renderRenderTarget(this.terrain, this.shadowCamera, this.staticShadowRenderTarget);
+	}
+
+	#createHeadTopVerticeAnimationTexture() {
+		const vertexAnimationTexture = app.core.assetsManager.get('playerPositionOffsets');
+		const { height, width: originalWidth } = vertexAnimationTexture.source.data;
+		const width = 1;
+
+		const canvas = document.createElement('canvas');
+		canvas.width = width;
+		canvas.height = height;
+
+		const ctx = canvas.getContext('2d');
+		ctx.drawImage(vertexAnimationTexture.source.data, this.#headTopVertexID * originalWidth, 0, width, height, 0, 0, width, height);
+
+		const texture = new CanvasTexture(canvas);
+		texture.flipY = false;
+		return texture;
 	}
 
 	render() {

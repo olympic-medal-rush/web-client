@@ -78,3 +78,10 @@
 .sixty-debug-hidden {
 	display: none;
 }
+
+.blur {
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	inset: 0;
+	position: absolute;
+}

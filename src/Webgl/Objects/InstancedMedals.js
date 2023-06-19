@@ -1,24 +1,34 @@
 import { app } from '@/App';
-import { InterleavedBufferAttribute } from 'three';
-import { InstancedInterleavedBuffer } from 'three';
-import { InstancedBufferGeometry } from 'three';
-import { Mesh } from 'three';
-import { MedalsMaterial } from '../Materials/Medals/material';
+import { Color, DataTexture, DynamicDrawUsage, InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, LinearSRGBColorSpace, Mesh, RGBAFormat } from 'three';
+import { MedalsMaterial } from '@Webgl/Materials/Medals/material';
+import { Bimap } from '@utils/BiMap';
+import { MEDAL_COLORS } from '@utils/config';
+import { globalUniforms } from '@utils/globalUniforms';
 
 class InstancedMedals extends Mesh {
-	constructor({ type, maxCount = 50, count = 0 }) {
-		super();
+	#medals;
+	/** @type {Record<string, import('three').InterleavedBufferAttribute>} */
+	#attributes = {
+		instancePosition: null,
+		medalType: null,
+	};
+	/** @type {import('three').InstancedInterleavedBuffer} */
+	#instancedInterleaveBuffer;
+	#instancesStride = 0;
 
-		this.type = type;
+	constructor({ medals = [], model, maxCount = 100 }) {
+		super();
+		this.#medals = new Bimap(medals.map((medal, i) => [i, medal]));
+
 		this.maxCount = maxCount;
 
-		const medalsMesh = app.core.assetsManager.get('medals');
-
-		this.geometry = this.#createGeometry({ baseGeometry: medalsMesh.getObjectByName(type).geometry });
+		this.geometry = this.#createGeometry({ baseGeometry: model.getObjectByName('medal').geometry });
 		this.material = this.#createMaterial();
 
-		// This needs to be after geometry creation
-		this.count = count;
+		// Only after geometry creation
+		this.#count = medals.length;
+
+		this.frustumCulled = false;
 	}
 
 	/**
@@ -28,44 +38,128 @@ class InstancedMedals extends Mesh {
 	 */
 	#createGeometry({ baseGeometry }) {
 		const geometry = new InstancedBufferGeometry();
-		geometry.instanceCount = this.maxCount;
+		geometry.instanceCount = this.maxCount; // needed to initialize buffers at maximum
 
 		geometry.index = baseGeometry.index;
 		geometry.attributes = baseGeometry.attributes;
 
-		const instancesStride = 2;
+		// create two more attributes common to each instance - instancePosition and medalType
+		this.#instancesStride = 3; // vec2 + float
 		const instancesData = [];
+
+		const medalsArr = [...this.#medals.values()];
 
 		let increment = 0;
 
-		const medalsPositions = [...app.game.medals.values()].map((medal) => medal.position);
-
 		for (let i = 0; i < this.maxCount; i++) {
-			const instancedIndexStride = i * instancesStride;
+			const instancedIndexStride = i * this.#instancesStride;
 			increment = instancedIndexStride;
 
-			// Add instance position
-			instancesData[increment++] = medalsPositions[i]?.x + 0.5 || 0;
-			instancesData[increment++] = medalsPositions[i]?.y + 0.5 || 0;
+			// Add instancePosition
+			instancesData[increment++] = medalsArr[i]?.position.x + 0.5 || 0;
+			instancesData[increment++] = medalsArr[i]?.position.y + 0.5 || 0;
+
+			// Set medalType
+			instancesData[increment++] = medalsArr[i]?.type / MEDAL_COLORS.length || 0;
 		}
 
-		const instanceInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(instancesData), instancesStride);
-		geometry.setAttribute('aInstancePosition', new InterleavedBufferAttribute(instanceInterleaveBuffer, 2, 0, false));
+		// @ts-ignore
+		this.#instancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(instancesData), this.#instancesStride).setUsage(DynamicDrawUsage);
+		this.#attributes.instancePosition = new InterleavedBufferAttribute(this.#instancedInterleaveBuffer, 2, 0, false);
+		this.#attributes.medalType = new InterleavedBufferAttribute(this.#instancedInterleaveBuffer, 1, 2, false);
+
+		geometry.setAttribute('aInstancePosition', this.#attributes.instancePosition);
+		geometry.setAttribute('aMedalType', this.#attributes.medalType);
 
 		return geometry;
 	}
 
 	#createMaterial() {
-		const material = new MedalsMaterial();
+		const medalHeights = app.core.assetsManager.get('medalHeights');
+		medalHeights.flipY = false;
+
+		const material = new MedalsMaterial({
+			uniforms: {
+				// globals
+				uTime: globalUniforms.uTime,
+				uEmissiveOnly: globalUniforms.uEmissiveOnly,
+
+				tMedalColor: { value: this.#createColorsDataTexture() },
+				tMedalHeights: { value: medalHeights },
+			},
+			defines: {
+				COLOR_COUNT: MEDAL_COLORS.length,
+			},
+		});
 
 		return material;
 	}
 
-	set count(value) {
-		this.geometry.instanceCount = value;
+	#createColorsDataTexture() {
+		const colors = MEDAL_COLORS.map((color) => new Color().setHex(color, LinearSRGBColorSpace));
+
+		const data = [];
+
+		for (let i = 0; i < colors.length; i++) data.push(colors[i].r * 255, colors[i].g * 255, colors[i].b * 255, 255);
+		const texture = new DataTexture(new Uint8Array(data), colors.length, 1, RGBAFormat);
+		texture.needsUpdate = true;
+
+		return texture;
 	}
 
-	get count() {
+	/**
+	 *
+	 * @param {import('@Game/Medal').Medal[]} medals
+	 */
+	addInstances(medals) {
+		medals.forEach((medal) => {
+			if (this.#medals.hasValue(medal)) return console.error('Medal instance already exists');
+			this.#medals.add(this.#count, medal);
+
+			this.#attributes.instancePosition.setXY(this.#count, medal.position.x + 0.5, medal.position.y + 0.5);
+			this.#attributes.medalType.setX(this.#count, medal.type / MEDAL_COLORS.length);
+
+			this.#count++;
+		});
+
+		this.#instancedInterleaveBuffer.updateRange.offset = (this.#count - medals.length) * this.#instancesStride;
+		this.#instancedInterleaveBuffer.updateRange.count = medals.length * this.#instancesStride;
+		this.#instancedInterleaveBuffer.needsUpdate = true;
+	}
+
+	/**
+	 *
+	 * @param {import('@Game/Medal').Medal} medal
+	 */
+	removeInstance(medal) {
+		if (!this.#medals.hasValue(medal)) return console.error("Medal instance doesn't exist");
+
+		const medalIndex = this.#medals.getKey(medal);
+		const lastMedalIndex = this.#count - 1;
+
+		const [lastMedalX, lastMedalY] = [this.#attributes.instancePosition.getX(lastMedalIndex), this.#attributes.instancePosition.getY(lastMedalIndex)];
+		const lastMedalType = this.#attributes.medalType.getX(lastMedalIndex);
+
+		this.#attributes.instancePosition.setXY(medalIndex, lastMedalX, lastMedalY);
+		this.#attributes.medalType.setX(medalIndex, lastMedalType);
+
+		this.#medals.add(medalIndex, this.#medals.getValue(lastMedalIndex));
+		this.#medals.delete(lastMedalIndex, medal);
+
+		// This is mandatory to make sure we only update the range needed to be updated
+		this.#instancedInterleaveBuffer.updateRange.offset = medalIndex * this.#instancesStride;
+		this.#instancedInterleaveBuffer.updateRange.count = 1 * this.#instancesStride;
+		this.#instancedInterleaveBuffer.needsUpdate = true;
+
+		this.#count--;
+	}
+
+	set #count(value) {
+		this.geometry.instanceCount = value;
+		this.visible = value !== 0;
+	}
+
+	get #count() {
 		return this.geometry.instanceCount;
 	}
 }

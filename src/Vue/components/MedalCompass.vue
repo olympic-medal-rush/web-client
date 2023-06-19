@@ -59,7 +59,7 @@ const calculateScreenPosition = () => {
 	if (!closestMedal) return;
 
 	const { screenPosition: position } = closestMedal;
-	type.value = closestMedal.medalType;
+	type.value = closestMedal.typeStr;
 
 	const xPixels = position.x * app.tools.viewport.width - size.x * 0.5;
 	const yPixels = (1 - position.y) * app.tools.viewport.height - size.y * 0.5;
@@ -73,14 +73,13 @@ const calculateScreenPosition = () => {
 	const isClamped = transform.value.x !== xPixels || transform.value.y !== yPixels;
 	compassEl.value.classList.toggle('visible', isClamped);
 
-	transform.value.angle = Math.PI + app.webgl.camera.getAngleTo(closestMedal.position.x, closestMedal.position.z);
+	transform.value.angle = Math.PI + app.webgl.camera.getAngleTo(closestMedal.scenePosition.x, closestMedal.scenePosition.z);
 };
 
 const getClosestMedal = () => {
-	const currentPlayer = app.webgl.players.get(app.game.teams.get(domGameStore.playerCountry));
-	return [...app.webgl.medals.values()]
-		?.sort((a, b) => a.position.distanceTo(currentPlayer.position) - b.position.distanceTo(currentPlayer.position))
-		.filter((medal) => !medal.isInScreen)[0];
+	const currentPlayer = app.game.teams.get(domGameStore.playerCountry);
+	return [...app.game.medals.values()]?.sort((a, b) => a.position.distanceTo(currentPlayer.position) - b.position.distanceTo(currentPlayer.position))[0];
+	// .filter((medal) => !medal.isInScreen)[0];
 };
 </script>
 

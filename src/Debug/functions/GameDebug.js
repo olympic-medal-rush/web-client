@@ -2,6 +2,7 @@ import { app } from '@/App';
 import { state } from '@/State';
 import flagColors from '@/assets/jsons/flag_colors.json';
 import terrainData from '@/assets/jsons/terrain_data.json';
+import MojiData from '@jsons/reactmoji.json';
 import { randInt } from 'three/src/math/MathUtils';
 import { DIRECTIONS, EVENTS, MEDAL_TYPES } from '@utils/constants';
 
@@ -11,7 +12,8 @@ import { DIRECTIONS, EVENTS, MEDAL_TYPES } from '@utils/constants';
 let i = 0;
 let teamList,
 	teamMove,
-	teamZone = null;
+	teamZone,
+	reactMoji = null;
 let lastIso = null;
 const flagsColorsArr = Object.entries(flagColors);
 const terrainSize = terrainData.data.length - 1;
@@ -54,7 +56,7 @@ function createPane(pane, instance, name) {
 			};
 			app.game.medalCollect(medalCollect);
 		} else {
-			alert('There are no more medals');
+			console.log('There are no more medals');
 		}
 	});
 
@@ -72,10 +74,11 @@ function createPane(pane, instance, name) {
 		teamList?.dispose();
 		teamMove?.dispose();
 		teamZone?.dispose();
+		reactMoji?.dispose();
 
 		const teamsIsos = [...app.game.teams.keys()].map((iso) => ({ text: iso, value: iso }));
 		teamList = folder.addBlade({ view: 'list', label: 'Team', options: teamsIsos, value: lastIso }).on('change', (ev) => {
-			app.webgl.camera.playerPosition = app.webgl.players.get(app.game.teams.get(ev.value)).position;
+			app.webgl.camera.playerPosition = app.webgl.scene.teamsWrapper.positions.get(app.game.teams.get(ev.value));
 			app.webgl.camera.focusPlayer = true;
 			lastIso = ev.value;
 		});
@@ -106,6 +109,10 @@ function createPane(pane, instance, name) {
 			const teamPos = app.game.teams.get(teamList.value).position;
 			console.log(terrainData.mapping[terrainData.data[teamPos.y][teamPos.x]], teamPos.x, teamPos.y);
 		});
+
+		reactMoji = folder.addButton({ title: 'ReactMoji' }).on('click', () => {
+			state.emit(EVENTS.REACT_MOJI, app.game.teams.get(teamList.value).iso, Math.floor(Math.random() * MojiData.frames.length));
+		});
 	}
 
 	return folder;
@@ -131,25 +138,44 @@ function debug(_instance) {
 					break;
 			}
 		});
+		const obstacleFlorData = terrainData.data;
+		obstacleFlorData.forEach((row, i) => {
+			row.forEach((col, j) => {
+				col === 0 ? (obstacleFlorData[i][j] = 1) : (obstacleFlorData[i][j] = 0);
+			});
+		});
+
+		const getRandomTerrainCell = () => {
+			let cell, x, y;
+			do {
+				x = randInt(0, terrainSize);
+				y = randInt(0, terrainSize);
+
+				cell = obstacleFlorData[y][x];
+			} while (cell === 0);
+
+			return { x, y };
+		};
 
 		app.game.setState({
 			user_id: 'userId',
 			countries_states: {
-				BZH: { iso: 'BZH', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 42, 1: 2, 2: 15 } },
-				ESP: { iso: 'ESP', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 1, 1: 2, 2: 3 } },
-				FRA: { iso: 'FRA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 7, 1: 4, 2: 12 } },
-				DEU: { iso: 'DEU', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 10, 1: 2, 2: 5 } },
-				ITA: { iso: 'ITA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 9, 1: 0, 2: 7 } },
-				USA: { iso: 'USA', position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) }, medals: { 0: 12, 1: 4, 2: 3 } },
+				BZH: { iso: 'BZH', position: { ...getRandomTerrainCell() }, medals: { 0: 42, 1: 2, 2: 15 } },
+				ESP: { iso: 'ESP', position: { ...getRandomTerrainCell() }, medals: { 0: 1, 1: 2, 2: 3 } },
+				FRA: { iso: 'FRA', position: { ...getRandomTerrainCell() }, medals: { 0: 7, 1: 4, 2: 12 } },
+				DEU: { iso: 'DEU', position: { ...getRandomTerrainCell() }, medals: { 0: 10, 1: 2, 2: 5 } },
+				ITA: { iso: 'ITA', position: { ...getRandomTerrainCell() }, medals: { 0: 9, 1: 0, 2: 7 } },
+				USA: { iso: 'USA', position: { ...getRandomTerrainCell() }, medals: { 0: 12, 1: 4, 2: 3 } },
+				BRA: { iso: 'BRA', position: { ...getRandomTerrainCell() }, medals: { 0: 12, 1: 4, 2: 3 } },
 			},
 			medals: [
-				{ id: (-7).toString(), type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: (-6).toString(), type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: (-5).toString(), type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: (-4).toString(), type: MEDAL_TYPES.bronze, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: (-3).toString(), type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: (-2).toString(), type: MEDAL_TYPES.gold, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
-				{ id: (-1).toString(), type: MEDAL_TYPES.silver, position: { x: randInt(0, terrainSize), y: randInt(0, terrainSize) } },
+				{ id: (-7).toString(), type: MEDAL_TYPES.bronze, position: { ...getRandomTerrainCell() } },
+				{ id: (-6).toString(), type: MEDAL_TYPES.bronze, position: { ...getRandomTerrainCell() } },
+				{ id: (-5).toString(), type: MEDAL_TYPES.bronze, position: { ...getRandomTerrainCell() } },
+				{ id: (-4).toString(), type: MEDAL_TYPES.bronze, position: { ...getRandomTerrainCell() } },
+				{ id: (-3).toString(), type: MEDAL_TYPES.gold, position: { ...getRandomTerrainCell() } },
+				{ id: (-2).toString(), type: MEDAL_TYPES.gold, position: { ...getRandomTerrainCell() } },
+				{ id: (-1).toString(), type: MEDAL_TYPES.silver, position: { ...getRandomTerrainCell() } },
 			],
 		});
 

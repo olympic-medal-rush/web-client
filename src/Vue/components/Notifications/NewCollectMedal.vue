@@ -13,19 +13,23 @@ const otherCountry = ref();
 const collectTeam = ref('autre');
 const collectType = ref('gold');
 
+let timeout;
+
 state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
+	if (timeout) clearTimeout(timeout);
+
 	collectTeam.value = team.iso;
 	if (team.iso === domGameStore.playerCountry) {
 		myCountry.value.classList.add('active');
 		myCountry.value.addEventListener('click', () => {
 			myCountry.value.classList.remove('active');
 		});
-		setTimeout(() => {
+		timeout = setTimeout(() => {
 			myCountry.value.classList.remove('active');
 		}, 2000);
 	} else {
 		otherCountry.value.classList.add('active');
-		setTimeout(() => {
+		timeout = setTimeout(() => {
 			otherCountry.value.classList.remove('active');
 		}, 3000);
 	}

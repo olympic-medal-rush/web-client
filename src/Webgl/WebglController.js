@@ -9,13 +9,10 @@ import { MainCamera } from './Scenes/Main/MainCamera';
 import { MainScene } from './Scenes/Main/MainScene';
 
 class WebglController {
+	#currentScene = null;
+	#currentCamera = null;
 	constructor() {
 		state.register(this);
-
-		/** @type {Map<import('@/Game/Team').Team, import('@Webgl/Objects/Player').Player>} */
-		this.players = new Map();
-		/** @type {Map<string,  import('@Webgl/Objects/Medal').Medal>} */
-		this.medals = new Map();
 
 		this.renderer = new Renderer();
 		this.postProcessing = new PostProcessing(this.renderer.capabilities.isWebGL2);
@@ -44,8 +41,8 @@ class WebglController {
 	 * @param {import('@/types/env').StateReadyPayload} params
 	 */
 	onStateReady({ teams, medals }) {
-		teams.forEach((team) => this.onCreateTeam(team));
-		[...medals.values()].forEach(this.scene.createMedal);
+		this.scene.initTeams([...teams.values()]);
+		this.scene.initMedals([...medals.values()]);
 	}
 
 	/**
@@ -53,26 +50,27 @@ class WebglController {
 	 * @param {import('@/Game/Team').Team} currentTeam
 	 */
 	onJoinReady(currentTeam) {
-		const currentPlayer = this.players.get(currentTeam);
-		this.camera.playerPosition = currentPlayer.position;
+		this.camera.playerPosition = this.scene.teamsWrapper.positions.get(currentTeam);
 		this.camera.focusPlayer = true;
-		currentPlayer.addRaycaster();
+
+		this.scene.teamsWrapper.setCurrentTeam(currentTeam);
+		// currentPlayer.addRaycaster();
 	}
 
 	onCreateTeam(team) {
-		this.scene.createTeam(team);
+		this.scene.addTeam(team);
 	}
 
 	onVoteResults(team) {
-		this.players.get(team).move();
+		this.scene.moveTeam(team);
 	}
 
 	onSpawnMedals(medals) {
-		medals.forEach(this.scene.createMedal);
+		this.scene.addMedals(medals);
 	}
 
-	onCollectMedal(medal) {
-		this.medals.get(medal.id).removeFromParent();
+	onCollectMedal(medal, team) {
+		this.scene.collectMedal(medal, team);
 	}
 
 	// UPDATE AND RENDER
@@ -84,18 +82,14 @@ class WebglController {
 	onRender() {
 		this.renderer.clear();
 
-		if (this.renderLogin) {
-			this.loginScene.render();
-		} else {
-			this.scene.render();
-			this.postProcessing.render(this.scene, this.camera);
-		}
+		this.#currentScene.render();
+		this.postProcessing.render(this.#currentScene, this.#currentCamera);
 	}
 
 	set emissiveOnly(value) {
 		globalUniforms.uEmissiveOnly.value = value;
-		this.scene.background = this.scene.userData.backgrounds[+value];
-		this.scene?.terrain?.traverse(
+		this.#currentScene.background = this.#currentScene.userData.backgrounds[+value];
+		this.#currentScene?.terrain?.traverse(
 			/** @param {import('three').Mesh} child*/ (child) => {
 				if (child.isMesh) child.material = child.userData.materials[+value];
 			},
@@ -104,6 +98,15 @@ class WebglController {
 
 	get emissiveOnly() {
 		return globalUniforms.uEmissiveOnly.value;
+	}
+
+	set renderLogin(value) {
+		this.#currentScene = value ? this.loginScene : this.scene;
+		this.#currentCamera = value ? this.loginCamera : this.camera;
+	}
+
+	get renderLogin() {
+		return this.#currentScene === this.loginScene;
 	}
 }
 

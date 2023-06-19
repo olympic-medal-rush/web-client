@@ -14,9 +14,8 @@ export const useGameStore = defineStore('game', {
 		},
 		// SCOREBOARD
 		initScoreboard(teams) {
-			for (const [, value] of teams) {
-				this.addNewTeamToScoreboard(value);
-			}
+			for (const [, value] of teams) this.addNewTeamToScoreboard(value);
+
 			this.filterScoreboard();
 			console.log('Init store score');
 			state.emit(EVENTS.SCOREBOARD_UPDATE);

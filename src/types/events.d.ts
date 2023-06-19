@@ -74,7 +74,7 @@ type MedalApparitionPayload = {
 
 type MedalCollectionPayload = {
 	iso: string;
-	medal_id: MedalInGame;
+	medal_id: string;
 };
 
 type PlayerCountsPayload = Record<string, number>;

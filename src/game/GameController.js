@@ -3,14 +3,14 @@ import { state } from '@/State';
 import { useGameStore } from '@Vue/stores/game';
 import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
-import { MedalsMap } from './MedalsMap';
 import { Team } from './Team';
 
 class GameController {
 	constructor() {
 		/** @type Map<string, Team> */
 		this.teams = new Map();
-		this.medals = new MedalsMap();
+		/** @type Map<string, Medal> */
+		this.medals = new Map();
 
 		this.domGameStore = useGameStore();
 
@@ -28,9 +28,9 @@ class GameController {
 		statePayload.medals?.forEach((medalInGame) => this.medals.set(medalInGame.id, new Medal(medalInGame)));
 		Object.entries(statePayload.countries_states).forEach(([key, teamInfos]) => key !== 'ALL' && this.teams.set(key, new Team(teamInfos)));
 
-		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
 		this.domGameStore.initScoreboard(this.teams);
 		this.domGameStore.addMedals([...this.medals.values()]);
+		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
 	}
 
 	/**
@@ -87,6 +87,7 @@ class GameController {
 
 		const medalCollectedTeam = this.teams.get(medalCollectionPayload.iso);
 		const collectedMedal = this.medals.get(medalCollectionPayload.medal_id);
+		collectedMedal.dispose();
 
 		medalCollectedTeam.collect(this.medals.get(medalCollectionPayload.medal_id));
 		this.medals.delete(medalCollectionPayload.medal_id);

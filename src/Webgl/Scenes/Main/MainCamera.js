@@ -1,7 +1,7 @@
 import { app } from '@/App';
 import { state } from '@/State';
 import { store } from '@/Store';
-import { PerspectiveCamera, Vector2, Vector3 } from 'three';
+import { PerspectiveCamera, Vector2 } from 'three';
 import { clamp, damp, mapLinear, smoothstep } from 'three/src/math/MathUtils';
 import { CAMERA, TERRAIN } from '@utils/config';
 import { STORE_KEYS } from '@utils/constants';
@@ -13,7 +13,7 @@ class MainCamera extends PerspectiveCamera {
 	zoomEase = CAMERA.zoomEase;
 	targetZoom = 0;
 	#lerpedZoom = 0;
-	#playerPosition = new Vector3();
+	#playerPosition = new Vector2();
 	#targetPosition = new Vector2();
 	#focusPlayer = false;
 	constructor() {
@@ -36,7 +36,7 @@ class MainCamera extends PerspectiveCamera {
 
 		const cameraHalfWidth = this.getVisibleWidthAtZDepth() * 0.5;
 		const cameraHalfHeight = this.getVisibleHeightAtZDepth() * 0.5;
-		this.#targetPosition.x -= diff.x * cameraHalfWidth;
+		this.#targetPosition.x -= diff.x * cameraHalfWidth * (this.#lerpedZoom + 1);
 		this.#targetPosition.y += diff.y * cameraHalfHeight * (this.#lerpedZoom + 1);
 	}
 
@@ -70,7 +70,7 @@ class MainCamera extends PerspectiveCamera {
 
 		if (this.focusPlayer) {
 			this.position.x = damp(this.position.x, this.#playerPosition.x, CAMERA.playerPosEase, dt);
-			this.position.z = damp(this.position.z, this.#playerPosition.z + CAMERA.zoomOffsetY * this.#lerpedZoom, CAMERA.playerPosEase, dt);
+			this.position.z = damp(this.position.z, this.#playerPosition.y + CAMERA.zoomOffsetY * this.#lerpedZoom, CAMERA.playerPosEase, dt);
 		} else {
 			this.position.x = damp(this.position.x, this.#targetPosition.x, this.dragEase, dt);
 			this.position.z = damp(this.position.z, this.#targetPosition.y + CAMERA.zoomOffsetY * this.#lerpedZoom, this.dragEase, dt);
@@ -120,7 +120,7 @@ class MainCamera extends PerspectiveCamera {
 		this.#focusPlayer = value;
 		if (value) {
 			this.targetZoom = 1;
-		} else this.#targetPosition.set(this.#playerPosition.x, this.#playerPosition.z);
+		} else this.#targetPosition.set(this.#playerPosition.x, this.#playerPosition.y);
 		store.set(STORE_KEYS.FOCUS_PLAYER, value);
 	}
 

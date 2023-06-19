@@ -44,8 +44,7 @@ class Terrain extends Object3D {
 
 		this.grid = new Grid(terrainStructure);
 
-		this.add(this.glb);
-		this.add(this.grid);
+		this.add(this.glb, this.grid);
 
 		this.traverse(
 			/** @param {import('three').Mesh} child*/ (child) => {
@@ -61,7 +60,7 @@ class Terrain extends Object3D {
 	getWinnerFlag() {
 		if (this.domGameStore.scoreboard[0] && this.domGameStore.scoreboard[0].score && this.domGameStore.scoreboard[0].score > 0)
 			return this.flagLoader.load(`/assets/images/flags/${this.domGameStore.scoreboard[0].name}.png`);
-		else return this.flagLoader.load(`/assets/images/flags/JO-flag.png`);
+		else return this.flagLoader.load(`/assets/images/flags/JO-FLAG.png`);
 	}
 
 	updateFlag() {

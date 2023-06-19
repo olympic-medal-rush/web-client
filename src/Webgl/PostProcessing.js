@@ -11,7 +11,7 @@ class PostProcessing {
 		state.register(this);
 
 		this.renderTarget = this.#createRenderTarget(true);
-		this.emissivePass = new EmissivePass({ dpr: 1 });
+		this.emissivePass = new EmissivePass({ dpr: app.tools.viewport.isMobileAtLaunch ? 0.7 : 1 });
 
 		this.#material = new PostProcessingMaterial({
 			uniforms: {

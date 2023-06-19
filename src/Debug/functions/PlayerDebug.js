@@ -3,7 +3,7 @@ import { ColorDebugHelper } from '../debugConfig';
 /**
  *
  * @param {*} pane
- * @param {import("@Webgl/Objects/Player").Player} instance
+ * @param {import("@Webgl/Objects/Player.old").Player} instance
  * @param {*} name
  * @returns
  */

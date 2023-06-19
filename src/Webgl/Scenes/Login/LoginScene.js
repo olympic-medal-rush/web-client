@@ -1,40 +1,39 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { gsap } from 'gsap';
-import { Color, Scene } from 'three';
-import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils';
-import { BasePlayer } from '@Webgl/Objects/BasePlayer';
+import { Color, LinearSRGBColorSpace, Scene } from 'three';
+import { Player } from '@Webgl/Objects/Player';
 import { EVENTS } from '@utils/constants';
 
 class LoginScene extends Scene {
+	#player;
 	constructor() {
 		super();
-		state.register(this);
-		this.background = new Color('#FFF');
+
+		this.background = new Color().setHex(0xfbf9ec, LinearSRGBColorSpace);
+		this.userData.backgrounds = [this.background, new Color(0x000000)];
+
+		state.on(EVENTS.ATTACH, this.#onAppLoaded);
+		state.on(EVENTS.SELECT_TEAM_UPDATE, this.#onSelectTeamUpdate);
 	}
 
-	onAppLoaded() {
-		const baseModel = app.core.assetsManager.get('player');
-		const mesh = skeletonClone(baseModel);
-		mesh.animations = baseModel.animations;
+	#onAppLoaded = () => {
+		this.#player = new Player(app.core.assetsManager.get('player'), 'BZH');
+		this.#player.position.y = -1;
+		this.#player.rotation.y = Math.PI * 0.1;
 
-		this.player = new BasePlayer(mesh, 'BZH');
-		this.player.rotation.y = 170 * (Math.PI / 180);
-		this.player.position.z = -4;
-		this.player.position.y = -1;
+		this.add(this.#player);
+	};
 
-		this.player.startIdle();
-
-		this.add(this.player);
-
-		state.on(EVENTS.SELECT_TEAM_UPDATE, (iso) => {
-			this.player.updateISO(iso);
-			gsap.to(this.player.rotation, { y: this.player.rotation.y + Math.PI * 2, duration: 0.5 });
-		});
-	}
+	#onSelectTeamUpdate = (iso) => {
+		this.#player.updateISO(iso);
+	};
 
 	render() {
-		app.webgl.renderer.render(this, app.webgl.loginCamera);
+		app.webgl.renderer.renderRenderTarget(this, app.webgl.loginCamera, app.webgl.postProcessing.renderTarget);
+	}
+
+	dispose() {
+		this.#player.dispose();
 	}
 }
 
