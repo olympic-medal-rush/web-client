@@ -10,7 +10,7 @@ const progressBar = ref();
 
 onMounted(() => {
 	progress.value.style.height = steps.value.clientHeight + 'px';
-	const stepBoost = teamsStore.getPlayerCount(teamsStore.currentIso) <= BoostData[0].step ? 1 : teamsStore.getPlayerCount(teamsStore.currentIso) <= BoostData[2].step ? 2 : 3;
+	const stepBoost = teamsStore.currentTeamCount <= BoostData[0].step ? 1 : teamsStore.currentTeamCount <= BoostData[2].step ? 2 : 3;
 	progressBar.value.style.height = (steps.value.clientHeight / 3) * stepBoost + 'px';
 });
 </script>

@@ -23,5 +23,11 @@ export const useMedalsInGameStore = defineStore('medalsInGame', {
 			);
 			this.count--;
 		},
+
+		clear() {
+			this.medalsInGame = {};
+			this.medalsArray = [];
+			this.count = 0;
+		},
 	},
 });

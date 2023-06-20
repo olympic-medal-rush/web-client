@@ -60,6 +60,11 @@ export const useTeamsStore = defineStore('teams', {
 		setCurrent(iso) {
 			this.currentIso = iso;
 		},
+
+		clear() {
+			this.teams = {};
+			this.scoreboard = [];
+		},
 	},
 	getters: {
 		currentTeamCount: (state) => state.teams[state.currentIso]?.playerCount || 0,

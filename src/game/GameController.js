@@ -148,6 +148,8 @@ class GameController {
 	}
 
 	#cleanState() {
+		this.teamsStore.clear();
+		this.medalsInGameStore.clear();
 		state.emit(EVENTS.CLEAN_STATE, true);
 	}
 }
