@@ -1,12 +1,13 @@
 <script setup>
 import { useMedalsInGameStore } from '@stores/medalsInGame';
+import MedalsImg from './Assets/MedalsImg.vue';
 
 const medalsInGameStore = useMedalsInGameStore();
 </script>
 
 <template>
 	<div class="Medals">
-		<img src="/assets/images/Medals.png" alt="" srcset="" />
+		<MedalsImg class="medals-img" margin="-18px" />
 		<span>{{ medalsInGameStore.count }}</span>
 		en jeu
 	</div>
@@ -30,14 +31,14 @@ const medalsInGameStore = useMedalsInGameStore();
 	font-size: 16px;
 	color: $text-olive-ui;
 
-	img {
+	.medals-img {
 		margin: 0 3px 0 0;
 	}
 
 	span {
 		position: absolute;
 		bottom: 28px;
-		left: 33px;
+		left: 30px;
 		color: $white;
 		font-family: 'ApfelGrotezk-Fett';
 		background-color: $text-olive-ui;
