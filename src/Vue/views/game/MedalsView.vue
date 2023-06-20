@@ -3,9 +3,14 @@ import MedalImg from '@components/Assets/MedalImg.vue';
 import BackButton from '@components/Inputs/BackButton.vue';
 import MedalCard from '@components/Medals/MedalCard.vue';
 import mockData from '@jsons/medals_data.json';
+import emblaCarouselVue from 'embla-carousel-vue';
 import { useRoute } from 'vue-router';
 
+const [emblaNode] = emblaCarouselVue();
+
 const route = useRoute();
+console.log('country', route.params.iso);
+console.log('medalId', route.params.id);
 </script>
 
 <template>
@@ -17,8 +22,10 @@ const route = useRoute();
 			<button class="selected">Paris 24</button>
 			<button>Medal Rush 24</button>
 		</div>
-		<div class="cards-slideshow">
-			<MedalCard v-for="medal in mockData" :key="medal.id" :medal="medal" />
+		<div ref="emblaNode" class="cards-slideshow embla">
+			<div class="cards-slideshow-wrapper embla__container">
+				<MedalCard v-for="medal in mockData" :key="medal.id" :medal="medal" class="medal-card embla__slide" />
+			</div>
 		</div>
 		<div class="bottom-nav-container">
 			<div class="bottom-nav-wrapper">
@@ -70,7 +77,7 @@ const route = useRoute();
 	padding: 28px 32px 18px 32px;
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
-	background: linear-gradient(180deg, rgba(0, 0, 0, 0) 52.08%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(189.89deg, rgba(90, 74, 13, 0.5) 33.09%, rgba(219, 174, 14, 0.5) 93.06%);
+	background: linear-gradient(to bottom, rgba(219, 174, 14, 0.5), rgba(90, 74, 13, 0.5));
 
 	.back-btn {
 		position: absolute;
@@ -112,6 +119,27 @@ const route = useRoute();
 					left: 50%;
 					transform: translate3d(-50%, 0, 0);
 				}
+			}
+		}
+	}
+
+	.cards-slideshow {
+		height: 100%;
+		padding-top: 30px;
+		padding-bottom: 15px;
+		pointer-events: all;
+		width: 100%;
+
+		&-wrapper {
+			height: 100%;
+			width: 100%;
+			display: flex;
+			flex-wrap: nowrap;
+			gap: 18px;
+
+			.medal-card {
+				flex-shrink: 0;
+				flex: 0 0 100%;
 			}
 		}
 	}

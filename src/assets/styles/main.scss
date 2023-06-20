@@ -6,6 +6,7 @@
 
 body {
 	position: relative;
+	@include apfel-grotezk();
 }
 
 #webgl-app {
