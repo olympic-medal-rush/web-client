@@ -1,6 +1,5 @@
 <script setup>
-import countries from 'i18n-iso-countries';
-import countriesFR from 'i18n-iso-countries/langs/fr.json';
+import { useCountry } from '@Vue/composables/useCountry';
 
 const props = defineProps({
 	iso: { type: String, required: true },
@@ -17,7 +16,7 @@ const style = {
 <template>
 	<div class="FlagImg">
 		<img :src="`/assets/images/flags/${props.iso}.png`" alt="" srcset="" />
-		<span v-if="hasName"> {{ countriesFR.countries[countries.alpha3ToAlpha2(props.iso)] || 'Bretagne' }} </span>
+		<span v-if="hasName"> {{ useCountry(props.iso) }} </span>
 	</div>
 </template>
 

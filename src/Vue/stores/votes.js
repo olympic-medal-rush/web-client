@@ -36,7 +36,7 @@ export const useVotesStore = defineStore('votes', {
 		},
 
 		getLeftTime() {
-			return Math.floor(this.time / 1000);
+			return Math.max(0, Math.floor(this.time / 1000));
 		},
 	},
 });

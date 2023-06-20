@@ -1,11 +1,12 @@
 <script setup>
-import BackButton from '@components/Inputs/BackButton.vue';
+import { useCountry } from '@Vue/composables/useCountry';
 import MedalCard from '@components/Medals/MedalCard.vue';
 import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
+import BlurryPage from '@components/Utils/BlurryPage.vue';
 import mockData from '@jsons/medals_data.json';
 import emblaCarouselVue from 'embla-carousel-vue';
 import { onMounted, ref, watchEffect } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const [cardSlideshow, cardSlideshowApi] = emblaCarouselVue();
 const [medalSlideshow, medalSlideshowApi] = emblaCarouselVue({ dragFree: true, align: 'start', containScroll: 'trimSnaps' });
@@ -19,6 +20,7 @@ const currentIndex = ref(0);
 const cardFront = ref(true);
 
 const route = useRoute();
+const router = useRouter();
 // const medalsStore = useMedalsStore();
 
 onMounted(() => {
@@ -37,6 +39,7 @@ const onMedalSlideshowPointerDown = (medalId) => {
 const onCardSlideshowSelect = () => {
 	currentIndex.value = cardSlideshowApi.value.selectedScrollSnap();
 	medalSlideshowApi.value.scrollTo(currentIndex.value);
+	router.replace({ name: 'medals', params: { iso: route.params.iso, id: medalsCards.value[currentIndex.value].id } });
 };
 
 const toggleCards = () => {
@@ -45,66 +48,53 @@ const toggleCards = () => {
 </script>
 
 <template>
-	<div class="medals-container">
-		<BackButton to="/game" class="back-btn" />
-		<h2 class="title">Collection {{ route.params.iso }}</h2>
-
-		<div class="card-toggle">
-			<button :class="cardFront && 'selected'" @click="toggleCards">Paris 24</button>
-			<button :class="!cardFront && 'selected'" @click="toggleCards">Medal Rush 24</button>
-		</div>
-		<div ref="cardSlideshow" class="cards-slideshow embla">
-			<div class="cards-slideshow-wrapper embla__container">
-				<MedalCard
-					v-for="(medal, i) in mockData"
-					:key="medal.id"
-					ref="medalsCards"
-					:medal="medal"
-					:class="`${i === currentIndex && 'active'}  ${!cardFront && 'show-back'}`"
-					class="medal-card embla__slide"
-				/>
+	<BlurryPage back-to="/game">
+		<template #title>
+			<h2 class="title">{{ `Collection ${useCountry(route.params.iso)}` }}</h2>
+		</template>
+		<div class="medals-container">
+			<div class="card-toggle">
+				<button :class="cardFront && 'selected'" @click="toggleCards">Paris 24</button>
+				<button :class="!cardFront && 'selected'" @click="toggleCards">Medal Rush 24</button>
+			</div>
+			<div ref="cardSlideshow" class="cards-slideshow embla">
+				<div class="cards-slideshow-wrapper embla__container">
+					<MedalCard
+						v-for="(medal, i) in mockData"
+						:key="medal.id"
+						ref="medalsCards"
+						:medal="medal"
+						:class="`${i === currentIndex && 'active'}  ${!cardFront && 'show-back'}`"
+						class="medal-card embla__slide"
+					/>
+				</div>
+			</div>
+			<div ref="medalSlideshow" class="bottom-nav-container embla">
+				<div class="bottom-nav-wrapper embla__container">
+					<button v-for="(medal, i) in mockData" :key="medal.id" class="embla__slide" @click="onMedalSlideshowPointerDown(i)">
+						<MedalDotCircle :has-circle="i === currentIndex" :type="medal.type" />
+					</button>
+				</div>
 			</div>
 		</div>
-		<div ref="medalSlideshow" class="bottom-nav-container embla">
-			<div class="bottom-nav-wrapper embla__container">
-				<button v-for="(medal, i) in mockData" :key="medal.id" class="embla__slide" @click="onMedalSlideshowPointerDown(i)">
-					<MedalDotCircle :has-circle="i === currentIndex" :type="medal.type" />
-				</button>
-			</div>
-		</div>
-	</div>
+	</BlurryPage>
 </template>
 
 <style lang="scss" scoped>
 @use '@styles/tools' as *;
 
 .medals-container {
-	position: absolute;
-	overflow: hidden;
-	top: 0;
-	left: 0;
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 28px 32px 18px 32px;
-	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
-	background: linear-gradient(to bottom, rgba(219, 174, 14, 0.5), rgba(90, 74, 13, 0.5));
+	padding: 0px 32px 18px 32px;
 
 	.back-btn {
 		position: absolute;
 		top: 20px;
 		left: 20px;
-	}
-
-	.title {
-		@include apfel-grotezk();
-		font-weight: 700;
-		font-size: 24px;
-		text-align: center;
-		color: $dark-gray;
 	}
 
 	.card-toggle {
@@ -161,7 +151,7 @@ const toggleCards = () => {
 				flex: 0 0 100%;
 				transform: scale(0.95);
 				opacity: 0.5;
-				transition: transform 0.7s $immg-expoOut, opacity 0.5s linear;
+				transition: transform 0.7s $immg-expoOut, opacity 0.3s linear;
 				&.active {
 					opacity: 1;
 					transform: scale(1);

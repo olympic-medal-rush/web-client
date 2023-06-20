@@ -54,6 +54,8 @@ div {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: transform 0.5s $immg-expoOut;
+	transform: scale(1);
 
 	svg {
 		position: absolute;
@@ -99,6 +101,10 @@ div {
 		to {
 			transform: rotate(360deg);
 		}
+	}
+
+	&:active {
+		transform: scale(0.95);
 	}
 }
 </style>

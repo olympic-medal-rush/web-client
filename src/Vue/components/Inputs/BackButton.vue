@@ -24,7 +24,7 @@ const onClick = () => {
 </script>
 
 <style lang="scss" scoped>
-@use '@styles/tools/colors' as *;
+@use '@styles/tools' as *;
 
 .btn {
 	width: 45px;
@@ -35,11 +35,17 @@ const onClick = () => {
 	align-items: center;
 	justify-content: center;
 	padding: 15px;
+	transition: transform 0.5s $immg-expoOut;
+	transform: scale(1);
 
 	.arrow {
 		width: 100%;
 		height: 100%;
 		transform: rotate(90deg);
+	}
+
+	&:active {
+		transform: scale(0.95);
 	}
 }
 </style>
