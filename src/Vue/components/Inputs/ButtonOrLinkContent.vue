@@ -32,8 +32,14 @@ const props = defineProps({
 	padding: 15px;
 	color: $white;
 	gap: 10px;
+	transition: transform 0.5s $immg-expoOut;
+	transform: scale(1);
 	background: linear-gradient(178deg, #fcd616 1.69%, #a68c02 143.18%);
 	box-shadow: 0px 100px 80px rgba(242, 195, 0, 0.07), 0px 30.1471px 24.1177px rgba(242, 195, 0, 0.0456112), 0px 12.5216px 10.0172px rgba(242, 195, 0, 0.035),
 		0px 4.5288px 3.62304px rgba(242, 195, 0, 0.0243888), inset 0px 0px 14px rgba(255, 255, 255, 0.75);
+
+	&:active {
+		transform: scale(0.95);
+	}
 }
 </style>
