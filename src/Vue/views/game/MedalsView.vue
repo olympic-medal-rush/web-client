@@ -4,13 +4,20 @@ import BackButton from '@components/Inputs/BackButton.vue';
 import MedalCard from '@components/Medals/MedalCard.vue';
 import mockData from '@jsons/medals_data.json';
 import emblaCarouselVue from 'embla-carousel-vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-const [emblaNode] = emblaCarouselVue();
+const [emblaNode, emblaApi] = emblaCarouselVue();
+const medalsCards = ref([]);
 
 const route = useRoute();
 console.log('country', route.params.iso);
 console.log('medalId', route.params.id);
+
+onMounted(() => {
+	const medalCardIndex = medalsCards.value.findIndex((medalCard) => medalCard.id === parseInt(route.params.id));
+	if (medalCardIndex) emblaApi.value.scrollTo(medalCardIndex);
+});
 </script>
 
 <template>
@@ -24,7 +31,7 @@ console.log('medalId', route.params.id);
 		</div>
 		<div ref="emblaNode" class="cards-slideshow embla">
 			<div class="cards-slideshow-wrapper embla__container">
-				<MedalCard v-for="medal in mockData" :key="medal.id" :medal="medal" class="medal-card embla__slide" />
+				<MedalCard v-for="medal in mockData" :key="medal.id" ref="medalsCards" :medal="medal" class="medal-card embla__slide" />
 			</div>
 		</div>
 		<div class="bottom-nav-container">

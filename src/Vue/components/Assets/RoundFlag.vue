@@ -5,7 +5,14 @@ import countriesFR from 'i18n-iso-countries/langs/fr.json';
 const props = defineProps({
 	iso: { type: String, required: true },
 	hasName: { type: Boolean, required: false },
+	size: { type: String, required: true, default: '24px' },
 });
+
+const style = {
+	width: props.size,
+	height: props.size,
+};
+console.log(style);
 </script>
 
 <template>
@@ -16,6 +23,8 @@ const props = defineProps({
 </template>
 
 <style lang="scss" scoped>
+@use '@styles/tools' as *;
+
 .FlagImg {
 	display: flex;
 	flex-direction: row;
@@ -23,15 +32,15 @@ const props = defineProps({
 	align-items: center;
 
 	img {
-		width: 24px;
-		height: 24px;
+		width: v-bind('style.width');
+		height: v-bind('style.height');
 		object-fit: cover;
 		border-radius: 9999px;
 	}
 
 	span {
 		margin: 0 0 0 7px;
-		font-family: 'ApfelGrotezk-Fett';
+		@include apfel-grotezk();
 	}
 }
 </style>

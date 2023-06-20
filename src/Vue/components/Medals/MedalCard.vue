@@ -11,6 +11,10 @@ const props = defineProps({
 	},
 });
 
+defineExpose({
+	id: props.medal.id,
+});
+
 const onCtaClick = () => {
 	console.log('click');
 };
@@ -22,7 +26,7 @@ const onCtaClick = () => {
 			<img src="/assets/images/medal_cover.jpg" />
 		</div>
 		<div class="athlete">
-			<RoundFlag :iso="medal.nationality" />
+			<RoundFlag size="16px" :iso="medal.nationality" />
 			<p>{{ medal.athlete }}</p>
 		</div>
 		<div class="event-info">
