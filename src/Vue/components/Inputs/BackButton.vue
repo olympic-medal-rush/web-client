@@ -1,5 +1,6 @@
 <template>
-	<button @click="onClick">
+	<RouterLink v-if="to" class="btn" :to="to"><GreyArrow class="arrow" /></RouterLink>
+	<button v-else class="btn" @click="onClick">
 		<GreyArrow class="arrow" />
 	</button>
 </template>
@@ -7,6 +8,13 @@
 <script setup>
 import GreyArrow from '@/assets/svgs/GreyArrow.svg';
 import { useRouter } from 'vue-router';
+
+defineProps({
+	to: {
+		type: String,
+		required: false,
+	},
+});
 
 const router = useRouter();
 
@@ -18,7 +26,7 @@ const onClick = () => {
 <style lang="scss" scoped>
 @use '@styles/tools/colors' as *;
 
-button {
+.btn {
 	width: 45px;
 	height: 45px;
 	border-radius: 50%;

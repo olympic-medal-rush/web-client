@@ -3,6 +3,7 @@ import ShareIcon from '@/assets/svgs/ShareIcon.svg';
 import MedalImg from '@components/Assets/MedalImg.vue';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
+import WIP from '@components/Utils/WIP.vue';
 
 const props = defineProps({
 	medal: {
@@ -31,29 +32,34 @@ const onCtaClick = () => {
 
 <template>
 	<div class="card">
-		<div class="image-wrapper">
-			<img src="/assets/images/medal_cover.jpg" />
-		</div>
-		<div class="athlete">
-			<RoundFlag size="16px" :iso="medal.nationality" />
-			<p>{{ medal.athlete }}</p>
-		</div>
-		<div class="event-info">
-			<div class="event-info-wrapper">
-				<MedalImg class="medal-img" :type="medal.type" />
-				<div class="text-info">
-					<h3>{{ medal.sport }}</h3>
-					<h4>{{ medal.event_name }}</h4>
+		<div class="front">
+			<div class="image-wrapper">
+				<img src="/assets/images/medal_cover.jpg" />
+			</div>
+			<div class="athlete">
+				<RoundFlag size="16px" :iso="medal.nationality" />
+				<p>{{ medal.athlete }}</p>
+			</div>
+			<div class="event-info">
+				<div class="event-info-wrapper">
+					<MedalImg class="medal-img" :type="medal.type" />
+					<div class="text-info">
+						<h3>{{ medal.sport }}</h3>
+						<h4>{{ medal.event_name }}</h4>
+					</div>
 				</div>
 			</div>
+			<p class="description">{{ medal.description }}</p>
+			<ButtonOrLink class="cta" icon-position="left" @click.prevent="onCtaClick">
+				<template #icon>
+					<ShareIcon />
+				</template>
+				Partager
+			</ButtonOrLink>
 		</div>
-		<p class="description">{{ medal.description }}</p>
-		<ButtonOrLink class="cta" icon-position="left" @click.prevent="onCtaClick">
-			<template #icon>
-				<ShareIcon />
-			</template>
-			Partager
-		</ButtonOrLink>
+		<div class="back">
+			<WIP />
+		</div>
 	</div>
 </template>
 
@@ -63,14 +69,40 @@ const onCtaClick = () => {
 .card {
 	width: 100%;
 	height: 100%;
-	display: flex;
-	flex-direction: column;
-	background: $bg-beige-ui;
-	padding-top: 35px;
-	padding-bottom: 20px;
-	border-radius: 15px;
-	box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.07), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0531481), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0425185), 0px 20px 13px rgba(0, 0, 0, 0.035),
-		0px 8.14815px 6.51852px rgba(0, 0, 0, 0.0274815), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.0168519);
+	position: relative;
+	perspective: 2000px;
+
+	.front,
+	.back {
+		backface-visibility: hidden;
+		-moz-backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		background: $bg-beige-ui;
+		padding-top: 35px;
+		padding-bottom: 20px;
+		border-radius: 15px;
+		box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.07), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0531481), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0425185), 0px 20px 13px rgba(0, 0, 0, 0.035),
+			0px 8.14815px 6.51852px rgba(0, 0, 0, 0.0274815), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.0168519);
+		transition: transform 1s $immg-expoOut;
+	}
+
+	.back {
+		transform: rotateY(180deg);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.front {
+		transform: rotateY(0deg);
+	}
 
 	.image-wrapper {
 		padding: 0 20px;
@@ -144,6 +176,15 @@ const onCtaClick = () => {
 		margin-top: auto;
 		width: 100%;
 		padding: 0 20px;
+	}
+
+	&.show-back {
+		.front {
+			transform: rotateY(-180deg);
+		}
+		.back {
+			transform: rotateY(0deg);
+		}
 	}
 }
 </style>

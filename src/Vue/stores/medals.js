@@ -7,14 +7,14 @@ export const useMedalsStore = defineStore('medals', {
 	actions: {
 		/**
 		 *
-		 * @param {string} id
+		 * @param {string} iso
 		 */
-		async getMedal(id) {
-			if (!this.medals[id]) {
-				const medal = await (await fetch(`${import.meta.env.OLYMPIC_MEDAL_API}/medal/${id}`)).json();
-				this.medals[id] = medal;
+		async getMedals(iso) {
+			if (!this.medals[iso]) {
+				const medal = await (await fetch(`${import.meta.env.OLYMPIC_MEDAL_API}/medals/${iso}`)).json();
+				this.medals[iso] = medal;
 			}
-			return this.medals[id];
+			return this.medals[iso];
 		},
 	},
 });

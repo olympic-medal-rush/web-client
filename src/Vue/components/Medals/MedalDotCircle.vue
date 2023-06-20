@@ -8,6 +8,11 @@ const props = defineProps({
 		type: Number,
 		default: 0,
 	},
+	hasCircle: {
+		required: true,
+		type: Boolean,
+		default: true,
+	},
 });
 
 const gradientId = ref();
@@ -16,7 +21,7 @@ gradientId.value = props.type === 0 ? 'bronze-gradient' : props.type === 1 ? 'si
 
 <template>
 	<div :class="`type-${props.type}`">
-		<svg viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<svg :class="!hasCircle && 'hidden'" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<rect x="2" y="2" width="70" height="70" rx="35" :fill="`url(#${gradientId})`" fill-opacity="0.15" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 9" />
 			<defs>
 				<radialGradient id="gold-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(37 37) rotate(90) scale(35)">
@@ -57,6 +62,13 @@ div {
 		top: 0;
 		left: 0;
 		border-radius: 50%;
+		opacity: 1;
+		transition: opacity 0.2s linear;
+		animation: 4s linear 0s infinite rotate;
+
+		&.hidden {
+			opacity: 0;
+		}
 	}
 
 	.img {
@@ -77,6 +89,15 @@ div {
 	&.type-0 {
 		rect {
 			stroke: $medal-bronze;
+		}
+	}
+
+	@keyframes rotate {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
 		}
 	}
 }
