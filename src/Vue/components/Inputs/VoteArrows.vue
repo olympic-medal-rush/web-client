@@ -6,10 +6,12 @@ import Icon from '@/assets/svgs/BackArrow.svg';
 import Arrow from '@/assets/svgs/VoteArrow.svg';
 import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
 import ProgressArrows from '@/assets/svgs/progressVoteArrow.svg';
-import { ref } from 'vue';
+import { useVotesStore } from '@stores/votes';
 import { EVENTS, STORE_KEYS } from '@utils/constants';
+import { ref } from 'vue';
 
 const focus = ref(true);
+const voteStore = useVotesStore();
 
 const handleClick = (e) => {
 	app.server.userVote({
@@ -50,6 +52,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 				</div>
 				<div data-dir="2" class="arrow down" @click="handleClick"><Arrow /></div>
 			</div>
+			<div class="nbVotes">{{ voteStore.getSommeVote() }} vote{{ voteStore.getSommeVote() > 1 ? 's' : '' }}</div>
 		</div>
 		<div v-else class="FocusBtn" @click="() => (app.webgl.camera.focusPlayer = true)">Aller à la vue du pays <Icon /></div>
 	</div>
@@ -89,6 +92,19 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 			height: 22px;
 			pointer-events: none;
 		}
+	}
+
+	.nbVotes {
+		font-family: 'ApfelGrotezk-regular';
+		color: $text-olive-ui;
+		background-color: $pale-yellow;
+		display: block;
+		width: max-content;
+		margin: auto;
+		margin-top: 5px;
+		transform: translateY(20px);
+		border-radius: 9999px;
+		padding: 4px 7px;
 	}
 }
 

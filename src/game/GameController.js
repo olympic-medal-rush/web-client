@@ -2,6 +2,7 @@ import { app } from '@/App';
 import { state } from '@/State';
 import { useMedalsInGameStore } from '@stores/medalsInGame';
 import { useTeamsStore } from '@stores/teams';
+import { useVotesStore } from '@stores/votes';
 import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
 import { Team } from './Team';
@@ -16,6 +17,7 @@ class GameController {
 
 		this.medalsInGameStore = useMedalsInGameStore();
 		this.teamsStore = useTeamsStore();
+		this.voteStore = useVotesStore();
 
 		this.userId = null;
 		this.currentTeam = null;
@@ -133,6 +135,7 @@ class GameController {
 		if (voteResultsPayload.direction === 4) return;
 
 		const movedTeam = this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
+		this.voteStore.resetVote();
 		state.emit(EVENTS.VOTE_RESULTS, movedTeam);
 	}
 
@@ -149,6 +152,7 @@ class GameController {
 	 * @param {VoteCountPayload} voteCountPayload
 	 */
 	voteCount(voteCountPayload) {
+		this.voteStore.setVote(voteCountPayload);
 		state.emit(EVENTS.VOTE_COUNT, voteCountPayload);
 	}
 
