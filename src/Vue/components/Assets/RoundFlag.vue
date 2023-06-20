@@ -12,7 +12,6 @@ const style = {
 	width: props.size,
 	height: props.size,
 };
-console.log(style);
 </script>
 
 <template>

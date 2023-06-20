@@ -110,7 +110,7 @@ onMounted(() => {
 				}
 				&.active {
 					> span {
-						background: $dark-gold;
+						background: $medal-gold;
 					}
 
 					p {

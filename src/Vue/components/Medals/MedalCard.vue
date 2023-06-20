@@ -15,6 +15,15 @@ defineExpose({
 	id: props.medal.id,
 });
 
+const styles = {
+	gradient:
+		props.medal.type === 0
+			? ' linear-gradient(92.26deg, #D7A66A 3.98%, rgba(219, 169, 108, 0) 97.15%)'
+			: props.medal.type === 1
+			? 'linear-gradient(93.45deg, #E0E0DF 4.64%, rgba(255, 255, 255, 0) 105.82%)'
+			: 'linear-gradient(93.45deg, #EBDA83 4.64%, rgba(240, 240, 196, 0) 105.82%)',
+};
+
 const onCtaClick = () => {
 	console.log('click');
 };
@@ -96,7 +105,7 @@ const onCtaClick = () => {
 
 		&-wrapper {
 			border-radius: 100px 0 0 100px;
-			background: linear-gradient(93.45deg, #ebda83 4.64%, rgba(240, 240, 196, 0) 105.82%);
+			background: v-bind('styles.gradient');
 			display: flex;
 			align-items: center;
 

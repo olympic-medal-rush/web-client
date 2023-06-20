@@ -100,7 +100,7 @@ const annimProgressBooster = () => {
 		}
 
 		p {
-			color: $dark-gold;
+			color: $medal-gold;
 			margin: auto;
 		}
 	}

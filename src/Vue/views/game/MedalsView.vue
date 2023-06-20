@@ -1,13 +1,13 @@
 <script setup>
-import MedalImg from '@components/Assets/MedalImg.vue';
 import BackButton from '@components/Inputs/BackButton.vue';
 import MedalCard from '@components/Medals/MedalCard.vue';
+import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
 import mockData from '@jsons/medals_data.json';
 import emblaCarouselVue from 'embla-carousel-vue';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-const [emblaNode, emblaApi] = emblaCarouselVue();
+const [cardSlideshow, cardSlideshowApi] = emblaCarouselVue();
 const medalsCards = ref([]);
 
 const route = useRoute();
@@ -16,7 +16,7 @@ console.log('medalId', route.params.id);
 
 onMounted(() => {
 	const medalCardIndex = medalsCards.value.findIndex((medalCard) => medalCard.id === parseInt(route.params.id));
-	if (medalCardIndex) emblaApi.value.scrollTo(medalCardIndex);
+	if (medalCardIndex) cardSlideshowApi.value.scrollTo(medalCardIndex);
 });
 </script>
 
@@ -29,7 +29,7 @@ onMounted(() => {
 			<button class="selected">Paris 24</button>
 			<button>Medal Rush 24</button>
 		</div>
-		<div ref="emblaNode" class="cards-slideshow embla">
+		<div ref="cardSlideshow" class="cards-slideshow embla">
 			<div class="cards-slideshow-wrapper embla__container">
 				<MedalCard v-for="medal in mockData" :key="medal.id" ref="medalsCards" :medal="medal" class="medal-card embla__slide" />
 			</div>
@@ -37,30 +37,7 @@ onMounted(() => {
 		<div class="bottom-nav-container">
 			<div class="bottom-nav-wrapper">
 				<button v-for="(medal, i) in mockData" :key="medal.id" :class="i === 0 && 'current'">
-					<svg viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<rect
-							x="2"
-							y="2"
-							width="70"
-							height="70"
-							rx="35"
-							fill="url(#paint0_radial_1054_2957)"
-							fill-opacity="0.15"
-							stroke="#BBA63A"
-							stroke-width="3"
-							stroke-linecap="round"
-							stroke-dasharray="9 9"
-							class="circle"
-						/>
-						<defs>
-							<radialGradient id="paint0_radial_1054_2957" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(37 37) rotate(90) scale(35)">
-								<stop offset="0.640625" stop-color="#F5E8A8" stop-opacity="0" />
-								<stop offset="1" stop-color="#F5E8A8" />
-							</radialGradient>
-						</defs>
-					</svg>
-
-					<MedalImg :type="medal.type" />
+					<MedalDotCircle :type="medal.type" />
 				</button>
 			</div>
 		</div>
@@ -156,31 +133,12 @@ onMounted(() => {
 		pointer-events: all;
 		align-self: flex-start;
 		width: 100%;
-		overflow-x: scroll;
-		overflow-y: hidden;
 
 		.bottom-nav-wrapper {
 			display: flex;
 			gap: 18px;
 
 			button {
-				width: 70px;
-				height: 70px;
-				position: relative;
-				padding: 8px;
-
-				svg {
-					position: absolute;
-					width: 100%;
-					height: 100%;
-					top: 0;
-					left: 0;
-					border-radius: 50%;
-				}
-
-				flex-shrink: 0;
-
-				position: relative;
 			}
 		}
 	}
