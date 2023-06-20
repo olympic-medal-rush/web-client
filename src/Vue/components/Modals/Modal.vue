@@ -11,7 +11,7 @@ const props = defineProps({
 	<transition name="notif">
 		<div v-if="props.isActive" class="Bg-Modal">
 			<div class="Modal">
-				<div class="Modal-icon" @click="() => props.toogleActive()"><Icon /></div>
+				<button class="Modal-icon" @click="() => props.toogleActive()"><Icon /></button>
 				<slot />
 			</div>
 			<div class="toogleModal" @click="() => props.toogleActive()"></div>
@@ -25,8 +25,11 @@ const props = defineProps({
 .Bg-Modal {
 	// background-color: red;
 	// opacity: 0.5;
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100vw;
-	height: 65vh;
+	height: 100%;
 	pointer-events: all;
 }
 
