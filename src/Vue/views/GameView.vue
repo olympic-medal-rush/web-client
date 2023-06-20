@@ -12,6 +12,7 @@ import NewTeam from '@components/Notifications/NewTeam.vue';
 import TheCounterMedals from '@components/TheCounterMedals.vue';
 import TheCounterPlayers from '@components/TheCounterPlayers.vue';
 import TheNotifications from '@components/TheNotifications.vue';
+import TheReactMoji from '@components/TheReactMoji.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
 import { useMedalsInGameStore } from '@stores/medalsInGame';
@@ -47,6 +48,7 @@ onMounted(() => {
 			<TheCounterPlayers @click="() => toggleModal(1)" />
 			<TheNotifications @click="() => toggleModal(2)" />
 		</div>
+		<TheReactMoji />
 		<VoteArrows />
 		<MedalCompass />
 

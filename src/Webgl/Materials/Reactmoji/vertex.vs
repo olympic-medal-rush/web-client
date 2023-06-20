@@ -14,7 +14,7 @@ uniform float uGlobalSpead;
 varying vec2 vOffset;
 varying float vOpacity;
 
-#define UV_Scale vec2(51. / 128., 52. / 256.)
+#define UV_Scale vec2(48. / 192., 48. / 48.)
 
 void main() {
 
@@ -34,6 +34,7 @@ void main() {
   pos.y += fract(uTime * aSpeed * uGlobalSpead) * uElevation;
 
   vOpacity = 1. - (pos.y - aSize * 1.5);
+  pos.y += 1.5;
 
   pos.x += aPlacing;
   pos.z += aPlacing * 0.3;

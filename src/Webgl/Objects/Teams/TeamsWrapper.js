@@ -37,7 +37,6 @@ class TeamsWrapper {
 
 		this.reactmoji = new Reactmoji();
 		this.reactmoji.visible = false;
-		// this.reactmoji.position.y += 5;
 	}
 
 	setCurrentTeam(team) {

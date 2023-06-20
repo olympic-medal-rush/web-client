@@ -113,7 +113,10 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 				<div data-dir="0" class="arrow up" @click="handleClick"><Arrow /></div>
 				<div class="VoteArrow_horz">
 					<div data-dir="3" class="arrow left" @click="handleClick"><Arrow /></div>
-					<span class="chrono"> {{ voteStore.getLeftTime() }}</span>
+					<span class="chrono">
+						<p>{{ voteStore.getLeftTime() }}</p>
+						<span>s</span>
+					</span>
 					<div data-dir="1" class="arrow right" @click="handleClick"><Arrow /></div>
 				</div>
 				<div data-dir="2" class="arrow down" @click="handleClick"><Arrow /></div>
@@ -139,7 +142,21 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 
 	.chrono {
 		font-family: 'ApfelGrotezk-regular';
-		font-size: 44.6729px;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: flex-end;
+
+		> p {
+			font-size: 44px;
+			line-height: 39px;
+			width: 1ch;
+			text-align: center;
+		}
+
+		> span {
+			font-size: 24px;
+		}
 	}
 
 	svg.bgSVG {
@@ -149,7 +166,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 	}
 
 	svg.directive {
-		transform: scale(0.92) translate(42px, 28px);
+		transform: translate(39px, 25.5px);
 		// stroke-dasharray: 100px;
 		// stroke-dashoffset: 10px;
 	}
@@ -157,7 +174,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 	.arrows {
 		width: 140px;
 		position: absolute;
-		top: 17px;
+		top: 12px;
 		left: calc(50% - 70px);
 		display: flex;
 		flex-direction: column;
@@ -191,11 +208,11 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	width: 167px;
-	margin: 2px 0;
+	width: 178px;
+	margin: 8.5px 0;
 
 	span {
-		font-family: 'Paris 24';
+		font-family: 'ApfelGrotezk-regular';
 		font-size: 22px;
 	}
 }
