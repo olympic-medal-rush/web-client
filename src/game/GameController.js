@@ -60,6 +60,7 @@ class GameController {
 		state.emit(EVENTS.JOIN_READY, this.currentTeam);
 
 		this.teamsStore.setCurrent(this.currentTeam.iso);
+		state.on(EVENTS.TICK, this.voteStore.updateTime);
 	}
 
 	/**
@@ -130,12 +131,16 @@ class GameController {
 	 * @param {VoteResultsPayload} voteResultsPayload
 	 */
 	voteResults(voteResultsPayload) {
+		if (this.teamsStore.currentIso && voteResultsPayload.iso === this.teamsStore.currentIso) {
+			this.voteStore.resetTime();
+			this.voteStore.resetVote();
+		}
+
 		if (!this.teams.has(voteResultsPayload.iso)) return console.error("Team doesn't exist");
 
 		if (voteResultsPayload.direction === 4) return;
 
 		const movedTeam = this.teams.get(voteResultsPayload.iso).move(voteResultsPayload.direction);
-		this.voteStore.resetVote();
 		state.emit(EVENTS.VOTE_RESULTS, movedTeam);
 	}
 

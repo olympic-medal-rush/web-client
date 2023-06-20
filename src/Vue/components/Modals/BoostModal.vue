@@ -10,7 +10,7 @@ const progressBar = ref();
 
 onMounted(() => {
 	progress.value.style.height = steps.value.clientHeight + 'px';
-	const stepBoost = teamsStore.currentTeamCount <= BoostData[0].step ? 1 : teamsStore.currentTeamCount <= BoostData[2].step ? 2 : 3;
+	const stepBoost = teamsStore.currentTeamCount <= BoostData[0].step ? 0 : teamsStore.currentTeamCount <= BoostData[2].step ? 1 : 2;
 	progressBar.value.style.height = (steps.value.clientHeight / 3) * stepBoost + 'px';
 });
 </script>
@@ -23,7 +23,7 @@ onMounted(() => {
 		<div class="Modal-container">
 			<div ref="progress" class="Boost-progress"><span ref="progressBar"></span></div>
 			<div ref="steps" class="Boost-steps">
-				<div v-for="boost in BoostData" :key="boost.id" :class="{ active: 156 >= boost.step }">
+				<div v-for="boost in BoostData" :key="boost.id" :class="{ active: teamsStore.currentTeamCount >= boost.step }">
 					<span></span>
 					<div>
 						<span>{{ boost.step }} joueurs</span>
