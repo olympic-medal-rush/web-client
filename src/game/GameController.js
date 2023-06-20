@@ -8,6 +8,7 @@ import { Medal } from './Medal';
 import { Team } from './Team';
 
 class GameController {
+	#joinStatePayload = null;
 	constructor() {
 		/** @type Map<string, Team> */
 		this.teams = new Map();
@@ -21,6 +22,7 @@ class GameController {
 		this.userId = null;
 		this.currentTeam = null;
 		this.voteId = null;
+		this.hasJoin = false;
 	}
 
 	/**
@@ -41,6 +43,7 @@ class GameController {
 		this.medalsInGameStore.add([...this.medals.values()]);
 
 		state.emit(EVENTS.STATE_READY, { teams: this.teams, medals: this.medals });
+		if (this.#joinStatePayload) this.userJoin(this.#joinStatePayload);
 	}
 
 	/**
@@ -48,6 +51,8 @@ class GameController {
 	 * @param {CountryStatePayload} joinStatePayload
 	 */
 	userJoin(joinStatePayload) {
+		this.#joinStatePayload = joinStatePayload;
+
 		this.voteId = joinStatePayload.vote_id;
 		// This assumes that the new team event has already been received
 		this.currentTeam = this.teams.get(joinStatePayload.iso);
