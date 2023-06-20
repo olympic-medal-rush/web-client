@@ -41,16 +41,9 @@ const router = createRouter({
 					],
 				},
 				{
-					path: 'medals/:iso',
+					path: 'medals/:iso/:id?',
 					name: 'medals',
 					component: () => import('../views/game/MedalsView.vue'),
-					children: [
-						{
-							path: ':id',
-							name: 'medal',
-							component: () => import('../views/game/medals/MedalView.vue'),
-						},
-					],
 				},
 			],
 		},

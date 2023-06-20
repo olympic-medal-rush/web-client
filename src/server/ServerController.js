@@ -113,11 +113,6 @@ export default class ServerController {
 	#onVoteCount(data) {
 		// console.log(data, 'onVoteCount');
 		app.game.voteCount(data);
-		// TODO: update Vue store or something else supposed to show vote counts
-		// up: number;
-		// right: number;
-		// down: number;
-		// left: number;
 	}
 
 	/**
