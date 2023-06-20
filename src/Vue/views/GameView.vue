@@ -15,8 +15,8 @@ import TheNotifications from '@components/TheNotifications.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
 import { useMedalsInGameStore } from '@stores/medalsInGame';
-import { onMounted, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import { onMounted, ref } from 'vue';
 
 const isModal = ref(false);
 const idModal = ref(0);

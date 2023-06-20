@@ -12,7 +12,7 @@ import Icon from '@/assets/svgs/NotificationIcon.svg';
 @use '@styles/tools' as *;
 
 .Notif {
-	width: max-content;
+	width: 47px;
 	height: 47px;
 	padding: 13px 13px;
 	border-radius: 72px;
