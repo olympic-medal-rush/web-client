@@ -1,7 +1,18 @@
 import { app } from '@/App';
 import { state } from '@/State';
 import MojiData from '@jsons/reactmoji.json';
-import { InstancedBufferGeometry, InstancedInterleavedBuffer, InterleavedBufferAttribute, Mesh, NearestFilter, PlaneGeometry, Vector2 } from 'three';
+import {
+	CustomBlending,
+	DstAlphaFactor,
+	InstancedBufferGeometry,
+	InstancedInterleavedBuffer,
+	InterleavedBufferAttribute,
+	Mesh,
+	NearestFilter,
+	PlaneGeometry,
+	SrcAlphaFactor,
+	Vector2,
+} from 'three';
 import { randFloat } from 'three/src/math/MathUtils';
 import { EVENTS } from '@utils/constants';
 import { globalUniforms } from '@utils/globalUniforms';
@@ -95,8 +106,11 @@ export default class Reactmoji extends Mesh {
 				uGlobalSpead: { value: 1 },
 				uElevation: { value: 2 },
 			},
-			transparent: true,
+			// transparent: true,
 			depthWrite: false,
+			blending: CustomBlending,
+			blendDstAlpha: DstAlphaFactor,
+			blendSrcAlpha: SrcAlphaFactor,
 		});
 
 		return material;
