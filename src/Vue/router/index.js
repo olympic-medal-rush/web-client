@@ -32,13 +32,11 @@ const router = createRouter({
 					path: 'scoreboard',
 					name: 'scoreboard',
 					component: () => import('../views/game/ScoreboardView.vue'),
-					children: [
-						{
-							path: ':team',
-							name: 'team',
-							component: () => import('../views/game/scoreboard/TeamScoresView.vue'),
-						},
-					],
+				},
+				{
+					path: 'scoreboard/:team',
+					name: 'team',
+					component: () => import('../views/game/scoreboard/TeamScoresView.vue'),
 				},
 				{
 					path: 'medals/:iso/:id?',

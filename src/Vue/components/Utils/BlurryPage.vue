@@ -18,6 +18,7 @@ defineProps({
 @use '@styles/tools' as *;
 
 .page-container {
+	pointer-events: all;
 	position: absolute;
 	top: 0;
 	left: 0;
