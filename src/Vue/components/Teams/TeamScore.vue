@@ -24,6 +24,7 @@ defineProps({
 				<PlayersIcon class="player-icon" />
 				{{ team.playerCount }}
 			</div>
+			<p class="medal-count">{{ team.medalsCount }}</p>
 			<MedalsImg class="medals-img" />
 			<GreyArrow class="arrow" />
 		</div>
@@ -71,8 +72,13 @@ defineProps({
 			gap: 8px;
 		}
 
-		.medals-img {
+		.medal-count {
+			font-size: 24px;
 			margin-left: auto;
+			margin-right: 5px;
+		}
+
+		.medals-img {
 			margin-right: 10px;
 		}
 	}

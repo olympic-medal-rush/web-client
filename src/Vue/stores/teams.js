@@ -3,7 +3,7 @@ import { MEDAL_POINTS } from '@utils/config';
 
 export const useTeamsStore = defineStore('teams', {
 	state: () => {
-		return { teams: {}, scoreboard: [], playerCount: 0, currentIso: null };
+		return { teams: {}, scoreboard: [], totalPlayerCount: 0, currentIso: null };
 	},
 	actions: {
 		/**
@@ -11,13 +11,9 @@ export const useTeamsStore = defineStore('teams', {
 		 * @param {import("@Game/Team").Team} team
 		 */
 		add(team, playerCount = 1) {
-			this.teams[team.iso] = { iso: team.iso, medals: team.medals, playerCount, position: 0, score: 0 };
-			let score = team.medals[0] * MEDAL_POINTS[0] + team.medals[1] * MEDAL_POINTS[1] + team.medals[2] * MEDAL_POINTS[2];
-			if (!score) score = 0;
+			this.teams[team.iso] = { iso: team.iso, medals: team.medals, playerCount, score: team.score, medalsCount: team.medalsCount, position: 0 };
 
-			this.teams[team.iso].score = score;
-
-			this.scoreboard.push({ iso: team.iso, score });
+			this.scoreboard.push({ iso: team.iso, score: team.score });
 			this.filterScoreboard();
 		},
 
@@ -27,7 +23,7 @@ export const useTeamsStore = defineStore('teams', {
 		 * @param {number} count
 		 */
 		updatePlayerCount(iso, count) {
-			if (iso === 'ALL') this.playerCount = count;
+			if (iso === 'ALL') this.totalPlayerCount = count;
 			else this.teams[iso].playerCount = count;
 		},
 
@@ -37,7 +33,7 @@ export const useTeamsStore = defineStore('teams', {
 		 * @param {import('@Game/Medal').Medal} medal
 		 */
 		collectMedal(iso, medal) {
-			this.teams[iso].medals[medal.type]++;
+			this.teams[iso].medalsCount++;
 			this.teams[iso].score += MEDAL_POINTS[medal.type];
 			this.scoreboard[this.scoreboard.findIndex((score) => score.iso === iso)].score = this.teams[iso].score;
 			this.filterScoreboard();
@@ -63,6 +59,15 @@ export const useTeamsStore = defineStore('teams', {
 		 */
 		getPlayerCount(iso) {
 			return this.teams[iso].playerCount;
+		},
+
+		/**
+		 *
+		 * @param {string} iso
+		 */
+		getMedalsCount(iso) {
+			const medals = this.teams[iso].medals;
+			return medals[0] + medals[1] + medals[2];
 		},
 
 		/**
