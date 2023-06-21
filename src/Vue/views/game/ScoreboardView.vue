@@ -20,9 +20,7 @@ const teamsStore = useTeamsStore();
 				</div>
 				<hr />
 				<div class="other-teams">
-					<template v-for="team in teamsStore.scoreboard">
-						<TeamScore v-if="team.iso !== teamsStore.currentIso" :key="team.iso" :team="teamsStore.getTeam(team.iso)" />
-					</template>
+					<TeamScore v-for="team in teamsStore.scoreboard" :key="team.iso" :team="teamsStore.getTeam(team.iso)" />
 				</div>
 			</div>
 		</div>
@@ -39,8 +37,10 @@ const teamsStore = useTeamsStore();
 .scoreboard-container {
 	width: 100%;
 	height: 100%;
+	margin-top: calc(45px + 2 * 20px);
 	padding-top: calc(50 * var(--vh));
 	overflow-y: auto;
+	border-radius: 10px 10px 0 0;
 
 	.podium {
 		height: calc(50 * var(--vh));
@@ -54,17 +54,17 @@ const teamsStore = useTeamsStore();
 
 	.results {
 		padding: 20px;
-		border-radius: 10px 10px 0 0;
 		min-height: 100%;
 		width: 100%;
 		background-color: $bg-beige-ui;
 		display: flex;
 		flex-direction: column;
 		gap: 24px;
+		border-radius: 10px 10px 0 0;
 
 		.current-team {
 			p {
-				padding-bottom: 36px;
+				padding-bottom: 24px;
 			}
 		}
 
