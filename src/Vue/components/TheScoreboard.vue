@@ -27,7 +27,7 @@ const togglePodium = () => {
 	<div ref="scoreboard" class="Scoreboard">
 		<router-link :to="'/game/scoreboard/' + teamsStore.currentIso" class="MyTeam">
 			<div class="MyTeam-wrapper">
-				<RoundFlag size="100%" :iso="teamsStore.currentIso" />
+				<RoundFlag :iso="teamsStore.currentIso" />
 				<span class="MyTeam-ranking">{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1 }}</span>
 			</div>
 		</router-link>
@@ -36,7 +36,7 @@ const togglePodium = () => {
 			<div v-for="(team, i) in teamsStore.scoreboard" :key="team.iso" class="Podium-item" :class="{ none: i > 2 }">
 				<div class="Podium-item-wrapper">
 					<span v-if="team.score" :class="{ gold: i == 0, silver: i == 1, bronze: i == 2, none: i > 2 }">{{ i + 1 }}</span>
-					<RoundFlag size="100%" :iso="team.iso" />
+					<RoundFlag :iso="team.iso" />
 				</div>
 			</div>
 		</div>

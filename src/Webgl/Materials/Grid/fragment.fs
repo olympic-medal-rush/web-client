@@ -51,6 +51,7 @@ void main() {
   float depthShadowCoord = shadowCoord.z;
 
   vec2 depthMapUv = shadowCoord.xy;
+ 
   float depthShadowMap = readDepth(tDynamicShadows, depthMapUv) * readDepth(tStaticShadows, depthMapUv);
 
   float cosTheta = dot(normalize(uLightPosition), normal);
