@@ -94,15 +94,6 @@ div {
 		}
 	}
 
-	@keyframes rotate {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
 	&:active {
 		transform: scale(0.95);
 	}
