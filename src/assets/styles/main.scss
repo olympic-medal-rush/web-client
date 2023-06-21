@@ -35,3 +35,15 @@ body {
 	height: 100%;
 	width: 100%;
 }
+
+
+// Annims
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

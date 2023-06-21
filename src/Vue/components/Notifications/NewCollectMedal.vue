@@ -2,11 +2,15 @@
 import { state } from '@/State';
 import MedalImg from '@components/Assets/MedalImg.vue';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
+import { useMedalsStore } from '@stores/medals';
 import { useTeamsStore } from '@stores/teams';
 import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
 
 const teamsStore = useTeamsStore();
+const medalsStore = useMedalsStore();
+
+console.log(medalsStore);
 
 const myCountry = ref();
 const otherCountry = ref();
@@ -17,17 +21,24 @@ const collectType = ref(0);
 
 let timeout;
 
+const idMedal = ref(0);
+
 state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
+	idMedal.value = medal.id;
+
+	console.log(medal);
 	if (timeout) clearTimeout(timeout);
 
 	collectTeam.value = team.iso;
 	if (team.iso === teamsStore.currentIso) {
-		myCountry.value.classList.add('active');
 		video.value.classList.add('active');
+		video.value.play();
 		timeout = setTimeout(() => {
-			// myCountry.value.classList.remove('active');
-			// video.value.classList.remove('active');
+			video.value.pause();
 		}, 2000);
+		setTimeout(() => {
+			myCountry.value.classList.add('active');
+		}, 300);
 	} else {
 		otherCountry.value.classList.add('active');
 		timeout = setTimeout(() => {
@@ -45,9 +56,9 @@ const removeMyTeamCollect = () => {
 
 <template>
 	<div class="NewCollectMedal">
-		<video ref="video" autoplay loop muted playsinline src="/assets/videos/confetti.webm" @click="() => removeMyTeamCollect()">
-			<!-- <source src="/assets/videos/confetti.webm" type="video/webm" />
-			<source src="/assets/videos/confetti.mov" type='video/mov; codecs="hvc1"' /> -->
+		<video ref="video" muted playsinline @click="() => removeMyTeamCollect()">
+			<source src="/assets/videos/confetti.webm" />
+			<source src="/assets/videos/confetti.mov" />
 		</video>
 		<div ref="otherCountry" class="NewCollectMedal_OtherCountry">
 			<MedalImg :type="collectType" />
@@ -55,7 +66,7 @@ const removeMyTeamCollect = () => {
 				Medaille collectée par l'equipe <b> {{ collectTeam }} </b>
 			</p>
 		</div>
-		<div ref="myCountry" class="NewCollectMedal_MyCountry">
+		<div ref="myCountry" class="NewCollectMedal_MyCountry" @click="() => removeMyTeamCollect()">
 			<h2>Médaille Obtenue !</h2>
 			<p>
 				Félicitations vous avez obtenu une
@@ -71,8 +82,13 @@ const removeMyTeamCollect = () => {
 				>
 				!
 			</p>
-			<MedalImg :type="collectType" />
-			<ButtonOrLink class="cta"> Afficher le détail </ButtonOrLink>
+			<div class="big-medal">
+				<img v-if="collectType === 0" src="/assets/svgs/text-bronze.svg" alt="" srcset="" />
+				<img v-if="collectType === 1" src="/assets/svgs/text-argent.svg" alt="" srcset="" />
+				<img v-if="collectType === 2" src="/assets/svgs/text-or.svg" alt="" srcset="" />
+				<MedalImg :type="collectType" />
+			</div>
+			<ButtonOrLink class="cta" :to="'/game/medals/' + teamsStore.currentIso + '/' + idMedal"> Afficher le détail </ButtonOrLink>
 		</div>
 	</div>
 </template>
@@ -126,9 +142,9 @@ const removeMyTeamCollect = () => {
 		pointer-events: all;
 		cursor: pointer;
 		position: absolute;
-		top: 100%;
+		top: 30%;
 		opacity: 0;
-		scale: 0.5;
+		scale: 0;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -136,7 +152,7 @@ const removeMyTeamCollect = () => {
 		padding: 20px 35px;
 		border-radius: 30px;
 		background-color: $bg-beige-ui;
-		transition: 0.3s;
+		transition: scale 0.3s $in-out-quad, opacity 0.5s linear;
 		max-width: 92%;
 
 		h2 {
@@ -165,14 +181,24 @@ const removeMyTeamCollect = () => {
 				}
 			}
 		}
-		.MedalImg {
-			margin-top: 20px;
-			width: 100px;
+
+		.big-medal {
+			position: relative;
+			padding: 10px;
+
+			img {
+				position: absolute;
+				top: 12px;
+				left: -8px;
+				animation: 15s linear 0s infinite rotate;
+			}
+			.MedalImg {
+				margin-top: 20px;
+				width: 100px;
+			}
 		}
 
 		&.active {
-			transition: 0.3s;
-			top: 30%;
 			scale: 1;
 			opacity: 1;
 		}

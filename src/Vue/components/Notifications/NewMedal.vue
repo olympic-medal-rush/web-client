@@ -1,7 +1,8 @@
 <script setup>
 import { state } from '@/State';
-import { ref } from 'vue';
+import MedalPodImg from '@components/Assets/MedalsPodImg.vue';
 import { EVENTS } from '@utils/constants';
+import { ref } from 'vue';
 
 const newMedal = ref();
 
@@ -16,8 +17,10 @@ state.on(EVENTS.SPAWN_MEDALS, () => {
 <template>
 	<div ref="newMedal" class="NewMedal">
 		<div class="NewMedal_Container">
-			<img src="/assets/images/Medals.png" alt="" srcset="" />
-			<p class="NewMedal_Container_Text">Nouvelles Médailles APPARUES !</p>
+			<p class="NewMedal_Container_Text">Nouvelles médailles apparues !</p>
+			<div class="NewMedal_Container_Img">
+				<MedalPodImg />
+			</div>
 		</div>
 	</div>
 </template>
@@ -27,33 +30,43 @@ state.on(EVENTS.SPAWN_MEDALS, () => {
 .NewMedal {
 	position: absolute;
 	width: 100%;
-	height: 70px;
-	font-family: 'Paris 24';
-	top: -70px;
+	top: -200px;
 	left: 0px;
+	scale: 0.3;
+	opacity: 0;
 	display: flex;
 	justify-content: center;
-	align-items: center;
 	transition: 0.3s;
 
 	&.active {
-		transition: 0.3s;
-		top: 0px;
+		opacity: 1;
+		scale: 1;
+		transition: top 0.3s $in-out-quad, scale 0.3s $in-out-quad, opacity 0.3s linear;
+		top: 20px;
 	}
 
 	&_Container {
 		height: auto;
-		padding: 10px 20px;
-		border-radius: 25px;
-		background-color: #e5e5d8;
+		padding: 23px 25px;
+		border-radius: 15px;
+		background-color: $bg-beige-ui;
+		color: $text-olive-ui;
+		text-align: center;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: center;
-		overflow: hidden;
+		max-width: 92%;
+		position: relative;
+		padding: 23px 25px 53px 25px;
 
 		&_Text {
-			margin-left: 15px;
-			font-weight: bold;
+			font-family: 'ApfelGrotezk-Fett';
+			font-size: 32px;
+		}
+
+		&_Img {
+			position: absolute;
+			bottom: -24px;
 		}
 	}
 }
