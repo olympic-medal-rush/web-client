@@ -26,7 +26,7 @@ const style = {
 .FlagImg {
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	// justify-content: center;
 	align-items: center;
 
 	img {
@@ -37,6 +37,9 @@ const style = {
 	}
 
 	span {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 		margin: 0 0 0 7px;
 		@include apfel-grotezk();
 	}

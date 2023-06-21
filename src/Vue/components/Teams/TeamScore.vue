@@ -1,6 +1,7 @@
 <script setup>
 import GreyArrow from '@/assets/svgs/GreyArrow.svg';
 import PlayersIcon from '@/assets/svgs/PlayersIcon.svg';
+import ScoreboardPositionEqual from '@/assets/svgs/ScoreboardPositionEqual.svg';
 import MedalsImg from '@components/Assets/MedalsImg.vue';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 
@@ -16,7 +17,7 @@ defineProps({
 	<RouterLink :to="`/game/scoreboard/${team.iso}`" class="team-score">
 		<div class="position">
 			<p>{{ team.position }}</p>
-			<div class="progression-indicator"></div>
+			<ScoreboardPositionEqual class="svg-indicator" />
 		</div>
 		<div class="rectangle">
 			<RoundFlag class="round-flag" size="16px" :iso="team.iso" :has-name="true" />
@@ -40,6 +41,12 @@ defineProps({
 	align-items: center;
 
 	.position {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		// gap: 6px;
+
 		p {
 			font-weight: 700;
 			font-size: 34px;
@@ -59,8 +66,7 @@ defineProps({
 			background-color: $bg-beige-ui;
 			padding: 0 10px;
 			position: absolute;
-			top: -50%;
-			transform: translate3d(0, 50%, 0);
+			top: -13px;
 			max-width: 50%;
 		}
 
@@ -87,6 +93,12 @@ defineProps({
 
 <style lang="scss">
 @use '@styles/tools' as *;
+
+.position {
+	.svg-indicator {
+		width: 10px;
+	}
+}
 
 .rectangle {
 	.round-flag {
