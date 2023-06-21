@@ -8,7 +8,7 @@ const teamsStore = useTeamsStore();
 </script>
 
 <template>
-	<BlurryPage back-to="/game">
+	<BlurryPage>
 		<template #title>
 			<h2 class="title">Classement</h2>
 		</template>
@@ -59,7 +59,6 @@ const teamsStore = useTeamsStore();
 
 	.scoreboard-wrapper {
 		height: auto;
-
 		border-radius: 10px 10px 0 0;
 	}
 

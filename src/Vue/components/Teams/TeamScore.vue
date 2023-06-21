@@ -23,7 +23,7 @@ defineProps({
 			<RoundFlag class="round-flag" size="16px" :iso="team.iso" :has-name="true" />
 			<div class="player-count">
 				<PlayersIcon class="player-icon" />
-				{{ team.playerCount }} joueurs
+				{{ team.playerCount }} joueur{{ team.playerCount > 1 ? 's' : '' }}
 			</div>
 			<p class="medal-count">{{ team.medalsCount }}</p>
 			<MedalsImg class="medals-img" />

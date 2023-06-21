@@ -1,5 +1,6 @@
 <script setup>
 import MedalImg from '@components/Assets/MedalImg.vue';
+import RoundFlag from '@components/Assets/RoundFlag.vue';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -12,6 +13,10 @@ const props = defineProps({
 		required: true,
 		type: Boolean,
 		default: true,
+	},
+	nationality: {
+		required: false,
+		type: String,
 	},
 });
 
@@ -38,6 +43,7 @@ gradientId.value = props.type === 0 ? 'bronze-gradient' : props.type === 1 ? 'si
 				</radialGradient>
 			</defs>
 		</svg>
+		<RoundFlag v-if="nationality" class="nationality" :iso="nationality" size="100%" />
 
 		<MedalImg class="img" :type="props.type" />
 	</div>
@@ -47,6 +53,7 @@ gradientId.value = props.type === 0 ? 'bronze-gradient' : props.type === 1 ? 'si
 @use '@styles/tools' as *;
 
 div {
+	isolation: isolate;
 	width: 70px;
 	height: 70px;
 	position: relative;
@@ -70,7 +77,17 @@ div {
 
 		&.hidden {
 			opacity: 0;
+			animation: none;
 		}
+	}
+
+	.nationality {
+		left: 5px;
+		bottom: 5px;
+		position: absolute;
+		width: 30px;
+		height: 30px;
+		z-index: 1;
 	}
 
 	.img {

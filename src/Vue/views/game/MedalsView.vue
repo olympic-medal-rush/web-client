@@ -11,15 +11,15 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 
-// @ts-ignore
 const iso = route.params.iso;
 const medalsStore = useMedalsStore();
+// @ts-ignore
 const medals = await medalsStore.getMedals(iso);
 
 const [cardSlideshow, cardSlideshowApi] = emblaCarouselVue();
 const [medalSlideshow, medalSlideshowApi] = emblaCarouselVue({ dragFree: true, align: 'start', containScroll: 'trimSnaps' });
 
-watchEffect(async () => {
+watchEffect(() => {
 	if (cardSlideshowApi.value) cardSlideshowApi.value.on('select', onCardSlideshowSelect);
 });
 
@@ -28,7 +28,7 @@ const currentIndex = ref(0);
 const cardFront = ref(true);
 
 onMounted(() => {
-	const medalCardIndex = medalsCards.value.findIndex((medalCard) => medalCard.id === parseInt(route.params.id));
+	const medalCardIndex = medalsCards.value.findIndex((medalCard) => medalCard.id === route.params.id);
 	currentIndex.value = medalCardIndex >= 0 ? medalCardIndex : 0;
 
 	cardSlideshowApi.value.scrollTo(currentIndex.value);
@@ -52,7 +52,7 @@ const toggleCards = () => {
 </script>
 
 <template>
-	<BlurryPage back-to="/game">
+	<BlurryPage>
 		<template #title>
 			<h2 class="title">{{ `Collection ${useCountry(route.params.iso)}` }}</h2>
 		</template>

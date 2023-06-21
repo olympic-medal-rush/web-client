@@ -1,14 +1,10 @@
 <script setup>
 import BackButton from '@components/Inputs/BackButton.vue';
-
-defineProps({
-	backTo: { required: true, type: String },
-});
 </script>
 
 <template>
 	<div class="page-container">
-		<BackButton :to="backTo" class="back-btn" />
+		<BackButton class="back-btn" />
 		<slot name="title"></slot>
 		<slot></slot>
 	</div>

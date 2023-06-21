@@ -19,7 +19,8 @@ defineProps({
 const router = useRouter();
 
 const onClick = () => {
-	router.back();
+	if (!router.hasRoute(window.history.state.back)) router.push('/game');
+	else router.back();
 };
 </script>
 
