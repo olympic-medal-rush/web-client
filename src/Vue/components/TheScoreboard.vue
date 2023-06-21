@@ -14,9 +14,9 @@ const isPodiumActive = ref(false);
 
 const togglePodium = () => {
 	if (!isPodiumActive.value) {
-		scoreboard.value.style.height = 68 + podium.value.clientHeight + 'px';
+		scoreboard.value.style.height = 65 + podium.value.clientHeight + 'px';
 	} else {
-		scoreboard.value.style.height = 73 + 'px';
+		scoreboard.value.style.height = 75 + 'px';
 	}
 	isPodiumActive.value = !isPodiumActive.value;
 	scoreboard.value.classList.toggle('active');
@@ -26,17 +26,23 @@ const togglePodium = () => {
 <template>
 	<div ref="scoreboard" class="Scoreboard">
 		<router-link :to="'/game/scoreboard/' + teamsStore.currentIso" class="MyTeam">
-			<RoundFlag :iso="teamsStore.currentIso" />
-			<span class="MyTeam-ranking">{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1 }}</span>
+			<div class="MyTeam-wrapper">
+				<RoundFlag size="100%" :iso="teamsStore.currentIso" />
+				<span class="MyTeam-ranking">{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1 }}</span>
+			</div>
 		</router-link>
 		<div ref="podium" class="Podium" @click="() => router.push('/game/scoreboard')">
 			<span class="separator"></span>
 			<div v-for="(team, i) in teamsStore.scoreboard" :key="team.iso" class="Podium-item" :class="{ none: i > 2 }">
-				<span v-if="team.score" :class="{ gold: i == 0, silver: i == 1, bronze: i == 2, none: i > 2 }">{{ i + 1 }}</span>
-				<RoundFlag :iso="team.iso" />
+				<div class="Podium-item-wrapper">
+					<span v-if="team.score" :class="{ gold: i == 0, silver: i == 1, bronze: i == 2, none: i > 2 }">{{ i + 1 }}</span>
+					<RoundFlag size="100%" :iso="team.iso" />
+				</div>
 			</div>
 		</div>
-		<Arrow class="Arrow" @click="togglePodium" />
+		<button class="Arrow" @click="togglePodium">
+			<Arrow />
+		</button>
 	</div>
 </template>
 
@@ -47,7 +53,7 @@ const togglePodium = () => {
 	right: 13px;
 	top: 83px;
 	background-color: $bg-beige-ui;
-	padding: 12px 11px;
+	// padding: 12px 11px;
 	border-radius: 9999px;
 	border: 2px solid rgba(0, 0, 0, 0.15);
 	display: flex;
@@ -56,29 +62,35 @@ const togglePodium = () => {
 	align-items: center;
 	pointer-events: all;
 	overflow: hidden;
-	height: 73px;
+	height: 75px;
+	width: 47px;
 	transition: height 0.3s;
 
 	.MyTeam {
-		position: relative;
+		padding: 12px 12px 6px 12px;
 
-		.MyTeam-ranking {
-			position: absolute;
-			bottom: -2px;
-			left: -2px;
-			color: $white;
-			font-family: 'ApfelGrotezk-Regular';
-			background-color: $black;
-			font-size: 12px;
-			line-height: 15px;
-			width: 15px;
-			height: 15px;
-			text-align: center;
-			border-radius: 9999px;
+		&-wrapper {
+			position: relative;
+
+			.MyTeam-ranking {
+				position: absolute;
+				bottom: -2px;
+				left: -2px;
+				color: $white;
+				font-family: 'ApfelGrotezk-Regular';
+				background-color: $black;
+				font-size: 12px;
+				line-height: 15px;
+				width: 15px;
+				height: 15px;
+				text-align: center;
+				border-radius: 9999px;
+			}
 		}
 	}
 
 	.Podium {
+		padding: 12px 0;
 		opacity: 0;
 		position: absolute;
 		top: 36px;
@@ -94,11 +106,16 @@ const togglePodium = () => {
 			height: 2px;
 			background-color: rgba(0, 0, 0, 0.2);
 			border-radius: 9999px;
-			margin: 11px 0 11px 0;
+			// margin: 11px 0 11px 0;
+		}
+
+		.Podium-item-wrapper {
+			position: relative;
+			padding-top: 6px;
 		}
 		.Podium-item {
-			position: relative;
-			margin-bottom: 9px;
+			padding: 6px 12px;
+			// margin-bottom: 9px;
 
 			span {
 				position: absolute;
@@ -136,8 +153,11 @@ const togglePodium = () => {
 	}
 
 	.Arrow {
-		margin-top: 12px;
+		// margin-top: 12px;
+		bottom: 0;
+		position: absolute;
 		transition: transform 0.7s;
+		padding: 12px;
 	}
 
 	&.active {
@@ -148,7 +168,7 @@ const togglePodium = () => {
 		}
 
 		.Arrow {
-			margin-top: 5px;
+			// margin-top: 5px;
 			transform: rotateX(180deg);
 		}
 	}

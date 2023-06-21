@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { MEDAL_POINTS } from '@utils/config';
+import { useMedalsStore } from './medals';
 
 export const useTeamsStore = defineStore('teams', {
 	state: () => {
@@ -37,6 +38,8 @@ export const useTeamsStore = defineStore('teams', {
 			this.teams[iso].score += MEDAL_POINTS[medal.type];
 			this.scoreboard[this.scoreboard.findIndex((score) => score.iso === iso)].score = this.teams[iso].score;
 			this.filterScoreboard();
+
+			useMedalsStore().shouldRefresh.add(iso);
 		},
 
 		filterScoreboard() {
@@ -86,5 +89,6 @@ export const useTeamsStore = defineStore('teams', {
 	getters: {
 		currentTeamCount: (state) => state.teams[state.currentIso]?.playerCount || 0,
 		currentTeam: (state) => state.teams[state.currentIso],
+		podium: (state) => state.scoreboard.slice(0, 2),
 	},
 });

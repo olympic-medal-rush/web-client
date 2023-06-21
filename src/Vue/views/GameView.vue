@@ -16,8 +16,8 @@ import TheReactMoji from '@components/TheReactMoji.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
 import { useMedalsInGameStore } from '@stores/medalsInGame';
-import { EVENTS } from '@utils/constants';
 import { onMounted, ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 
 const isModal = ref(false);
 const idModal = ref(0);
@@ -63,7 +63,9 @@ onMounted(() => {
 		<NewMedal />
 		<NewCollectMedal />
 		<NewTeam />
-		<RouterView />
+		<Suspense>
+			<RouterView />
+		</Suspense>
 	</div>
 </template>
 

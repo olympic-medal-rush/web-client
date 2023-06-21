@@ -1,17 +1,25 @@
-<script setup>
+<script async setup>
 import { useCountry } from '@Vue/composables/useCountry';
 import MedalCard from '@components/Medals/MedalCard.vue';
 import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
 import BlurryPage from '@components/Utils/BlurryPage.vue';
-import mockData from '@jsons/medals_data.json';
+import { useMedalsStore } from '@stores/medals';
 import emblaCarouselVue from 'embla-carousel-vue';
 import { onMounted, ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+const route = useRoute();
+const router = useRouter();
+
+// @ts-ignore
+const iso = route.params.iso;
+const medalsStore = useMedalsStore();
+const medals = await medalsStore.getMedals(iso);
+
 const [cardSlideshow, cardSlideshowApi] = emblaCarouselVue();
 const [medalSlideshow, medalSlideshowApi] = emblaCarouselVue({ dragFree: true, align: 'start', containScroll: 'trimSnaps' });
 
-watchEffect(() => {
+watchEffect(async () => {
 	if (cardSlideshowApi.value) cardSlideshowApi.value.on('select', onCardSlideshowSelect);
 });
 
@@ -19,16 +27,12 @@ const medalsCards = ref([]);
 const currentIndex = ref(0);
 const cardFront = ref(true);
 
-const route = useRoute();
-const router = useRouter();
-// const medalsStore = useMedalsStore();
-
 onMounted(() => {
 	const medalCardIndex = medalsCards.value.findIndex((medalCard) => medalCard.id === parseInt(route.params.id));
-	if (medalCardIndex) {
-		cardSlideshowApi.value.scrollTo(medalCardIndex);
-		medalSlideshowApi.value.scrollTo(medalCardIndex);
-	}
+	currentIndex.value = medalCardIndex >= 0 ? medalCardIndex : 0;
+
+	cardSlideshowApi.value.scrollTo(currentIndex.value);
+	medalSlideshowApi.value.scrollTo(currentIndex.value);
 });
 
 const onMedalSlideshowPointerDown = (medalId) => {
@@ -60,7 +64,7 @@ const toggleCards = () => {
 			<div ref="cardSlideshow" class="cards-slideshow embla">
 				<div class="cards-slideshow-wrapper embla__container">
 					<MedalCard
-						v-for="(medal, i) in mockData"
+						v-for="(medal, i) in medals"
 						:key="medal.id"
 						ref="medalsCards"
 						:medal="medal"
@@ -71,7 +75,7 @@ const toggleCards = () => {
 			</div>
 			<div ref="medalSlideshow" class="bottom-nav-container embla">
 				<div class="bottom-nav-wrapper embla__container">
-					<button v-for="(medal, i) in mockData" :key="medal.id" class="embla__slide" @click="onMedalSlideshowPointerDown(i)">
+					<button v-for="(medal, i) in medals" :key="medal.id" class="embla__slide" @click="onMedalSlideshowPointerDown(i)">
 						<MedalDotCircle :has-circle="i === currentIndex" :type="medal.type" />
 					</button>
 				</div>

@@ -14,7 +14,11 @@ state.on(EVENTS.APP_LOADED, () => (loaded.value = true));
 	<div class="container">
 		<main>
 			<TheLoader v-if="!loaded"></TheLoader>
-			<!-- <video src="/assets/videos/confetti_v2.webm" muted playsinline autoplay loop type="video/webm"></video> -->
+			<!-- <video autoplay playsinline loop muted>
+				<source src="/assets/videos/confetti.mov" />
+				<source src="/assets/videos/confetti.webm" />
+			</video> -->
+
 			<RouterView v-if="loaded" />
 		</main>
 		<footer></footer>
