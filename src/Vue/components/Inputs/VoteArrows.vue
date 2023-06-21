@@ -9,7 +9,7 @@ import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
 import { useVotesStore } from '@stores/votes';
 import { EVENTS, STORE_KEYS } from '@utils/constants';
 import { gsap } from 'gsap';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 
 const focus = ref(true);
 const voteStore = useVotesStore();
@@ -100,6 +100,18 @@ const removeActive = () => {
 	});
 };
 
+const number = ref(0);
+const tweened = reactive({
+	number: 0,
+});
+watch(number, (n) => {
+	gsap.to(tweened, { duration: 0.5, number: Number(n) || 0 });
+});
+
+watch(voteStore, () => {
+	number.value = voteStore.getSommeVote();
+});
+
 store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 </script>
 
@@ -110,18 +122,26 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 			<BGArrows class="bgSVG mainBtn" />
 
 			<div class="arrows mainBtn">
-				<div data-dir="0" class="arrow up" @click="handleClick"><Arrow /></div>
+				<div data-dir="0" class="arrow up" @click="handleClick">
+					<Arrow />
+				</div>
 				<div class="VoteArrow_horz">
-					<div data-dir="3" class="arrow left" @click="handleClick"><Arrow /></div>
+					<div data-dir="3" class="arrow left" @click="handleClick">
+						<Arrow />
+					</div>
 					<span class="chrono">
 						<p>{{ voteStore.getLeftTime() }}</p>
 						<span>s</span>
 					</span>
-					<div data-dir="1" class="arrow right" @click="handleClick"><Arrow /></div>
+					<div data-dir="1" class="arrow right" @click="handleClick">
+						<Arrow />
+					</div>
 				</div>
-				<div data-dir="2" class="arrow down" @click="handleClick"><Arrow /></div>
+				<div data-dir="2" class="arrow down" @click="handleClick">
+					<Arrow />
+				</div>
 			</div>
-			<div class="nbVotes">{{ voteStore.getSommeVote() }} vote{{ voteStore.getSommeVote() > 1 ? 's' : '' }}</div>
+			<div class="nbVotes">{{ tweened.number.toFixed(0) }} vote{{ voteStore.getSommeVote() > 1 ? 's' : '' }}</div>
 		</div>
 		<div v-else class="FocusBtn" @click="() => (app.webgl.camera.focusPlayer = true)">Aller à la vue du pays <Icon /></div>
 	</div>
@@ -218,13 +238,17 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 }
 
 .arrow {
-	background: linear-gradient(0deg, #f3e288 0%, #f6f5d7 100%);
 	padding: 12px;
 	border-radius: 999px;
 	border: 2px solid rgba(0, 0, 0, 0.15);
 	cursor: pointer;
 	pointer-events: all;
 	transition: background-color 0.3s;
+	position: relative;
+	background: linear-gradient(0deg, #f6f4d5, #f2f0e3, #f3e288, #f6f5d7, #f3e288, #e3d06f);
+	background-size: 600% 600%;
+	background-position: 0% 30%;
+	transition: background-position 0.3s ease;
 
 	&.left {
 		transform: rotateZ(-90deg);
@@ -239,17 +263,17 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 }
 
 .arrow:active {
-	background: linear-gradient(180deg, #e3d06f 0%, #f3e288 100%);
+	background-position: 0% 2%;
 	border: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .arrow.active {
-	background: linear-gradient(180deg, #e3d06f 0%, #f3e288 100%);
+	background-position: 0% 2%;
 	border: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .arrow.inactive {
-	background: linear-gradient(180deg, #f2f0e3 0%, #f6f4d5 100%);
+	background-position: 0% 92%;
 	border: 2px solid rgba(0, 0, 0, 0.05);
 }
 
