@@ -15,10 +15,11 @@ const myCountry = ref();
 const otherCountry = ref();
 const video = ref();
 
-const collectTeam = ref('autre');
+const collectTeam = ref(null);
 const collectType = ref(0);
 
 const myActive = ref(false);
+const videoActive = ref(false);
 const otherActive = ref(false);
 const otherOpen = ref(false);
 
@@ -32,9 +33,9 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 
 	collectTeam.value = team.iso;
 	if (team.iso === teamsStore.currentIso) {
-		video.value.classList.add('active');
 		video.value.play();
 		timeout = setTimeout(() => {
+	    videoActive.value = true;
 			video.value.pause();
 		}, 2000);
 		setTimeout(() => {
@@ -51,7 +52,7 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 
 const removeMyTeamCollect = () => {
 	myActive.value = false;
-	video.value.classList.remove('active');
+	videoActive.value = false;
 };
 
 const toggleOpenOtherPays = () => {
@@ -69,7 +70,7 @@ const toggleOpenOtherPays = () => {
 
 <template>
 	<div class="NewCollectMedal">
-		<video ref="video" muted playsinline @click="() => removeMyTeamCollect()">
+		<video ref="video" :class="{active: videoActive}" muted playsinline @click="() => removeMyTeamCollect()">
 			<source src="/assets/videos/confetti.webm" />
 			<source src="/assets/videos/confetti.mov" />
 		</video>
@@ -82,7 +83,7 @@ const toggleOpenOtherPays = () => {
 			</div>
 			<transition>
 				<p v-if="!otherOpen" class="NewCollectMedal_OtherCountry_Close">
-					<RoundFlag :iso="collectTeam" has-name /> -
+					<RoundFlag v-if="collectTeam" :iso="collectTeam" has-name /> -
 					<b :class="{ bronze: collectType === 0, argent: collectType === 1, or: collectType === 2 }">
 						Médaille {{ collectType === 0 ? 'de Bronze' : collectType === 1 ? "d'Argent" : "d'Or" }}
 					</b>
@@ -94,7 +95,7 @@ const toggleOpenOtherPays = () => {
 				    </b>.
           </span>
           <div class="infos-container">
-            <RoundFlag :iso="collectTeam" has-name size="31px"/><span>{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === collectTeam)) + 1 }} {{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === collectTeam)) + 1 > 1 ? 'eme' : 'er' }}</span>
+            <RoundFlag v-if="collectTeam" :iso="collectTeam" has-name size="31px"/><span>{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === collectTeam)) + 1 }} {{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === collectTeam)) + 1 > 1 ? 'eme' : 'er' }}</span>
             <div class="medals">
               <div><span class="or">{{ teamsStore.getTeam(collectTeam).medals[MEDAL_TYPES.gold]}}</span><MedalImg class="medal-img" :type="2" /></div>
               <div><span class="argent">{{ teamsStore.getTeam(collectTeam).medals[MEDAL_TYPES.silver]}}</span><MedalImg class="medal-img" :type="1" /></div>

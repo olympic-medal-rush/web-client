@@ -16,6 +16,8 @@ const focus = ref(true);
 const voteStore = useVotesStore();
 let directiveOpacity = null;
 let directiveGrad = null;
+let buttons = null;
+const posTeam = ref(null);
 const current = {
 	opacity: 1,
 	x: '0',
@@ -51,7 +53,7 @@ const handleClick = (e) => {
 		direction: e.target.dataset.dir,
 	});
 	removeActive();
-	document.querySelectorAll('.arrow').forEach((el) => {
+	buttons.forEach((el) => {
 		if (e.target !== el) el.classList.add('inactive');
 	});
 	e.target.classList.add('active');
@@ -59,8 +61,9 @@ const handleClick = (e) => {
 
 state.on(EVENTS.VOTE_RESULTS, (team) => {
 	if (team.iso === app.game.currentTeam.iso) {
+		posTeam.value = team.position;
 		removeActive();
-		detectObstacles(team);
+		detectObstacles();
 	}
 });
 
@@ -68,6 +71,10 @@ onMounted(() => {
 	directiveOpacity = document.querySelectorAll('svg.directive linearGradient stop')[1];
 	directiveOpacity.setAttribute('offset', '0.99');
 	directiveGrad = document.querySelector('svg.directive linearGradient');
+	buttons = document.querySelectorAll('button.arrow');
+	posTeam.value = app.game.currentTeam.position;
+	removeActive();
+	detectObstacles();
 });
 
 state.on(EVENTS.VOTE_COUNT, () => {
@@ -96,25 +103,27 @@ state.on(EVENTS.VOTE_COUNT, () => {
 });
 
 const removeActive = () => {
-	document.querySelectorAll('.arrow').forEach((el) => {
+	buttons.forEach((el) => {
 		el.classList.remove('active');
 		el.classList.remove('inactive');
 		el.classList.remove('disable');
+		el.disabled = false;
 	});
 };
 
-const detectObstacles = (team) => {
-	// console.log(terrainData.data[team.position.y - 1][team.position.x]);
-	// console.log(terrainData.data[team.position.y][team.position.x - 1], terrainData.data[team.position.y][team.position.x + 1]);
-	// console.log(terrainData.data[team.position.y + 1][team.position.x]);
-	const up = terrainData.data[team.position.y - 1][team.position.x] === 1 ? 1 : 0;
-	const left = terrainData.data[team.position.y][team.position.x - 1] === 1 ? 1 : 0;
-	const right = terrainData.data[team.position.y][team.position.x + 1] === 1 ? 1 : 0;
-	const down = terrainData.data[team.position.y + 1][team.position.x] === 1 ? 1 : 0;
+const detectObstacles = () => {
+	const up = terrainData.data[posTeam.value.y - 1][posTeam.value.x] === 1 ? 1 : 0;
+	const left = terrainData.data[posTeam.value.y][posTeam.value.x - 1] === 1 ? 1 : 0;
+	const right = terrainData.data[posTeam.value.y][posTeam.value.x + 1] === 1 ? 1 : 0;
+	const down = terrainData.data[posTeam.value.y + 1][posTeam.value.x] === 1 ? 1 : 0;
 	const isObstacle = [up, left, right, down];
-	document.querySelectorAll('.arrow').forEach((el, i) => {
-		if (isObstacle[i]) el.classList.add('disable');
+	buttons.forEach((el, i) => {
+		if (isObstacle[i]) {
+			el.classList.add('disable');
+			el.disabled = true;
+		}
 	});
+	console.log('detectObstacles', isObstacle);
 };
 
 const number = ref(0);
@@ -139,28 +148,40 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 			<BGArrows class="bgSVG mainBtn" />
 
 			<div class="arrows mainBtn">
-				<div data-dir="0" class="arrow up" @click="handleClick">
+				<button data-dir="0" class="arrow up" @click="handleClick">
 					<Arrow />
-				</div>
+				</button>
 				<div class="VoteArrow_horz">
-					<div data-dir="3" class="arrow left" @click="handleClick">
+					<button data-dir="3" class="arrow left" @click="handleClick">
 						<Arrow />
-					</div>
+					</button>
 					<span class="chrono">
 						<p>{{ voteStore.getLeftTime() }}</p>
 						<span>s</span>
 					</span>
-					<div data-dir="1" class="arrow right" @click="handleClick">
+					<button data-dir="1" class="arrow right" @click="handleClick">
 						<Arrow />
-					</div>
+					</button>
 				</div>
-				<div data-dir="2" class="arrow down" @click="handleClick">
+				<button data-dir="2" class="arrow down" @click="handleClick">
 					<Arrow />
-				</div>
+				</button>
 			</div>
 			<div class="nbVotes">{{ tweened.number.toFixed(0) }} vote{{ voteStore.getSommeVote() > 1 ? 's' : '' }}</div>
 		</div>
-		<div v-else class="FocusBtn" @click="() => (app.webgl.camera.focusPlayer = true)">Aller à la vue du pays <Icon /></div>
+		<div
+			v-else
+			class="FocusBtn"
+			@click="
+				() => {
+					app.webgl.camera.focusPlayer = true;
+					removeActive();
+					detectObstacles();
+				}
+			"
+		>
+			Aller à la vue du pays <Icon />
+		</div>
 	</div>
 </template>
 
@@ -279,11 +300,6 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 	}
 }
 
-.arrow:active {
-	background-position: 0% 2%;
-	border: 2px solid rgba(0, 0, 0, 0.1);
-}
-
 .arrow.active {
 	background-position: 0% 2%;
 	border: 2px solid rgba(0, 0, 0, 0.1);
@@ -295,7 +311,6 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 }
 
 .arrow.disable {
-	pointer-events: none;
 	background-position: 0% 92%;
 	border: 2px solid rgba(0, 0, 0, 0.05);
 }
