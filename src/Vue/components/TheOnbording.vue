@@ -109,7 +109,7 @@ watchEffect(() => {
 		opacity: 0;
 		backdrop-filter: blur(7px);
 		-webkit-backdrop-filter: blur(7px);
-		transition: opacity 0.5s $immg-posOut;
+		transition: opacity 0.5s ease-in-out;
 	}
 
 	&-popup {
@@ -123,6 +123,11 @@ watchEffect(() => {
 		opacity: 0;
 		transform: translateY(150%);
 		transition: transform 0.7s $immg-posOut, opacity 0.5s linear;
+
+		@include tablet {
+			width: 400px;
+			left: calc(50% - 400px / 2);
+		}
 
 		.cta {
 			width: calc(100% - 2 * 20px);
