@@ -15,7 +15,7 @@ const style = {
 
 <template>
 	<div class="FlagImg">
-		<img :src="`/assets/images/flags/${props.iso}.png`" alt="" srcset="" />
+		<img :src="`/assets/images/flags/${props.iso.toUpperCase()}.png`" alt="" srcset="" />
 		<span v-if="hasName"> {{ useCountry(props.iso) }} </span>
 	</div>
 </template>
