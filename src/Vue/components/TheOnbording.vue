@@ -8,7 +8,9 @@ const isOpen = ref(false);
 const stepSlider = ref(0);
 
 onMounted(() => {
-	toggle();
+	setTimeout(() => {
+		toggle();
+	}, 1000);
 });
 
 const toggle = () => {
@@ -100,8 +102,8 @@ watchEffect(() => {
 		width: 100%;
 		height: 100%;
 		opacity: 0;
-		backdrop-filter: blur(20px);
-		-webkit-backdrop-filter: blur(20px);
+		backdrop-filter: blur(7px);
+		-webkit-backdrop-filter: blur(7px);
 		transition: opacity 0.5s $immg-posOut;
 	}
 
@@ -110,12 +112,12 @@ watchEffect(() => {
 		background-color: $bg-beige-ui;
 		width: 93%;
 		left: calc(50% - 93% / 2);
-		top: 15%;
+		top: 17%;
 		border-radius: 15px;
 		padding: 24px 0 15px 0;
-		size: 0;
 		opacity: 0;
-		transition: scale 0.3s $in-out-quad, opacity 0.5s linear;
+		transform: translateY(150%);
+		transition: transform 0.7s $immg-posOut, opacity 0.5s linear;
 
 		.cta {
 			width: calc(100% - 2 * 20px);
@@ -181,7 +183,7 @@ watchEffect(() => {
 		}
 
 		.TheOnbording-popup {
-			size: 1;
+			transform: translateY(0px);
 			opacity: 1;
 		}
 	}
