@@ -10,6 +10,7 @@ import { BuildingMaterial } from '../Materials/Building/material';
 import { ColorMaterial } from '../Materials/Color/material';
 import { DrapeauMaterial } from '../Materials/Drapeau/material';
 import { Grid } from './Grid';
+import { Skybox } from './Skybox';
 
 class Terrain extends Object3D {
 	#nonEmissiveMaterial = new ColorMaterial({ uniforms: { uColor: { value: new Color(0x000000) } }, defines: { NEAR: `${CAMERA.near}.`, FAR: `${CAMERA.far}.` } });
@@ -32,7 +33,7 @@ class Terrain extends Object3D {
 
 		this.glb.traverse((child) => {
 			if (child.isMesh) child.material = globalMaterial;
-			if (child.name === 'Drapeau') {
+			if (child.name === 'Flag') {
 				child.material = new DrapeauMaterial({
 					uniforms: {
 						uTime: globalUniforms.uTime,
@@ -43,9 +44,13 @@ class Terrain extends Object3D {
 			}
 		});
 
-		this.grid = new Grid(terrainStructure);
+		const scaleFactor = 3;
+		this.grid = new Grid(terrainStructure.data[0].length, scaleFactor);
+		this.skybox = new Skybox(terrainStructure.data[0].length, scaleFactor);
 
-		this.add(this.glb, this.grid);
+		// this.glb.visible = false;
+		// applyInstances(this.glb);
+		this.add(this.glb, this.grid, this.skybox);
 
 		this.traverse(
 			/** @param {import('three').Mesh} child*/ (child) => {

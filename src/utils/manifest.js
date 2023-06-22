@@ -12,7 +12,7 @@ Finally, you can set some item to be criticals if you want your to wait the load
 const manifest = {
 	images: {},
 	textures: {
-		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/ground.png` },
+		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/ground.jpg` },
 		seamless1: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless2.png` },
 		seamless2: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless7.png` },
 		seamless3: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless6.png` },

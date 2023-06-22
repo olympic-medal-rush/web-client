@@ -92,6 +92,7 @@ class WebglController {
 
 	set emissiveOnly(value) {
 		globalUniforms.uEmissiveOnly.value = value;
+		this.#currentScene.emissiveOnly = value;
 		this.#currentScene.background = this.#currentScene.userData.backgrounds[+value];
 		this.#currentScene?.terrain?.traverse(
 			/** @param {import('three').Mesh} child*/ (child) => {
