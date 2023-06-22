@@ -4,16 +4,36 @@ import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
 import BlurryPage from '@components/Utils/BlurryPage.vue';
 import { useMedalsStore } from '@stores/medals';
 import { useTeamsStore } from '@stores/teams';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { MEDAL_TYPES } from '@utils/constants';
 
 const route = useRoute();
-const iso = route.params.iso;
+// @ts-ignore
+const iso = route.params.iso?.toUpperCase();
 
 const medalsStore = useMedalsStore();
 const teamsStore = useTeamsStore();
 
 const medals = await medalsStore.getMedals(iso);
+
+const showGold = ref(true);
+const showSilver = ref(true);
+const showBronze = ref(true);
+
+const onMedalFilterClick = (type) => {
+	switch (type) {
+		case MEDAL_TYPES.bronze:
+			showBronze.value = !showBronze.value;
+			break;
+		case MEDAL_TYPES.silver:
+			showSilver.value = !showSilver.value;
+			break;
+		case MEDAL_TYPES.gold:
+			showGold.value = !showGold.value;
+			break;
+	}
+};
 </script>
 
 <template>
@@ -36,16 +56,31 @@ const medals = await medalsStore.getMedals(iso);
 								<p>{{ teamsStore.getMedalsCount(iso) }} médailles</p>
 							</div>
 							<div class="medal-types">
-								<button>{{ teamsStore.getTeam(iso).medals[MEDAL_TYPES.gold] }} Or</button>
-								<button>{{ teamsStore.getTeam(iso).medals[MEDAL_TYPES.silver] }} Argent</button>
-								<button>{{ teamsStore.getTeam(iso).medals[MEDAL_TYPES.bronze] }} Bronze</button>
+								<button :class="showGold && 'active'" @click="onMedalFilterClick(MEDAL_TYPES.gold)">{{ teamsStore.getTeam(iso).medals[MEDAL_TYPES.gold] }} Or</button>
+								<button :class="showSilver && 'active'" @click="onMedalFilterClick(MEDAL_TYPES.silver)">
+									{{ teamsStore.getTeam(iso).medals[MEDAL_TYPES.silver] }} Argent
+								</button>
+								<button :class="showBronze && 'active'" @click="onMedalFilterClick(MEDAL_TYPES.bronze)">
+									{{ teamsStore.getTeam(iso).medals[MEDAL_TYPES.bronze] }} Bronze
+								</button>
 							</div>
 						</div>
 						<hr />
 						<div class="medals-list">
-							<RouterLink v-for="medal in medals" :key="medal.id" :to="`/game/medals/${iso}/${medal.id}`" class="medal-circle">
-								<MedalDotCircle :has-circle="false" :type="medal.type" :nationality="medal.nationality" />
-							</RouterLink>
+							<template v-for="medal in medals">
+								<RouterLink
+									v-if="
+										(medal.type === MEDAL_TYPES.bronze && showBronze) ||
+										(medal.type === MEDAL_TYPES.gold && showGold) ||
+										(medal.type === MEDAL_TYPES.silver && showSilver)
+									"
+									:key="medal.id"
+									:to="`/game/medals/${iso}/${medal.id}`"
+									class="medal-circle"
+								>
+									<MedalDotCircle :has-circle="false" :type="medal.type" :nationality="medal.nationality" />
+								</RouterLink>
+							</template>
 						</div>
 					</div>
 				</div>
@@ -135,10 +170,13 @@ $margin-top: calc(45px + 2 * 20px);
 						display: flex;
 						gap: 18px;
 						margin-bottom: 10px;
+						justify-content: space-around;
 
 						button {
 							position: relative;
+							opacity: 0.5;
 							font-weight: 700;
+							transition: opacity 0.3s linear;
 
 							&::after {
 								content: '';
@@ -149,8 +187,18 @@ $margin-top: calc(45px + 2 * 20px);
 								border-radius: 50%;
 								bottom: 0;
 								left: 50%;
-								transform: translate3d(-50%, 0, 0);
+								transform: translate3d(-50%, 0, 0) scale(0);
 								bottom: -8px;
+
+								transition: transform 0.5s $immg-expoOut, text-shadow 0.5s linear;
+							}
+
+							&.active {
+								opacity: 1;
+
+								&::after {
+									transform: translate3d(-50%, 0, 0) scale(1);
+								}
 							}
 						}
 					}

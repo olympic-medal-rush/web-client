@@ -44,7 +44,7 @@ void main() {
 	// Circle grid pattern on normals
   vec2 gridUv = mod(gameUv * GRID_SIZE, 1.);
   float gridCircle = mask * smoothstep(CIRCLE_SIZE + CIRCLE_GRADIENT, CIRCLE_SIZE, length(gridUv - .5));
-  normal.y += gridCircle * .4;
+  normal.y += gridCircle * .7;
 
 	// Player shadows
   vec3 shadowCoord = vShadowCoord.xyz / vShadowCoord.w * 0.5 + 0.5;
