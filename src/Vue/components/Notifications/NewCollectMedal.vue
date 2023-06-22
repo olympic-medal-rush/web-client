@@ -13,7 +13,7 @@ const teamsStore = useTeamsStore();
 
 const myCountry = ref();
 const otherCountry = ref();
-const video = ref();
+const videoBg = ref();
 
 const collectTeam = ref(null);
 const collectType = ref(0);
@@ -27,16 +27,20 @@ let timeout;
 
 const idMedal = ref(0);
 
+// onMounted(()=> {
+//   videoBg.
+// })
+
 state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 	idMedal.value = medal.id;
 	if (timeout) clearTimeout(timeout);
 
 	collectTeam.value = team.iso;
 	if (team.iso === teamsStore.currentIso) {
-		video.value.play();
+		videoBg.value.play();
 		timeout = setTimeout(() => {
 	    videoActive.value = true;
-			video.value.pause();
+			videoBg.value.pause();
 		}, 2000);
 		setTimeout(() => {
 			myActive.value = true;
@@ -70,7 +74,7 @@ const toggleOpenOtherPays = () => {
 
 <template>
 	<div class="NewCollectMedal">
-		<video ref="video" :class="{active: videoActive}" muted playsinline @click="() => removeMyTeamCollect()">
+		<video ref="videoBg" :class="{active: videoActive}" muted playsinline autoplay @click="() => removeMyTeamCollect()">
 			<source src="/assets/videos/confetti.webm" />
 			<source src="/assets/videos/confetti.mov" />
 		</video>

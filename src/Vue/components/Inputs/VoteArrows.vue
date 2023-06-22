@@ -159,16 +159,39 @@ const removeActive = () => {
 };
 
 const detectObstacles = () => {
-	const up = terrainData.data[posTeam.value.y - 1][posTeam.value.x] === 1;
-	const left = terrainData.data[posTeam.value.y][posTeam.value.x - 1] === 1;
-	const right = terrainData.data[posTeam.value.y][posTeam.value.x + 1] === 1;
-	const down = terrainData.data[posTeam.value.y + 1][posTeam.value.x] === 1;
+	let up, left, right, down;
+
+	if (terrainData.data[posTeam.value.y - 1] !== undefined && terrainData.data[posTeam.value.y - 1][posTeam.value.x] !== undefined) {
+		up = terrainData.data[posTeam.value.y - 1][posTeam.value.x] === 1;
+	} else {
+		up = true;
+	}
+
+	if (terrainData.data[posTeam.value.y] !== undefined && terrainData.data[posTeam.value.y][posTeam.value.x - 1] !== undefined) {
+		left = terrainData.data[posTeam.value.y][posTeam.value.x - 1] === 1;
+	} else {
+		left = true;
+	}
+
+	if (terrainData.data[posTeam.value.y] !== undefined && terrainData.data[posTeam.value.y][posTeam.value.x + 1] !== undefined) {
+		right = terrainData.data[posTeam.value.y][posTeam.value.x + 1] === 1;
+	} else {
+		right = true;
+	}
+
+	if (terrainData.data[posTeam.value.y + 1] !== undefined && terrainData.data[posTeam.value.y + 1][posTeam.value.x] !== undefined) {
+		down = terrainData.data[posTeam.value.y + 1][posTeam.value.x] === 1;
+	} else {
+		down = true;
+	}
+
 	const isObstacle = [up, left, right, down];
 	buttons.forEach((el, i) => {
 		if (isObstacle[i]) {
 			el.disabled = true;
 		}
 	});
+
 	upIsDisable.value = up;
 	rightIsDisable.value = right;
 	downIsDisable.value = down;
