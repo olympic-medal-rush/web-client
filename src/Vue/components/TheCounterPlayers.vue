@@ -97,11 +97,13 @@ const annimProgressBooster = () => {
 			position: absolute;
 			top: 0.5px;
 			right: 0;
+			transform: translate(2px, -0.5px);
 		}
 
 		p {
 			color: $medal-gold;
 			margin: auto;
+			padding: 0 0 0 4px;
 		}
 	}
 }
