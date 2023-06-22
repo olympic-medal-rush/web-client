@@ -37,6 +37,7 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 
 	collectTeam.value = team.iso;
 	if (team.iso === teamsStore.currentIso) {
+    setTimeout(() => {
       videoBg.value.play();
       videoActive.value = true;
       timeout = setTimeout(() => {
@@ -45,6 +46,7 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
       setTimeout(() => {
         myActive.value = true;
       }, 300);
+    }, 2700)
 	} else {
 		otherActive.value = true;
 		timeout = setTimeout(() => {
