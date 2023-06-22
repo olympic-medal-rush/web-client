@@ -28,6 +28,8 @@ state.on(EVENTS.APP_LOADED, () => (loaded.value = true));
 </template>
 
 <style scoped lang="scss">
+@use '@styles/tools' as *;
+
 .container,
 main {
 	height: 100%;
@@ -36,19 +38,19 @@ main {
 /** Route transition */
 .route-enter-from {
 	opacity: 0;
-	transform: translateX(100px);
+	transform: scale(0.5);
 }
 
 .route-enter-active {
-	transition: all 0.3s ease-in-out;
+	transition: all 0.3s $immg-zoomOut;
 }
 
 .route-leave-to {
 	opacity: 0;
-	transform: translateX(-100px);
+	transform: scale(1.5) translateY(-100px);
 }
 
 .route-leave-active {
-	transition: all 0.3s ease-in-out;
+	transition: all 0.3s $immg-zoomIn;
 }
 </style>

@@ -10,6 +10,7 @@ const stepSlider = ref(0);
 
 onMounted(() => {
 	setTimeout(() => {
+		emblaApi.value.reInit();
 		toggle();
 		/// #if DEBUG
 		if (app.debug?.urlParams.has('skipTuto')) toggle();
