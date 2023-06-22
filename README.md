@@ -49,3 +49,4 @@ List of params:
 `tab`: Switch pane tabs
 `noServer`: Disable server connection to fake events
 `team`: Set current team (team=FRA)` if `noServer` is present
+`skipTuto`: To skip onBoarding screens
