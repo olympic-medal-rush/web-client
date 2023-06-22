@@ -1,7 +1,7 @@
 <template>
-	<RouterLink v-if="to" class="btn" :to="to"><GreyArrow class="arrow" /></RouterLink>
+	<RouterLink v-if="to" class="btn" :to="to"><GreyArrow class="arrowBack" /></RouterLink>
 	<button v-else class="btn" @click="onClick">
-		<GreyArrow class="arrow" />
+		<GreyArrow class="arrowBack" />
 	</button>
 </template>
 
@@ -39,7 +39,7 @@ const onClick = () => {
 	transition: transform 0.5s $immg-expoOut;
 	transform: scale(1);
 
-	.arrow {
+	.arrowBack {
 		width: 100%;
 		height: 100%;
 		transform: rotate(90deg);
@@ -54,7 +54,7 @@ const onClick = () => {
 <style lang="scss">
 @use '@styles/tools/colors' as *;
 
-.arrow path {
+.arrowBack path {
 	stroke: $black;
 }
 </style>
