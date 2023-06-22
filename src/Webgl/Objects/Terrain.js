@@ -2,7 +2,7 @@ import { app } from '@/App';
 import { state } from '@/State';
 import terrainStructure from '@jsons/terrain_data.json';
 import { useTeamsStore } from '@stores/teams';
-import { Color, Object3D, TextureLoader } from 'three';
+import { Color, NearestFilter, Object3D, TextureLoader } from 'three';
 import { CAMERA } from '@utils/config';
 import { EVENTS } from '@utils/constants';
 import { globalUniforms } from '@utils/globalUniforms';
@@ -26,13 +26,21 @@ class Terrain extends Object3D {
 		this.teamsStore = useTeamsStore();
 		// this.flagObject = null;
 
-		const buildingsColors = app.core.assetsManager.get('buildingsColors');
+		const [buildingsColors, noise] = app.core.assetsManager.get('buildingsColors', 'noise');
 		buildingsColors.flipY = false;
+		buildingsColors.magFilter = buildingsColors.minFilter = NearestFilter;
+
+		const buildingsUniforms = {
+			uLightPosition: app.webgl.scene.commonShadowUniforms.uLightPosition,
+			tColors: { value: buildingsColors },
+			tGrain: { value: app.tools.noise.texture },
+			tNoise: { value: noise },
+			uEmissiveOnly: globalUniforms.uEmissiveOnly,
+		};
 
 		const instancesMaterial = new BuildingMaterial({
 			uniforms: {
-				uLightPosition: app.webgl.scene.commonShadowUniforms.uLightPosition,
-				tColors: { value: buildingsColors },
+				...buildingsUniforms,
 			},
 			defines: {
 				NEAR: `${CAMERA.near}.`,
@@ -43,8 +51,7 @@ class Terrain extends Object3D {
 
 		const globalMaterial = new BuildingMaterial({
 			uniforms: {
-				uLightPosition: app.webgl.scene.commonShadowUniforms.uLightPosition,
-				tColors: { value: buildingsColors },
+				...buildingsUniforms,
 			},
 			defines: {
 				NEAR: `${CAMERA.near}.`,
@@ -66,23 +73,16 @@ class Terrain extends Object3D {
 		this.flagLoader = new TextureLoader();
 
 		glb.traverse((child) => {
-			if (child.isMesh) child.material = child.isInstancedMesh ? instancesMaterial : globalMaterial;
 			if (child.name === 'Flag') {
 				child.material = flagMaterial;
 				this.flagObject = child;
-			}
+			} else if (child.isMesh) child.material = child.isInstancedMesh ? instancesMaterial : globalMaterial;
 		});
 
 		this.grid = new Grid(terrainStructure.data[0].length, scaleFactor);
 		this.skybox = new Skybox(terrainStructure.data[0].length, scaleFactor);
 
 		this.add(glb, this.grid, this.skybox);
-
-		this.traverse(
-			/** @param {import('three').Mesh | import('three').InstancedMesh} child*/ (child) => {
-				if (child.isMesh) child.userData['materials'] = [child.material, child.isInstancedMesh ? this.#nonEmissiveInstancedMaterial : this.#nonEmissiveMaterial];
-			},
-		);
 
 		state.on(EVENTS.SCOREBOARD_UPDATE, this.updateFlag);
 	}
@@ -93,6 +93,7 @@ class Terrain extends Object3D {
 	}
 
 	updateFlag = () => {
+		this.flagObject.material.uniforms.uTex.value.dispose();
 		this.flagObject.material.uniforms.uTex.value = this.getWinnerFlag();
 	};
 }

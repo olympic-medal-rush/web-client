@@ -23,6 +23,7 @@ float readDepth(sampler2D depthSampler, vec2 coord) {
   return viewZToOrthographicDepth(viewZ, NEAR, FAR);
 }
 
+
 void main() {
   vec3 normal = vNormal;
 

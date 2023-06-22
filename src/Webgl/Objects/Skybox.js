@@ -1,3 +1,4 @@
+import { app } from '@/App';
 import { BackSide, IcosahedronGeometry, Mesh } from 'three';
 import { SkyboxMaterial } from '@Webgl/Materials/Skybox/material';
 
@@ -21,7 +22,9 @@ class Skybox extends Mesh {
 
 	#createMaterial() {
 		const material = new SkyboxMaterial({
-			uniforms: {},
+			uniforms: {
+				tBackground: { value: app.core.assetsManager.get('background') },
+			},
 			side: BackSide,
 		});
 

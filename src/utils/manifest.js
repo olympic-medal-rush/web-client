@@ -16,6 +16,7 @@ const manifest = {
 		buildingsColors: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/colors.png` },
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg` },
 		skybox: { path: `${import.meta.env.BASE_URL}assets/textures/skybox.png` },
+		background: { path: `${import.meta.env.BASE_URL}assets/textures/environment/backgrounds.jpg` },
 
 		medalHeights: { path: `${import.meta.env.BASE_URL}assets/textures/medals/medal-heights.png` },
 
