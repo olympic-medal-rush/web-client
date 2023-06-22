@@ -37,11 +37,11 @@ state.on(EVENTS.SPAWN_MEDALS, () => {
 	display: flex;
 	justify-content: center;
 	transition: 0.3s;
+	transition: top 0.3s $in-out-quad, scale 0.3s $in-out-quad, opacity 0.3s linear;
 
 	&.active {
 		opacity: 1;
 		scale: 1;
-		transition: top 0.3s $in-out-quad, scale 0.3s $in-out-quad, opacity 0.3s linear;
 		top: 20px;
 	}
 
