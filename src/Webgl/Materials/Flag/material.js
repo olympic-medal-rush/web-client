@@ -2,7 +2,7 @@ import { RawShaderMaterial } from 'three';
 import fs from './fragment.fs?hotShader';
 import vs from './vertex.vs?hotShader';
 
-class DrapeauMaterial extends RawShaderMaterial {
+class FlagMaterial extends RawShaderMaterial {
 	/**
 	 *
 	 * @param {import("three").ShaderMaterialParameters} options
@@ -14,4 +14,4 @@ class DrapeauMaterial extends RawShaderMaterial {
 	}
 }
 
-export { DrapeauMaterial };
+export { FlagMaterial };

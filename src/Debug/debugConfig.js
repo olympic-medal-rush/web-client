@@ -2,7 +2,7 @@ const PANE_TABS = ['WEBGL', 'GAME'];
 
 const PANE_TITLE = 'DEBUG';
 
-const URL_PARAMS_LIST = ['orbit', 'tab', 'noServer', 'team'];
+const URL_PARAMS_LIST = ['orbit', 'tab', 'noServer', 'team', 'skipTuto'];
 
 class ColorDebugHelper {
 	constructor(object, prop) {
@@ -18,4 +18,4 @@ class ColorDebugHelper {
 }
 // Usage: folder.addInput(new ColorDebugHelper(instance.uniforms.uSkyColor, 'value'), 'value', { label: 'uSkyColor' });
 
-export { PANE_TABS, PANE_TITLE, URL_PARAMS_LIST, ColorDebugHelper };
+export { ColorDebugHelper, PANE_TABS, PANE_TITLE, URL_PARAMS_LIST };

@@ -1,8 +1,8 @@
-import { ShaderMaterial } from 'three';
+import { RawShaderMaterial } from 'three';
 import fs from './fragment.fs?hotShader';
 import vs from './vertex.vs?hotShader';
 
-class BuildingMaterial extends ShaderMaterial {
+class BuildingMaterial extends RawShaderMaterial {
 	/**
 	 *
 	 * @param {import("three").ShaderMaterialParameters} options

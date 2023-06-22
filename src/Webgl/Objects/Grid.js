@@ -72,10 +72,6 @@ class Grid extends Mesh {
 				uFloorColor: { value: new Color(0xdfd5ae) },
 
 				tData: { value: groundData },
-				// tSeamless1: { value: seamless1 },
-				// tSeamless2: { value: seamless2 },
-				// tSeamless3: { value: seamless3 },
-				// tSeamless4: { value: seamless4 },
 				tPathFinding: { value: this.#createPathFindingDataTex() },
 				tGrain: { value: app.tools.noise.texture },
 				tNoise: { value: app.core.assetsManager.get('noise') },

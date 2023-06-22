@@ -1,4 +1,5 @@
 <script setup>
+import { app } from '@/App';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
 import emblaCarouselVue from 'embla-carousel-vue';
 import { onMounted, ref, watchEffect } from 'vue';
@@ -9,6 +10,9 @@ const stepSlider = ref(0);
 
 onMounted(() => {
 	toggle();
+	/// #if DEBUG
+	if (app.debug?.urlParams.has('skipTuto')) toggle();
+	/// #endif
 });
 
 const toggle = () => {
@@ -40,20 +44,20 @@ watchEffect(() => {
 				<div class="embla__container">
 					<div class="embla__slide">
 						<h2>Bienvenue !</h2>
-						<p>Tu viens de prendre part au Jeux Olympique alternatif !</p>
+						<p>Tu viens de prendre part aux Jeux Olympiques alternatifs !</p>
 						<img src="/assets/gifs/mascot-jo.gif" alt="" srcset="" />
 					</div>
 					<div class="embla__slide">
 						<h2>OLYMPIC</h2>
 						<p>
 							Devenez des champions !<br />
-							Affronte les autres nations et devient celle la plus médailler !
+							Affronte les autres nations et devient celle la plus médaillée !
 						</p>
 						<img src="/assets/gifs/flags.gif" alt="" srcset="" />
 					</div>
 					<div class="embla__slide">
 						<h2>MEDAL</h2>
-						<p>Au cours des 2 semaines, en direct des médailles apparaissent à la fin de chaques épreuves.</p>
+						<p>Au cours des 2 semaines, en direct des médailles apparaissent à la fin de chaque épreuves.</p>
 						<img src="/assets/gifs/medals.gif" alt="" srcset="" />
 					</div>
 					<div class="embla__slide">
@@ -62,7 +66,7 @@ watchEffect(() => {
 						<img src="/assets/gifs/rush.gif" alt="" srcset="" />
 					</div>
 					<div class="embla__slide">
-						<h2>vote / collaboraiton</h2>
+						<h2>Vote / collaboration</h2>
 						<p>bla bla</p>
 						<img src="/assets/gifs/vote.gif" alt="" srcset="" />
 					</div>
