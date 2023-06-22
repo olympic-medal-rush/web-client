@@ -1,10 +1,13 @@
 <script setup>
 import { state } from '@/State';
-import { ref } from 'vue';
+import RoundFlag from '@components/Assets/RoundFlag.vue';
+import { useTeamsStore } from '@stores/teams';
 import { EVENTS } from '@utils/constants';
+import { ref } from 'vue';
 
 const newTeam = ref();
-const nameNewTeam = ref('ALL');
+const nameNewTeam = ref();
+const teamsStore = useTeamsStore();
 
 state.on(EVENTS.CREATE_TEAM, (e) => {
 	nameNewTeam.value = e.iso;
@@ -17,9 +20,11 @@ state.on(EVENTS.CREATE_TEAM, (e) => {
 
 <template>
 	<div ref="newTeam" class="NewTeam">
-		<div class="NewTeam_Container">
-			<p class="NewTeam_Container_Text">Nouvelle équipe {{ nameNewTeam }} !</p>
-		</div>
+		<h2>Nouvelle équipe en jeu !</h2>
+		<p v-if="nameNewTeam">
+			<RoundFlag :iso="nameNewTeam" has-name size="16px" /> -
+			<b> {{ teamsStore.getTeam(nameNewTeam).position }}{{ teamsStore.getTeam(nameNewTeam).position === 1 ? 'er' : 'eme' }} </b> équipe en jeu
+		</p>
 	</div>
 </template>
 
@@ -27,34 +32,59 @@ state.on(EVENTS.CREATE_TEAM, (e) => {
 @use '@styles/tools' as *;
 .NewTeam {
 	position: absolute;
-	width: 100%;
-	height: 70px;
-	font-family: 'Paris 24';
-	top: -70px;
-	left: 0px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	transition: 0.3s;
+	top: -300px;
+	background-color: $bg-beige-ui;
+	padding: 14px 14px 24px 14px;
+	border-radius: 10px;
+	transition: top 0.3s;
+	color: $text-olive-ui;
+	width: 93.5%;
+	pointer-events: all;
+	scale: 0.3;
+	opacity: 0;
+	height: 83px;
+	left: calc(50% - 93.5% / 2);
+	transition: top 0.3s $in-out-quad, scale 0.3s $in-out-quad, opacity 0.3s linear, height 0.2s $in-out-quad;
 
-	&.active {
-		transition: 0.3s;
-		top: 0px;
+	@include tablet {
+		width: 364px;
+		left: calc(50% - 364px / 2);
 	}
 
-	&_Container {
-		height: auto;
-		padding: 10px 20px;
-		border-radius: 25px;
-		background-color: #e5e5d8;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		overflow: hidden;
+	h2 {
+		font-family: 'ApfelGrotezk-Fett';
+		font-size: 24px;
+		color: $text-olive-ui;
+	}
 
-		&_Text {
-			margin-left: 15px;
-			font-weight: bold;
+	p {
+		display: flex;
+		align-items: center;
+		margin: 5px 0;
+
+		b {
+			margin: 0 3px;
+			font-family: 'ApfelGrotezk-Fett';
+		}
+	}
+
+	&.active {
+		opacity: 1;
+		scale: 1;
+		top: 20px;
+	}
+}
+</style>
+
+<style lang="scss">
+.NewTeam {
+	&.active {
+		p {
+			div {
+				margin: 0 3px 0 0;
+				display: inline-flex;
+				max-width: 50%;
+			}
 		}
 	}
 }

@@ -218,8 +218,9 @@ const toggleOpenOtherPays = () => {
 			transform: translateY(-12px);
 
 			div {
-				display: inline-flex !important;
+				display: inline-flex;
 				margin-right: 3px;
+        max-width: 50%;
 			}
 
 			b {
@@ -248,6 +249,7 @@ const toggleOpenOtherPays = () => {
         display: flex;
 
         .FlagImg {
+          max-width: 50%;
           span {
             font-family: 'ApfelGrotezk-Fett';
             font-size: 20px;

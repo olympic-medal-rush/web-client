@@ -12,12 +12,13 @@ import NewTeam from '@components/Notifications/NewTeam.vue';
 import TheCounterMedals from '@components/TheCounterMedals.vue';
 import TheCounterPlayers from '@components/TheCounterPlayers.vue';
 import TheNotifications from '@components/TheNotifications.vue';
+import TheOnbording from '@components/TheOnbording.vue';
 import TheReactMoji from '@components/TheReactMoji.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
 import { useMedalsInGameStore } from '@stores/medalsInGame';
-import { onMounted, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import { onMounted, ref } from 'vue';
 
 const isModal = ref(false);
 const idModal = ref(0);
@@ -58,6 +59,9 @@ onMounted(() => {
 			<BoostModal v-if="idModal == 1" />
 			<NotificationsModal v-if="idModal == 2" />
 		</Modal>
+
+		<!-- Onbording -->
+		<TheOnbording />
 
 		<!-- Notifications -->
 		<NewMedal />

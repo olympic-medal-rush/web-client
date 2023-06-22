@@ -1,21 +1,29 @@
 <script setup>
-import { app } from '@/App';
-import router from '@Vue/router';
-import VButton from './../components/Inputs/VButton.vue';
+import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
 import TheLogo from './../components/TheLogo.vue';
-
-const goChosePays = () => {
-	app.webgl.renderLogin = true;
-	router.push('/login');
-};
 </script>
 
 <template>
 	<div class="home">
 		<TheLogo />
 
-		<VButton @click="goChosePays">Rejoindre un pays</VButton>
+		<ButtonOrLink class="cta" to="/login"> Jouer </ButtonOrLink>
 	</div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.home {
+	.cta {
+		display: block;
+		width: 123px;
+		position: absolute;
+		bottom: 57px;
+		left: calc(50% - 123px / 2);
+
+		.btn-inner {
+			font-family: 'ApfelGrotezk-Fett';
+			font-size: 24px;
+		}
+	}
+}
+</style>
