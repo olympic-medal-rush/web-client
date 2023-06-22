@@ -46,6 +46,20 @@ const directiveTarget = [
 		y: '111',
 	},
 ];
+const upIsDisable = ref(false);
+const rightIsDisable = ref(false);
+const downIsDisable = ref(false);
+const leftIsDisable = ref(false);
+
+const upIsActive = ref(false);
+const rightIsActive = ref(false);
+const downIsActive = ref(false);
+const leftIsActive = ref(false);
+
+const upIsInactive = ref(false);
+const rightIsInactive = ref(false);
+const downIsInactive = ref(false);
+const leftIsInactive = ref(false);
 
 const handleClick = (e) => {
 	app.server.userVote({
@@ -53,10 +67,32 @@ const handleClick = (e) => {
 		direction: e.target.dataset.dir,
 	});
 	removeActive();
-	buttons.forEach((el) => {
-		if (e.target !== el) el.classList.add('inactive');
-	});
-	e.target.classList.add('active');
+	upIsInactive.value = true;
+	rightIsInactive.value = true;
+	downIsInactive.value = true;
+	leftIsInactive.value = true;
+
+	switch (e.target.dataset.dir) {
+		case '0':
+			upIsInactive.value = false;
+			upIsActive.value = true;
+			break;
+		case '1':
+			rightIsInactive.value = false;
+			rightIsActive.value = true;
+			break;
+		case '2':
+			downIsInactive.value = false;
+			downIsActive.value = true;
+			break;
+		case '3':
+			leftIsInactive.value = false;
+			leftIsActive.value = true;
+			break;
+
+		default:
+			break;
+	}
 };
 
 state.on(EVENTS.VOTE_RESULTS, (team) => {
@@ -104,26 +140,39 @@ state.on(EVENTS.VOTE_COUNT, () => {
 
 const removeActive = () => {
 	buttons.forEach((el) => {
-		el.classList.remove('active');
-		el.classList.remove('inactive');
-		el.classList.remove('disable');
 		el.disabled = false;
 	});
+	upIsDisable.value = false;
+	rightIsDisable.value = false;
+	downIsDisable.value = false;
+	leftIsDisable.value = false;
+
+	upIsActive.value = false;
+	rightIsActive.value = false;
+	downIsActive.value = false;
+	leftIsActive.value = false;
+
+	upIsInactive.value = false;
+	rightIsInactive.value = false;
+	downIsInactive.value = false;
+	leftIsInactive.value = false;
 };
 
 const detectObstacles = () => {
-	const up = terrainData.data[posTeam.value.y - 1][posTeam.value.x] === 1 ? 1 : 0;
-	const left = terrainData.data[posTeam.value.y][posTeam.value.x - 1] === 1 ? 1 : 0;
-	const right = terrainData.data[posTeam.value.y][posTeam.value.x + 1] === 1 ? 1 : 0;
-	const down = terrainData.data[posTeam.value.y + 1][posTeam.value.x] === 1 ? 1 : 0;
+	const up = terrainData.data[posTeam.value.y - 1][posTeam.value.x] === 1;
+	const left = terrainData.data[posTeam.value.y][posTeam.value.x - 1] === 1;
+	const right = terrainData.data[posTeam.value.y][posTeam.value.x + 1] === 1;
+	const down = terrainData.data[posTeam.value.y + 1][posTeam.value.x] === 1;
 	const isObstacle = [up, left, right, down];
 	buttons.forEach((el, i) => {
 		if (isObstacle[i]) {
-			el.classList.add('disable');
 			el.disabled = true;
 		}
 	});
-	console.log('detectObstacles', isObstacle);
+	upIsDisable.value = up;
+	rightIsDisable.value = right;
+	downIsDisable.value = down;
+	leftIsDisable.value = left;
 };
 
 const number = ref(0);
@@ -148,22 +197,22 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 			<BGArrows class="bgSVG mainBtn" />
 
 			<div class="arrows mainBtn">
-				<button data-dir="0" class="arrow up" @click="handleClick">
+				<button data-dir="0" class="arrow up" :class="{ disable: upIsDisable, active: upIsActive, inactive: upIsInactive }" @click="handleClick">
 					<Arrow />
 				</button>
 				<div class="VoteArrow_horz">
-					<button data-dir="3" class="arrow left" @click="handleClick">
+					<button data-dir="3" class="arrow left" :class="{ disable: leftIsDisable, active: leftIsActive, inactive: leftIsInactive }" @click="handleClick">
 						<Arrow />
 					</button>
 					<span class="chrono">
 						<p>{{ voteStore.getLeftTime() }}</p>
 						<span>s</span>
 					</span>
-					<button data-dir="1" class="arrow right" @click="handleClick">
+					<button data-dir="1" class="arrow right" :class="{ disable: rightIsDisable, active: rightIsActive, inactive: rightIsInactive }" @click="handleClick">
 						<Arrow />
 					</button>
 				</div>
-				<button data-dir="2" class="arrow down" @click="handleClick">
+				<button data-dir="2" class="arrow down" :class="{ disable: downIsDisable, active: downIsActive, inactive: downIsInactive }" @click="handleClick">
 					<Arrow />
 				</button>
 			</div>
