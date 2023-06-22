@@ -6,6 +6,7 @@ import Icon from '@/assets/svgs/BackArrow.svg';
 import DirectiveVoteArrow from '@/assets/svgs/DirectiveVoteArrow.svg';
 import Arrow from '@/assets/svgs/VoteArrow.svg';
 import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
+import terrainData from '@jsons/terrain_data.json';
 import { useVotesStore } from '@stores/votes';
 import { EVENTS, STORE_KEYS } from '@utils/constants';
 import { gsap } from 'gsap';
@@ -59,6 +60,7 @@ const handleClick = (e) => {
 state.on(EVENTS.VOTE_RESULTS, (team) => {
 	if (team.iso === app.game.currentTeam.iso) {
 		removeActive();
+		detectObstacles(team);
 	}
 });
 
@@ -97,6 +99,21 @@ const removeActive = () => {
 	document.querySelectorAll('.arrow').forEach((el) => {
 		el.classList.remove('active');
 		el.classList.remove('inactive');
+		el.classList.remove('disable');
+	});
+};
+
+const detectObstacles = (team) => {
+	// console.log(terrainData.data[team.position.y - 1][team.position.x]);
+	// console.log(terrainData.data[team.position.y][team.position.x - 1], terrainData.data[team.position.y][team.position.x + 1]);
+	// console.log(terrainData.data[team.position.y + 1][team.position.x]);
+	const up = terrainData.data[team.position.y - 1][team.position.x] === 1 ? 1 : 0;
+	const left = terrainData.data[team.position.y][team.position.x - 1] === 1 ? 1 : 0;
+	const right = terrainData.data[team.position.y][team.position.x + 1] === 1 ? 1 : 0;
+	const down = terrainData.data[team.position.y + 1][team.position.x] === 1 ? 1 : 0;
+	const isObstacle = [up, left, right, down];
+	document.querySelectorAll('.arrow').forEach((el, i) => {
+		if (isObstacle[i]) el.classList.add('disable');
 	});
 };
 
@@ -273,6 +290,12 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
 }
 
 .arrow.inactive {
+	background-position: 0% 92%;
+	border: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.arrow.disable {
+	pointer-events: none;
 	background-position: 0% 92%;
 	border: 2px solid rgba(0, 0, 0, 0.05);
 }
