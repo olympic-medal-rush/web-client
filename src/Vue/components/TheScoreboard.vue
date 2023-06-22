@@ -27,7 +27,7 @@ const togglePodium = () => {
 		<router-link :to="'/game/scoreboard/' + teamsStore.currentIso" class="MyTeam">
 			<div class="MyTeam-wrapper">
 				<RoundFlag :iso="teamsStore.currentIso" />
-				<span class="MyTeam-ranking">{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1 }}</span>
+				<span class="MyTeam-ranking">{{ teamsStore.getTeam(teamsStore.currentIso).position }}</span>
 			</div>
 		</router-link>
 		<div ref="podium" class="Podium">

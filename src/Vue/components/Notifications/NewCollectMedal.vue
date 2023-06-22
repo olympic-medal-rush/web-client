@@ -7,7 +7,7 @@ import RoundFlag from '@components/Assets/RoundFlag.vue';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
 import { useTeamsStore } from '@stores/teams';
 import { EVENTS, MEDAL_TYPES } from '@utils/constants';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const teamsStore = useTeamsStore();
 
@@ -27,9 +27,9 @@ let timeout;
 
 const idMedal = ref(0);
 
-// onMounted(()=> {
-//   videoBg.
-// })
+onMounted(()=> {
+  videoBg.value.addEventListener("ended", videoBg.value.pause());
+})
 
 state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 	idMedal.value = medal.id;
@@ -37,14 +37,14 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 
 	collectTeam.value = team.iso;
 	if (team.iso === teamsStore.currentIso) {
-		videoBg.value.play();
-		timeout = setTimeout(() => {
-	    videoActive.value = true;
-			videoBg.value.pause();
-		}, 2000);
-		setTimeout(() => {
-			myActive.value = true;
-		}, 300);
+      videoBg.value.play();
+      videoActive.value = true;
+      timeout = setTimeout(() => {
+        videoActive.value = false;
+      }, 2000);
+      setTimeout(() => {
+        myActive.value = true;
+      }, 300);
 	} else {
 		otherActive.value = true;
 		timeout = setTimeout(() => {
@@ -99,7 +99,7 @@ const toggleOpenOtherPays = () => {
 				    </b>.
           </span>
           <div class="infos-container">
-            <RoundFlag v-if="collectTeam" :iso="collectTeam" has-name size="31px"/><span>{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === collectTeam)) + 1 }} {{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === collectTeam)) + 1 > 1 ? 'eme' : 'er' }}</span>
+            <RoundFlag v-if="collectTeam" :iso="collectTeam" has-name size="31px"/><span>{{ teamsStore.getTeam(collectTeam).position }} {{ teamsStore.getTeam(collectTeam).position > 1 ? 'eme' : 'er' }}</span>
             <div class="medals">
               <div><span class="or">{{ teamsStore.getTeam(collectTeam).medals[MEDAL_TYPES.gold]}}</span><MedalImg class="medal-img" :type="2" /></div>
               <div><span class="argent">{{ teamsStore.getTeam(collectTeam).medals[MEDAL_TYPES.silver]}}</span><MedalImg class="medal-img" :type="1" /></div>
@@ -121,8 +121,8 @@ const toggleOpenOtherPays = () => {
 				<br />
 				Votre équipe se hisse en
 				<b
-					>{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1
-					}}{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1 === 1 ? 'er' : 'eme' }} position</b
+					>{{ teamsStore.getTeam(teamsStore.currentIso).position
+					}}{{ teamsStore.getTeam(teamsStore.currentIso).position === 1 ? 'er' : 'eme' }} position</b
 				>
 				!
 			</p>
@@ -295,7 +295,7 @@ const toggleOpenOtherPays = () => {
 		pointer-events: all;
 		cursor: pointer;
 		position: absolute;
-		top: 30%;
+		top: 26%;
 		opacity: 0;
 		scale: 0;
 		display: flex;
