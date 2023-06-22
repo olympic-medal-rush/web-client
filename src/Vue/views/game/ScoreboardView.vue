@@ -15,15 +15,15 @@ const teamsStore = useTeamsStore();
 		<div class="scoreboard-container">
 			<div class="scoreboard-wrapper">
 				<div class="podium">
-					<div class="podium-position silver">
+					<div v-if="teamsStore.scoreboard[1]" class="podium-position silver">
 						<RoundFlag class="round-flag" :iso="teamsStore.scoreboard[1]?.iso" :has-name="true" />
 						<img src="/assets/images/scoreboard/podium_silver.png" />
 					</div>
-					<div class="podium-position gold">
+					<div v-if="teamsStore.scoreboard[0]" class="podium-position gold">
 						<RoundFlag class="round-flag" :iso="teamsStore.scoreboard[0]?.iso" :has-name="true" />
 						<img src="/assets/images/scoreboard/podium_gold.png" />
 					</div>
-					<div class="podium-position bronze">
+					<div v-if="teamsStore.scoreboard[2]" class="podium-position bronze">
 						<RoundFlag class="round-flag" :iso="teamsStore.scoreboard[2]?.iso" :has-name="true" />
 						<img src="/assets/images/scoreboard/podium_bronze.png" />
 					</div>

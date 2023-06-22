@@ -13,7 +13,6 @@ export const useTeamsStore = defineStore('teams', {
 		 */
 		add(team, playerCount = 1) {
 			this.teams[team.iso] = { iso: team.iso, medals: team.medals, playerCount, score: team.score, medalsCount: team.medalsCount, position: 0 };
-
 			this.scoreboard.push({ iso: team.iso, score: team.score });
 			this.filterScoreboard();
 		},
