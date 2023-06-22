@@ -1,7 +1,6 @@
 <script setup>
 import { app } from '@/App';
 import router from '@Vue/router';
-import VButton from './../components/Inputs/VButton.vue';
 import TheLogo from './../components/TheLogo.vue';
 
 const goChosePays = () => {
@@ -13,8 +12,6 @@ const goChosePays = () => {
 <template>
 	<div class="home">
 		<TheLogo />
-
-		<VButton @click="goChosePays">Rejoindre un pays</VButton>
 	</div>
 </template>
 

@@ -10,6 +10,8 @@ import { globalUniforms } from '@utils/globalUniforms';
 import { Flames } from './Flames';
 
 class Player extends Mesh {
+	static #geometry;
+
 	#animationsSteps = {
 		jump: 0,
 		medal: 0,
@@ -37,6 +39,7 @@ class Player extends Mesh {
 	}
 
 	#createGeometry({ baseGeometry }) {
+		if (Player.#geometry) return Player.#geometry;
 		const geometry = new BufferGeometry();
 
 		geometry.index = baseGeometry.index;
@@ -44,7 +47,7 @@ class Player extends Mesh {
 		geometry.setAttribute('uv', baseGeometry.getAttribute('uv'));
 		geometry.setAttribute('aVertexID', baseGeometry.getAttribute('_vertexid'));
 
-		return geometry;
+		return (Player.#geometry = geometry);
 	}
 
 	#createMaterial(teamIso) {

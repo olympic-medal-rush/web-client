@@ -5,7 +5,8 @@ import { Player } from '@Webgl/Objects/Player';
 import { EVENTS } from '@utils/constants';
 
 class LoginScene extends Scene {
-	#player;
+	#players = [];
+	#xOffset = 1.3;
 	constructor() {
 		super();
 
@@ -17,15 +18,32 @@ class LoginScene extends Scene {
 	}
 
 	#onAppLoaded = () => {
-		this.#player = new Player(app.core.assetsManager.get('player'), 'BZH');
-		this.#player.position.y = -1;
-		this.#player.rotation.y = Math.PI * 0.1;
+		this.#players.push(new Player(app.core.assetsManager.get('player'), 'BZH'));
+		this.#players.push(new Player(app.core.assetsManager.get('player'), 'BZH'));
+		this.#players.push(new Player(app.core.assetsManager.get('player'), 'BZH'));
 
-		this.add(this.#player);
+		this.#players[0].position.y = -1;
+		this.#players[0].rotation.y = -Math.PI * 0.1;
+		this.#players[0].position.x = -this.#xOffset;
+		this.#players[0].scale.setScalar(0.7);
+
+		this.#players[1].position.y = -1;
+		this.#players[1].rotation.y = Math.PI * 0.1;
+		this.#players[1].position.x = 0;
+		this.#players[1].scale.setScalar(1);
+
+		this.#players[2].position.y = -1;
+		this.#players[2].rotation.y = Math.PI * 0.1;
+		this.#players[2].position.x = this.#xOffset;
+		this.#players[2].scale.setScalar(0.7);
+
+		this.add(...this.#players);
 	};
 
+	onSlideshowScroll(progress, length) {}
+
 	#onSelectTeamUpdate = (iso) => {
-		this.#player.updateISO(iso);
+		// this.#players[0].updateISO(iso);
 	};
 
 	render() {
@@ -33,7 +51,7 @@ class LoginScene extends Scene {
 	}
 
 	dispose() {
-		this.#player.dispose();
+		this.#players[0].dispose();
 	}
 }
 
