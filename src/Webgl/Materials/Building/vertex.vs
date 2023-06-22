@@ -21,7 +21,12 @@ void main() {
   #endif
   vec4 mvPosition = modelViewMatrix * pos;
 
-  vNormal = normalize(normalMatrix * normal);
+  #ifdef USE_INSTANCING
+    vNormal = normalize(mat3(instanceMatrix) * normal);
+  #else
+    vNormal = normalize(normalMatrix * normal);
+  #endif
+  
   vUv = uv;
   vDepth = smoothstep(NEAR, FAR, -mvPosition.z);
 

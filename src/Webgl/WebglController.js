@@ -96,7 +96,7 @@ class WebglController {
 		this.#currentScene.background = this.#currentScene.userData.backgrounds[+value];
 		this.#currentScene?.terrain?.traverse(
 			/** @param {import('three').Mesh} child*/ (child) => {
-				if (child.isMesh) child.material = child.userData.materials[+value];
+				if (child.isMesh && child.userData.materials) child.material = child.userData.materials[+value];
 			},
 		);
 	}

@@ -61,6 +61,7 @@ class MainScene extends Scene {
 		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'));
 
 		this.terrain = new Terrain(app.core.assetsManager.get('terrain'));
+
 		this.add(this.terrain);
 
 		this.topHeadAnimationTexture = this.#createHeadTopVerticeAnimationTexture();
@@ -145,6 +146,8 @@ class MainScene extends Scene {
 
 	set emissiveOnly(value) {
 		this.terrain.skybox.visible = !value;
+		this.terrain.grid.visible = !value;
+		this.terrain.flagObject.visible = !value;
 	}
 
 	get emissiveOnly() {
