@@ -110,7 +110,7 @@ export default class ServerController {
 	 * @param {VoteResultsPayload} data
 	 */
 	#onVoteResults(data) {
-		// console.log(data, 'onVoteResults');
+		console.log(data, 'onVoteResults');
 		app.game.voteResults(data);
 	}
 
@@ -120,7 +120,7 @@ export default class ServerController {
 	 * @param {VoteCountPayload} data
 	 */
 	#onVoteCount(data) {
-		// console.log(data, 'onVoteCount');
+		console.log(data, 'onVoteCount');
 		app.game.voteCount(data);
 	}
 
