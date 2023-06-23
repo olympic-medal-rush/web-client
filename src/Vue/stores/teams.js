@@ -47,7 +47,7 @@ export const useTeamsStore = defineStore('teams', {
 			const firstIso = this.scoreboard[0].iso;
 			this.scoreboard.sort((a, b) => b.score - a.score);
 			this.scoreboard.forEach((team, i) => (this.teams[team.iso].position = i + 1));
-			if (this.scoreboard[0].iso !== firstIso) state.emit(EVENTS.SCOREBOARD_UPDATE);
+			state.emit(EVENTS.SCOREBOARD_UPDATE);
 		},
 
 		/**

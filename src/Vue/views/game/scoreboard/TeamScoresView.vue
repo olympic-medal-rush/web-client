@@ -4,9 +4,9 @@ import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
 import BlurryPage from '@components/Utils/BlurryPage.vue';
 import { useMedalsStore } from '@stores/medals';
 import { useTeamsStore } from '@stores/teams';
+import { MEDAL_TYPES } from '@utils/constants';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { MEDAL_TYPES } from '@utils/constants';
 
 const route = useRoute();
 // @ts-ignore
@@ -44,8 +44,13 @@ const onMedalFilterClick = (type) => {
 		<div class="team-scores">
 			<div class="team-scores-wrapper">
 				<div class="top-infos">
-					<p class="position">1er</p>
-					<p class="medal-count">36 médailles</p>
+					<img src="/assets/images/white-player.png" alt="" srcset="" />
+					<div>
+						<p class="position">
+							{{ teamsStore.getTeam(teamsStore.currentIso).position }} <span> {{ teamsStore.getTeam(teamsStore.currentIso).position === 1 ? 'er' : 'eme' }}</span>
+						</p>
+						<p class="medal-count">{{ teamsStore.getMedalsCount(iso) }} médaille{{ teamsStore.getMedalsCount(iso) > 1 ? 's' : '' }}</p>
+					</div>
 				</div>
 				<div class="results">
 					<div class="stats"></div>
@@ -53,7 +58,7 @@ const onMedalFilterClick = (type) => {
 						<div class="collection-header">
 							<div class="top">
 								<h4>Collection</h4>
-								<p>{{ teamsStore.getMedalsCount(iso) }} médailles</p>
+								<p>{{ teamsStore.getMedalsCount(iso) }} médaille{{ teamsStore.getMedalsCount(iso) > 1 ? 's' : '' }}</p>
 							</div>
 							<div class="medal-types">
 								<button :class="showGold && 'active'" @click="onMedalFilterClick(MEDAL_TYPES.gold)">{{ teamsStore.getTeam(iso).medals[MEDAL_TYPES.gold] }} Or</button>
@@ -112,7 +117,7 @@ $margin-top: calc(45px + 2 * 20px);
 
 		.top-infos {
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
 			justify-content: center;
 			align-items: center;
 			height: calc(40 * var(--vh));
@@ -121,9 +126,31 @@ $margin-top: calc(45px + 2 * 20px);
 			width: 100%;
 			z-index: -1;
 
+			img {
+				width: 50%;
+				transform: translate(-10px, 60px);
+
+				@media (min-width: '400px') {
+					width: 215px;
+				}
+			}
+
+			div {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+
 			.position {
 				font-size: 46px;
 				font-weight: 700;
+
+				span {
+					font-size: 30px;
+					display: inline-block;
+					transform: translateX(-7px);
+				}
 			}
 
 			.medal-count {
@@ -215,6 +242,9 @@ $margin-top: calc(45px + 2 * 20px);
 					.medal-circle {
 						flex: 0 0 25%;
 						height: auto;
+						@media (min-width: '400px') {
+							flex: 0 0 70px;
+						}
 					}
 				}
 			}
