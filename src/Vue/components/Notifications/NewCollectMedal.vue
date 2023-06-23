@@ -134,7 +134,10 @@ const toggleOpenOtherPays = () => {
 				<img v-if="collectType === 2" src="/assets/svgs/text-or.svg" class="text" alt="" srcset="" />
 				<MedalImg :type="collectType" />
 			</div>
-			<ButtonOrLink class="cta" :to="'/game/medals/' + teamsStore.currentIso + '/' + idMedal"> Afficher le détail </ButtonOrLink>
+      <div class="btns">
+        <ButtonOrLink class="cta" close @click="() => removeMyTeamCollect()"> Fermer </ButtonOrLink>
+        <ButtonOrLink class="cta" :to="'/game/medals/' + teamsStore.currentIso + '/' + idMedal"> Détails </ButtonOrLink>
+      </div>
 		</div>
 	</div>
 </template>
@@ -173,10 +176,9 @@ const toggleOpenOtherPays = () => {
 		color: $text-olive-ui;
 		width: 93.5%;
 		pointer-events: all;
-		scale: 0.3;
 		opacity: 0;
 		height: 83px;
-		transition: top 0.3s $in-out-quad, scale 0.3s $in-out-quad, opacity 0.3s linear, height 0.2s $in-out-quad;
+		transition: top 0.3s $in-out-quad, opacity 0.3s linear, height 0.2s $in-out-quad;
 
 		@include tablet {
 			width: 364px;
@@ -231,7 +233,6 @@ const toggleOpenOtherPays = () => {
 
 		&.active {
 			opacity: 1;
-			scale: 1;
 			top: 20px;
 		}
 
@@ -296,7 +297,7 @@ const toggleOpenOtherPays = () => {
 	}
 
 	&_MyCountry {
-		pointer-events: all;
+		pointer-events: none;
 		cursor: pointer;
 		position: absolute;
 		top: 26%;
@@ -345,6 +346,7 @@ const toggleOpenOtherPays = () => {
 		}
 
 		&.active {
+		  pointer-events: all;
 			scale: 1;
 			opacity: 1;
 		}
@@ -358,10 +360,18 @@ const toggleOpenOtherPays = () => {
 		}
 	}
 
-	.cta {
-		width: 100%;
-		margin-top: 20px;
-	}
+  .btns{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .cta {
+      width: calc(50% - 5px);
+    }
+
+  }
+
+	
 
 	.or {
 		color: $gold-ui;
