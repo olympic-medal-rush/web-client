@@ -1,6 +1,8 @@
 <script setup>
+import { state } from '@/State';
 import Arrow from '@/assets/svgs/GreyArrow.svg';
 import { useTeamsStore } from '@stores/teams';
+import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
 import RoundFlag from './Assets/RoundFlag.vue';
 
@@ -10,6 +12,8 @@ const podium = ref();
 
 const scoreboard = ref();
 const isPodiumActive = ref(false);
+
+state.on(EVENTS.CREATE_TEAM, () => togglePodium());
 
 const togglePodium = () => {
 	if (!isPodiumActive.value) {
