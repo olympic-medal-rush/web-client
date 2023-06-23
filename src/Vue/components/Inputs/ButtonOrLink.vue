@@ -21,13 +21,13 @@ const props = defineProps({
 </script>
 
 <template>
-	<RouterLink v-if="props.to" :to="props.to">
+	<RouterLink v-if="props.to" ontouchstart="" :to="props.to">
 		<ButtonOrLinkContent :icon-position="props.iconPosition" :class="{ close: props.close }">
 			<template #icon><slot name="icon"></slot></template>
 			<slot></slot>
 		</ButtonOrLinkContent>
 	</RouterLink>
-	<button v-else>
+	<button v-else ontouchstart="">
 		<ButtonOrLinkContent :icon-position="props.iconPosition" :class="{ close: props.close }">
 			<template #icon><slot name="icon"></slot></template>
 			<slot></slot>
