@@ -2,7 +2,7 @@
 	<div class="WIP">
 		<img src="/assets/svgs/info.svg" alt="" srcset="" />
 		<div>
-			<p>Pas encore disponible !</p>
+			<p>Disponible en V2 !</p>
 			<span>ça ne saurait tarder...</span>
 		</div>
 	</div>

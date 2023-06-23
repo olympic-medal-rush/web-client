@@ -29,7 +29,7 @@ const styles = {
 	isolation: isolate;
 
 	.medal-img {
-		width: auto;
+		// width: 100px;
 		flex-shrink: 0;
 
 		&:nth-of-type(1) {

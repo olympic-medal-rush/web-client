@@ -203,8 +203,8 @@ const toggleOpenOtherPays = () => {
 			padding: 17px 13px 12.5px 13px;
 			background-color: $darken-bg-beige-ui;
 			border-radius: 9999px;
-      transform: rotate(0deg);
-      transition: transform .3s;
+     	 	transform: rotate(0deg);
+      		transition: transform .3s;
       
 
       &.openModal {

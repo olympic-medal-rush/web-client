@@ -153,7 +153,7 @@ class InstancedMedals extends Mesh {
 			this.#instancedInterleaveBuffer.needsUpdate = true;
 
 			this.#count--;
-		}, 1500);
+		}, 1000);
 	}
 
 	dispose() {
