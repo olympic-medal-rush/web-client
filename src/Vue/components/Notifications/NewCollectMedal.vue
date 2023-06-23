@@ -173,10 +173,9 @@ const toggleOpenOtherPays = () => {
 		color: $text-olive-ui;
 		width: 93.5%;
 		pointer-events: all;
-		scale: 0.3;
 		opacity: 0;
 		height: 83px;
-		transition: top 0.3s $in-out-quad, scale 0.3s $in-out-quad, opacity 0.3s linear, height 0.2s $in-out-quad;
+		transition: top 0.3s $in-out-quad, opacity 0.3s linear, height 0.2s $in-out-quad;
 
 		@include tablet {
 			width: 364px;
@@ -231,7 +230,6 @@ const toggleOpenOtherPays = () => {
 
 		&.active {
 			opacity: 1;
-			scale: 1;
 			top: 20px;
 		}
 
@@ -296,7 +294,7 @@ const toggleOpenOtherPays = () => {
 	}
 
 	&_MyCountry {
-		pointer-events: all;
+		pointer-events: none;
 		cursor: pointer;
 		position: absolute;
 		top: 26%;
@@ -345,6 +343,7 @@ const toggleOpenOtherPays = () => {
 		}
 
 		&.active {
+		  pointer-events: all;
 			scale: 1;
 			opacity: 1;
 		}
