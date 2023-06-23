@@ -67,6 +67,15 @@ export default class ServerController {
 			case SERVER_EVENTS.PLAYER_COUNT:
 				this.#onPlayerCount(evt.payload);
 				break;
+			case SERVER_EVENTS.COUNTRY_BUFF:
+				this.#onCountryBuff(evt.payload);
+				break;
+			case SERVER_EVENTS.COUNTRY_DEBUFF:
+				this.#onCountryDebuff(evt.payload);
+				break;
+			case SERVER_EVENTS.COUNTRY_REACTION:
+				this.#onCountryReaction(evt.payload);
+				break;
 			default:
 				break;
 		}
@@ -154,6 +163,30 @@ export default class ServerController {
 		app.game.createTeam(data);
 	}
 
+	/**
+	 *
+	 * @param {CountryBuffPayload} data
+	 */
+	#onCountryBuff(data) {
+		console.log(data, 'buff');
+	}
+
+	/**
+	 *
+	 * @param {CountryDebuffPayload} data
+	 */
+	#onCountryDebuff(data) {
+		console.log(data, 'debuff');
+	}
+
+	/**
+	 *
+	 * @param {CountryReactionPayload} data
+	 */
+	#onCountryReaction(data) {
+		// console.log(data, 'reactions');
+	}
+
 	/* ######## EMITTERS ######## */
 
 	/**
@@ -174,6 +207,15 @@ export default class ServerController {
 	userJoin(userJoinPayload) {
 		console.log(userJoinPayload, 'userJoin');
 		this.#send(SERVER_EVENTS.USER_JOIN, userJoinPayload);
+	}
+
+	/**
+	 *
+	 * @param {UserReactionPayload} userReactionPayload
+	 */
+	userReaction(userReactionPayload) {
+		// console.log(userReactionPayload, 'userReaction');
+		this.#send(SERVER_EVENTS.USER_REACTION, userReactionPayload);
 	}
 
 	userCatchup() {

@@ -34,6 +34,7 @@ type TeamInfos = {
 	iso: string;
 	position: Position;
 	medals?: Record<MedalType, number>;
+	boosts: string[];
 };
 
 type GameStatePayload = {
@@ -79,6 +80,22 @@ type MedalCollectionPayload = {
 
 type PlayerCountsPayload = Record<string, number>;
 
+type CountryBuffPayload = {
+	iso: string;
+	buff: 'vote_rate' | 'pathfinding';
+	interval?: number; // only if buff = vote_rate
+};
+
+type CountryDebuffPayload = {
+	iso: string;
+	buff: 'vote_rate' | 'pathfinding';
+};
+
+type CountryReactionPayload = {
+	iso: string;
+	reactions: Record<number, number>;
+};
+
 // EMITTERS PAYLOADS
 
 type UserVotePayload = {
@@ -88,6 +105,10 @@ type UserVotePayload = {
 
 type UserJoinPayload = {
 	iso: string;
+};
+
+type UserReactionPayload = {
+	reaction: number;
 };
 
 type EventUserVote = Event<UserVotePayload>;

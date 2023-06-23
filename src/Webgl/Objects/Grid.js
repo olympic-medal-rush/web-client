@@ -30,16 +30,12 @@ class Grid extends Mesh {
 		this.finder = new pathfinding.AStarFinder();
 
 		this.#resetPath();
-		state.on(EVENTS.JOIN_READY, this.#findPath);
-		state.on(EVENTS.VOTE_RESULTS, this.#findPath);
-		state.on(EVENTS.SPAWN_MEDALS, this.#findPath);
-		state.on(EVENTS.COLLECT_MEDAL, this.#findPath);
 
 		this.geometry = this.#createGeometry(this.size);
 		this.material = this.#createMaterial(this.size);
-		state.on(EVENTS.STATE_READY, () => {
-			this.material.uniforms.tPathFinding.value = this.#createPathFindingDataTex();
-		});
+
+		state.on(EVENTS.TOGGLE_PATHFINDING, this.#togglePathFinding);
+		state.on(EVENTS.STATE_READY, this.#onStateReady);
 	}
 
 	#createGeometry(size) {
@@ -51,16 +47,7 @@ class Grid extends Mesh {
 	}
 
 	#createMaterial(size) {
-		const [groundData] = app.core.assetsManager.get('groundData', 'seamless1', 'seamless2', 'seamless3', 'seamless4');
-
-		// groundData.wrapS = groundData.wrapT = MirroredRepeatWrapping;
-
-		// seamless1.wrapS = seamless1.wrapT = RepeatWrapping;
-		// seamless2.wrapS = seamless2.wrapT = RepeatWrapping;
-		// seamless3.wrapS = seamless3.wrapT = RepeatWrapping;
-		// seamless4.wrapS = seamless4.wrapT = RepeatWrapping;
-
-		// groundData.magFilter = groundData.minFilter = NearestFilter
+		const groundData = app.core.assetsManager.get('groundData');
 
 		const material = new GridMaterial({
 			uniforms: {
@@ -137,6 +124,12 @@ class Grid extends Mesh {
 			this.path.push([0, 0]);
 		}
 	}
+
+	#togglePathFinding = (active) => {};
+
+	#onStateReady = () => {
+		this.material.uniforms.tPathFinding.value = this.#createPathFindingDataTex();
+	};
 
 	#findPath = () => {
 		if (!app.game.currentTeam) return;
