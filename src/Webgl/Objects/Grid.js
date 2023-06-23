@@ -37,6 +37,9 @@ class Grid extends Mesh {
 
 		this.geometry = this.#createGeometry(this.size);
 		this.material = this.#createMaterial(this.size);
+		state.on(EVENTS.STATE_READY, () => {
+			this.material.uniforms.tPathFinding.value = this.#createPathFindingDataTex();
+		});
 	}
 
 	#createGeometry(size) {
