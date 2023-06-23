@@ -216,8 +216,8 @@ class InstancedTeams extends Mesh {
 		this.#streamAttributes.animationProgress.setX(teamIndex, animationProgress);
 		this.#streamAttributes.rotationY.setX(teamIndex, animatedRotation);
 
-		this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
-		this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
+		// this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
+		// this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
 		this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 	}
 

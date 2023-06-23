@@ -172,8 +172,8 @@ class InstancedFlags extends Mesh {
 	moveInstanceUpdate({ teamIndex, animatedPosition }) {
 		this.#streamAttributes.instancePosition.setXY(teamIndex, animatedPosition.x, animatedPosition.y);
 
-		this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
-		this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
+		// this.#streamInstancedInterleaveBuffer.updateRange.offset = teamIndex * this.#streamInstancesStride;
+		// this.#streamInstancedInterleaveBuffer.updateRange.count = this.#streamInstancesStride;
 		this.#streamInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
