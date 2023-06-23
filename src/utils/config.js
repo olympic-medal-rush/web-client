@@ -26,8 +26,7 @@ const CAMERA = {
 	zoomEase: 5,
 	playerPosEase: 20,
 	maxTiltAngle: degToRad(65),
-	// maxTiltAngle: degToRad(90),
-	zoomOffsetY: 8,
+	zoomOffsetY: 9,
 	near: 1,
 	far: 100,
 };
@@ -48,4 +47,4 @@ const MATERIALS = {
 	},
 };
 
-export { DEBUG, BREAKPOINTS, MEDAL_POINTS, MEDAL_COLORS, CAMERA, TERRAIN, MATERIALS };
+export { BREAKPOINTS, CAMERA, DEBUG, MATERIALS, MEDAL_COLORS, MEDAL_POINTS, TERRAIN };
