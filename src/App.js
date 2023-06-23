@@ -1,5 +1,4 @@
 import { createCoreModules } from '@/Core/index';
-import { GameController } from '@/Game/GameController';
 import ServerController from '@/Server/ServerController';
 import { SoundController } from '@/Sound/SoundController';
 import { state } from '@/State';
@@ -12,6 +11,7 @@ import { createI18n } from 'vue-i18n';
 import { DEBUG } from '@utils/config';
 import { EVENTS } from '@utils/constants';
 import { createDebugModules } from './Debug';
+import { GameController } from './Game/GameController';
 import { createToolsModules } from './Tools';
 import { WebglController } from './Webgl/WebglController';
 
