@@ -5,7 +5,7 @@ const props = defineProps({
 	margin: {
 		type: String,
 		required: false,
-		default: '-14px',
+		default: '-6px',
 	},
 });
 
@@ -24,13 +24,15 @@ const styles = {
 
 <style lang="scss" scoped>
 .medals-img {
-	height: 20px;
+	// height: 20px;
 	display: flex;
+	position: relative;
 	isolation: isolate;
 
 	.medal-img {
-		// width: 100px;
-		flex-shrink: 0;
+		// flex: 0 0 33%;
+		width: 20px;
+		position: relative;
 
 		&:nth-of-type(1) {
 			z-index: 2;
@@ -38,11 +40,15 @@ const styles = {
 
 		&:nth-of-type(2) {
 			z-index: 1;
-			margin-left: v-bind('styles.margin');
+			position: absolute;
+			top: 0;
+			right: -5px;
 		}
 
 		&:nth-of-type(3) {
-			margin-left: v-bind('styles.margin');
+			position: absolute;
+			top: 0;
+			right: -10px;
 		}
 	}
 }
