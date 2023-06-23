@@ -67,6 +67,7 @@ type VoteResultsPayload = {
 type NewCountryPayload = {
 	iso: string;
 	position: Position;
+	boosts: string[];
 };
 
 type MedalApparitionPayload = {

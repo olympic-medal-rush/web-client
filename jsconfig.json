@@ -19,7 +19,7 @@
 
 			"@Core/*": ["src/Core/*"],
 			"@Debug/*": ["./src/Debug/*"],
-			"@Game/*": ["src/Game/*"],
+			"@Game/*": ["./src/Game/*"],
 			"@Server/*": ["src/Server/*"],
 			"@Sound/*": ["src/Sound/*"],
 			"@Tools/*": ["./src/Tools/*"],
