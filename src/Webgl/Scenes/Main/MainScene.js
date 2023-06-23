@@ -18,7 +18,7 @@ class MainScene extends Scene {
 		this.add(this.dynamicGroup);
 
 		const halfTerrain = TERRAIN.size * 0.5;
-		const cameraBounds = halfTerrain + 15;
+		const cameraBounds = halfTerrain + 5;
 		this.shadowCamera = new OrthographicCamera(-cameraBounds, cameraBounds, cameraBounds, -cameraBounds, 1, 100);
 		this.shadowCamera.position.set(-3, 40, 5);
 		this.shadowCamera.lookAt(cameraBounds, 0, cameraBounds);
