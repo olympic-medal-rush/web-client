@@ -117,12 +117,13 @@ watchEffect(() => {
 		background-color: $bg-beige-ui;
 		width: 93%;
 		left: calc(50% - 93% / 2);
-		top: 17%;
+		top: calc(50% - 200px);
 		border-radius: 15px;
 		padding: 24px 0 15px 0;
 		opacity: 0;
 		transform: translateY(150%);
 		transition: transform 0.7s $immg-posOut, opacity 0.5s linear;
+		max-height: 400px;
 
 		@include tablet {
 			width: 400px;
@@ -179,8 +180,8 @@ watchEffect(() => {
 
 			img {
 				max-width: 100%;
-				max-height: 300px;
-				border-radius: 66px;
+				max-height: 130px;
+				border-radius: 15px;
 			}
 		}
 	}
