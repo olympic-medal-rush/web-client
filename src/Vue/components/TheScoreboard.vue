@@ -13,7 +13,14 @@ const podium = ref();
 const scoreboard = ref();
 const isPodiumActive = ref(false);
 
-state.on(EVENTS.CREATE_TEAM, () => togglePodium());
+state.on(EVENTS.CREATE_TEAM, () => closePodium());
+state.on(EVENTS.SCOREBOARD_UPDATE, () => closePodium());
+
+const closePodium = () => {
+	scoreboard.value.style.height = 75 + 'px';
+	isPodiumActive.value = false;
+	scoreboard.value.classList.remove('active');
+};
 
 const togglePodium = () => {
 	if (!isPodiumActive.value) {
