@@ -134,7 +134,10 @@ const toggleOpenOtherPays = () => {
 				<img v-if="collectType === 2" src="/assets/svgs/text-or.svg" class="text" alt="" srcset="" />
 				<MedalImg :type="collectType" />
 			</div>
-			<ButtonOrLink class="cta" :to="'/game/medals/' + teamsStore.currentIso + '/' + idMedal"> Afficher le détail </ButtonOrLink>
+      <div class="btns">
+        <ButtonOrLink class="cta" close @click="() => removeMyTeamCollect()"> Fermer </ButtonOrLink>
+        <ButtonOrLink class="cta" :to="'/game/medals/' + teamsStore.currentIso + '/' + idMedal"> Détails </ButtonOrLink>
+      </div>
 		</div>
 	</div>
 </template>
@@ -357,10 +360,18 @@ const toggleOpenOtherPays = () => {
 		}
 	}
 
-	.cta {
-		width: 100%;
-		margin-top: 20px;
-	}
+  .btns{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .cta {
+      width: calc(50% - 5px);
+    }
+
+  }
+
+	
 
 	.or {
 		color: $gold-ui;

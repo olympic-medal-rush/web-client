@@ -41,5 +41,11 @@ const props = defineProps({
 	&:active {
 		transform: scale(0.95);
 	}
+
+	&.close {
+		background: linear-gradient(180deg, rgba(53, 53, 6, 0.05) 0%, rgba(238, 203, 20, 0.05) 100%);
+		color: #666555;
+		border: 1px solid rgba(53, 53, 6, 0.05);
+	}
 }
 </style>
