@@ -104,14 +104,18 @@ state.on(EVENTS.VOTE_RESULTS, (team) => {
 });
 
 onMounted(() => {
-	directiveOpacity = document.querySelectorAll('svg.directive linearGradient stop')[1];
-	directiveOpacity.setAttribute('offset', '0.99');
-	directiveGrad = document.querySelector('svg.directive linearGradient');
+	resetBgRefs();
 	buttons = document.querySelectorAll('button.arrow');
 	posTeam.value = app.game.currentTeam.position;
 	removeActive();
 	detectObstacles();
 });
+
+const resetBgRefs = () => {
+	directiveOpacity = document.querySelectorAll('svg.directive linearGradient stop')[1];
+	if (directiveOpacity) directiveOpacity.setAttribute('offset', '0.99');
+	directiveGrad = document.querySelector('svg.directive linearGradient');
+};
 
 state.on(EVENTS.VOTE_COUNT, () => {
 	if (voteStore.left === 0 && voteStore.right === 0 && voteStore.up === 0 && voteStore.down === 0) {
@@ -131,9 +135,11 @@ state.on(EVENTS.VOTE_COUNT, () => {
 		duration: 0.3,
 		ease: 'power2.out',
 		onUpdate: () => {
-			directiveOpacity.setAttribute('offset', current.opacity.toString());
-			directiveGrad.setAttribute('x2', current.x);
-			directiveGrad.setAttribute('y2', current.y);
+			if (directiveOpacity && directiveGrad) {
+				directiveOpacity.setAttribute('offset', current.opacity.toString());
+				directiveGrad.setAttribute('x2', current.x);
+				directiveGrad.setAttribute('y2', current.y);
+			}
 		},
 	});
 });
@@ -210,13 +216,20 @@ watch(voteStore, () => {
 	number.value = voteStore.getSommeVote();
 });
 
-store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => (focus.value = value));
+store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => {
+	focus.value = value;
+	if (focus.value) {
+		setTimeout(() => {
+			resetBgRefs();
+		}, 100);
+	}
+});
 </script>
 
 <template>
 	<div>
 		<div v-if="focus" class="VoteArrow">
-			<DirectiveVoteArrow class="directive mainBtn" />
+			<DirectiveVoteArrow ref="svgDirectiveVoteArrow" class="directive mainBtn" />
 			<BGArrows class="bgSVG mainBtn" />
 
 			<div class="arrows mainBtn">
