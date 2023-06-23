@@ -95,6 +95,10 @@ const toggleCards = () => {
 	align-items: center;
 	padding: 0px 16px 18px 32px;
 
+	@include tablet {
+		width: 370px;
+	}
+
 	.back-btn {
 		position: absolute;
 		top: 20px;
@@ -169,6 +173,11 @@ const toggleCards = () => {
 		pointer-events: all;
 		align-self: flex-start;
 		width: 100%;
+
+		@include tablet {
+			width: calc(100vw - 2 * 50px);
+			transform: translateX(calc(-50% + 370px / 2 - 20px));
+		}
 
 		.bottom-nav-wrapper {
 			display: flex;
