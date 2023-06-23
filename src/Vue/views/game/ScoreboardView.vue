@@ -72,6 +72,11 @@ const teamsStore = useTeamsStore();
 		z-index: -1;
 		width: 100%;
 
+		@media (min-width: '400px') {
+			width: 400px;
+			margin-left: calc(50% - 200px);
+		}
+
 		&-position {
 			flex: 0 0 33%;
 			display: flex;
