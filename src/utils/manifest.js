@@ -14,18 +14,18 @@ const manifest = {
 	textures: {
 		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/ground.jpg` },
 		buildingsColors: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/colors.png` },
-		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg` },
-		skybox: { path: `${import.meta.env.BASE_URL}assets/textures/skybox.png` },
-		background: { path: `${import.meta.env.BASE_URL}assets/textures/environment/backgrounds.jpg` },
 
-		medalHeights: { path: `${import.meta.env.BASE_URL}assets/textures/medals/medal-heights.png` },
+		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg` },
+
+		background: { path: `${import.meta.env.BASE_URL}assets/textures/environment/backgrounds.jpg` },
 
 		playerAo: { path: `${import.meta.env.BASE_URL}assets/textures/players/player-ao.jpg` },
 		playerMetalness: { path: `${import.meta.env.BASE_URL}assets/textures/players/player-metalness.jpg` },
 		playerPositionOffsets: { path: `${import.meta.env.BASE_URL}assets/textures/players/offsetsCombined.png` },
 		playerNormal: { path: `${import.meta.env.BASE_URL}assets/textures/players/normalsCombined.png` },
 		reactmoji: { path: `${import.meta.env.BASE_URL}assets/textures/players/reactmoji.png` },
-		flagsatlas: { path: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas.webp`, mobilePath: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas-mobile.webp` },
+
+		flagsAtlas: { path: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas.webp`, mobilePath: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas-mobile.webp` },
 
 		joFlag: { path: `${import.meta.env.BASE_URL}assets/images/flags/JO-FLAG.png` },
 	},
@@ -39,7 +39,7 @@ const manifest = {
 		medal: { path: `${import.meta.env.BASE_URL}assets/models/medal.glb` },
 	},
 	jsons: {
-		flagsAtlas: { path: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas.json`, mobilePath: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas-mobile.json` },
+		flagsAtlasData: { path: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas.json`, mobilePath: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas-mobile.json` },
 	},
 	sounds: {
 		mario: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },

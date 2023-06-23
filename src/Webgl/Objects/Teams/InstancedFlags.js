@@ -31,7 +31,7 @@ class InstancedFlags extends Mesh {
 		this.step = 0;
 		this.maxCount = maxCount;
 
-		const tex = app.core.assetsManager.get('flagsatlas');
+		const tex = app.core.assetsManager.get('flagsAtlas');
 		const { width, height } = tex.source.data;
 		this.#textureDimensions.set(width, height);
 
@@ -108,8 +108,7 @@ class InstancedFlags extends Mesh {
 	}
 
 	#createMaterial() {
-		const tex = app.core.assetsManager.get('flagsatlas');
-		const { width, height } = tex.source.data;
+		const tex = app.core.assetsManager.get('flagsAtlas');
 
 		tex.flipY = false;
 		const material = new FlagsMaterial({
@@ -120,7 +119,7 @@ class InstancedFlags extends Mesh {
 				uTex: { value: tex },
 			},
 			defines: {
-				UV_SCALE: `vec2(128. / ${width}., 128. / ${height}.)`,
+				UV_SCALE: `vec2(128. / ${this.#textureDimensions.width}., 128. / ${this.#textureDimensions.height}.)`,
 			},
 			side: BackSide,
 			transparent: true,
@@ -138,7 +137,7 @@ class InstancedFlags extends Mesh {
 	}
 
 	#getOffsetFlag(iso) {
-		const flagAtlas = app.core.assetsManager.get('flagsAtlas');
+		const flagAtlas = app.core.assetsManager.get('flagsAtlasData');
 		if (iso) {
 			const data = flagAtlas.find((flag) => flag.filename === iso);
 			return { filename: data.filename, left: data.left / this.#textureDimensions.x, top: data.top / this.#textureDimensions.y, ratio: data.ratio };
