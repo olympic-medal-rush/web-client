@@ -8,9 +8,9 @@ import Arrow from '@/assets/svgs/VoteArrow.svg';
 import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
 import terrainData from '@jsons/terrain_data.json';
 import { useVotesStore } from '@stores/votes';
-import { EVENTS, STORE_KEYS } from '@utils/constants';
 import { gsap } from 'gsap';
 import { onMounted, reactive, ref, watch } from 'vue';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 
 const focus = ref(true);
 const voteStore = useVotesStore();

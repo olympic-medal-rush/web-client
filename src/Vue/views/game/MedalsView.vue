@@ -93,7 +93,7 @@ const toggleCards = () => {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 0px 32px 18px 32px;
+	padding: 0px 16px 18px 32px;
 
 	.back-btn {
 		position: absolute;
@@ -102,7 +102,7 @@ const toggleCards = () => {
 	}
 
 	.card-toggle {
-		margin-top: 55px;
+		margin-top: 35px;
 		display: flex;
 		gap: 15px;
 
