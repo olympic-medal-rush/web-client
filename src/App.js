@@ -1,8 +1,8 @@
 import { createCoreModules } from '@/Core/index';
-import { GameController } from '@/Game/GameController';
-import ServerController from '@/Server/ServerController';
-import { SoundController } from '@/Sound/SoundController';
 import { state } from '@/State';
+import { GameController } from '@Game/GameController';
+import ServerController from '@Server/ServerController';
+import { SoundController } from '@Sound/SoundController';
 import AppVue from '@Vue/App.vue';
 import router from '@Vue/router';
 import messages from '@intlify/unplugin-vue-i18n/messages';
