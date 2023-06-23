@@ -160,13 +160,13 @@ function debug(_instance) {
 		app.game.setState({
 			user_id: 'userId',
 			countries_states: {
-				BZH: { iso: 'BZH', position: { ...getRandomTerrainCell() }, medals: { 0: 42, 1: 2, 2: 15 } },
-				ESP: { iso: 'ESP', position: { ...getRandomTerrainCell() }, medals: { 0: 1, 1: 2, 2: 3 } },
-				FRA: { iso: 'FRA', position: { ...getRandomTerrainCell() }, medals: { 0: 7, 1: 4, 2: 12 } },
-				DEU: { iso: 'DEU', position: { ...getRandomTerrainCell() }, medals: { 0: 10, 1: 2, 2: 5 } },
-				ITA: { iso: 'ITA', position: { ...getRandomTerrainCell() }, medals: { 0: 9, 1: 0, 2: 7 } },
-				USA: { iso: 'USA', position: { ...getRandomTerrainCell() }, medals: { 0: 12, 1: 4, 2: 3 } },
-				BRA: { iso: 'BRA', position: { ...getRandomTerrainCell() }, medals: { 0: 12, 1: 4, 2: 3 } },
+				BZH: { iso: 'BZH', position: { ...getRandomTerrainCell() }, medals: { 0: 42, 1: 2, 2: 15 }, boosts: [] },
+				ESP: { iso: 'ESP', position: { ...getRandomTerrainCell() }, medals: { 0: 1, 1: 2, 2: 3 }, boosts: [] },
+				FRA: { iso: 'FRA', position: { ...getRandomTerrainCell() }, medals: { 0: 7, 1: 4, 2: 12 }, boosts: [] },
+				DEU: { iso: 'DEU', position: { ...getRandomTerrainCell() }, medals: { 0: 10, 1: 2, 2: 5 }, boosts: [] },
+				ITA: { iso: 'ITA', position: { ...getRandomTerrainCell() }, medals: { 0: 9, 1: 0, 2: 7 }, boosts: [] },
+				USA: { iso: 'USA', position: { ...getRandomTerrainCell() }, medals: { 0: 12, 1: 4, 2: 3 }, boosts: [] },
+				BRA: { iso: 'BRA', position: { ...getRandomTerrainCell() }, medals: { 0: 12, 1: 4, 2: 3 }, boosts: [] },
 			},
 			medals: [
 				{ id: (-7).toString(), type: MEDAL_TYPES.bronze, position: { ...getRandomTerrainCell() } },

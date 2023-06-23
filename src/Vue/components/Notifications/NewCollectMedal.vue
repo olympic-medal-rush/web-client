@@ -7,13 +7,13 @@ import RoundFlag from '@components/Assets/RoundFlag.vue';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
 import { useTeamsStore } from '@stores/teams';
 import { EVENTS, MEDAL_TYPES } from '@utils/constants';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const teamsStore = useTeamsStore();
 
 const myCountry = ref();
 const otherCountry = ref();
-const video = ref();
+const videoBg = ref();
 
 const collectTeam = ref(null);
 const collectType = ref(0);
@@ -27,20 +27,26 @@ let timeout;
 
 const idMedal = ref(0);
 
+onMounted(()=> {
+  videoBg.value.addEventListener("ended", videoBg.value.pause());
+})
+
 state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 	idMedal.value = medal.id;
 	if (timeout) clearTimeout(timeout);
 
 	collectTeam.value = team.iso;
 	if (team.iso === teamsStore.currentIso) {
-		video.value.play();
-		timeout = setTimeout(() => {
-	    videoActive.value = true;
-			video.value.pause();
-		}, 2000);
-		setTimeout(() => {
-			myActive.value = true;
-		}, 300);
+    setTimeout(() => {
+      videoBg.value.play();
+      videoActive.value = true;
+      timeout = setTimeout(() => {
+        videoActive.value = false;
+      }, 2000);
+      setTimeout(() => {
+        myActive.value = true;
+      }, 300);
+    }, 2700)
 	} else {
 		otherActive.value = true;
 		timeout = setTimeout(() => {
@@ -70,7 +76,7 @@ const toggleOpenOtherPays = () => {
 
 <template>
 	<div class="NewCollectMedal">
-		<video ref="video" :class="{active: videoActive}" muted playsinline @click="() => removeMyTeamCollect()">
+		<video ref="videoBg" :class="{active: videoActive}" muted playsinline autoplay @click="() => removeMyTeamCollect()">
 			<source src="/assets/videos/confetti.webm" />
 			<source src="/assets/videos/confetti.mov" />
 		</video>
@@ -95,7 +101,7 @@ const toggleOpenOtherPays = () => {
 				    </b>.
           </span>
           <div class="infos-container">
-            <RoundFlag v-if="collectTeam" :iso="collectTeam" has-name size="31px"/><span>{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === collectTeam)) + 1 }} {{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === collectTeam)) + 1 > 1 ? 'eme' : 'er' }}</span>
+            <RoundFlag v-if="collectTeam" :iso="collectTeam" has-name size="31px"/><span>{{ teamsStore.getTeam(collectTeam).position }} {{ teamsStore.getTeam(collectTeam).position > 1 ? 'eme' : 'er' }}</span>
             <div class="medals">
               <div><span class="or">{{ teamsStore.getTeam(collectTeam).medals[MEDAL_TYPES.gold]}}</span><MedalImg class="medal-img" :type="2" /></div>
               <div><span class="argent">{{ teamsStore.getTeam(collectTeam).medals[MEDAL_TYPES.silver]}}</span><MedalImg class="medal-img" :type="1" /></div>
@@ -117,8 +123,8 @@ const toggleOpenOtherPays = () => {
 				<br />
 				Votre équipe se hisse en
 				<b
-					>{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1
-					}}{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1 === 1 ? 'er' : 'eme' }} position</b
+					>{{ teamsStore.getTeam(teamsStore.currentIso).position
+					}}{{ teamsStore.getTeam(teamsStore.currentIso).position === 1 ? 'er' : 'eme' }} position</b
 				>
 				!
 			</p>
@@ -128,7 +134,10 @@ const toggleOpenOtherPays = () => {
 				<img v-if="collectType === 2" src="/assets/svgs/text-or.svg" class="text" alt="" srcset="" />
 				<MedalImg :type="collectType" />
 			</div>
-			<ButtonOrLink class="cta" :to="'/game/medals/' + teamsStore.currentIso + '/' + idMedal"> Afficher le détail </ButtonOrLink>
+      <div class="btns">
+        <ButtonOrLink class="cta" close @click="() => removeMyTeamCollect()"> Fermer </ButtonOrLink>
+        <ButtonOrLink class="cta" :to="'/game/medals/' + teamsStore.currentIso + '/' + idMedal"> Détails </ButtonOrLink>
+      </div>
 		</div>
 	</div>
 </template>
@@ -167,10 +176,9 @@ const toggleOpenOtherPays = () => {
 		color: $text-olive-ui;
 		width: 93.5%;
 		pointer-events: all;
-		scale: 0.3;
 		opacity: 0;
 		height: 83px;
-		transition: top 0.3s $in-out-quad, scale 0.3s $in-out-quad, opacity 0.3s linear, height 0.2s $in-out-quad;
+		transition: top 0.3s $in-out-quad, opacity 0.3s linear, height 0.2s $in-out-quad;
 
 		@include tablet {
 			width: 364px;
@@ -195,8 +203,8 @@ const toggleOpenOtherPays = () => {
 			padding: 17px 13px 12.5px 13px;
 			background-color: $darken-bg-beige-ui;
 			border-radius: 9999px;
-      transform: rotate(0deg);
-      transition: transform .3s;
+     	 	transform: rotate(0deg);
+      		transition: transform .3s;
       
 
       &.openModal {
@@ -212,8 +220,9 @@ const toggleOpenOtherPays = () => {
 			transform: translateY(-12px);
 
 			div {
-				display: inline-flex !important;
+				display: inline-flex;
 				margin-right: 3px;
+        max-width: 50%;
 			}
 
 			b {
@@ -224,7 +233,6 @@ const toggleOpenOtherPays = () => {
 
 		&.active {
 			opacity: 1;
-			scale: 1;
 			top: 20px;
 		}
 
@@ -242,6 +250,7 @@ const toggleOpenOtherPays = () => {
         display: flex;
 
         .FlagImg {
+          max-width: 50%;
           span {
             font-family: 'ApfelGrotezk-Fett';
             font-size: 20px;
@@ -288,10 +297,10 @@ const toggleOpenOtherPays = () => {
 	}
 
 	&_MyCountry {
-		pointer-events: all;
+		pointer-events: none;
 		cursor: pointer;
 		position: absolute;
-		top: 30%;
+		top: 26%;
 		opacity: 0;
 		scale: 0;
 		display: flex;
@@ -337,6 +346,7 @@ const toggleOpenOtherPays = () => {
 		}
 
 		&.active {
+		  pointer-events: all;
 			scale: 1;
 			opacity: 1;
 		}
@@ -350,10 +360,18 @@ const toggleOpenOtherPays = () => {
 		}
 	}
 
-	.cta {
-		width: 100%;
-		margin-top: 20px;
-	}
+  .btns{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .cta {
+      width: calc(50% - 5px);
+    }
+
+  }
+
+	
 
 	.or {
 		color: $gold-ui;

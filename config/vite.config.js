@@ -55,6 +55,7 @@ export default ({ mode }) => {
 		resolve: {
 			alias: getAliasesFromJsConfig(),
 		},
+		assetsInclude: ['**/*.mov'],
 		base: envVariables.OLYMPIC_BASE_URL,
 		envPrefix: 'OLYMPIC_',
 		build: {

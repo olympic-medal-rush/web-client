@@ -1,6 +1,8 @@
 <script setup>
+import { state } from '@/State';
 import Arrow from '@/assets/svgs/GreyArrow.svg';
 import { useTeamsStore } from '@stores/teams';
+import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
 import RoundFlag from './Assets/RoundFlag.vue';
 
@@ -10,6 +12,15 @@ const podium = ref();
 
 const scoreboard = ref();
 const isPodiumActive = ref(false);
+
+state.on(EVENTS.CREATE_TEAM, () => closePodium());
+state.on(EVENTS.SCOREBOARD_UPDATE, () => closePodium());
+
+const closePodium = () => {
+	scoreboard.value.style.height = 75 + 'px';
+	isPodiumActive.value = false;
+	scoreboard.value.classList.remove('active');
+};
 
 const togglePodium = () => {
 	if (!isPodiumActive.value) {
@@ -27,7 +38,7 @@ const togglePodium = () => {
 		<router-link :to="'/game/scoreboard/' + teamsStore.currentIso" class="MyTeam">
 			<div class="MyTeam-wrapper">
 				<RoundFlag :iso="teamsStore.currentIso" />
-				<span class="MyTeam-ranking">{{ teamsStore.scoreboard.indexOf(teamsStore.scoreboard.find((team) => team.iso === teamsStore.currentIso)) + 1 }}</span>
+				<span class="MyTeam-ranking">{{ teamsStore.getTeam(teamsStore.currentIso).position }}</span>
 			</div>
 		</router-link>
 		<div ref="podium" class="Podium">

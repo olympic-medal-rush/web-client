@@ -146,12 +146,14 @@ class InstancedMedals extends Mesh {
 		this.#medals.add(medalIndex, this.#medals.getValue(lastMedalIndex));
 		this.#medals.delete(lastMedalIndex, medal);
 
-		// This is mandatory to make sure we only update the range needed to be updated
-		this.#instancedInterleaveBuffer.updateRange.offset = medalIndex * this.#instancesStride;
-		this.#instancedInterleaveBuffer.updateRange.count = 1 * this.#instancesStride;
-		this.#instancedInterleaveBuffer.needsUpdate = true;
+		setTimeout(() => {
+			// This is mandatory to make sure we only update the range needed to be updated
+			this.#instancedInterleaveBuffer.updateRange.offset = medalIndex * this.#instancesStride;
+			this.#instancedInterleaveBuffer.updateRange.count = 1 * this.#instancesStride;
+			this.#instancedInterleaveBuffer.needsUpdate = true;
 
-		this.#count--;
+			this.#count--;
+		}, 1000);
 	}
 
 	dispose() {

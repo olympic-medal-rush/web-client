@@ -12,13 +12,11 @@ Finally, you can set some item to be criticals if you want your to wait the load
 const manifest = {
 	images: {},
 	textures: {
-		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/ground.png` },
-		seamless1: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless2.png` },
-		seamless2: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless7.png` },
-		seamless3: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless6.png` },
-		seamless4: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/seamless4.png` },
+		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/ground.jpg` },
+		buildingsColors: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/colors.png` },
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg` },
 		skybox: { path: `${import.meta.env.BASE_URL}assets/textures/skybox.png` },
+		background: { path: `${import.meta.env.BASE_URL}assets/textures/environment/backgrounds.jpg` },
 
 		medalHeights: { path: `${import.meta.env.BASE_URL}assets/textures/medals/medal-heights.png` },
 
@@ -28,6 +26,8 @@ const manifest = {
 		playerNormal: { path: `${import.meta.env.BASE_URL}assets/textures/players/normalsCombined.png` },
 		reactmoji: { path: `${import.meta.env.BASE_URL}assets/textures/players/reactmoji.png` },
 		flagsatlas: { path: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas.webp`, mobilePath: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas-mobile.webp` },
+
+		joFlag: { path: `${import.meta.env.BASE_URL}assets/images/flags/JO-FLAG.png` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },

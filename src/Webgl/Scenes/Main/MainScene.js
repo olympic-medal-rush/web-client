@@ -1,6 +1,6 @@
 import { app } from '@/App.js';
 import { state } from '@/State.js';
-import { CanvasTexture, Color, DepthTexture, Group, LinearFilter, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
+import { CanvasTexture, Color, DepthTexture, Group, LinearFilter, LinearSRGBColorSpace, OrthographicCamera, Scene, WebGLRenderTarget } from 'three';
 import { InstancedMedals } from '@Webgl/Objects/InstancedMedals.js';
 import { TeamsWrapper } from '@Webgl/Objects/Teams/TeamsWrapper.js';
 import { TERRAIN } from '@utils/config.js';
@@ -17,21 +17,23 @@ class MainScene extends Scene {
 
 		this.add(this.dynamicGroup);
 
-		const halfTerrain = TERRAIN.size * 0.5 + 10;
-		this.shadowCamera = new OrthographicCamera(-halfTerrain, halfTerrain, halfTerrain, -halfTerrain, 1, 100);
-		this.shadowCamera.position.set(-5, 40, 5);
-		this.shadowCamera.lookAt(halfTerrain, 0, halfTerrain);
+		const halfTerrain = TERRAIN.size * 0.5;
+		const cameraBounds = halfTerrain + 15;
+		this.shadowCamera = new OrthographicCamera(-cameraBounds, cameraBounds, cameraBounds, -cameraBounds, 1, 100);
+		this.shadowCamera.position.set(-3, 40, 5);
+		this.shadowCamera.lookAt(cameraBounds, 0, cameraBounds);
 
-		const rtSize = app.tools.viewport.isMobileAtLaunch ? 2048 : 4096;
+		const dynamicRtSize = app.tools.viewport.isMobileAtLaunch ? 2048 : 4096;
+		const staticRtSize = 4096;
 
 		// Dynamic Shadows
-		this.dynamicShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
+		this.dynamicShadowRenderTarget = this.#createShadowRenderTarget(dynamicRtSize);
 		this.dynamicShadowUniforms = {
 			tDynamicShadows: { value: this.dynamicShadowRenderTarget.depthTexture },
 		};
 
 		// Static Shadows
-		this.staticShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
+		this.staticShadowRenderTarget = this.#createShadowRenderTarget(staticRtSize);
 		this.staticShadowUniforms = {
 			tStaticShadows: { value: this.staticShadowRenderTarget.depthTexture },
 		};
@@ -52,15 +54,16 @@ class MainScene extends Scene {
 	};
 
 	onAppLoaded() {
-		const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('skybox'), false);
-		this.background = envMap;
-		// this.background = new Color().setHex(0xfbf9ec, LinearSRGBColorSpace);
+		// const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('skybox'), false);
+		// this.background = envMap;
+		this.background = new Color().setHex(0xfbf9ec, LinearSRGBColorSpace);
 
 		this.userData.backgrounds = [this.background, new Color(0x000000)];
 
 		this.environment = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('envmap'));
 
 		this.terrain = new Terrain(app.core.assetsManager.get('terrain'));
+
 		this.add(this.terrain);
 
 		this.topHeadAnimationTexture = this.#createHeadTopVerticeAnimationTexture();
@@ -116,7 +119,9 @@ class MainScene extends Scene {
 	}
 
 	#renderStaticShadows() {
+		this.terrain.skybox.visible = false;
 		app.webgl.renderer.renderRenderTarget(this.terrain, this.shadowCamera, this.staticShadowRenderTarget);
+		this.terrain.skybox.visible = true;
 	}
 
 	#createHeadTopVerticeAnimationTexture() {
@@ -139,6 +144,16 @@ class MainScene extends Scene {
 	render() {
 		this.#renderDynamicShadows();
 		this.#renderDiffuse();
+	}
+
+	set emissiveOnly(value) {
+		this.terrain.skybox.visible = !value;
+		this.terrain.grid.visible = !value;
+		this.terrain.flagObject.visible = !value;
+	}
+
+	get emissiveOnly() {
+		return !this.terrain.skybox.visible;
 	}
 }
 

@@ -58,7 +58,7 @@ const teamsStore = useTeamsStore();
 	border-radius: 10px 10px 0 0;
 
 	.scoreboard-wrapper {
-		height: auto;
+		height: 100%;
 		border-radius: 10px 10px 0 0;
 	}
 
@@ -71,6 +71,11 @@ const teamsStore = useTeamsStore();
 		top: 0;
 		z-index: -1;
 		width: 100%;
+
+		@media (min-width: '400px') {
+			width: 400px;
+			margin-left: calc(50% - 200px);
+		}
 
 		&-position {
 			flex: 0 0 33%;

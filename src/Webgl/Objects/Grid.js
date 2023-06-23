@@ -2,20 +2,16 @@ import { app } from '@/App';
 import { state } from '@/State';
 import terrainData from '@jsons/terrain_data.json';
 import pathfinding from 'pathfinding';
-import { DataTexture, Mesh, MirroredRepeatWrapping, PlaneGeometry, RepeatWrapping, Vector3 } from 'three';
+import { Color, DataTexture, Mesh, PlaneGeometry } from 'three';
 import { EVENTS } from '@utils/constants';
 import { globalUniforms } from '@utils/globalUniforms';
 import { GridMaterial } from '../Materials/Grid/material';
 
 class Grid extends Mesh {
-	/**
-	 *
-	 * @param {import('@/types/env').TerrainData} structure
-	 */
-	constructor(structure) {
+	constructor(size, scaleFactor) {
 		super();
-		this.size = structure.data[0].length;
-		this.scaleFactor = 2;
+		this.size = size;
+		this.scaleFactor = scaleFactor;
 
 		//Pathfinding
 		this.nbPix = this.size * this.size;
@@ -34,13 +30,12 @@ class Grid extends Mesh {
 		this.finder = new pathfinding.AStarFinder();
 
 		this.#resetPath();
-		state.on(EVENTS.JOIN_READY, this.#findPath);
-		state.on(EVENTS.VOTE_RESULTS, this.#findPath);
-		state.on(EVENTS.SPAWN_MEDALS, this.#findPath);
-		state.on(EVENTS.COLLECT_MEDAL, this.#findPath);
 
 		this.geometry = this.#createGeometry(this.size);
 		this.material = this.#createMaterial(this.size);
+
+		state.on(EVENTS.TOGGLE_PATHFINDING, this.#togglePathFinding);
+		state.on(EVENTS.STATE_READY, this.#onStateReady);
 	}
 
 	#createGeometry(size) {
@@ -52,16 +47,7 @@ class Grid extends Mesh {
 	}
 
 	#createMaterial(size) {
-		const [groundData, seamless1, seamless2, seamless3, seamless4] = app.core.assetsManager.get('groundData', 'seamless1', 'seamless2', 'seamless3', 'seamless4');
-
-		groundData.wrapS = groundData.wrapT = MirroredRepeatWrapping;
-
-		seamless1.wrapS = seamless1.wrapT = RepeatWrapping;
-		seamless2.wrapS = seamless2.wrapT = RepeatWrapping;
-		seamless3.wrapS = seamless3.wrapT = RepeatWrapping;
-		seamless4.wrapS = seamless4.wrapT = RepeatWrapping;
-
-		// groundData.magFilter = groundData.minFilter = NearestFilter
+		const groundData = app.core.assetsManager.get('groundData');
 
 		const material = new GridMaterial({
 			uniforms: {
@@ -71,15 +57,14 @@ class Grid extends Mesh {
 
 				uZoom: globalUniforms.uZoom,
 
-				uFloorColor: { value: new Vector3(0, 0.39, 0.45) },
-				uGridColor: { value: new Vector3(0, 0, 0) },
+				uWaterColor: { value: new Color(0xb6b6ef) },
+				uGrassColor: { value: new Color(0x94c597) },
+				uFloorColor: { value: new Color(0xdfd5ae) },
 
 				tData: { value: groundData },
-				tSeamless1: { value: seamless1 },
-				tSeamless2: { value: seamless2 },
-				tSeamless3: { value: seamless3 },
-				tSeamless4: { value: seamless4 },
 				tPathFinding: { value: this.#createPathFindingDataTex() },
+				tGrain: { value: app.tools.noise.texture },
+				tNoise: { value: app.core.assetsManager.get('noise') },
 			},
 			defines: {
 				NEAR: `${app.webgl.scene.shadowCamera.near}.`,
@@ -88,6 +73,8 @@ class Grid extends Mesh {
 				GRID_SIZE_FACTOR: `${this.scaleFactor.toFixed(2)}`,
 			},
 		});
+
+		app.debug?.mapping.add(material, 'GridMaterial');
 
 		return material;
 	}
@@ -137,6 +124,12 @@ class Grid extends Mesh {
 			this.path.push([0, 0]);
 		}
 	}
+
+	#togglePathFinding = (active) => {};
+
+	#onStateReady = () => {
+		this.material.uniforms.tPathFinding.value = this.#createPathFindingDataTex();
+	};
 
 	#findPath = () => {
 		if (!app.game.currentTeam) return;

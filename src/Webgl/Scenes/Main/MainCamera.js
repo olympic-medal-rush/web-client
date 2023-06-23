@@ -65,8 +65,10 @@ class MainCamera extends PerspectiveCamera {
 
 		this.position.y = mapLinear(this.#lerpedZoom, 0, 1, CAMERA.minZoom, CAMERA.maxZoom);
 
-		this.#targetPosition.x = clamp(this.#targetPosition.x, 0, TERRAIN.size);
-		this.#targetPosition.y = clamp(this.#targetPosition.y, 0, TERRAIN.size + this.#lerpedZoom * 20);
+		const borderX = TERRAIN.size * 0.3 * (1 - this.#lerpedZoom);
+		const borderY = TERRAIN.size * 0.5 * (1 - this.#lerpedZoom);
+		this.#targetPosition.x = clamp(this.#targetPosition.x, borderX, TERRAIN.size - borderX);
+		this.#targetPosition.y = clamp(this.#targetPosition.y, borderY, TERRAIN.size - borderY);
 
 		if (this.focusPlayer) {
 			this.position.x = damp(this.position.x, this.#playerPosition.x, CAMERA.playerPosEase, dt);

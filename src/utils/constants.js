@@ -37,6 +37,7 @@ const EVENTS = {
 	VOTE_COUNT: i++,
 	VOTE_RESULTS: i++,
 	COLLECT_MEDAL: i++,
+	TOGGLE_PATHFINDING: i++,
 	REACT_MOJI: i++,
 };
 
@@ -72,12 +73,17 @@ const SERVER_EVENTS = {
 
 	PLAYER_COUNT: 'player_count',
 
-	REACT_MOJI: 'react_moji',
+	COUNTRY_BUFF: 'country_buff',
+	COUNTRY_DEBUFF: 'country_debuff',
+
+	COUNTRY_REACTION: 'country_reaction',
 
 	// EMITTERS
 	USER_VOTE: 'user_vote',
 	USER_JOIN: 'user_join',
 	USER_CATCHUP: 'user_catchup',
+	USER_REACTION: 'user_reaction',
+	// {reaction: 0}
 };
 
 const DIRECTIONS = {

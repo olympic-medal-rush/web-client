@@ -1,5 +1,7 @@
+import { state } from '@/State';
 import { defineStore } from 'pinia';
 import { MEDAL_POINTS } from '@utils/config';
+import { EVENTS } from '@utils/constants';
 import { useMedalsStore } from './medals';
 
 export const useTeamsStore = defineStore('teams', {
@@ -42,8 +44,10 @@ export const useTeamsStore = defineStore('teams', {
 		},
 
 		filterScoreboard() {
+			const firstIso = this.scoreboard[0].iso;
 			this.scoreboard.sort((a, b) => b.score - a.score);
 			this.scoreboard.forEach((team, i) => (this.teams[team.iso].position = i + 1));
+			state.emit(EVENTS.SCOREBOARD_UPDATE);
 		},
 
 		/**

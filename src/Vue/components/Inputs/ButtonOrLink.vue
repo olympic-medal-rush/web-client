@@ -12,18 +12,23 @@ const props = defineProps({
 		type: String,
 		default: 'none',
 	},
+	close: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
 });
 </script>
 
 <template>
-	<RouterLink v-if="props.to" :to="props.to">
-		<ButtonOrLinkContent :icon-position="props.iconPosition">
+	<RouterLink v-if="props.to" ontouchstart="" :to="props.to">
+		<ButtonOrLinkContent :icon-position="props.iconPosition" :class="{ close: props.close }">
 			<template #icon><slot name="icon"></slot></template>
 			<slot></slot>
 		</ButtonOrLinkContent>
 	</RouterLink>
-	<button v-else>
-		<ButtonOrLinkContent :icon-position="props.iconPosition">
+	<button v-else ontouchstart="">
+		<ButtonOrLinkContent :icon-position="props.iconPosition" :class="{ close: props.close }">
 			<template #icon><slot name="icon"></slot></template>
 			<slot></slot>
 		</ButtonOrLinkContent>
