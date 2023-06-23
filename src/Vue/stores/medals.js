@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useMedalsStore = defineStore('medals', {
 	state: () => {
-		return { medals: {}, shouldRefresh: new Set() };
+		return { medals: {}, shouldRefresh: new Set(), preloaded: new Set() };
 	},
 	actions: {
 		/**
@@ -16,6 +16,9 @@ export const useMedalsStore = defineStore('medals', {
 				try {
 					const response = await fetch(`${import.meta.env.OLYMPIC_MEDALS_API}/medals/${iso.toUpperCase()}`);
 					const medals = await response.json();
+					medals.forEach((medal) => {
+						new Image().src = medal.cover_url;
+					});
 					this.medals[iso] = medals;
 				} catch (err) {
 					console.error(err);

@@ -58,7 +58,7 @@ const teamsStore = useTeamsStore();
 	border-radius: 10px 10px 0 0;
 
 	.scoreboard-wrapper {
-		height: auto;
+		height: 100%;
 		border-radius: 10px 10px 0 0;
 	}
 

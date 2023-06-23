@@ -17,21 +17,23 @@ class MainScene extends Scene {
 
 		this.add(this.dynamicGroup);
 
-		const halfTerrain = TERRAIN.size * 0.5 + 10;
-		this.shadowCamera = new OrthographicCamera(-halfTerrain, halfTerrain, halfTerrain, -halfTerrain, 1, 100);
-		this.shadowCamera.position.set(-5, 40, 5);
-		this.shadowCamera.lookAt(halfTerrain, 0, halfTerrain);
+		const halfTerrain = TERRAIN.size * 0.5;
+		const cameraBounds = halfTerrain + 15;
+		this.shadowCamera = new OrthographicCamera(-cameraBounds, cameraBounds, cameraBounds, -cameraBounds, 1, 100);
+		this.shadowCamera.position.set(-3, 40, 5);
+		this.shadowCamera.lookAt(cameraBounds, 0, cameraBounds);
 
-		const rtSize = app.tools.viewport.isMobileAtLaunch ? 2048 : 4096;
+		const dynamicRtSize = app.tools.viewport.isMobileAtLaunch ? 2048 : 4096;
+		const staticRtSize = 4096;
 
 		// Dynamic Shadows
-		this.dynamicShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
+		this.dynamicShadowRenderTarget = this.#createShadowRenderTarget(dynamicRtSize);
 		this.dynamicShadowUniforms = {
 			tDynamicShadows: { value: this.dynamicShadowRenderTarget.depthTexture },
 		};
 
 		// Static Shadows
-		this.staticShadowRenderTarget = this.#createShadowRenderTarget(rtSize);
+		this.staticShadowRenderTarget = this.#createShadowRenderTarget(staticRtSize);
 		this.staticShadowUniforms = {
 			tStaticShadows: { value: this.staticShadowRenderTarget.depthTexture },
 		};

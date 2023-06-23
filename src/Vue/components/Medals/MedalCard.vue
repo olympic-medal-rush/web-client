@@ -34,7 +34,7 @@ const onCtaClick = () => {
 	<div class="card">
 		<div class="front">
 			<div class="image-wrapper">
-				<img src="/assets/images/medal_cover.jpg" />
+				<img :src="medal.cover_url" />
 			</div>
 			<div class="athlete">
 				<RoundFlag size="16px" :iso="medal.nationality" />

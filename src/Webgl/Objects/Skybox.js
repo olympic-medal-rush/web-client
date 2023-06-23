@@ -16,7 +16,7 @@ class Skybox extends Mesh {
 	}
 
 	#createGeometry() {
-		const geometry = new IcosahedronGeometry(1, 3);
+		const geometry = new IcosahedronGeometry(1, 4);
 		return geometry;
 	}
 
