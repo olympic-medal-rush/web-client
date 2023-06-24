@@ -4,8 +4,7 @@
 
 <script setup>
 import { state } from '@/State';
-import { ref } from 'vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
 
 const progress = ref(0);
@@ -24,7 +23,7 @@ state.on(EVENTS.LOADER_PROGRESS, (value) => (progress.value = value));
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-family: 'Paris 24 Semibold';
+	font-weight: 700;
 	font-size: 28px;
 	line-height: 24px;
 	color: $silver-gray;
