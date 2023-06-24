@@ -12,6 +12,11 @@ const MEDAL_POINTS = [10, 30, 50];
 
 const MEDAL_COLORS = [0xfba069, 0xcbcbcb, 0xffc300];
 
+const VOTES = {
+	rate: 3000,
+	animationOffset: 800,
+};
+
 const TERRAIN = {
 	size: terrainStructure.data.length,
 };
@@ -47,4 +52,4 @@ const MATERIALS = {
 	},
 };
 
-export { BREAKPOINTS, CAMERA, DEBUG, MATERIALS, MEDAL_COLORS, MEDAL_POINTS, TERRAIN };
+export { BREAKPOINTS, CAMERA, DEBUG, MATERIALS, MEDAL_COLORS, MEDAL_POINTS, TERRAIN, VOTES };

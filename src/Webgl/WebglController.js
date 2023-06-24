@@ -65,6 +65,10 @@ class WebglController {
 		this.scene.moveTeam(team);
 	}
 
+	onReactMoji(countryReactionPayload) {
+		this.scene.addReaction(countryReactionPayload);
+	}
+
 	onSpawnMedals(medals) {
 		this.scene.addMedals(medals);
 	}

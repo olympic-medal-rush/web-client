@@ -168,7 +168,8 @@ export default class ServerController {
 	 * @param {CountryBuffPayload} data
 	 */
 	#onCountryBuff(data) {
-		console.log(data, 'buff');
+		app.game.countryBuff(data);
+		// console.log(data, 'buff');
 	}
 
 	/**
@@ -176,7 +177,8 @@ export default class ServerController {
 	 * @param {CountryDebuffPayload} data
 	 */
 	#onCountryDebuff(data) {
-		console.log(data, 'debuff');
+		app.game.countryDebuff(data);
+		// console.log(data, 'debuff');
 	}
 
 	/**
@@ -220,7 +222,7 @@ export default class ServerController {
 	}
 
 	userCatchup() {
-		console.log('user_catchup');
+		// console.log('user_catchup');
 		this.#send(SERVER_EVENTS.USER_CATCHUP, true);
 	}
 

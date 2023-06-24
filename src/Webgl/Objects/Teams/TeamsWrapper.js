@@ -61,6 +61,10 @@ class TeamsWrapper {
 		this.instancedReactMoji.addInstance(team);
 	}
 
+	addReaction(countryReactionPayload) {
+		this.instancedReactMoji.addReaction(countryReactionPayload);
+	}
+
 	/**
 	 *
 	 * @param {import('@Game/Team').Team} team

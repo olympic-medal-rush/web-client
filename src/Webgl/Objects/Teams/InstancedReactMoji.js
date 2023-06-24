@@ -20,6 +20,10 @@ import { ReactmojiMaterial } from '../../Materials/Reactmoji/material';
 class InstancedReactMoji extends Mesh {
 	#textureDimensions = new Vector2();
 
+	#particlesAttributes = {
+		offset: null,
+	};
+
 	#streamAttributes = {
 		instancePosition: null,
 	};
@@ -49,8 +53,7 @@ class InstancedReactMoji extends Mesh {
 		this.count = teams.size;
 		this.frustumCulled = false;
 
-		// this.useInstances = [];
-		// state.on(EVENTS.REACT_MOJI, this.#onReactMoji);
+		this.useInstances = [];
 	}
 
 	#createGeometry() {
@@ -70,8 +73,6 @@ class InstancedReactMoji extends Mesh {
 			const instancedIndexStride = i * this.#particlesIntancesStride;
 			increment = instancedIndexStride;
 
-			// const offsetMoji = this.#getReactmoji();
-
 			// Add random size
 			particlesData[increment++] = randFloat(0.4, 0.6);
 
@@ -87,9 +88,11 @@ class InstancedReactMoji extends Mesh {
 		}
 
 		this.#particlesInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(particlesData), this.#particlesIntancesStride);
+		this.#particlesAttributes.offset = new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 2, 2, false);
+
 		geometry.setAttribute('aSize', new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 1, 0, false));
 		geometry.setAttribute('aSpeed', new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 1, 1, false));
-		geometry.setAttribute('aOffset', new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 2, 2, false));
+		geometry.setAttribute('aOffset', this.#particlesAttributes.offset);
 		geometry.setAttribute('aPlacing', new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 1, 4, false));
 
 		this.#streamInstancesStride = 2;
@@ -130,7 +133,6 @@ class InstancedReactMoji extends Mesh {
 				uGlobalSpead: { value: 1 },
 				uElevation: { value: 2 },
 			},
-			// transparent: true,
 			depthWrite: false,
 			blending: CustomBlending,
 			blendDstAlpha: DstAlphaFactor,
@@ -171,46 +173,52 @@ class InstancedReactMoji extends Mesh {
 		return offset;
 	}
 
-	// #resetMoji(index) {
-	// 	this.geometry.getAttribute('aOffset').setXY(index, 1, 1);
-	// 	this.intanceInterleavedBuffer.updateRange.offset = this.intancesStride * index;
-	// 	this.intanceInterleavedBuffer.updateRange.count = 1 * this.intancesStride;
+	#resetMoji(index) {
+		this.geometry.getAttribute('aOffset').setXY(index, 1, 1);
+		this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * index;
+		this.#particlesInstancedInterleaveBuffer.updateRange.count = 1 * this.#particlesIntancesStride;
 
-	// 	this.intanceInterleavedBuffer.needsUpdate = true;
+		this.#particlesInstancedInterleaveBuffer.needsUpdate = true;
 
-	// 	const id = this.useInstances.indexOf(index);
-	// 	if (id !== -1) {
-	// 		this.useInstances.splice(id, 1);
-	// 	}
-	// }
+		const id = this.useInstances.indexOf(index);
+		if (id !== -1) {
+			this.useInstances.splice(id, 1);
+		}
+	}
 
-	// #getFreeInstance() {
-	// 	for (let i = 0; i < this.maxCount - 1; i++) {
-	// 		const indexCourant = i;
-	// 		// Vérifier si l'index courant est présent dans le tableau historique des index
-	// 		if (!this.useInstances.includes(indexCourant)) {
-	// 			return indexCourant; // Renvoyer l'index non utilisé
-	// 		}
-	// 	}
-	// 	// Si tous les index sont utilisés, renvoyer undefined ou une valeur spéciale pour indiquer qu'aucun index n'est disponible
-	// 	return undefined;
-	// }
+	#getFreeInstance() {
+		for (let i = 0; i < this.maxCount - 1; i++) {
+			const indexCourant = i;
+			// Vérifier si l'index courant est présent dans le tableau historique des index
+			if (!this.useInstances.includes(indexCourant)) {
+				return indexCourant; // Renvoyer l'index non utilisé
+			}
+		}
+		// Si tous les index sont utilisés, renvoyer undefined ou une valeur spéciale pour indiquer qu'aucun index n'est disponible
+		return undefined;
+	}
 
-	// #onReactMoji = (iso, type) => {
-	// 	// console.log('REACTMOJI', type);
-	// 	const newOffset = this.#getReactmoji(type);
-	// 	const index = this.#getFreeInstance();
-	// 	if (index || index === 0) {
-	// 		this.useInstances.push(index);
-	// 		this.geometry.getAttribute('aOffset').setXY(index, newOffset.x, newOffset.y);
-	// 		this.intanceInterleavedBuffer.updateRange.offset = this.intancesStride * index;
-	// 		this.intanceInterleavedBuffer.updateRange.count = 1 * this.intancesStride;
+	/**
+	 *
+	 * @param {CountryReactionPayload} countryReactionPayload
+	 */
+	addReaction(countryReactionPayload) {
+		const countryIndex = this.teams.getKey(app.game.teams.get(countryReactionPayload.iso));
+		// console.log(countryIndex);
 
-	// 		this.intanceInterleavedBuffer.needsUpdate = true;
+		// const newOffset = this.#getReactmoji(type);
+		// const index = this.#getFreeInstance();
+		// if (index || index === 0) {
+		// 	this.useInstances.push(index);
+		// 	this.#particlesAttributes.offset.setXY(index, newOffset.x, newOffset.y);
+		// 	this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * index;
+		// 	this.#particlesInstancedInterleaveBuffer.updateRange.count = 1 * this.#particlesIntancesStride;
 
-	// 		setTimeout(() => this.#resetMoji(index), 1500);
-	// 	}
-	// };
+		// 	this.#particlesInstancedInterleaveBuffer.needsUpdate = true;
+
+		// 	setTimeout(() => this.#resetMoji(index), 1500);
+		// }
+	}
 
 	set count(value) {
 		this.geometry.instanceCount = value * this.particlesCount;

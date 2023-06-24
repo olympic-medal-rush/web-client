@@ -105,6 +105,10 @@ class MainScene extends Scene {
 		this.teamsWrapper.moveInstance(team);
 	}
 
+	addReaction(countryReactionPayload) {
+		this.teamsWrapper.addReaction(countryReactionPayload);
+	}
+
 	cleanUp() {
 		this.medals.dispose();
 		this.teamsWrapper.dispose();

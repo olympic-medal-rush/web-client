@@ -3,6 +3,7 @@ import { state } from '@/State';
 import { useMedalsInGameStore } from '@stores/medalsInGame';
 import { useTeamsStore } from '@stores/teams';
 import { useVotesStore } from '@stores/votes';
+import { VOTES } from '@utils/config';
 import { EVENTS } from '@utils/constants';
 import { Medal } from './Medal';
 import { Team } from './Team';
@@ -151,6 +152,40 @@ class GameController {
 	 */
 	countryReaction(countryReactionPayload) {
 		state.emit(EVENTS.REACT_MOJI, countryReactionPayload);
+	}
+
+	/**
+	 *
+	 * @param {CountryBuffPayload} countryBuffPayload
+	 */
+	countryBuff(countryBuffPayload) {
+		if (countryBuffPayload.iso !== this.currentTeam.iso) return;
+
+		switch (countryBuffPayload.buff) {
+			case 'vote_rate':
+				this.voteStore.updateRate(countryBuffPayload.interval * 1000);
+				break;
+			case 'pathfinding':
+				state.emit(EVENTS.TOGGLE_PATHFINDING, true);
+				break;
+		}
+	}
+
+	/**
+	 *
+	 * @param {CountryDebuffPayload} countryDebuffPayload
+	 */
+	countryDebuff(countryDebuffPayload) {
+		if (countryDebuffPayload.iso !== this.currentTeam.iso) return;
+
+		switch (countryDebuffPayload.buff) {
+			case 'vote_rate':
+				this.voteStore.updateRate(VOTES.rate);
+				break;
+			case 'pathfinding':
+				state.emit(EVENTS.TOGGLE_PATHFINDING, false);
+				break;
+		}
 	}
 
 	/**
