@@ -147,6 +147,14 @@ class GameController {
 
 	/**
 	 *
+	 * @param {CountryReactionPayload} countryReactionPayload
+	 */
+	countryReaction(countryReactionPayload) {
+		state.emit(EVENTS.REACT_MOJI, countryReactionPayload);
+	}
+
+	/**
+	 *
 	 * @param {UserVotePayload} userVotePlayload
 	 */
 	userVote(userVotePlayload) {

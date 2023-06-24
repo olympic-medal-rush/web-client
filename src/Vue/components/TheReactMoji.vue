@@ -1,10 +1,7 @@
 <script setup>
 import { app } from '@/App';
-import { state } from '@/State';
 import HandWaving from '@/assets/svgs/HandWaving.svg';
 import { useTeamsStore } from '@stores/teams';
-import { EVENTS } from '@utils/constants';
-import { gsap } from 'gsap';
 import { ref } from 'vue';
 
 const isOpen = ref(false);
@@ -16,21 +13,9 @@ const toggle = () => {
 	if (isOpen.value) app.sound.play('modal');
 };
 
-const handleClick = (e, id) => {
+const handleClick = (id) => {
 	app.sound.play('ctaClick');
-	gsap.to(e.srcElement, {
-		duration: 0.1,
-		ease: 'power2.inOut',
-		scale: 0.9,
-		onComplete: () => {
-			state.emit(EVENTS.REACT_MOJI, storeTeams.currentIso, id);
-			gsap.to(e.srcElement, {
-				duration: 0.1,
-				ease: 'power2.inOut',
-				scale: 1,
-			});
-		},
-	});
+	app.server.userReaction({ reaction: id });
 };
 </script>
 
@@ -48,10 +33,10 @@ const handleClick = (e, id) => {
 						<path d="M4.37114e-08 14L0 13L27 13V14L4.37114e-08 14Z" fill="#E8E8C9" />
 					</svg>
 
-					<img src="/assets/images/reactmoji/1.png" alt="" @click="(e) => handleClick(e, 1)" />
-					<img src="/assets/images/reactmoji/2.png" alt="" @click="(e) => handleClick(e, 3)" />
-					<img src="/assets/images/reactmoji/3.png" alt="" @click="(e) => handleClick(e, 2)" />
-					<img src="/assets/images/reactmoji/4.png" alt="" @click="(e) => handleClick(e, 0)" />
+					<button @click="handleClick(1)"><img src="/assets/images/reactmoji/1.png" alt="" /></button>
+					<button @click="handleClick(3)"><img src="/assets/images/reactmoji/2.png" alt="" /></button>
+					<button @click="handleClick(2)"><img src="/assets/images/reactmoji/3.png" alt="" /></button>
+					<button @click="handleClick(0)"><img src="/assets/images/reactmoji/4.png" alt="" /></button>
 				</div>
 			</div>
 		</transition>
@@ -83,8 +68,6 @@ const handleClick = (e, id) => {
 	}
 
 	&-popUp {
-		// background-color: blue;
-		// opacity: 0.7;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -127,11 +110,17 @@ const handleClick = (e, id) => {
 				top: calc(50% - (27px / 2));
 			}
 
-			img {
+			button {
 				width: 25%;
 				height: 25%;
 				margin: 12.5%;
 				filter: drop-shadow(-11px 18px 76px rgba(0, 0, 0, 0.52));
+				transition: transform 0.5s $immg-expoOut;
+				transform: scale(1);
+
+				&:active {
+					transform: scale(0.9);
+				}
 			}
 		}
 	}

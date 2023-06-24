@@ -4,9 +4,9 @@ import { gsap } from 'gsap';
 import { Vector2 } from 'three';
 import { lerp } from 'three/src/math/MathUtils.js';
 import { Bimap } from '@utils/BiMap';
-import Reactmoji from '../Reactmoji';
 import { InstancedFlags } from './InstancedFlags';
 import { InstancedFlames } from './InstancedFlames';
+import { InstancedReactMoji } from './InstancedReactMoji';
 import { InstancedTeams } from './InstancedTeams';
 
 class TeamsWrapper {
@@ -34,15 +34,13 @@ class TeamsWrapper {
 		this.instancedTeams = new InstancedTeams({ teams: this.#teams, model: app.core.assetsManager.get('player'), maxCount });
 		this.instancedFlags = new InstancedFlags({ teams: this.#teams, maxCount });
 		this.instancedFlames = new InstancedFlames({ teams: this.#teams, maxCount });
-
-		this.reactmoji = new Reactmoji();
-		this.reactmoji.visible = false;
+		this.instancedReactMoji = new InstancedReactMoji({ teams: this.#teams, maxCount });
 	}
 
 	setCurrentTeam(team) {
-		const teamPos = this.positions.get(team);
-		this.reactmoji.position.set(teamPos.x, 0, teamPos.y);
-		this.reactmoji.visible = true;
+		// const teamPos = this.positions.get(team);
+		// this.reactmoji.position.set(teamPos.x, 0, teamPos.y);
+		// this.reactmoji.visible = true;
 
 		this.instancedFlags.setIsMyTeam(team);
 	}
@@ -60,6 +58,7 @@ class TeamsWrapper {
 		this.instancedTeams.addInstance(team);
 		this.instancedFlames.addInstance(team);
 		this.instancedFlags.addInstance(team);
+		this.instancedReactMoji.addInstance(team);
 	}
 
 	/**
@@ -112,12 +111,12 @@ class TeamsWrapper {
 				animatedRotation = lerp(currentRotationY, nextRotationY, t.rotationProgress);
 
 				teamPosition.set(animatedPosition.x, animatedPosition.y);
-				this.reactmoji.position.set(animatedPosition.x, 0, animatedPosition.y);
 				teamRotation.value = animatedRotation;
 
 				this.instancedTeams.moveInstanceUpdate({ teamIndex, animatedPosition, animatedRotation, animationProgress: t.animationProgress });
 				this.instancedFlames.moveInstanceUpdate({ teamIndex, animatedPosition, animatedRotation, animationProgress: t.animationProgress });
 				this.instancedFlags.moveInstanceUpdate({ teamIndex, animatedPosition });
+				this.instancedReactMoji.moveInstanceUpdate({ teamIndex, animatedPosition });
 			},
 		});
 
@@ -142,7 +141,7 @@ class TeamsWrapper {
 		this.instancedFlags.dispose();
 		this.instancedFlames.dispose();
 		this.instancedTeams.dispose();
-		this.reactmoji.dispose();
+		this.instancedReactMoji.dispose();
 	}
 
 	get #count() {

@@ -110,7 +110,7 @@ export default class ServerController {
 	 * @param {VoteResultsPayload} data
 	 */
 	#onVoteResults(data) {
-		console.log(data, 'onVoteResults');
+		// console.log(data, 'onVoteResults');
 		app.game.voteResults(data);
 	}
 
@@ -120,7 +120,7 @@ export default class ServerController {
 	 * @param {VoteCountPayload} data
 	 */
 	#onVoteCount(data) {
-		console.log(data, 'onVoteCount');
+		// console.log(data, 'onVoteCount');
 		app.game.voteCount(data);
 	}
 
@@ -184,7 +184,8 @@ export default class ServerController {
 	 * @param {CountryReactionPayload} data
 	 */
 	#onCountryReaction(data) {
-		// console.log(data, 'reactions');
+		// console.log(data.reactions, 'reactions');
+		app.game.countryReaction(data);
 	}
 
 	/* ######## EMITTERS ######## */

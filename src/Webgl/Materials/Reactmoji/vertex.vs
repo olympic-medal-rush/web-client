@@ -1,9 +1,13 @@
+// PARTICLES ATTRIBUTES
 attribute vec3 position;
 attribute vec2 uv;
 attribute float aSize;
 attribute float aSpeed;
 attribute vec2 aOffset;
 attribute float aPlacing;
+
+// INSTANCES ATTRIBUTES
+attribute vec2 aInstancePosition;
 
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
@@ -39,5 +43,8 @@ void main() {
   pos.x += aPlacing;
   pos.z += aPlacing * 0.3;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
+  vec3 instancePosition = pos;
+  instancePosition.xz += aInstancePosition;
+
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(instancePosition, 1.);
 }

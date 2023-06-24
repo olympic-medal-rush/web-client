@@ -35,7 +35,10 @@ class Grid extends Mesh {
 		this.material = this.#createMaterial(this.size);
 
 		state.on(EVENTS.TOGGLE_PATHFINDING, this.#togglePathFinding);
-		state.on(EVENTS.STATE_READY, this.#onStateReady);
+
+		state.on(EVENTS.STATE_READY, this.#updatePathfindingTexture);
+		state.on(EVENTS.SPAWN_MEDALS, this.#updatePathfindingTexture);
+		state.on(EVENTS.COLLECT_MEDAL, this.#updatePathfindingTexture);
 	}
 
 	#createGeometry(size) {
@@ -127,7 +130,7 @@ class Grid extends Mesh {
 
 	#togglePathFinding = (active) => {};
 
-	#onStateReady = () => {
+	#updatePathfindingTexture = () => {
 		this.material.uniforms.tPathFinding.value = this.#createPathFindingDataTex();
 	};
 
