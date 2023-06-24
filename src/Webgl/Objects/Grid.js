@@ -128,14 +128,21 @@ class Grid extends Mesh {
 		}
 	}
 
-	#togglePathFinding = (active) => {};
+	#togglePathFinding = (active) => {
+		if (active) {
+			this.#findPath();
+			state.on(EVENTS.VOTE_RESULTS, this.#findPath);
+		} else {
+			state.off(EVENTS.VOTE_RESULTS, this.#findPath);
+			this.#resetPath();
+		}
+	};
 
 	#updatePathfindingTexture = () => {
 		this.material.uniforms.tPathFinding.value = this.#createPathFindingDataTex();
 	};
 
 	#findPath = () => {
-		if (!app.game.currentTeam) return;
 		// 3. find coord team
 		const coordTeam = app.game.currentTeam.position;
 		// 4. find coord nearest medal

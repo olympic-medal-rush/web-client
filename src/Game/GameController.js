@@ -127,6 +127,7 @@ class GameController {
 		state.emit(EVENTS.COLLECT_MEDAL, collectedMedal, medalCollectedTeam);
 
 		this.teamsStore.collectMedal(medalCollectionPayload.iso, collectedMedal);
+		if (medalCollectedTeam.pathFindingActivated) this.countryDebuff({ iso: medalCollectionPayload.iso, buff: 'pathfinding' });
 	}
 
 	/**
@@ -169,6 +170,7 @@ class GameController {
 				this.voteStore.updateRate(countryBuffPayload.interval * 1000);
 				break;
 			case 'pathfinding':
+				this.teams.get(countryBuffPayload.iso).pathFindingActivated = true;
 				state.emit(EVENTS.TOGGLE_PATHFINDING, true);
 				break;
 		}
@@ -186,6 +188,7 @@ class GameController {
 				this.voteStore.updateRate(VOTES.rate);
 				break;
 			case 'pathfinding':
+				this.teams.get(countryDebuffPayload.iso).pathFindingActivated = false;
 				state.emit(EVENTS.TOGGLE_PATHFINDING, false);
 				break;
 		}
