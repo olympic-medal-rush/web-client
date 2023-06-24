@@ -27,7 +27,7 @@ void main() {
 	// color = mix(color, color * smoothstep(.0, 3., min(1., length(color)) * step(vUv.y, .4)) * .2, float(uEmissiveOnly));
 
 	float ao = texture2D(tAoMap, vUv1).r;
-	color.rgb *= mix(1., ao, .3);
+	color.rgb *= mix(1., ao, .25);
 
 	color = mix(color - .5, color + .1, difLight);
 

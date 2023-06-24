@@ -62,8 +62,8 @@ class Grid extends Mesh {
 
 				uWaterColor: { value: new Color(0xb6b6ef) },
 				uGrassColor: { value: new Color(0x94c597) },
-				uPathColor: { value: new Color(0xcfcfcf) },
-				uFloorColor: { value: new Color(0xdfd5ae) },
+				uPathColor: { value: new Color(0xdfd5ae) },
+				uSandColor: { value: new Color(0xdfd5ae) },
 
 				tData: { value: groundData },
 				tPathFinding: { value: this.#createPathFindingDataTex() },

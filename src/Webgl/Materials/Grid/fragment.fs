@@ -2,7 +2,7 @@ precision highp float;
 
 uniform sampler2D tData, tDynamicShadows, tStaticShadows, tPathFinding;
 uniform sampler2D tNoise, tGrain;
-uniform vec3 uWaterColor, uGrassColor, uPathColor, uFloorColor;
+uniform vec3 uWaterColor, uGrassColor, uPathColor, uSandColor;
 uniform vec3 uLightPosition;
 uniform float uZoom;
 
@@ -35,12 +35,15 @@ void main() {
 	// r: rock, g: nothing, b: water, grass if 0
   vec3 seamlessData = texture2D(tData, vUv).rgb;
 
-  float grain = texture2D(tGrain, vUv * 30.).r;
+  float grain = texture2D(tGrain, vUv * 20.).r;
   float noise = texture2D(tNoise, vUv * 5.).r * texture2D(tNoise, vUv * 20.).r;
-  vec3 grass = uGrassColor + grain * .05 - noise * .1;
 
-  vec3 final = mix(grass, uPathColor, seamlessData.r);
-  final = mix(final, uFloorColor, seamlessData.g);
+  vec3 grassColor = uGrassColor + grain * .05 - noise * .1 - smoothstep(.1, .0, grain) * .2;;
+  vec3 pathColor = uPathColor + grain * .1 + smoothstep(.9, 1., grain) * .2;
+  vec3 sandColorColor = uSandColor;
+
+  vec3 final = mix(grassColor, pathColor, seamlessData.r);
+  final = mix(final, sandColorColor, seamlessData.g);
   final = mix(final, uWaterColor, seamlessData.b);
 
 	// Circle grid pattern on normals

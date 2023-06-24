@@ -154,7 +154,7 @@ class MainScene extends Scene {
 		this.terrain.flagObject.visible = !value;
 		if (this.teamsWrapper) {
 			this.teamsWrapper.instancedReactMoji.visible = !value;
-			this.teamsWrapper.instancedTeams.visible = !value;
+			// this.teamsWrapper.instancedTeams.visible = !value;
 		}
 	}
 
