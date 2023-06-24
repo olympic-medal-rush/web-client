@@ -7,13 +7,13 @@ class Team {
 	 *
 	 * @param {TeamInfos} params
 	 */
-	constructor({ iso, position, medals = { 0: 0, 1: 0, 2: 0 } }) {
+	constructor({ iso, position, boosts = [], medals = { 0: 0, 1: 0, 2: 0 } }) {
 		this.iso = iso;
 		this.position = new Vector2(position.x, position.y);
 		this.medals = medals;
 		this.medalsCount = medals[0] + medals[1] + medals[2];
 		this.score = medals[0] * MEDAL_POINTS[0] + medals[1] * MEDAL_POINTS[1] + medals[2] * MEDAL_POINTS[2];
-		this.pathFindingActivated = false;
+		this.boosts = boosts;
 	}
 
 	/**
@@ -49,6 +49,30 @@ class Team {
 		this.score += MEDAL_POINTS[medal.type];
 
 		return this;
+	}
+
+	buff({ buff, vote_rate = null }) {
+		const buffIndex = this.boosts.findIndex((boost) => boost.name === buff);
+		if (buffIndex >= 0) this.boosts.splice(buffIndex, 1);
+
+		this.boosts.push({ name: buff, value: vote_rate });
+	}
+
+	debuff({ buff }) {
+		const buffIndex = this.boosts.findIndex((boost) => boost.name === buff);
+		if (buffIndex >= 0) this.boosts.splice(buffIndex, 1);
+	}
+
+	get pathFindingActivated() {
+		return this.boosts.findIndex((boost) => boost.name === 'pathfinding') >= 0;
+	}
+
+	get voteRateActivated() {
+		return this.boosts.findIndex((boost) => boost.name === 'vote_rate') >= 0;
+	}
+
+	get voteRate() {
+		return this.boosts.find((boost) => boost.name === 'vote_rate').value;
 	}
 }
 

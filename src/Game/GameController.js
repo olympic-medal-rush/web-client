@@ -38,8 +38,6 @@ class GameController {
 			if (key !== 'ALL') {
 				this.teams.set(key, new Team(teamInfos));
 				this.teamsStore.add(this.teams.get(key));
-
-				teamInfos.boosts?.forEach((boost) => this.countryBuff({ iso: key, buff: boost.name, interval: boost.value }));
 			}
 		});
 
@@ -63,6 +61,10 @@ class GameController {
 		state.emit(EVENTS.JOIN_READY, this.currentTeam);
 
 		this.teamsStore.setCurrent(this.currentTeam.iso);
+
+		if (this.currentTeam.voteRateActivated) this.voteStore.updateRate(this.currentTeam.voteRate * 1000);
+		if (this.currentTeam.pathFindingActivated) state.emit(EVENTS.TOGGLE_PATHFINDING, true);
+
 		state.on(EVENTS.TICK, this.voteStore.updateTime);
 	}
 
@@ -162,7 +164,8 @@ class GameController {
 	 * @param {CountryBuffPayload} countryBuffPayload
 	 */
 	countryBuff(countryBuffPayload) {
-		console.log(countryBuffPayload);
+		this.teams.get(countryBuffPayload.iso).buff(countryBuffPayload);
+
 		if (countryBuffPayload.iso !== this.currentTeam?.iso) return;
 
 		switch (countryBuffPayload.buff) {
@@ -170,7 +173,6 @@ class GameController {
 				this.voteStore.updateRate(countryBuffPayload.interval * 1000);
 				break;
 			case 'pathfinding':
-				this.teams.get(countryBuffPayload.iso).pathFindingActivated = true;
 				state.emit(EVENTS.TOGGLE_PATHFINDING, true);
 				break;
 		}
@@ -181,6 +183,8 @@ class GameController {
 	 * @param {CountryDebuffPayload} countryDebuffPayload
 	 */
 	countryDebuff(countryDebuffPayload) {
+		this.teams.get(countryDebuffPayload.iso).debuff(countryDebuffPayload);
+
 		if (countryDebuffPayload.iso !== this.currentTeam.iso) return;
 
 		switch (countryDebuffPayload.buff) {
@@ -188,7 +192,6 @@ class GameController {
 				this.voteStore.updateRate(VOTES.rate);
 				break;
 			case 'pathfinding':
-				this.teams.get(countryDebuffPayload.iso).pathFindingActivated = false;
 				state.emit(EVENTS.TOGGLE_PATHFINDING, false);
 				break;
 		}
