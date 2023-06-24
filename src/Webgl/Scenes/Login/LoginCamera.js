@@ -11,6 +11,19 @@ class LoginCamera extends PerspectiveCamera {
 		this.position.z += 6;
 	}
 
+	getVisibleHeightAtZDepth(depth = 0) {
+		if (depth < this.position.z) depth -= this.position.z;
+		else depth += this.position.z;
+
+		const vFOV = (this.fov * Math.PI) / 180;
+		return 2 * Math.tan(vFOV / 2) * Math.abs(depth);
+	}
+
+	getVisibleWidthAtZDepth(depth = 0) {
+		const height = this.getVisibleHeightAtZDepth(depth);
+		return height * this.aspect;
+	}
+
 	onResize({ ratio }) {
 		this.aspect = ratio;
 		this.fov = CAMERA.baseFov / Math.min(1, ratio * 1.5);

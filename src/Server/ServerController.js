@@ -89,7 +89,7 @@ export default class ServerController {
 	 * @param {GameStatePayload} data
 	 */
 	#onGameState(data) {
-		console.log(data, 'onGameState');
+		// console.log(data, 'onGameState');
 		store.set(STORE_KEYS.USER_ID, data.user_id);
 		app.game.setState(data);
 	}
@@ -100,7 +100,7 @@ export default class ServerController {
 	 * @param {CountryStatePayload} data
 	 */
 	#onCountryState(data) {
-		console.log(data, 'onCountryState');
+		// console.log(data, 'onCountryState');
 		app.game.userJoin(data);
 	}
 
@@ -110,7 +110,7 @@ export default class ServerController {
 	 * @param {VoteResultsPayload} data
 	 */
 	#onVoteResults(data) {
-		console.log(data, 'onVoteResults');
+		// console.log(data, 'onVoteResults');
 		app.game.voteResults(data);
 	}
 
@@ -120,7 +120,7 @@ export default class ServerController {
 	 * @param {VoteCountPayload} data
 	 */
 	#onVoteCount(data) {
-		console.log(data, 'onVoteCount');
+		// console.log(data, 'onVoteCount');
 		app.game.voteCount(data);
 	}
 
@@ -130,7 +130,7 @@ export default class ServerController {
 	 * @param {MedalApparitionPayload} data
 	 */
 	#onMedalApparition(data) {
-		console.log(data, 'onMedalApparition');
+		// console.log(data, 'onMedalApparition');
 		app.game.addMedals(data);
 	}
 
@@ -140,7 +140,7 @@ export default class ServerController {
 	 * @param {MedalCollectionPayload} data
 	 */
 	#onMedalCollection(data) {
-		console.log(data, 'onMedalCollection');
+		// console.log(data, 'onMedalCollection');
 		app.game.medalCollect(data);
 	}
 
@@ -159,7 +159,7 @@ export default class ServerController {
 	 * @param {NewCountryPayload} data
 	 */
 	#onNewCountry(data) {
-		console.log(data, 'onNewCountry');
+		// console.log(data, 'onNewCountry');
 		app.game.createTeam(data);
 	}
 
@@ -205,7 +205,7 @@ export default class ServerController {
 	 * @param {UserJoinPayload} userJoinPayload
 	 */
 	userJoin(userJoinPayload) {
-		console.log(userJoinPayload, 'userJoin');
+		// console.log(userJoinPayload, 'userJoin');
 		this.#send(SERVER_EVENTS.USER_JOIN, userJoinPayload);
 	}
 
@@ -219,7 +219,7 @@ export default class ServerController {
 	}
 
 	userCatchup() {
-		console.log('user_catchup');
+		// console.log('user_catchup');
 		this.#send(SERVER_EVENTS.USER_CATCHUP, true);
 	}
 

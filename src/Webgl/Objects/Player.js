@@ -10,6 +10,8 @@ import { globalUniforms } from '@utils/globalUniforms';
 import { Flames } from './Flames';
 
 class Player extends Mesh {
+	static #geometry;
+
 	#animationsSteps = {
 		jump: 0,
 		medal: 0,
@@ -33,10 +35,13 @@ class Player extends Mesh {
 		this.flames = new Flames({ commonUniforms: this.commonUniforms });
 		this.add(this.flames);
 
+		this.name = teamIso;
+
 		app.debug?.mapping.add(this.material, 'TeamsMaterial');
 	}
 
 	#createGeometry({ baseGeometry }) {
+		if (Player.#geometry) return Player.#geometry;
 		const geometry = new BufferGeometry();
 
 		geometry.index = baseGeometry.index;
@@ -44,7 +49,7 @@ class Player extends Mesh {
 		geometry.setAttribute('uv', baseGeometry.getAttribute('uv'));
 		geometry.setAttribute('aVertexID', baseGeometry.getAttribute('_vertexid'));
 
-		return geometry;
+		return (Player.#geometry = geometry);
 	}
 
 	#createMaterial(teamIso) {
@@ -108,15 +113,21 @@ class Player extends Mesh {
 	}
 
 	updateISO(iso) {
+		this.name = iso;
 		const { color1, color2, color3 } = this.#getTeamColors(iso);
 
 		this.#updateTl?.kill();
 		const tl = (this.#updateTl = gsap.timeline());
-
-		tl.to(this.rotation, { y: `+=${Math.PI * 2}`, duration: 0.5, ease: 'power3.inOut' }, 0);
 		tl.to(this.uniforms.uColor1.value, { r: color1.r, g: color1.g, b: color1.b, duration: 0.5, ease: 'linear' }, 0);
 		tl.to(this.uniforms.uColor2.value, { r: color2.r, g: color2.g, b: color2.b, duration: 0.5, ease: 'linear' }, 0);
 		tl.to(this.uniforms.uColor3.value, { r: color3.r, g: color3.g, b: color3.b, duration: 0.5, ease: 'linear' }, 0);
+	}
+
+	playAnnim() {
+		this.#updateTl?.kill();
+		const tl = (this.#updateTl = gsap.timeline());
+
+		tl.to(this.rotation, { y: `+=${Math.PI * 2}`, duration: 0.5, ease: 'power3.inOut' }, 0);
 		tl.fromTo(this.uniforms.uAnimationProgress, { value: this.#animationsSteps.jump }, { value: 1, duration: 1, ease: 'linear' }, 0);
 	}
 
