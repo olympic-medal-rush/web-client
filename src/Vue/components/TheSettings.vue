@@ -1,4 +1,5 @@
 <script setup>
+import { app } from '@/App';
 import Icon from '@/assets/svgs/Settings.svg';
 import { ref } from 'vue';
 
@@ -6,6 +7,8 @@ const isOpen = ref(false);
 
 const toggle = () => {
 	isOpen.value = !isOpen.value;
+
+	if (isOpen.value) app.sound.play('modal');
 };
 </script>
 

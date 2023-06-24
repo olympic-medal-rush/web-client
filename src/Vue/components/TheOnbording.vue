@@ -20,6 +20,7 @@ onMounted(() => {
 
 const toggle = () => {
 	isOpen.value = !isOpen.value;
+	app.sound.play('modal');
 };
 
 const onSlideshowSelect = () => {

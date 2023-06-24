@@ -8,9 +8,9 @@ import Arrow from '@/assets/svgs/VoteArrow.svg';
 import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
 import terrainData from '@jsons/terrain_data.json';
 import { useVotesStore } from '@stores/votes';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 import { gsap } from 'gsap';
 import { onMounted, reactive, ref, watch } from 'vue';
-import { EVENTS, STORE_KEYS } from '@utils/constants';
 
 const focus = ref(true);
 const voteStore = useVotesStore();
@@ -62,6 +62,7 @@ const downIsInactive = ref(false);
 const leftIsInactive = ref(false);
 
 const handleClick = (e) => {
+	app.sound.play('voteClick');
 	app.server.userVote({
 		user_id: store.get(STORE_KEYS.USER_ID),
 		direction: e.target.dataset.dir,

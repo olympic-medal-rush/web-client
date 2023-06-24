@@ -1,10 +1,11 @@
 <script setup>
+import { app } from '@/App';
 import { state } from '@/State';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import SvgRect from '@components/Utils/SvgRect.vue';
 import { useTeamsStore } from '@stores/teams';
-import { ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import { ref } from 'vue';
 
 const newTeam = ref();
 const nameNewTeam = ref();
@@ -13,6 +14,7 @@ const teamsStore = useTeamsStore();
 state.on(EVENTS.CREATE_TEAM, (e) => {
 	nameNewTeam.value = e.iso;
 	newTeam.value.classList.add('active');
+	app.sound.play('notif');
 	setTimeout(() => {
 		newTeam.value.classList.remove('active');
 	}, 3000);

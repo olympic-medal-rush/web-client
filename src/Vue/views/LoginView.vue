@@ -4,9 +4,9 @@ import { state } from '@/State';
 import { store } from '@/Store';
 import router from '@Vue/router';
 import { useTeamsStore } from '@stores/teams';
-import { onMounted, onUnmounted, ref } from 'vue';
 import { EVENTS, STORE_KEYS } from '@utils/constants';
-import VButton from './../components/Inputs/VButton.vue';
+import { onMounted, onUnmounted, ref } from 'vue';
+import ButtonOrLink from './../components/Inputs/ButtonOrLink.vue';
 import TheLogo from './../components/TheLogo.vue';
 
 const teamsStore = useTeamsStore();
@@ -79,7 +79,7 @@ const onJoinReady = () => {
 				<p>USA</p>
 			</div> -->
 		</div>
-		<VButton class="confirm-btn" @click="login()">Confirmer le pays</VButton>
+		<ButtonOrLink class="confirm-btn" @click="login()">Confirmer le pays</ButtonOrLink>
 	</div>
 </template>
 
@@ -139,7 +139,7 @@ const onJoinReady = () => {
 </style>
 
 <style lang="scss">
-div.confirm-btn {
+.confirm-btn {
 	position: static;
 	margin-bottom: 50px;
 }

@@ -1,4 +1,5 @@
 <script async setup>
+import { app } from '@/App';
 import { state } from '@/State';
 import VoteArrows from '@components/Inputs/VoteArrows.vue';
 import MedalCompass from '@components/MedalCompass.vue';
@@ -25,6 +26,7 @@ const idModal = ref(0);
 const toggleModal = (id) => {
 	idModal.value = id;
 	isModal.value = !isModal.value;
+	if (isModal.value) app.sound.play('modal');
 };
 
 const medalsInGameStore = useMedalsInGameStore();

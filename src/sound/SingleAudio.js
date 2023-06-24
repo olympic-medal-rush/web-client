@@ -42,12 +42,13 @@ export default class SingleAudio {
 
 	play() {
 		// if (this.source) this.pause();
-		if (this._playing) return;
+		// if (this._playing) return;
 
 		this.source = this.ctx.createBufferSource();
 		this.source.buffer = this.buffer;
 		this.source.loop = this.loop;
 		this.source.connect(this.amp);
+		console.log(this.buffer);
 		this.loopEnd = this.buffer.duration;
 		this.source.start(0);
 		// this.amp.gain.setValueAtTime(0, this.ctx.currentTime);

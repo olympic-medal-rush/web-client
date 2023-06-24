@@ -43,7 +43,18 @@ const manifest = {
 	},
 	sounds: {
 		mario: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },
-		mario2: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },
+		// mario2: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },
+		bgMusic: { path: `${import.meta.env.BASE_URL}assets/sounds/BG_MUSIC.mp3` },
+		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/COLLECT_MEDAL.mp3` },
+		ctaClick: { path: `${import.meta.env.BASE_URL}assets/sounds/CTA_CLICK.mp3` },
+		jumpMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/JUMP_MEDAL.mp3` },
+		jumpPerso: { path: `${import.meta.env.BASE_URL}assets/sounds/JUMP_PERSO.mp3` },
+		modal: { path: `${import.meta.env.BASE_URL}assets/sounds/MODAL.mp3` },
+		notif: { path: `${import.meta.env.BASE_URL}assets/sounds/NOTIF.mp3` },
+		spawnMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/SPAWN_MEDAL.mp3` },
+		uiClick: { path: `${import.meta.env.BASE_URL}assets/sounds/UI_CLICK.mp3` },
+		voteClick: { path: `${import.meta.env.BASE_URL}assets/sounds/VOTE_CLICK.mp3` },
+		voteEnd: { path: `${import.meta.env.BASE_URL}assets/sounds/VOTE_END.mp3` },
 	},
 };
 

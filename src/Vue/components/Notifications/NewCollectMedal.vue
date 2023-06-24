@@ -1,4 +1,5 @@
 <script setup>
+import { app } from '@/App';
 import { state } from '@/State';
 import Icon from '@/assets/svgs/GreyArrow.svg';
 import { useCountry } from '@Vue/composables/useCountry';
@@ -38,16 +39,19 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 	collectTeam.value = team.iso;
 	if (team.iso === teamsStore.currentIso) {
     setTimeout(() => {
+      app.sound.play('jumpMedal');
       videoBg.value.play();
       videoActive.value = true;
       timeout = setTimeout(() => {
         videoActive.value = false;
       }, 2000);
       setTimeout(() => {
+        app.sound.play('collectMedal');
         myActive.value = true;
       }, 300);
     }, 2700)
 	} else {
+	  app.sound.play('notif');
 		otherActive.value = true;
 		timeout = setTimeout(() => {
 			otherActive.value = false;

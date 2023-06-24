@@ -1,4 +1,5 @@
 <script setup>
+import { app } from '@/App';
 import { state } from '@/State';
 import HandWaving from '@/assets/svgs/HandWaving.svg';
 import { useTeamsStore } from '@stores/teams';
@@ -11,9 +12,12 @@ const storeTeams = useTeamsStore();
 
 const toggle = () => {
 	isOpen.value = !isOpen.value;
+
+	if (isOpen.value) app.sound.play('modal');
 };
 
 const handleClick = (e, id) => {
+	app.sound.play('ctaClick');
 	gsap.to(e.srcElement, {
 		duration: 0.1,
 		ease: 'power2.inOut',

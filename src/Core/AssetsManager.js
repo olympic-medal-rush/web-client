@@ -1,5 +1,5 @@
 import { state } from '@/State.js';
-import { Cache } from 'three';
+import { AudioLoader, Cache } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { EVENTS } from '@utils/constants.js';
@@ -72,6 +72,14 @@ class AssetsManager {
 				manifest: manifest.jsons,
 				isMobile: this.isMobile,
 				loader: new AjaxJSONLoader(),
+				assetsInfos: this.#assetsInfos,
+				loadedAssets: this.#loadedAssets,
+				progressCallback: this.#loadingProgress,
+			}),
+
+			sounds: new AssetsLoader({
+				manifest: manifest.sounds,
+				loader: new AudioLoader(),
 				assetsInfos: this.#assetsInfos,
 				loadedAssets: this.#loadedAssets,
 				progressCallback: this.#loadingProgress,

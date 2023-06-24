@@ -1,13 +1,18 @@
 <script setup>
+import { app } from '@/App';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
 import TheLogo from './../components/TheLogo.vue';
+
+const initFirstSound = () => {
+	app.sound.initAudio();
+};
 </script>
 
 <template>
 	<div class="home">
 		<TheLogo />
 
-		<ButtonOrLink class="cta" to="/login"> Jouer </ButtonOrLink>
+		<ButtonOrLink class="cta" to="/login" @click="() => initFirstSound()"> Jouer </ButtonOrLink>
 	</div>
 </template>
 

@@ -1,4 +1,5 @@
 <script setup>
+import { app } from '@/App';
 import ButtonOrLinkContent from '@components/Inputs/ButtonOrLinkContent.vue';
 
 const props = defineProps({
@@ -21,13 +22,13 @@ const props = defineProps({
 </script>
 
 <template>
-	<RouterLink v-if="props.to" ontouchstart="" :to="props.to">
+	<RouterLink v-if="props.to" ontouchstart="" :to="props.to" @click="() => app.sound.play('ctaClick')">
 		<ButtonOrLinkContent :icon-position="props.iconPosition" :class="{ close: props.close }">
 			<template #icon><slot name="icon"></slot></template>
 			<slot></slot>
 		</ButtonOrLinkContent>
 	</RouterLink>
-	<button v-else ontouchstart="">
+	<button v-else ontouchstart="" @click="() => app.sound.play('ctaClick')">
 		<ButtonOrLinkContent :icon-position="props.iconPosition" :class="{ close: props.close }">
 			<template #icon><slot name="icon"></slot></template>
 			<slot></slot>

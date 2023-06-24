@@ -28,6 +28,7 @@ class SoundController {
 	};
 
 	play(key) {
+		if (!this.isInit) this.initAudio();
 		this.audios[key].play();
 	}
 

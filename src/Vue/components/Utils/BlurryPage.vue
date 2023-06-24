@@ -1,10 +1,11 @@
 <script setup>
+import { app } from '@/App';
 import BackButton from '@components/Inputs/BackButton.vue';
 </script>
 
 <template>
 	<div class="page-container">
-		<BackButton class="back-btn" />
+		<BackButton class="back-btn" @click="() => app.sound.play('ctaClick')" />
 		<slot name="title"></slot>
 		<slot></slot>
 	</div>
