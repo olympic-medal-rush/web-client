@@ -14,6 +14,7 @@ const manifest = {
 	textures: {
 		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/ground.jpg` },
 		buildingsColors: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/colors.png` },
+		aoBuildings: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/ao-buildings.jpg` },
 
 		noise: { path: `${import.meta.env.BASE_URL}assets/textures/noise.jpg` },
 
@@ -42,8 +43,6 @@ const manifest = {
 		flagsAtlasData: { path: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas.json`, mobilePath: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas-mobile.json` },
 	},
 	sounds: {
-		mario: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },
-		// mario2: { path: `${import.meta.env.BASE_URL}assets/sounds/mario.mp3` },
 		bgMusic: { path: `${import.meta.env.BASE_URL}assets/sounds/BG_MUSIC.mp3` },
 		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/COLLECT_MEDAL.mp3` },
 		ctaClick: { path: `${import.meta.env.BASE_URL}assets/sounds/CTA_CLICK.mp3` },

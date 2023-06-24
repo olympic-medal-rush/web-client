@@ -119,7 +119,7 @@ const handleClick = (id) => {
 				transform: scale(1);
 
 				&:active {
-					transform: scale(0.9);
+					transform: scale(0.8);
 				}
 			}
 		}

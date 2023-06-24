@@ -12,6 +12,7 @@ function createPane(pane, instance, name) {
 
 	folder.addInput(new ColorDebugHelper(instance.uniforms.uWaterColor, 'value'), 'value');
 	folder.addInput(new ColorDebugHelper(instance.uniforms.uGrassColor, 'value'), 'value');
+	folder.addInput(new ColorDebugHelper(instance.uniforms.uPathColor, 'value'), 'value');
 	folder.addInput(new ColorDebugHelper(instance.uniforms.uFloorColor, 'value'), 'value');
 
 	return folder;

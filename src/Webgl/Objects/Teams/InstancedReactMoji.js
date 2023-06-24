@@ -35,12 +35,16 @@ class InstancedReactMoji extends Mesh {
 	#particlesIntancesStride = 0;
 	#streamInstancesStride = 0;
 
+	#instancesInUse;
+
 	constructor({ teams, maxCount = 210, particlesCount = 50 }) {
 		super();
 
 		const tex = app.core.assetsManager.get('reactmoji');
 		const { width, height } = tex.source.data;
 		this.#textureDimensions.set(width, height);
+
+		this.#instancesInUse = new Map([...teams.values()].map((team) => [team.iso, []]));
 
 		this.teams = teams;
 
@@ -52,8 +56,6 @@ class InstancedReactMoji extends Mesh {
 
 		this.count = teams.size;
 		this.frustumCulled = false;
-
-		this.useInstances = [];
 	}
 
 	#createGeometry() {
@@ -74,7 +76,7 @@ class InstancedReactMoji extends Mesh {
 			increment = instancedIndexStride;
 
 			// Add random size
-			particlesData[increment++] = randFloat(0.4, 0.6);
+			particlesData[increment++] = randFloat(0.2, 0.4);
 
 			// Add random speed
 			particlesData[increment++] = randFloat(0.0005, 0.0007);
@@ -84,7 +86,7 @@ class InstancedReactMoji extends Mesh {
 			particlesData[increment++] = 0;
 
 			// Add random placing
-			particlesData[increment++] = randFloat(-0.45, 0.45);
+			particlesData[increment++] = randFloat(-0.6, 0.6);
 		}
 
 		this.#particlesInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(particlesData), this.#particlesIntancesStride);
@@ -129,9 +131,10 @@ class InstancedReactMoji extends Mesh {
 			uniforms: {
 				uTime: globalUniforms.uTime,
 				uEmissiveOnly: globalUniforms.uEmissiveOnly,
+				uZoom: globalUniforms.uZoom,
 				uTex: { value: tex },
-				uGlobalSpead: { value: 1 },
-				uElevation: { value: 2 },
+				uGlobalSpeed: { value: 1 },
+				uElevation: { value: 1.5 },
 			},
 			depthWrite: false,
 			blending: CustomBlending,
@@ -173,26 +176,26 @@ class InstancedReactMoji extends Mesh {
 		return offset;
 	}
 
-	#resetMoji(index) {
-		this.geometry.getAttribute('aOffset').setXY(index, 1, 1);
-		this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * index;
+	#resetMoji(iso, index) {
+		const countryIndex = this.teams.getKey(app.game.teams.get(iso));
+		const realIndex = countryIndex * this.maxCount + index;
+
+		this.geometry.getAttribute('aOffset').setXY(realIndex, 1, 1);
+		this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * realIndex;
 		this.#particlesInstancedInterleaveBuffer.updateRange.count = 1 * this.#particlesIntancesStride;
 
 		this.#particlesInstancedInterleaveBuffer.needsUpdate = true;
 
-		const id = this.useInstances.indexOf(index);
-		if (id !== -1) {
-			this.useInstances.splice(id, 1);
-		}
+		const instancesInUse = this.#instancesInUse.get(iso);
+		const id = instancesInUse.indexOf(index);
+		if (id > -1) instancesInUse.splice(id, 1);
 	}
 
-	#getFreeInstance() {
-		for (let i = 0; i < this.maxCount - 1; i++) {
+	#getFreeInstance(iso) {
+		for (let i = 0; i < this.particlesCount; i++) {
 			const indexCourant = i;
 			// Vérifier si l'index courant est présent dans le tableau historique des index
-			if (!this.useInstances.includes(indexCourant)) {
-				return indexCourant; // Renvoyer l'index non utilisé
-			}
+			if (!this.#instancesInUse.get(iso).includes(indexCourant)) return indexCourant; // Renvoyer l'index non utilisé
 		}
 		// Si tous les index sont utilisés, renvoyer undefined ou une valeur spéciale pour indiquer qu'aucun index n'est disponible
 		return undefined;
@@ -204,20 +207,24 @@ class InstancedReactMoji extends Mesh {
 	 */
 	addReaction(countryReactionPayload) {
 		const countryIndex = this.teams.getKey(app.game.teams.get(countryReactionPayload.iso));
-		// console.log(countryIndex);
 
-		// const newOffset = this.#getReactmoji(type);
-		// const index = this.#getFreeInstance();
-		// if (index || index === 0) {
-		// 	this.useInstances.push(index);
-		// 	this.#particlesAttributes.offset.setXY(index, newOffset.x, newOffset.y);
-		// 	this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * index;
-		// 	this.#particlesInstancedInterleaveBuffer.updateRange.count = 1 * this.#particlesIntancesStride;
+		Object.entries(countryReactionPayload.reactions).forEach(([type, count]) => {
+			const newOffset = this.#getReactmoji(type);
 
-		// 	this.#particlesInstancedInterleaveBuffer.needsUpdate = true;
+			for (let i = 0; i < count; i++) {
+				const index = this.#getFreeInstance(countryReactionPayload.iso);
 
-		// 	setTimeout(() => this.#resetMoji(index), 1500);
-		// }
+				if (index || index === 0) {
+					const realIndex = countryIndex * this.maxCount + index;
+					this.#instancesInUse.get(countryReactionPayload.iso).push(index);
+					this.#particlesAttributes.offset.setXY(realIndex, newOffset.x, newOffset.y);
+					// this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * index;
+					// this.#particlesInstancedInterleaveBuffer.updateRange.count = 1 * this.#particlesIntancesStride;
+					setTimeout(() => this.#resetMoji(countryReactionPayload.iso, index), 1500);
+				}
+			}
+		});
+		this.#particlesInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
 	set count(value) {

@@ -58,6 +58,7 @@ function instanciateMesh(reference, meshes, parent) {
 
 	const instances = new InstancedMesh(reference.geometry, reference.material, meshes.length);
 	instances.material.userData = reference.material?.userData;
+	instances.geometry.userData = reference.geometry.userData;
 	instances.userData = reference.userData;
 	instances.name = 'instance-' + reference.name;
 	// instances.frustumCulled = true;
@@ -158,4 +159,4 @@ function isElementVisible(el) {
 	return !!el.offsetParent;
 }
 
-export { computeEnvmap, disposeMesh, instanciateMesh, throttle, debounce, isElementVisible };
+export { computeEnvmap, debounce, disposeMesh, instanciateMesh, isElementVisible, throttle };

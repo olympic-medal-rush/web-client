@@ -1,5 +1,5 @@
 attribute vec3 position, normal;
-attribute vec2 uv;
+attribute vec2 uv, uv1;
 
 #ifdef USE_INSTANCING
   attribute mat4 instanceMatrix;
@@ -9,7 +9,7 @@ uniform mat4 modelViewMatrix, projectionMatrix;
 uniform mat3 normalMatrix;
 
 varying float vDepth;
-varying vec2 vUv;
+varying vec2 vUv, vUv1;
 varying vec3 vNormal;
 
 void main() {
@@ -28,6 +28,7 @@ void main() {
   #endif
   
   vUv = uv;
+  vUv1 = uv1;
   vDepth = smoothstep(NEAR, FAR, -mvPosition.z);
 
   gl_Position = projectionMatrix * mvPosition;

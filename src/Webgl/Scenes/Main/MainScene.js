@@ -54,8 +54,6 @@ class MainScene extends Scene {
 	};
 
 	onAppLoaded() {
-		// const envMap = computeEnvmap(app.webgl.renderer, app.core.assetsManager.get('skybox'), false);
-		// this.background = envMap;
 		this.background = new Color().setHex(0xfbf9ec, LinearSRGBColorSpace);
 
 		this.userData.backgrounds = [this.background, new Color(0x000000)];
@@ -154,6 +152,10 @@ class MainScene extends Scene {
 		this.terrain.skybox.visible = !value;
 		this.terrain.grid.visible = !value;
 		this.terrain.flagObject.visible = !value;
+		if (this.teamsWrapper) {
+			this.teamsWrapper.instancedReactMoji.visible = !value;
+			this.teamsWrapper.instancedTeams.visible = !value;
+		}
 	}
 
 	get emissiveOnly() {

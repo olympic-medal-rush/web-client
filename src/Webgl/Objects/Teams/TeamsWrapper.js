@@ -21,7 +21,7 @@ class TeamsWrapper {
 	/** @type {Set<import('@Game/Team').Team>} */
 	#justWonMedalTeams = new Set();
 
-	constructor({ teams = [], maxCount = 210 } = {}) {
+	constructor({ teams = [], maxCount = 50 } = {}) {
 		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
 		this.positions = new Map(teams.map((team) => [team, team.position.clone().addScalar(0.5)]));
 		this.#rotationsY = new Map(teams.map((team) => [team, { value: 0 }]));
