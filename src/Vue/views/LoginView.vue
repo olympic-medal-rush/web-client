@@ -7,7 +7,7 @@ import { useTeamsStore } from '@stores/teams';
 import { STORE_KEYS } from '@utils/constants';
 import emblaCarouselVue from 'embla-carousel-vue';
 import countries from 'i18n-iso-countries';
-import { ref, watchEffect } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 import ButtonOrLink from './../components/Inputs/ButtonOrLink.vue';
 import TheLogo from './../components/TheLogo.vue';
 
@@ -43,7 +43,7 @@ const onSlideshowScroll = () => {
 	app.webgl.loginScene.onSlideshowScroll(slideshowApi.value.scrollProgress(), slideshowApi.value.selectedScrollSnap());
 };
 
-const selectedCountry = ref('BZH');
+const selectedCountry = ref(allname[0].iso);
 // let allBtn;
 
 app.webgl.renderLogin = true;
@@ -80,6 +80,12 @@ const login = () => {
 // 	app.webgl.loginScene.dispose();
 // 	router.replace('/game');
 // };
+
+onMounted(() => {
+	setTimeout(() => {
+		slideshowApi.value.reInit();
+	}, 500);
+});
 </script>
 
 <template>
@@ -87,14 +93,14 @@ const login = () => {
 		<TheLogo />
 		<div ref="slideshow" class="slideshow embla">
 			<div class="slideshow-wrapper embl__container">
-				<RoundFlag v-for="pays in allname" :key="pays.iso" class="slide embla__slide" :iso="pays.iso" :has-name="true" />
+				<RoundFlag v-for="pays in allname" :key="pays.iso" class="slide embla__slide" :class="{ selected: selectedCountry === pays.iso }" :iso="pays.iso" :has-name="true" />
 			</div>
 		</div>
 		<ButtonOrLink class="confirm-btn" @click="login()">Confirmer le pays</ButtonOrLink>
 	</div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use '@styles/tools' as *;
 .Login-container {
 	height: 100%;
@@ -115,10 +121,22 @@ const login = () => {
 		.slideshow-wrapper {
 			display: flex;
 			width: 100%;
+			margin-bottom: 40px;
 
 			.slide {
-				flex: 0 0 33%;
+				flex: 0 0 calc(100% / 3);
 				overflow: hidden;
+				transform: translateY(0px) scale(0.8);
+				transition: transform 0.4s ease-in-out;
+
+				&.selected {
+					transform: translateY(40px) scale(1);
+
+					span {
+						font-family: 'ApfelGrotezk-Fett';
+						font-size: 20px;
+					}
+				}
 			}
 		}
 	}

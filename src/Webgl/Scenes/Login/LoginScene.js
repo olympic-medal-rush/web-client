@@ -1,5 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
+import { gsap } from 'gsap';
 import { Color, LinearSRGBColorSpace, Scene } from 'three';
 import { Player } from '@Webgl/Objects/Player';
 import { EVENTS } from '@utils/constants';
@@ -23,6 +24,15 @@ class LoginScene extends Scene {
 		this.selectedIndex = 0;
 
 		this.playerToId = [0, 1, 2, 3, 4];
+
+		this.placementAnnim = {
+			selectedPlayer: {
+				z: 1.5,
+			},
+			deselectedPlayer: {
+				z: 0,
+			},
+		};
 	}
 
 	#onAppLoaded = () => {
@@ -72,6 +82,7 @@ class LoginScene extends Scene {
 		this.#players.forEach((player, i) => {
 			this.updatePlayerMaterial(i, this.pays[i].iso);
 		});
+		this.updateIdPlayers(0);
 	}
 
 	onSlideshowScroll(progress, index) {
@@ -85,12 +96,52 @@ class LoginScene extends Scene {
 			this.#players[this.playerToId.findIndex((element) => element === index)]?.playAnnim();
 		}
 
-		this.idPlayerCenter = index % 4;
-		this.idPlayerLeft = (index - 1) % 4 >= 0 ? (index - 1) % 4 : 4 + ((index - 1) % 4);
-		this.idPlayerRight = (index + 1) % 4;
+		this.idPlayerCenter = index % this.#players.length;
+		this.idPlayerLeft = (index - 1) % this.#players.length >= 0 ? (index - 1) % this.#players.length : this.#players.length + ((index - 1) % this.#players.length);
+		this.idPlayerRight = (index + 1) % this.#players.length;
 		// console.log('Player Left : ' + this.idPlayerLeft);
 		// console.log('Player Center : ' + this.idPlayerCenter);
 		// console.log('Player Right : ' + this.idPlayerRight);
+
+		gsap.to(this.#players[this.idPlayerCenter].position, {
+			z: this.placementAnnim.selectedPlayer.z,
+			duration: 0.3,
+			// ease: 'in-out-'
+		});
+
+		gsap.to(this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalRadius, {
+			value: 0.38,
+			duration: 0.3,
+			onUpdate: () => (this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalRadius.needsUpdate = true),
+		});
+
+		gsap.to(this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalElevation, {
+			value: 0.8,
+			duration: 0.3,
+			onUpdate: () => (this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalElevation.needsUpdate = true),
+		});
+
+		this.#players.forEach((player, i) => {
+			if (i !== this.idPlayerCenter) {
+				gsap.to(player.position, {
+					z: this.placementAnnim.deselectedPlayer.z,
+					duration: 0.3,
+					// ease: 'in-out-'
+				});
+
+				gsap.to(player.flames.material.uniforms.uGlobalRadius, {
+					value: 0,
+					duration: 0.3,
+					onUpdate: () => (player.flames.material.uniforms.uGlobalRadius.needsUpdate = true),
+				});
+
+				gsap.to(player.flames.material.uniforms.uGlobalElevation, {
+					value: 0,
+					duration: 0.3,
+					onUpdate: () => (player.flames.material.uniforms.uGlobalElevation.needsUpdate = true),
+				});
+			}
+		});
 	}
 
 	updatePosPlayers(progress) {
