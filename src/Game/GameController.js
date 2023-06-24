@@ -134,6 +134,7 @@ class GameController {
 		if (this.teamsStore.currentIso && voteResultsPayload.iso === this.teamsStore.currentIso) {
 			this.voteStore.resetTime();
 			this.voteStore.resetVote();
+			// app.sound.play('voteEnd');
 		}
 
 		if (!this.teams.has(voteResultsPayload.iso)) return console.error("Team doesn't exist");
