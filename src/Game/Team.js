@@ -7,11 +7,10 @@ class Team {
 	 *
 	 * @param {TeamInfos} params
 	 */
-	constructor({ iso, position, boosts = [], medals = { 0: 0, 1: 0, 2: 0 } }) {
+	constructor({ iso, position, medals = { 0: 0, 1: 0, 2: 0 } }) {
 		this.iso = iso;
 		this.position = new Vector2(position.x, position.y);
 		this.medals = medals;
-		this.boosts = boosts;
 		this.medalsCount = medals[0] + medals[1] + medals[2];
 		this.score = medals[0] * MEDAL_POINTS[0] + medals[1] * MEDAL_POINTS[1] + medals[2] * MEDAL_POINTS[2];
 	}

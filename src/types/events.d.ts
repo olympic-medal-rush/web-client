@@ -34,7 +34,7 @@ type TeamInfos = {
 	iso: string;
 	position: Position;
 	medals?: Record<MedalType, number>;
-	boosts: string[];
+	boosts?: { name: 'vote_rate' | 'pathfinding'; value: number }[];
 };
 
 type GameStatePayload = {
@@ -67,7 +67,6 @@ type VoteResultsPayload = {
 type NewCountryPayload = {
 	iso: string;
 	position: Position;
-	boosts: string[];
 };
 
 type MedalApparitionPayload = {

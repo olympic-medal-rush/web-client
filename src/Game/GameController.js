@@ -38,6 +38,8 @@ class GameController {
 			if (key !== 'ALL') {
 				this.teams.set(key, new Team(teamInfos));
 				this.teamsStore.add(this.teams.get(key));
+
+				teamInfos.boosts?.forEach((boost) => this.countryBuff({ iso: key, buff: boost.name, interval: boost.value }));
 			}
 		});
 
@@ -159,7 +161,8 @@ class GameController {
 	 * @param {CountryBuffPayload} countryBuffPayload
 	 */
 	countryBuff(countryBuffPayload) {
-		if (countryBuffPayload.iso !== this.currentTeam.iso) return;
+		console.log(countryBuffPayload);
+		if (countryBuffPayload.iso !== this.currentTeam?.iso) return;
 
 		switch (countryBuffPayload.buff) {
 			case 'vote_rate':
