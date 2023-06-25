@@ -17,7 +17,7 @@ defineProps({
 .svg-border {
 	fill: transparent;
 	stroke: v-bind(color);
-	stroke-width: 3;
+	stroke-width: 4;
 	animation: animate-stroke 2s infinite;
 }
 

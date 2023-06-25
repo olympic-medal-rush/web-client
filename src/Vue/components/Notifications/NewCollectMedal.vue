@@ -6,9 +6,11 @@ import { useCountry } from '@Vue/composables/useCountry';
 import MedalImg from '@components/Assets/MedalImg.vue';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
+import SvgRect from '@components/Utils/SvgRect.vue';
 import { useTeamsStore } from '@stores/teams';
 import { EVENTS, MEDAL_TYPES } from '@utils/constants';
 import { onMounted, ref } from 'vue';
+
 
 const teamsStore = useTeamsStore();
 
@@ -85,6 +87,7 @@ const toggleOpenOtherPays = () => {
 			<source src="/assets/videos/confetti.mov" />
 		</video>
 		<div ref="otherCountry" class="NewCollectMedal_OtherCountry" :class="{ openModal: otherOpen, active: otherActive }">
+		  <SvgRect class="svg-rect" color="#CEB11A" width="100%" height="100%" border-radius="10px" />
 			<div class="header">
 				<h2>Médaille remportée !</h2>
 				<button
@@ -199,6 +202,12 @@ ref="myCountry" class="NewCollectMedal_MyCountry" :class="{ active: myActive }"
 		@include tablet {
 			width: 364px;
 		}
+
+    .svg-rect {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
 
 		h2 {
 			font-family: 'ApfelGrotezk-Fett';

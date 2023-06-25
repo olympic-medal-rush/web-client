@@ -3,8 +3,8 @@ import { state } from '@/State';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import SvgRect from '@components/Utils/SvgRect.vue';
 import { useTeamsStore } from '@stores/teams';
-import { ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import { ref } from 'vue';
 
 const newTeam = ref();
 const nameNewTeam = ref();
@@ -22,7 +22,7 @@ state.on(EVENTS.CREATE_TEAM, (e) => {
 
 <template>
 	<div ref="newTeam" class="NewTeam">
-		<SvgRect class="svg-rect" color="black" width="100%" height="100%" border-radius="10px" />
+		<SvgRect class="svg-rect" color="#CEB11A" width="100%" height="100%" border-radius="10px" />
 		<h2>Nouvelle équipe en jeu !</h2>
 		<p v-if="nameNewTeam">
 			<RoundFlag :iso="nameNewTeam" has-name size="16px" /> -

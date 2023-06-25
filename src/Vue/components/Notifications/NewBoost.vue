@@ -1,5 +1,6 @@
 <script setup>
 import { state } from '@/State';
+import SvgRect from '@components/Utils/SvgRect.vue';
 import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
 
@@ -17,6 +18,7 @@ state.on(EVENTS.NOTIF_BUFF, (e) => {
 
 <template>
 	<div class="NewBoost" :class="{ active: isActive }">
+		<SvgRect class="svg-rect" color="#CEB11A" width="100%" height="100%" border-radius="10px" />
 		<h2>Boost débloqué !</h2>
 		<p v-if="currentBoost === 'vote_rate'"><img :src="'/assets/svgs/chrono.svg'" /> Temps de vote est réduit !</p>
 		<p v-if="currentBoost === 'pathfinding'"><img :src="'/assets/svgs/path.svg'" /> Chemin vers la médaille</p>
@@ -44,6 +46,12 @@ state.on(EVENTS.NOTIF_BUFF, (e) => {
 	@include tablet {
 		width: 364px;
 		left: calc(50% - 364px / 2);
+	}
+
+	.svg-rect {
+		position: absolute;
+		top: 0;
+		left: 0;
 	}
 
 	h2 {
