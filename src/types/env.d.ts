@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pwa/client" />
-import { Team } from '@/Game/Team';
 import { Medal } from '@Game/Medal';
+import { Team } from '@Game/Team';
 
 interface ImportMetaEnv {
 	readonly OLYMPIC_DEBUG: string;

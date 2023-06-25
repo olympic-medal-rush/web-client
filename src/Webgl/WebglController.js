@@ -47,7 +47,7 @@ class WebglController {
 
 	/**
 	 *
-	 * @param {import('@/Game/Team').Team} currentTeam
+	 * @param {import('@Game/Team').Team} currentTeam
 	 */
 	onJoinReady(currentTeam) {
 		this.camera.playerPosition = this.scene.teamsWrapper.positions.get(currentTeam);
