@@ -1,9 +1,10 @@
 <script setup>
+import { app } from '@/App';
 import { state } from '@/State';
 import Arrow from '@/assets/svgs/GreyArrow.svg';
 import { useTeamsStore } from '@stores/teams';
-import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 import RoundFlag from './Assets/RoundFlag.vue';
 
 const teamsStore = useTeamsStore();
@@ -29,6 +30,7 @@ const togglePodium = () => {
 		scoreboard.value.style.height = 75 + 'px';
 	}
 	isPodiumActive.value = !isPodiumActive.value;
+	app.sound.play('click');
 	scoreboard.value.classList.toggle('active');
 };
 </script>
@@ -42,7 +44,7 @@ const togglePodium = () => {
 			</div>
 		</router-link>
 		<div ref="podium" class="Podium">
-			<RouterLink to="/game/scoreboard">
+			<RouterLink to="/game/scoreboard" @click="app.sound.play('click')">
 				<span class="separator"></span>
 				<div v-for="(team, i) in teamsStore.scoreboard" :key="team.iso" class="Podium-item" :class="{ none: i > 2 }">
 					<div class="Podium-item-wrapper">

@@ -76,7 +76,7 @@ void main() {
 	diffuse = mix(diffuse, color3, face);
 	diffuse = mix(diffuse, uGold + grain * .05, gold);
 	#ifdef USE_INSTANCING
-		diffuse -= grain * body * smoothstep(2., 0., vPosition.y) * .4;
+		diffuse -= grain * body * smoothstep(2., 0., vPosition.y) * .2;
 	#else
 		diffuse -= grain * body * smoothstep(2., 0., vPosition.y) * .15;
 	#endif

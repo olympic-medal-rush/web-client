@@ -16,6 +16,7 @@ specifiers:
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-vue: ^9.9.0
   gsap: ^3.11.5
+  howler: ^2.2.3
   i18n-iso-countries: ^7.6.0
   pathfinding: ^0.4.18
   pinia: ^2.0.33
@@ -38,6 +39,7 @@ dependencies:
   csv-parse: 5.3.10
   embla-carousel-vue: 8.0.0-rc07_vue@3.3.2
   gsap: 3.11.5
+  howler: 2.2.3
   pathfinding: 0.4.18
   pinia: 2.0.36_typescript@5.1.3+vue@3.3.2
   three: 0.153.0
@@ -3043,6 +3045,10 @@ packages:
 
   /heap/0.2.5:
     resolution: {integrity: sha512-G7HLD+WKcrOyJP5VQwYZNC3Z6FcQ7YYjEFiFoIj8PfEr73mu421o8B1N5DKUcc8K37EsJ2XXWA8DtrDz/2dReg==}
+    dev: false
+
+  /howler/2.2.3:
+    resolution: {integrity: sha512-QM0FFkw0LRX1PR8pNzJVAY25JhIWvbKMBFM4gqk+QdV+kPXOhleWGCB6AiAF/goGjIHK2e/nIElplvjQwhr0jg==}
     dev: false
 
   /i18n-iso-countries/7.6.0:

@@ -1,4 +1,5 @@
 <script async setup>
+import { app } from '@/App';
 import { useCountry } from '@Vue/composables/useCountry';
 import MedalCard from '@components/Medals/MedalCard.vue';
 import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
@@ -36,6 +37,7 @@ onMounted(() => {
 });
 
 const onMedalSlideshowPointerDown = (medalId) => {
+	app.sound.play('click');
 	cardSlideshowApi.value.scrollTo(medalId);
 	medalSlideshowApi.value.scrollTo(medalId);
 };
@@ -48,6 +50,7 @@ const onCardSlideshowSelect = () => {
 
 const toggleCards = () => {
 	cardFront.value = !cardFront.value;
+	app.sound.play('click');
 };
 </script>
 

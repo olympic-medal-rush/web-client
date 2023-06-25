@@ -13,7 +13,6 @@ class TeamsWrapper {
 	positions;
 
 	#teams;
-	#rotationsY;
 	#animationsSteps = {
 		jump: 0,
 		medal: 0,
@@ -23,8 +22,9 @@ class TeamsWrapper {
 
 	constructor({ teams = [], maxCount = 50 } = {}) {
 		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
+
 		this.positions = new Map(teams.map((team) => [team, team.position.clone().addScalar(0.5)]));
-		this.#rotationsY = new Map(teams.map((team) => [team, { value: 0 }]));
+		this.rotationsY = new Map(teams.map((team) => [team, { value: 0 }]));
 
 		this.maxCount = maxCount;
 		const totalFrames = frameCount;
@@ -38,11 +38,9 @@ class TeamsWrapper {
 	}
 
 	setCurrentTeam(team) {
-		// const teamPos = this.positions.get(team);
-		// this.reactmoji.position.set(teamPos.x, 0, teamPos.y);
-		// this.reactmoji.visible = true;
-
 		this.instancedFlags.setIsMyTeam(team);
+
+		app.sound.setGlobal(this.positions.get(team), this.rotationsY.get(team));
 	}
 
 	/**
@@ -53,7 +51,7 @@ class TeamsWrapper {
 		if (this.#teams.hasValue(team)) return console.error('Team instance already exists');
 		this.#teams.add(this.#count, team);
 		this.positions.set(team, team.position.clone().addScalar(0.5));
-		this.#rotationsY.set(team, { value: 0 });
+		this.rotationsY.set(team, { value: 0 });
 
 		this.instancedTeams.addInstance(team);
 		this.instancedFlames.addInstance(team);
@@ -78,7 +76,7 @@ class TeamsWrapper {
 		let animatedRotation = 0;
 
 		const teamPosition = this.positions.get(team);
-		const teamRotation = this.#rotationsY.get(team);
+		const teamRotation = this.rotationsY.get(team);
 
 		const previousPosition = teamPosition.clone();
 		let currentRotationY = teamRotation.value;
@@ -121,14 +119,21 @@ class TeamsWrapper {
 				this.instancedFlames.moveInstanceUpdate({ teamIndex, animatedPosition, animatedRotation, animationProgress: t.animationProgress });
 				this.instancedFlags.moveInstanceUpdate({ teamIndex, animatedPosition });
 				this.instancedReactMoji.moveInstanceUpdate({ teamIndex, animatedPosition });
+
+				app.sound.setParams(`rotation-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
+				app.sound.setParams(`jump-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
 			},
 		});
 
 		const shouldRotate = Math.abs(nextRotationY - currentRotationY) > 0.01;
 
 		if (shouldRotate) tl.to(t, { rotationProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0);
+
 		tl.to(t, { animationProgress: animationProgressTarget, ease: 'linear', duration: animationDuration }, shouldRotate ? '>-.5' : 0);
+		tl.add(() => app.sound.play(`rotation-${team.iso}`), '<');
+		tl.add(() => app.sound.play(`jump-${team.iso}`), '<');
 		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, '<.7');
+		tl.add(() => app.sound.play(`fall-${team.iso}`), '>+.15');
 	}
 
 	/**

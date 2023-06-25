@@ -39,12 +39,19 @@ const teamsStore = useTeamsStore();
 const [slideshow, slideshowApi] = emblaCarouselVue({ skipSnaps: true, align: 'center' });
 
 watchEffect(() => {
-	if (slideshowApi.value) slideshowApi.value.on('scroll', onSlideshowScroll);
+	if (slideshowApi.value) {
+		slideshowApi.value.on('scroll', onSlideshowScroll);
+		slideshowApi.value.on('select', onSlideshowSelect);
+	}
 });
 
 const onSlideshowScroll = () => {
 	selectedCountry.value = allname[slideshowApi.value.selectedScrollSnap()].iso;
 	app.webgl.loginScene.onSlideshowScroll(slideshowApi.value.scrollProgress(), slideshowApi.value.selectedScrollSnap());
+};
+
+const onSlideshowSelect = () => {
+	app.sound.play('flame');
 };
 
 const selectedCountry = ref(allname[0].iso);

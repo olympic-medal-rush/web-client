@@ -43,17 +43,36 @@ const manifest = {
 		flagsAtlasData: { path: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas.json`, mobilePath: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas-mobile.json` },
 	},
 	sounds: {
-		bgMusic: { path: `${import.meta.env.BASE_URL}assets/sounds/BG_MUSIC.mp3` },
-		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/COLLECT_MEDAL.mp3` },
-		ctaClick: { path: `${import.meta.env.BASE_URL}assets/sounds/CTA_CLICK.mp3` },
-		jumpMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/JUMP_MEDAL.mp3` },
-		jumpPerso: { path: `${import.meta.env.BASE_URL}assets/sounds/JUMP_PERSO.mp3` },
-		modal: { path: `${import.meta.env.BASE_URL}assets/sounds/MODAL.mp3` },
-		notif: { path: `${import.meta.env.BASE_URL}assets/sounds/NOTIF.mp3` },
-		spawnMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/SPAWN_MEDAL.mp3` },
-		uiClick: { path: `${import.meta.env.BASE_URL}assets/sounds/UI_CLICK.mp3` },
-		voteClick: { path: `${import.meta.env.BASE_URL}assets/sounds/VOTE_CLICK.mp3` },
-		voteEnd: { path: `${import.meta.env.BASE_URL}assets/sounds/VOTE_END.mp3` },
+		// PLAYER
+		rotation: { path: `${import.meta.env.BASE_URL}assets/sounds/flame.mp3`, params: { volume: 0.15 } },
+		jump: { path: `${import.meta.env.BASE_URL}assets/sounds/jump.mp3`, params: { volume: 0.15 } },
+		fall: { path: `${import.meta.env.BASE_URL}assets/sounds/fall.mp3`, params: { volume: 0.05 } },
+
+		// UI
+		click: { path: `${import.meta.env.BASE_URL}assets/sounds/click.mp3`, params: {} },
+		validated: { path: `${import.meta.env.BASE_URL}assets/sounds/validated.mp3`, params: {} },
+		voteNoClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_noclick.mp3`, params: {} },
+		modalOpen: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_open.mp3`, params: { volume: 0.8 } },
+		modalClose: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_close.mp3`, params: { volume: 0.6 } },
+
+		// GAME EVENTS
+		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/collect_medal.mp3`, params: {} },
+		newMedals: { path: `${import.meta.env.BASE_URL}assets/sounds/new_medals.mp3`, params: {} },
+		newTeam: { path: `${import.meta.env.BASE_URL}assets/sounds/new_team.mp3`, params: {} },
+
+		// AMBIENT SOUNDS
+
+		// bgMusic: { path: `${import.meta.env.BASE_URL}assets/sounds/BG_MUSIC.mp3` },
+		// collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/COLLECT_MEDAL.mp3` },
+		// ctaClick: { path: `${import.meta.env.BASE_URL}assets/sounds/CTA_CLICK.mp3` },
+		// jumpMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/JUMP_MEDAL.mp3` },
+		// jumpPerso: { path: `${import.meta.env.BASE_URL}assets/sounds/JUMP_PERSO.mp3` },
+		// modal: { path: `${import.meta.env.BASE_URL}assets/sounds/MODAL.mp3` },
+		// notif: { path: `${import.meta.env.BASE_URL}assets/sounds/NOTIF.mp3` },
+		// spawnMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/SPAWN_MEDAL.mp3` },
+		// uiClick: { path: `${import.meta.env.BASE_URL}assets/sounds/UI_CLICK.mp3` },
+		// voteClick: { path: `${import.meta.env.BASE_URL}assets/sounds/VOTE_CLICK.mp3` },
+		// voteEnd: { path: `${import.meta.env.BASE_URL}assets/sounds/VOTE_END.mp3` },
 	},
 };
 

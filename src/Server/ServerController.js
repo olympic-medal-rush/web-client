@@ -186,7 +186,7 @@ export default class ServerController {
 	 * @param {CountryReactionPayload} data
 	 */
 	#onCountryReaction(data) {
-		// console.log(data.reactions, 'reactions');
+		console.log(data.reactions, 'reactions');
 		app.game.countryReaction(data);
 	}
 
@@ -219,6 +219,7 @@ export default class ServerController {
 	userReaction(userReactionPayload) {
 		// console.log(userReactionPayload, 'userReaction');
 		this.#send(SERVER_EVENTS.USER_REACTION, userReactionPayload);
+		console.log(userReactionPayload);
 	}
 
 	userCatchup() {

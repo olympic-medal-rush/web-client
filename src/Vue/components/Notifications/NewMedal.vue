@@ -1,15 +1,14 @@
 <script setup>
-import { app } from '@/App';
 import { state } from '@/State';
 import MedalPodImg from '@components/Assets/MedalsPodImg.vue';
-import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 
 const newMedal = ref();
 
 state.on(EVENTS.SPAWN_MEDALS, () => {
 	newMedal.value.classList.add('active');
-	app.sound.play('spawnMedal');
+	// app.sound.play('spawnMedal');
 	setTimeout(() => {
 		newMedal.value.classList.remove('active');
 	}, 3000);

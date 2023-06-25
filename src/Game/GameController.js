@@ -92,6 +92,7 @@ class GameController {
 
 		state.emit(EVENTS.CREATE_TEAM, team);
 		this.teamsStore.add(team);
+		app.sound.play('newTeam');
 	}
 
 	/**
@@ -110,6 +111,7 @@ class GameController {
 
 		this.medalsInGameStore.add(newMedals);
 		state.emit(EVENTS.SPAWN_MEDALS, newMedals);
+		app.sound.play('newMedals');
 	}
 
 	/**
@@ -140,7 +142,6 @@ class GameController {
 		if (this.teamsStore.currentIso && voteResultsPayload.iso === this.teamsStore.currentIso) {
 			this.voteStore.resetTime();
 			this.voteStore.resetVote();
-			// app.sound.play('voteEnd');
 		}
 
 		if (!this.teams.has(voteResultsPayload.iso)) return console.error("Team doesn't exist");

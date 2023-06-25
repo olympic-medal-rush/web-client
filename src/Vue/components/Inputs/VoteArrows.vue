@@ -62,7 +62,7 @@ const downIsInactive = ref(false);
 const leftIsInactive = ref(false);
 
 const handleClick = (e) => {
-	app.sound.play('voteClick');
+	app.sound.play('click');
 	app.server.userVote({
 		user_id: store.get(STORE_KEYS.USER_ID),
 		direction: e.target.dataset.dir,
@@ -101,6 +101,7 @@ state.on(EVENTS.VOTE_RESULTS, (team) => {
 		posTeam.value = team.position;
 		removeActive();
 		detectObstacles();
+		app.sound.play('validated');
 	}
 });
 
@@ -194,9 +195,7 @@ const detectObstacles = () => {
 
 	const isObstacle = [up, left, right, down];
 	buttons.forEach((el, i) => {
-		if (isObstacle[i]) {
-			el.disabled = true;
-		}
+		if (isObstacle[i]) el.disabled = true;
 	});
 
 	upIsDisable.value = up;

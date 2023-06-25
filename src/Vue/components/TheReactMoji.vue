@@ -1,20 +1,18 @@
 <script setup>
 import { app } from '@/App';
 import HandWaving from '@/assets/svgs/HandWaving.svg';
-import { useTeamsStore } from '@stores/teams';
 import { ref } from 'vue';
 
 const isOpen = ref(false);
-const storeTeams = useTeamsStore();
 
 const toggle = () => {
 	isOpen.value = !isOpen.value;
 
-	if (isOpen.value) app.sound.play('modal');
+	app.sound.play(`modal${isOpen.value ? 'Open' : 'Close'}`);
 };
 
 const handleClick = (id) => {
-	app.sound.play('ctaClick');
+	app.sound.play('click');
 	app.server.userReaction({ reaction: id });
 };
 </script>

@@ -1,12 +1,13 @@
 <script async setup>
+import { app } from '@/App';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
 import BlurryPage from '@components/Utils/BlurryPage.vue';
 import { useMedalsStore } from '@stores/medals';
 import { useTeamsStore } from '@stores/teams';
-import { MEDAL_TYPES } from '@utils/constants';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { MEDAL_TYPES } from '@utils/constants';
 
 const route = useRoute();
 // @ts-ignore
@@ -22,6 +23,7 @@ const showSilver = ref(true);
 const showBronze = ref(true);
 
 const onMedalFilterClick = (type) => {
+	app.sound.play('click');
 	switch (type) {
 		case MEDAL_TYPES.bronze:
 			showBronze.value = !showBronze.value;
@@ -82,6 +84,7 @@ const onMedalFilterClick = (type) => {
 									:key="medal.id"
 									:to="`/game/medals/${iso}/${medal.id}`"
 									class="medal-circle"
+									@click="app.sound.play('click')"
 								>
 									<MedalDotCircle :has-circle="false" :type="medal.type" :nationality="medal.nationality" />
 								</RouterLink>

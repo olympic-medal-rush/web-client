@@ -3,16 +3,14 @@ import { app } from '@/App';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
 import TheLogo from './../components/TheLogo.vue';
 
-const initFirstSound = () => {
-	app.sound.initAudio();
-};
+app.webgl.renderLogin = false;
 </script>
 
 <template>
 	<div class="home">
 		<TheLogo />
 
-		<ButtonOrLink class="cta" to="/login" @click="() => initFirstSound()"> Jouer </ButtonOrLink>
+		<ButtonOrLink class="cta" to="/login" @click="app.sound.play('button')"> Jouer </ButtonOrLink>
 	</div>
 </template>
 

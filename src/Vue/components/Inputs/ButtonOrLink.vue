@@ -19,16 +19,20 @@ const props = defineProps({
 		default: false,
 	},
 });
+
+const onClick = () => {
+	app.sound.play('click');
+};
 </script>
 
 <template>
-	<RouterLink v-if="props.to" ontouchstart="" :to="props.to" @click="() => app.sound.play('ctaClick')">
+	<RouterLink v-if="props.to" ontouchstart="" :to="props.to" @click="onClick">
 		<ButtonOrLinkContent :icon-position="props.iconPosition" :class="{ close: props.close }">
 			<template #icon><slot name="icon"></slot></template>
 			<slot></slot>
 		</ButtonOrLinkContent>
 	</RouterLink>
-	<button v-else ontouchstart="" @click="() => app.sound.play('ctaClick')">
+	<button v-else ontouchstart="" @click="onClick">
 		<ButtonOrLinkContent :icon-position="props.iconPosition" :class="{ close: props.close }">
 			<template #icon><slot name="icon"></slot></template>
 			<slot></slot>

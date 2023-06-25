@@ -6,21 +6,21 @@
 </template>
 
 <script setup>
+import { app } from '@/App';
 import GreyArrow from '@/assets/svgs/GreyArrow.svg';
 import { useRouter } from 'vue-router';
 
 defineProps({
-	to: {
-		type: String,
-		required: false,
-	},
+	to: { type: String, required: false },
 });
 
 const router = useRouter();
 
 const onClick = () => {
-	if (!router.hasRoute(window.history.state.back)) router.push('/game');
+	const match = router.resolve(window.history.state.back);
+	if (match.matched.length === 0) router.push('/game');
 	else router.back();
+	app.sound.play('click');
 };
 </script>
 

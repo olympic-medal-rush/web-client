@@ -1,4 +1,5 @@
 <script setup>
+import { app } from '@/App';
 import GreyArrow from '@/assets/svgs/GreyArrow.svg';
 import PlayersIcon from '@/assets/svgs/PlayersIcon.svg';
 import ScoreboardPositionEqual from '@/assets/svgs/ScoreboardPositionEqual.svg';
@@ -14,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-	<RouterLink :to="`/game/scoreboard/${team.iso}`" class="team-score">
+	<RouterLink :to="`/game/scoreboard/${team.iso}`" class="team-score" @click="app.sound.play('click')">
 		<div class="position">
 			<p>{{ team.position }}</p>
 			<ScoreboardPositionEqual class="svg-indicator" />

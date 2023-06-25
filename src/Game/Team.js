@@ -1,3 +1,4 @@
+import { app } from '@/App';
 import { Vector2 } from 'three';
 import { MEDAL_POINTS } from '@utils/config';
 import { DIRECTIONS } from '@utils/constants';
@@ -14,6 +15,10 @@ class Team {
 		this.medalsCount = medals[0] + medals[1] + medals[2];
 		this.score = medals[0] * MEDAL_POINTS[0] + medals[1] * MEDAL_POINTS[1] + medals[2] * MEDAL_POINTS[2];
 		this.boosts = boosts;
+
+		app.sound.add('jump', `jump-${iso}`);
+		app.sound.add('rotation', `rotation-${iso}`);
+		app.sound.add('fall', `fall-${iso}`);
 	}
 
 	/**
@@ -35,7 +40,6 @@ class Team {
 				this.position.x -= 1;
 				break;
 		}
-
 		return this;
 	}
 

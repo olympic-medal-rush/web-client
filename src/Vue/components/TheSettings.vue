@@ -8,7 +8,7 @@ const isOpen = ref(false);
 const toggle = () => {
 	isOpen.value = !isOpen.value;
 
-	if (isOpen.value) app.sound.play('modal');
+	app.sound.play(`modal${isOpen.value ? 'Open' : 'Close'}`);
 };
 </script>
 
