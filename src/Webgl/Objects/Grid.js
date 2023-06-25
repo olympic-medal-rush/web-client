@@ -125,7 +125,7 @@ class Grid extends Mesh {
 	#resetPath() {
 		this.path = [];
 		for (let i = 0; i < this.size * this.size; i++) {
-			this.path.push([0, 0]);
+			this.path.push([this.size * this.size, this.size * this.size]);
 		}
 	}
 
