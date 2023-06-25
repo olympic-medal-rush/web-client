@@ -64,13 +64,14 @@ void main() {
   vec3 pos = position;
 
   // Update size
-  float size = smoothstep(0., 0.7, fract(-uTime * aSpeed * globalSpeed)) * aSize;
+  float life = fract(-uTime * aSpeed * globalSpeed);
+  float size = smoothstep(.0, .5, life) * smoothstep(1., .9, life) * aSize * 1.2;
   pos *= size;
 
 
   // Update pos
   float radus = globalRadius - (pos.y * aSpeed * 800. * aSize);
-  pos.y += fract(uTime * aSpeed * globalSpeed) * globalElevation + 1.6;
+  pos.y += fract(uTime * aSpeed * globalSpeed) * globalElevation + 1.5;
   pos.x += radus * cos(aRad);
   pos.z += radus * sin(aRad);
 
