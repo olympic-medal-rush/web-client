@@ -1,15 +1,19 @@
 <script setup>
 import { app } from '@/App';
+import { state } from '@/State';
 import { store } from '@/Store';
 import { useCountry } from '@Vue/composables/useCountry';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import { useTeamsStore } from '@stores/teams';
-import { STORE_KEYS } from '@utils/constants';
 import emblaCarouselVue from 'embla-carousel-vue';
 import countries from 'i18n-iso-countries';
-import { onMounted, ref, watchEffect } from 'vue';
+import { onMounted, onUnmounted, ref, watchEffect } from 'vue';
+import { useRouter } from 'vue-router';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 import ButtonOrLink from './../components/Inputs/ButtonOrLink.vue';
 import TheLogo from './../components/TheLogo.vue';
+
+const router = useRouter();
 
 const isos = Object.keys(countries.getAlpha3Codes());
 isos.push('BZH');
@@ -48,26 +52,13 @@ const selectedCountry = ref(allname[0].iso);
 
 app.webgl.renderLogin = true;
 
-// onMounted(() => {
-// 	allBtn = document.querySelectorAll('.Pays-item');
-// 	state.on(EVENTS.JOIN_READY, onJoinReady);
-// });
+onMounted(() => {
+	state.on(EVENTS.JOIN_READY, onJoinReady);
+});
 
-// onUnmounted(() => {
-// 	state.off(EVENTS.JOIN_READY, onJoinReady);
-// });
-
-// const selectCountry = (id) => {
-// 	selectedCountry.value = id;
-// 	state.emit(EVENTS.SELECT_TEAM_UPDATE, id);
-// 	allBtn.forEach((btn) => {
-// 		if (btn.id === id) {
-// 			btn.classList.add('select');
-// 		} else {
-// 			btn.classList.remove('select');
-// 		}
-// 	});
-// };
+onUnmounted(() => {
+	state.off(EVENTS.JOIN_READY, onJoinReady);
+});
 
 const login = () => {
 	teamsStore.setCurrent(selectedCountry.value);
@@ -75,11 +66,11 @@ const login = () => {
 	app.server.userJoin({ iso: selectedCountry.value });
 };
 
-// const onJoinReady = () => {
-// 	app.webgl.renderLogin = false;
-// 	app.webgl.loginScene.dispose();
-// 	router.replace('/game');
-// };
+const onJoinReady = () => {
+	app.webgl.renderLogin = false;
+	app.webgl.loginScene.dispose();
+	router.replace('/game');
+};
 
 onMounted(() => {
 	setTimeout(() => {
