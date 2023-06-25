@@ -41,13 +41,13 @@ class Terrain extends Object3D {
 			defines: {
 				NEAR: `${CAMERA.near}.`,
 				FAR: `${CAMERA.far}.`,
-				AO_CHANNEL: 'b',
 			},
 		});
 
 		const instancedMaterial = new BuildingMaterial({
 			uniforms: {
 				...buildingsUniforms,
+				...app.webgl.scene.commonUniforms,
 			},
 			defines: {
 				NEAR: `${CAMERA.near}.`,

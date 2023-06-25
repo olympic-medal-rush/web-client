@@ -57,6 +57,7 @@ class Grid extends Mesh {
 				...app.webgl.scene.dynamicShadowUniforms,
 				...app.webgl.scene.staticShadowUniforms,
 				...app.webgl.scene.commonShadowUniforms,
+				...app.webgl.scene.commonUniforms,
 
 				uZoom: globalUniforms.uZoom,
 

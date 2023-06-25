@@ -18,8 +18,8 @@ import TheOnbording from '@components/TheOnbording.vue';
 import TheReactMoji from '@components/TheReactMoji.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
-import { EVENTS } from '@utils/constants';
 import { onMounted, ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 
 const isModal = ref(false);
 const idModal = ref(0);
@@ -37,6 +37,8 @@ onMounted(() => {
 		if (key === 'H') game.value.classList.toggle('sixty-debug-hidden');
 	});
 	/// #endif
+
+	app.sound.play('gameAmbient');
 });
 </script>
 

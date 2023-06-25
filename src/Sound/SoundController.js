@@ -48,7 +48,7 @@ class SoundController {
 		this.add('modalOpen');
 		this.add('modalClose');
 
-		this.add('homeAmbient');
+		this.add('gameAmbient');
 	}
 
 	setGlobal(position, rotation) {
