@@ -17,7 +17,6 @@ import TheOnbording from '@components/TheOnbording.vue';
 import TheReactMoji from '@components/TheReactMoji.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
-import { useMedalsInGameStore } from '@stores/medalsInGame';
 import { onMounted, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
 
@@ -28,8 +27,6 @@ const toggleModal = (id) => {
 	isModal.value = !isModal.value;
 	app.sound.play(`modal${isModal.value ? 'Open' : 'Close'}`);
 };
-
-const medalsInGameStore = useMedalsInGameStore();
 
 const game = ref();
 
@@ -69,9 +66,7 @@ onMounted(() => {
 		<NewMedal />
 		<NewCollectMedal />
 		<NewTeam />
-		<Suspense>
-			<RouterView />
-		</Suspense>
+		<RouterView />
 	</div>
 </template>
 

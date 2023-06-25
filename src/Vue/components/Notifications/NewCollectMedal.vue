@@ -122,8 +122,7 @@ class="NewCollectMedal_OtherCountry_Icon" :class="{ openModal: otherOpen }"
 						</div>
 					</div>
 				</div>
-				<ButtonOrLink class="cta" :to="'/game/medals/' + collectTeam + '/' + idMedal"> Afficher la médaille
-				</ButtonOrLink>
+				<ButtonOrLink class="cta" :to="'/game/medals/' + collectTeam + '/' + idMedal"> Afficher la médaille</ButtonOrLink>
 				</p>
 			</transition>
 		</div>
@@ -158,7 +157,7 @@ ref="myCountry" class="NewCollectMedal_MyCountry" :class="{ active: myActive }"
 	</div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '@styles/tools' as *;
 
 .NewCollectMedal {

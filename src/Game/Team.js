@@ -16,9 +16,10 @@ class Team {
 		this.score = medals[0] * MEDAL_POINTS[0] + medals[1] * MEDAL_POINTS[1] + medals[2] * MEDAL_POINTS[2];
 		this.boosts = boosts;
 
-		app.sound.add('jump', `jump-${iso}`);
-		app.sound.add('rotation', `rotation-${iso}`);
-		app.sound.add('fall', `fall-${iso}`);
+		app.sound.add('playerJump', `playerJump-${iso}`);
+		app.sound.add('playerRotation', `playerRotation-${iso}`);
+		app.sound.add('playerFall', `playerFall-${iso}`);
+		app.sound.add('playerCollect', `playerCollect-${iso}`);
 	}
 
 	/**

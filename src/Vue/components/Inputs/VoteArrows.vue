@@ -62,7 +62,7 @@ const downIsInactive = ref(false);
 const leftIsInactive = ref(false);
 
 const handleClick = (e) => {
-	app.sound.play('click');
+	app.sound.play('voteClick');
 	app.server.userVote({
 		user_id: store.get(STORE_KEYS.USER_ID),
 		direction: e.target.dataset.dir,
