@@ -41,6 +41,8 @@ class App {
 		if (DEBUG) this.debug = await createDebugModules();
 		this.debug?.mapping.init();
 
+		this.vueApp.mount('#vue-app');
+
 		await this.load();
 	}
 
@@ -58,7 +60,6 @@ class App {
 		vueApp.use(createPinia());
 		vueApp.use(router);
 		vueApp.use(i18n);
-		vueApp.mount('#vue-app');
 
 		return vueApp;
 	}

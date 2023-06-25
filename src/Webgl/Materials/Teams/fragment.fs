@@ -3,7 +3,7 @@ precision highp float;
 uniform float uEmissiveOnly, uAoMapIntensity, uEnvMapIntensity, uRoughness, uMetalness;
 uniform vec3 uGold;
 uniform mat4 viewMatrix;
-uniform sampler2D tNoise,tGrain;
+uniform sampler2D tNoise, tGrain;
 uniform sampler2D tMetalnessMap, tAoMap, tEnvMap;
 
 varying float vAnimationProgress;
@@ -32,6 +32,8 @@ varying vec3 vColor1, vColor2, vColor3;
 #include ../Global/chunks/envmap_pars_fragment.glsl
 
 void main() {
+	float grain = texture2D(tGrain, vUv * 2.5).r;
+
 	float metalnessMap = texture2D(tMetalnessMap, vUv).r;
 	float metalness = uMetalness * metalnessMap;
 	float roughness = (1. - metalnessMap) * uRoughness;
@@ -72,8 +74,12 @@ void main() {
 	
 
 	diffuse = mix(diffuse, color3, face);
-	diffuse = mix(diffuse, uGold, gold);
-	diffuse -= texture2D(tGrain, vUv * 20.).r * body * smoothstep(2.5, 0., vPosition.y) * .1;
+	diffuse = mix(diffuse, uGold + grain * .05, gold);
+	#ifdef USE_INSTANCING
+		diffuse -= grain * body * smoothstep(2., 0., vPosition.y) * .4;
+	#else
+		diffuse -= grain * body * smoothstep(2., 0., vPosition.y) * .15;
+	#endif
 
 	// ENVMAP
 	vec3 reflectVec = reflect(vEyeToSurfaceDir, vWorldNormal);
@@ -97,8 +103,6 @@ void main() {
 	#endif
 
 	gl_FragColor = final;
-
-	// gl_FragColor.rgb = vNormal;
 
 	// Emissive
 	gl_FragColor.rgb = mix(gl_FragColor.rgb, gl_FragColor.rgb * (1. - face) * smoothstep(.0, 3., min(1., length(gl_FragColor.rgb))) * .2, float(uEmissiveOnly));

@@ -23,7 +23,7 @@ void main() {
 	float grain = texture2D(tGrain, vUv1 * 20.).r;
   	float noise = texture2D(tNoise, vUv1 * 5.).r * texture2D(tNoise, vUv1 * 20.).r;
 
-	vec3 color = texture2D(tColors, vUv).rgb + grain * .1 - noise * .05;
+	vec3 color = texture2D(tColors, vUv).rgb + grain * .05;
 
 
 	float ao = texture2D(tAoMap, vUv1).r;
@@ -33,6 +33,4 @@ void main() {
 
 	gl_FragColor = vec4(color, 1.);
 	gl_FragColor.rgb *= (1. - float(uEmissiveOnly));
-	
-
 }

@@ -37,14 +37,14 @@ class InstancedReactMoji extends Mesh {
 
 	#instancesInUse;
 
-	constructor({ teams, maxCount = 210, particlesCount = 50 }) {
+	constructor({ teams, maxCount = 210, particlesCount = 25 }) {
 		super();
 
 		const tex = app.core.assetsManager.get('reactmoji');
 		const { width, height } = tex.source.data;
 		this.#textureDimensions.set(width, height);
 
-		this.#instancesInUse = new Map([...teams.values()].map((team) => [team.iso, []]));
+		this.#instancesInUse = new Map([...teams.values()].map((team) => [team.iso, 0]));
 
 		this.teams = teams;
 
@@ -82,18 +82,18 @@ class InstancedReactMoji extends Mesh {
 			particlesData[increment++] = randFloat(0.0005, 0.0007);
 
 			// Add random moji
-			particlesData[increment++] = 0;
-			particlesData[increment++] = 0;
+			particlesData[increment++] = 1;
+			particlesData[increment++] = 1;
 
 			// Add random placing
 			particlesData[increment++] = randFloat(-0.6, 0.6);
 		}
 
 		this.#particlesInstancedInterleaveBuffer = new InstancedInterleavedBuffer(new Float32Array(particlesData), this.#particlesIntancesStride);
-		this.#particlesAttributes.offset = new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 2, 2, false);
 
 		geometry.setAttribute('aSize', new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 1, 0, false));
 		geometry.setAttribute('aSpeed', new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 1, 1, false));
+		this.#particlesAttributes.offset = new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 2, 2, false);
 		geometry.setAttribute('aOffset', this.#particlesAttributes.offset);
 		geometry.setAttribute('aPlacing', new InterleavedBufferAttribute(this.#particlesInstancedInterleaveBuffer, 1, 4, false));
 
@@ -176,30 +176,28 @@ class InstancedReactMoji extends Mesh {
 		return offset;
 	}
 
-	#resetMoji(iso, index) {
-		const countryIndex = this.teams.getKey(app.game.teams.get(iso));
-		const realIndex = countryIndex * this.maxCount + index;
-
-		this.geometry.getAttribute('aOffset').setXY(realIndex, 1, 1);
+	#resetMoji(iso, countryIndex, index) {
+		const realIndex = countryIndex * this.particlesCount + index;
+		this.#particlesAttributes.offset.setXY(realIndex, 1, 1);
 		this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * realIndex;
 		this.#particlesInstancedInterleaveBuffer.updateRange.count = 1 * this.#particlesIntancesStride;
 
 		this.#particlesInstancedInterleaveBuffer.needsUpdate = true;
 
-		const instancesInUse = this.#instancesInUse.get(iso);
-		const id = instancesInUse.indexOf(index);
-		if (id > -1) instancesInUse.splice(id, 1);
+		this.#instancesInUse.set(iso, this.#instancesInUse.get(iso) - 1);
+		// const id = instancesInUse.indexOf(index);
+		// if (id > -1) instancesInUse.splice(id, 1);
 	}
 
-	#getFreeInstance(iso) {
-		for (let i = 0; i < this.particlesCount; i++) {
-			const indexCourant = i;
-			// Vérifier si l'index courant est présent dans le tableau historique des index
-			if (!this.#instancesInUse.get(iso).includes(indexCourant)) return indexCourant; // Renvoyer l'index non utilisé
-		}
-		// Si tous les index sont utilisés, renvoyer undefined ou une valeur spéciale pour indiquer qu'aucun index n'est disponible
-		return undefined;
-	}
+	// #getFreeInstance(iso) {
+	// 	for (let i = 0; i < this.particlesCount; i++) {
+	// 		const indexCourant = i;
+	// 		// Vérifier si l'index courant est présent dans le tableau historique des index
+	// 		if (!this.#instancesInUse.get(iso).includes(indexCourant)) return indexCourant; // Renvoyer l'index non utilisé
+	// 	}
+	// 	// Si tous les index sont utilisés, renvoyer undefined ou une valeur spéciale pour indiquer qu'aucun index n'est disponible
+	// 	return undefined;
+	// }
 
 	/**
 	 *
@@ -212,19 +210,20 @@ class InstancedReactMoji extends Mesh {
 			const newOffset = this.#getReactmoji(type);
 
 			for (let i = 0; i < count; i++) {
-				const index = this.#getFreeInstance(countryReactionPayload.iso);
-
+				const index = this.#instancesInUse.get(countryReactionPayload.iso);
+				// this.#getFreeInstance(countryReactionPayload.iso);
 				if (index || index === 0) {
-					const realIndex = countryIndex * this.maxCount + index;
-					this.#instancesInUse.get(countryReactionPayload.iso).push(index);
-					this.#particlesAttributes.offset.setXY(realIndex, newOffset.x, newOffset.y);
-					// this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * index;
-					// this.#particlesInstancedInterleaveBuffer.updateRange.count = 1 * this.#particlesIntancesStride;
-					setTimeout(() => this.#resetMoji(countryReactionPayload.iso, index), 1500);
+					// this.#instancesInUse.get(countryReactionPayload.iso).push(index);
+					this.#particlesAttributes.offset.setXY(countryIndex * this.particlesCount + index, newOffset.x, newOffset.y);
+					setTimeout(() => this.#resetMoji(countryReactionPayload.iso, countryIndex, index), 1500);
 				}
 			}
+			this.#instancesInUse.set(countryReactionPayload.iso, this.#instancesInUse.get(countryReactionPayload.iso) + count);
+
+			// this.#particlesInstancedInterleaveBuffer.updateRange.offset = this.#particlesIntancesStride * countryIndex * this.particlesCount;
+			// this.#particlesInstancedInterleaveBuffer.updateRange.count = count * this.#particlesIntancesStride;
+			this.#particlesInstancedInterleaveBuffer.needsUpdate = true;
 		});
-		this.#particlesInstancedInterleaveBuffer.needsUpdate = true;
 	}
 
 	set count(value) {

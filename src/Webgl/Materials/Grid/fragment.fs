@@ -2,7 +2,7 @@ precision highp float;
 
 uniform sampler2D tData, tDynamicShadows, tStaticShadows, tPathFinding;
 uniform sampler2D tNoise, tGrain;
-uniform vec3 uWaterColor, uGrassColor, uPathColor, uSandColor;
+uniform vec3 uWaterColor, uGrassColor, uPathColor, uGroundColor;
 uniform vec3 uLightPosition;
 uniform float uZoom;
 
@@ -40,7 +40,7 @@ void main() {
 
   vec3 grassColor = uGrassColor + grain * .05 - noise * .1 - smoothstep(.1, .0, grain) * .2;;
   vec3 pathColor = uPathColor + grain * .1 + smoothstep(.9, 1., grain) * .2;
-  vec3 sandColorColor = uSandColor;
+  vec3 sandColorColor = uGroundColor;
 
   vec3 final = mix(grassColor, pathColor, seamlessData.r);
   final = mix(final, sandColorColor, seamlessData.g);

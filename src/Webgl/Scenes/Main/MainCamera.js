@@ -79,7 +79,6 @@ class MainCamera extends PerspectiveCamera {
 		}
 
 		this.rotation.x = -Math.PI * 0.5 + smoothstep(this.#lerpedZoom, 0.3, 1) * CAMERA.maxTiltAngle;
-		// this.rotation.x = -Math.PI * 0.5 + this.#lerpedZoom * CAMERA.maxTiltAngle;
 	}
 
 	onResize({ ratio }) {
