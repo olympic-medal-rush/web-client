@@ -46,7 +46,7 @@ const manifest = {
 		// PLAYER
 		rotation: { path: `${import.meta.env.BASE_URL}assets/sounds/flame.mp3`, params: { volume: 0.15 } },
 		jump: { path: `${import.meta.env.BASE_URL}assets/sounds/jump.mp3`, params: { volume: 0.15 } },
-		fall: { path: `${import.meta.env.BASE_URL}assets/sounds/fall.mp3`, params: { volume: 0.05 } },
+		fall: { path: `${import.meta.env.BASE_URL}assets/sounds/fall.mp3`, params: { volume: 0.1 } },
 
 		// UI
 		click: { path: `${import.meta.env.BASE_URL}assets/sounds/click.mp3`, params: {} },

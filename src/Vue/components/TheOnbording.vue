@@ -88,7 +88,10 @@ watchEffect(() => {
 					<span class="dot" :class="{ active: stepSlider === 4 }"></span>
 					<span class="dot" :class="{ active: stepSlider === 5 }"></span>
 				</div>
-				<ButtonOrLink class="cta" @click="() => handleNext()"> {{ stepSlider < 5 ? 'Suivant' : 'JOUER !' }} </ButtonOrLink>
+				<div class="btns">
+					<ButtonOrLink class="cta" close @click="toggle"> Fermer </ButtonOrLink>
+					<ButtonOrLink class="cta" @click="() => handleNext()"> {{ stepSlider < 5 ? 'Suivant' : 'Jouer !' }} </ButtonOrLink>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -131,9 +134,14 @@ watchEffect(() => {
 			left: calc(50% - 400px / 2);
 		}
 
-		.cta {
-			width: calc(100% - 2 * 20px);
+		.btns {
+			display: flex;
 			margin: 0 20px;
+			gap: 20px;
+
+			.cta {
+				width: 100%;
+			}
 		}
 
 		.dots {
