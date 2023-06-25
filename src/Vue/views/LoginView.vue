@@ -15,15 +15,9 @@ import TheLogo from './../components/TheLogo.vue';
 
 const router = useRouter();
 
-const isos = Object.keys(countries.getAlpha3Codes());
-isos.push('BZH');
+const allNames = Object.keys(countries.getAlpha3Codes()).map((iso) => ({ iso: iso, name: useCountry(iso) }));
 
-const allname = [];
-isos.forEach((iso) => {
-	allname.push({ iso: iso, name: useCountry(iso) });
-});
-// order an array of objects with name
-allname.sort((a, b) => {
+allNames.sort((a, b) => {
 	if (a.name < b.name) {
 		return -1;
 	}
@@ -33,7 +27,7 @@ allname.sort((a, b) => {
 	return 0;
 });
 
-app.webgl.loginScene.setPaysArray(allname, allname.length);
+app.webgl.loginScene.setPaysArray(allNames, allNames.length);
 
 const teamsStore = useTeamsStore();
 const [slideshow, slideshowApi] = emblaCarouselVue({ skipSnaps: true, align: 'center' });
@@ -46,7 +40,7 @@ watchEffect(() => {
 });
 
 const onSlideshowScroll = () => {
-	selectedCountry.value = allname[slideshowApi.value.selectedScrollSnap()].iso;
+	selectedCountry.value = allNames[slideshowApi.value.selectedScrollSnap()].iso;
 	app.webgl.loginScene.onSlideshowScroll(slideshowApi.value.scrollProgress(), slideshowApi.value.selectedScrollSnap());
 };
 
@@ -54,7 +48,7 @@ const onSlideshowSelect = () => {
 	app.sound.play('flame');
 };
 
-const selectedCountry = ref(allname[0].iso);
+const selectedCountry = ref(allNames[0].iso);
 // let allBtn;
 
 app.webgl.renderLogin = true;
@@ -91,7 +85,7 @@ onMounted(() => {
 		<TheLogo />
 		<div ref="slideshow" class="slideshow embla">
 			<div class="slideshow-wrapper embl__container">
-				<RoundFlag v-for="pays in allname" :key="pays.iso" class="slide embla__slide" :class="{ selected: selectedCountry === pays.iso }" :iso="pays.iso" :has-name="true" />
+				<RoundFlag v-for="pays in allNames" :key="pays.iso" class="slide embla__slide" :class="{ selected: selectedCountry === pays.iso }" :iso="pays.iso" :has-name="true" />
 			</div>
 		</div>
 		<ButtonOrLink class="confirm-btn" @click="login()">Confirmer le pays</ButtonOrLink>

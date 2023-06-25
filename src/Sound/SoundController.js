@@ -40,7 +40,7 @@ class SoundController {
 	#initAudio() {
 		this.add('collectMedal');
 		this.add('newMedals');
-		this.add('newTeam');
+		this.add('notification');
 		this.add('validated');
 		this.add('click');
 		this.add('voteNoClick');

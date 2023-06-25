@@ -1,4 +1,5 @@
 <script setup>
+import { app } from '@/App';
 import { state } from '@/State';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import SvgRect from '@components/Utils/SvgRect.vue';
@@ -16,6 +17,7 @@ state.on(EVENTS.CREATE_TEAM, (e) => {
 	// app.sound.play('notif');
 	setTimeout(() => {
 		newTeam.value.classList.remove('active');
+		app.sound.play('modalClose');
 	}, 3000);
 });
 </script>
@@ -26,7 +28,7 @@ state.on(EVENTS.CREATE_TEAM, (e) => {
 		<h2>Nouvelle équipe en jeu !</h2>
 		<p v-if="nameNewTeam">
 			<RoundFlag :iso="nameNewTeam" has-name size="16px" /> -
-			<b> {{ teamsStore.getTeam(nameNewTeam).position }}{{ teamsStore.getTeam(nameNewTeam).position === 1 ? 'er' : 'eme' }} </b> équipe en jeu
+			<b> {{ teamsStore.getTeam(nameNewTeam).position }}{{ teamsStore.getTeam(nameNewTeam).position === 1 ? 'er' : 'ème' }} </b> équipe en jeu
 		</p>
 	</div>
 </template>

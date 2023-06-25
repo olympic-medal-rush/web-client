@@ -45,16 +45,18 @@ state.on(EVENTS.COLLECT_MEDAL, (medal, team) => {
 			videoActive.value = true;
 			timeout = setTimeout(() => {
 				videoActive.value = false;
+				app.sound.play('modalClose')
 			}, 2000);
 			setTimeout(() => {
 				myActive.value = true;
 			}, 300);
 		}, 2700)
 	} else {
-		//   app.sound.play('notif');
+		  app.sound.play('notification');
 		otherActive.value = true;
 		timeout = setTimeout(() => {
 			otherActive.value = false;
+			app.sound.play('modalClose')
 		}, 3000);
 	}
 	collectType.value = medal.type;
@@ -66,6 +68,7 @@ const removeMyTeamCollect = () => {
 };
 
 const toggleOpenOtherPays = () => {
+	app.sound.play('click')
 	otherOpen.value = !otherOpen.value;
 
 	if (otherOpen.value) {
@@ -73,6 +76,7 @@ const toggleOpenOtherPays = () => {
 	} else {
 		timeout = setTimeout(() => {
 			otherActive.value = false;
+			app.sound.play('modalClose');
 		}, 3000);
 	}
 };
@@ -108,7 +112,7 @@ class="NewCollectMedal_OtherCountry_Icon" :class="{ openModal: otherOpen }"
 					</span>
 				<div class="infos-container">
 					<RoundFlag v-if="collectTeam" :iso="collectTeam" has-name size="31px" /><span>{{
-						teamsStore.getTeam(collectTeam).position }} {{ teamsStore.getTeam(collectTeam).position > 1 ? 'eme'
+						teamsStore.getTeam(collectTeam).position }} {{ teamsStore.getTeam(collectTeam).position > 1 ? 'ème'
 		: 'er' }}</span>
 					<div class="medals">
 						<div><span class="or">{{ teamsStore.getTeam(collectTeam).medals[MEDAL_TYPES.gold] }}</span>
@@ -139,7 +143,7 @@ ref="myCountry" class="NewCollectMedal_MyCountry" :class="{ active: myActive }"
 				<br />
 				Votre équipe se hisse en
 				<b>{{ teamsStore.getTeam(teamsStore.currentIso).position
-				}}{{ teamsStore.getTeam(teamsStore.currentIso).position === 1 ? 'er' : 'eme' }} position</b>
+				}}{{ teamsStore.getTeam(teamsStore.currentIso).position === 1 ? 'er' : 'ème' }} position</b>
 				!
 			</p>
 			<div class="big-medal">

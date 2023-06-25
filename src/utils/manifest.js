@@ -60,7 +60,7 @@ const manifest = {
 		// GAME EVENTS
 		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/medal_collect.mp3`, params: { volume: 1 } },
 		newMedals: { path: `${import.meta.env.BASE_URL}assets/sounds/new_medals.mp3`, params: { volume: 0.4 } },
-		newTeam: { path: `${import.meta.env.BASE_URL}assets/sounds/new_team.mp3`, params: { volume: 1 } },
+		notification: { path: `${import.meta.env.BASE_URL}assets/sounds/notification.mp3`, params: { volume: 1 } },
 
 		// AMBIENT SOUNDS
 		homeAmbient: { path: `${import.meta.env.BASE_URL}assets/sounds/home_ambient.mp3`, params: { fadeDuration: 5, volume: 0.2 } },

@@ -163,13 +163,13 @@ class LoginScene extends Scene {
 		const calcLimitRight = -this.xOffset * limitRight - this.playerToId[id] * this.xOffset + id;
 		if (posTranslate < calcLimitRight) {
 			this.playerToId[id] = this.playerToId[id] + this.#players.length;
-			this.updatePlayerMaterial(id, this.pays[this.playerToId[id]].iso);
+			this.updatePlayerMaterial(id, this.pays[this.playerToId[id]]?.iso);
 		}
 		resultPos = posTranslate + this.xOffset * this.#players.length * Math.floor(this.playerToId[id] / this.#players.length);
 
 		if (resultPos >= 2) {
 			if (this.playerToId[id] - this.#players.length >= 0) this.playerToId[id] = this.playerToId[id] - this.#players.length;
-			this.updatePlayerMaterial(id, this.pays[this.playerToId[id]].iso);
+			this.updatePlayerMaterial(id, this.pays[this.playerToId[id]]?.iso);
 			resultPos = posTranslate + this.xOffset * this.#players.length * Math.floor(this.playerToId[id] / this.#players.length);
 		}
 		return resultPos;
