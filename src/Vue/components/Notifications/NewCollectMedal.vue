@@ -275,16 +275,6 @@ ref="myCountry" class="NewCollectMedal_MyCountry" :class="{ active: myActive }"
 				margin: 17px 0 20px 0;
 				display: flex;
 
-				.FlagImg {
-					max-width: 50%;
-
-					span {
-						font-family: 'ApfelGrotezk-Fett';
-						font-size: 20px;
-						transform: translateY(-8px);
-					}
-				}
-
 				>span {
 					position: absolute;
 					top: 29px;
@@ -311,7 +301,7 @@ ref="myCountry" class="NewCollectMedal_MyCountry" :class="{ active: myActive }"
 
 						span {
 							margin-right: 3px;
-							transform: translateY(-2px);
+							transform: translateY(-1px);
 						}
 					}
 				}
@@ -427,3 +417,24 @@ ref="myCountry" class="NewCollectMedal_MyCountry" :class="{ active: myActive }"
 .v-leave-to {
 	opacity: 0;
 }</style>
+
+
+<style lang="scss">
+.NewCollectMedal {
+  &_OtherCountry {
+    &_Open {
+      .infos-container{
+        .FlagImg {
+					max-width: 50%;
+
+					span {
+						font-family: 'ApfelGrotezk-Fett';
+						font-size: 18px;
+						transform: translateY(-8px);
+					}
+				}
+      }
+    }
+  }
+}
+</style>
