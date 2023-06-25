@@ -44,13 +44,14 @@ const manifest = {
 	},
 	sounds: {
 		// PLAYER
-		rotation: { path: `${import.meta.env.BASE_URL}assets/sounds/flame.mp3`, params: { volume: 0.15 } },
-		jump: { path: `${import.meta.env.BASE_URL}assets/sounds/jump.mp3`, params: { volume: 0.15 } },
-		fall: { path: `${import.meta.env.BASE_URL}assets/sounds/fall.mp3`, params: { volume: 0.1 } },
+		playerRotation: { path: `${import.meta.env.BASE_URL}assets/sounds/player_rotation.mp3`, params: { volume: 0.15 } },
+		playerJump: { path: `${import.meta.env.BASE_URL}assets/sounds/player_jump.mp3`, params: { volume: 0.15 } },
+		playerFall: { path: `${import.meta.env.BASE_URL}assets/sounds/player_fall.mp3`, params: { volume: 0.1 } },
 
 		// UI
 		click: { path: `${import.meta.env.BASE_URL}assets/sounds/click.mp3`, params: {} },
 		validated: { path: `${import.meta.env.BASE_URL}assets/sounds/validated.mp3`, params: {} },
+		voteClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_click.mp3`, params: {} },
 		voteNoClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_noclick.mp3`, params: {} },
 		modalOpen: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_open.mp3`, params: { volume: 0.8 } },
 		modalClose: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_close.mp3`, params: { volume: 0.6 } },

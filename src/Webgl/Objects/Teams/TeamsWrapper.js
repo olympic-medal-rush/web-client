@@ -127,13 +127,16 @@ class TeamsWrapper {
 
 		const shouldRotate = Math.abs(nextRotationY - currentRotationY) > 0.01;
 
-		if (shouldRotate) tl.to(t, { rotationProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0);
+		if (shouldRotate) {
+			tl.add(() => app.sound.play(`playerRotation-${team.iso}`), 0);
+			tl.to(t, { rotationProgress: 1, ease: 'power3.inOut', duration: 0.6 }, 0);
+		}
 
 		tl.to(t, { animationProgress: animationProgressTarget, ease: 'linear', duration: animationDuration }, shouldRotate ? '>-.5' : 0);
-		tl.add(() => app.sound.play(`rotation-${team.iso}`), '<');
-		tl.add(() => app.sound.play(`jump-${team.iso}`), '<');
-		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, '<.7');
-		tl.add(() => app.sound.play(`fall-${team.iso}`), '>+.15');
+
+		tl.add(() => app.sound.play(`playerJump-${team.iso}`), '<.7');
+		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, '<');
+		tl.add(() => app.sound.play(`playerFall-${team.iso}`), '>+.15');
 	}
 
 	/**

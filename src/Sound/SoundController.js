@@ -44,6 +44,7 @@ class SoundController {
 		this.add('validated');
 		this.add('click');
 		this.add('voteNoClick');
+		this.add('voteClick');
 		this.add('modalOpen');
 		this.add('modalClose');
 	}
