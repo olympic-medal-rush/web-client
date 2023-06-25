@@ -5,8 +5,14 @@ import { ref } from 'vue';
 
 const isOpen = ref(false);
 
-const toggle = () => {
+const toggleReactMoji = () => {
 	isOpen.value = !isOpen.value;
+
+	app.sound.play(`modal${isOpen.value ? 'Open' : 'Close'}`);
+};
+
+const closeReactMoji = () => {
+	isOpen.value = false;
 
 	app.sound.play(`modal${isOpen.value ? 'Open' : 'Close'}`);
 };
@@ -19,12 +25,12 @@ const handleClick = (id) => {
 
 <template>
 	<div class="HandWaving">
-		<div class="HandWaving-btn" @click="() => toggle()">
+		<div class="HandWaving-btn" @click="() => toggleReactMoji()">
 			<HandWaving />
 		</div>
 		<transition name="notif">
 			<div v-if="isOpen" class="HandWaving-popUp">
-				<div class="HandWaving-popUp-toggle" @click="() => toggle()"></div>
+				<div class="HandWaving-popUp-toggle" @click="() => closeReactMoji()"></div>
 				<div class="HandWaving-popUp-container">
 					<svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M13 0H14V27H13V0Z" fill="#E8E8C9" />

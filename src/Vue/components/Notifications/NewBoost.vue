@@ -1,41 +1,33 @@
 <script setup>
-import { app } from '@/App';
 import { state } from '@/State';
-import RoundFlag from '@components/Assets/RoundFlag.vue';
 import SvgRect from '@components/Utils/SvgRect.vue';
-import { useTeamsStore } from '@stores/teams';
 import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
 
-const newTeam = ref();
-const nameNewTeam = ref();
-const teamsStore = useTeamsStore();
+const isActive = ref(false);
+const currentBoost = ref('vote_rate');
 
-state.on(EVENTS.CREATE_TEAM, (e) => {
-	nameNewTeam.value = e.iso;
-	newTeam.value.classList.add('active');
-	// app.sound.play('notif');
+state.on(EVENTS.NOTIF_BUFF, (e) => {
+	currentBoost.value = e;
+	isActive.value = true;
 	setTimeout(() => {
-		newTeam.value.classList.remove('active');
-		app.sound.play('modalClose');
+		isActive.value = false;
 	}, 3000);
 });
 </script>
 
 <template>
-	<div ref="newTeam" class="NewTeam">
+	<div class="NewBoost" :class="{ active: isActive }">
 		<SvgRect class="svg-rect" color="#CEB11A" width="100%" height="100%" border-radius="10px" />
-		<h2>Nouvelle équipe en jeu !</h2>
-		<p v-if="nameNewTeam">
-			<RoundFlag :iso="nameNewTeam" has-name size="16px" /> -
-			<b> {{ teamsStore.getTeam(nameNewTeam).position }}{{ teamsStore.getTeam(nameNewTeam).position === 1 ? 'er' : 'ème' }} </b> équipe en jeu
-		</p>
+		<h2>Boost débloqué !</h2>
+		<p v-if="currentBoost === 'vote_rate'"><img :src="'/assets/svgs/chrono.svg'" /> Temps de vote est réduit !</p>
+		<p v-if="currentBoost === 'pathfinding'"><img :src="'/assets/svgs/path.svg'" /> Chemin vers la médaille</p>
 	</div>
 </template>
 
 <style lang="scss" scoped>
 @use '@styles/tools' as *;
-.NewTeam {
+.NewBoost {
 	position: absolute;
 	top: -300px;
 	background-color: $bg-beige-ui;
@@ -73,9 +65,8 @@ state.on(EVENTS.CREATE_TEAM, (e) => {
 		align-items: center;
 		margin: 5px 0;
 
-		b {
-			margin: 0 3px;
-			font-family: 'ApfelGrotezk-Fett';
+		img {
+			margin: 0 7px 0 0;
 		}
 	}
 
