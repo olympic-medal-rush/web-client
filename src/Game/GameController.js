@@ -171,6 +171,7 @@ class GameController {
 
 		if (countryBuffPayload.iso !== this.currentTeam?.iso) return;
 
+		state.emit(EVENTS.NOTIF_BUFF, countryBuffPayload.buff);
 		switch (countryBuffPayload.buff) {
 			case 'vote_rate':
 				this.voteStore.updateRate(countryBuffPayload.interval * 1000);

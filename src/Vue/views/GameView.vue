@@ -7,6 +7,7 @@ import BoostModal from '@components/Modals/BoostModal.vue';
 import MedalsModal from '@components/Modals/MedalsModal.vue';
 import Modal from '@components/Modals/Modal.vue';
 import NotificationsModal from '@components/Modals/NotificationsModal.vue';
+import NewBoost from '@components/Notifications/NewBoost.vue';
 import NewCollectMedal from '@components/Notifications/NewCollectMedal.vue';
 import NewMedal from '@components/Notifications/NewMedal.vue';
 import NewTeam from '@components/Notifications/NewTeam.vue';
@@ -17,8 +18,8 @@ import TheOnbording from '@components/TheOnbording.vue';
 import TheReactMoji from '@components/TheReactMoji.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
-import { onMounted, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import { onMounted, ref } from 'vue';
 
 const isModal = ref(false);
 const idModal = ref(0);
@@ -66,6 +67,7 @@ onMounted(() => {
 		<NewMedal />
 		<NewCollectMedal />
 		<NewTeam />
+		<NewBoost />
 		<RouterView />
 	</div>
 </template>

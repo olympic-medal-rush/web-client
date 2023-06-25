@@ -38,6 +38,7 @@ const EVENTS = {
 	VOTE_RESULTS: i++,
 	COLLECT_MEDAL: i++,
 	TOGGLE_PATHFINDING: i++,
+	NOTIF_BUFF: i++,
 	REACT_MOJI: i++,
 };
 
