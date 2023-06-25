@@ -58,7 +58,7 @@ const manifest = {
 		modalClose: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_close.mp3`, params: { volume: 0.6 } },
 
 		// GAME EVENTS
-		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/collect_medal.mp3`, params: { volume: 1 } },
+		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/medal_collect.mp3`, params: { volume: 1 } },
 		newMedals: { path: `${import.meta.env.BASE_URL}assets/sounds/new_medals.mp3`, params: { volume: 0.4 } },
 		newTeam: { path: `${import.meta.env.BASE_URL}assets/sounds/new_team.mp3`, params: { volume: 1 } },
 
