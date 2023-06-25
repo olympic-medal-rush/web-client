@@ -13,6 +13,7 @@ class SoundController {
 	constructor() {
 		state.on(EVENTS.ATTACH, this.#attach);
 		state.on(EVENTS.TICK, this.#update);
+		document.addEventListener('visibilitychange', this.#onVisibilityChange);
 
 		Howler.volume(0.7);
 
@@ -105,6 +106,10 @@ class SoundController {
 		if (params.rate) sound.howl.rate(params.rate);
 		if (params.pos) sound.howl.pos(params.pos.x, params.pos.y, params.pos.z);
 	}
+
+	#onVisibilityChange = () => {
+		Howler.mute(document.visibilityState !== 'visible');
+	};
 
 	#update = () => {
 		if (this.#howlPosition && this.#howlOrientation) {

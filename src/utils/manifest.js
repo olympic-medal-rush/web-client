@@ -63,7 +63,7 @@ const manifest = {
 		notification: { path: `${import.meta.env.BASE_URL}assets/sounds/notification.mp3`, params: { volume: 1 } },
 
 		// AMBIENT SOUNDS
-		gameAmbient: { path: `${import.meta.env.BASE_URL}assets/sounds/game_ambient.mp3`, params: { fadeDuration: 5, volume: 0.2 } },
+		gameAmbient: { path: `${import.meta.env.BASE_URL}assets/sounds/game_ambient.mp3`, params: { fadeDuration: 500, volume: 0.2, loop: true } },
 
 		// bgMusic: { path: `${import.meta.env.BASE_URL}assets/sounds/BG_MUSIC.mp3` },
 		// collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/COLLECT_MEDAL.mp3` },
