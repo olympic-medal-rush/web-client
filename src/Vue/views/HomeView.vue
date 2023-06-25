@@ -1,9 +1,12 @@
 <script setup>
 import { app } from '@/App';
 import ButtonOrLink from '@components/Inputs/ButtonOrLink.vue';
+import { onMounted } from 'vue';
 import TheLogo from './../components/TheLogo.vue';
 
-app.webgl.renderLogin = false;
+onMounted(() => {
+	app.webgl.renderLogin = false;
+});
 </script>
 
 <template>

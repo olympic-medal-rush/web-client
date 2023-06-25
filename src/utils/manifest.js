@@ -47,21 +47,23 @@ const manifest = {
 		playerRotation: { path: `${import.meta.env.BASE_URL}assets/sounds/player_rotation.mp3`, params: { volume: 0.15 } },
 		playerJump: { path: `${import.meta.env.BASE_URL}assets/sounds/player_jump.mp3`, params: { volume: 0.15 } },
 		playerFall: { path: `${import.meta.env.BASE_URL}assets/sounds/player_fall.mp3`, params: { volume: 0.1 } },
+		playerCollect: { path: `${import.meta.env.BASE_URL}assets/sounds/player_collect.mp3`, params: { volume: 2 } },
 
 		// UI
-		click: { path: `${import.meta.env.BASE_URL}assets/sounds/click.mp3`, params: {} },
-		validated: { path: `${import.meta.env.BASE_URL}assets/sounds/validated.mp3`, params: {} },
-		voteClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_click.mp3`, params: {} },
-		voteNoClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_noclick.mp3`, params: {} },
+		click: { path: `${import.meta.env.BASE_URL}assets/sounds/click.mp3`, params: { volume: 1 } },
+		validated: { path: `${import.meta.env.BASE_URL}assets/sounds/validated.mp3`, params: { volume: 1 } },
+		voteClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_click.mp3`, params: { volume: 1 } },
+		voteNoClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_noclick.mp3`, params: { volume: 1 } },
 		modalOpen: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_open.mp3`, params: { volume: 0.8 } },
 		modalClose: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_close.mp3`, params: { volume: 0.6 } },
 
 		// GAME EVENTS
-		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/collect_medal.mp3`, params: {} },
-		newMedals: { path: `${import.meta.env.BASE_URL}assets/sounds/new_medals.mp3`, params: {} },
-		newTeam: { path: `${import.meta.env.BASE_URL}assets/sounds/new_team.mp3`, params: {} },
+		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/collect_medal.mp3`, params: { volume: 1 } },
+		newMedals: { path: `${import.meta.env.BASE_URL}assets/sounds/new_medals.mp3`, params: { volume: 0.4 } },
+		newTeam: { path: `${import.meta.env.BASE_URL}assets/sounds/new_team.mp3`, params: { volume: 1 } },
 
 		// AMBIENT SOUNDS
+		homeAmbient: { path: `${import.meta.env.BASE_URL}assets/sounds/home_ambient.mp3`, params: { fadeDuration: 5, volume: 0.2 } },
 
 		// bgMusic: { path: `${import.meta.env.BASE_URL}assets/sounds/BG_MUSIC.mp3` },
 		// collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/COLLECT_MEDAL.mp3` },

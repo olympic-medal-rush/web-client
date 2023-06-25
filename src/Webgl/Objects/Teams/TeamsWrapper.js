@@ -101,7 +101,9 @@ class TeamsWrapper {
 
 		let animationProgressTarget = this.#animationsSteps.jump;
 		let animationDuration = 1.5;
+		let hasWonMedal = false;
 		if (this.#justWonMedalTeams.has(team)) {
+			hasWonMedal = true;
 			this.#justWonMedalTeams.delete(team);
 			animationProgressTarget = this.#animationsSteps.medal;
 			animationDuration += 1;
@@ -120,8 +122,10 @@ class TeamsWrapper {
 				this.instancedFlags.moveInstanceUpdate({ teamIndex, animatedPosition });
 				this.instancedReactMoji.moveInstanceUpdate({ teamIndex, animatedPosition });
 
-				app.sound.setParams(`rotation-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
-				app.sound.setParams(`jump-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
+				app.sound.setParams(`playerRotation-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
+				app.sound.setParams(`playerJump-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
+				app.sound.setParams(`playerFall-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
+				app.sound.setParams(`playerCollect-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
 			},
 		});
 
@@ -137,6 +141,7 @@ class TeamsWrapper {
 		tl.add(() => app.sound.play(`playerJump-${team.iso}`), '<.7');
 		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, '<');
 		tl.add(() => app.sound.play(`playerFall-${team.iso}`), '>+.15');
+		if (hasWonMedal) tl.add(() => app.sound.play(`playerCollect-${team.iso}`), '>');
 	}
 
 	/**

@@ -19,6 +19,7 @@ class Team {
 		app.sound.add('playerJump', `playerJump-${iso}`);
 		app.sound.add('playerRotation', `playerRotation-${iso}`);
 		app.sound.add('playerFall', `playerFall-${iso}`);
+		app.sound.add('playerCollect', `playerCollect-${iso}`);
 	}
 
 	/**

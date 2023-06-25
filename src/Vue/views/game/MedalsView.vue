@@ -1,4 +1,4 @@
-<script async setup>
+<script setup>
 import { app } from '@/App';
 import { useCountry } from '@Vue/composables/useCountry';
 import MedalCard from '@components/Medals/MedalCard.vue';
@@ -6,7 +6,7 @@ import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
 import BlurryPage from '@components/Utils/BlurryPage.vue';
 import { useMedalsStore } from '@stores/medals';
 import emblaCarouselVue from 'embla-carousel-vue';
-import { onMounted, ref, watchEffect } from 'vue';
+import { onMounted, onUnmounted, ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
@@ -15,25 +15,35 @@ const router = useRouter();
 const iso = route.params.iso;
 const medalsStore = useMedalsStore();
 // @ts-ignore
-const medals = await medalsStore.getMedals(iso);
 
 const [cardSlideshow, cardSlideshowApi] = emblaCarouselVue();
 const [medalSlideshow, medalSlideshowApi] = emblaCarouselVue({ dragFree: true, align: 'start', containScroll: 'trimSnaps' });
 
-watchEffect(() => {
-	if (cardSlideshowApi.value) cardSlideshowApi.value.on('select', onCardSlideshowSelect);
-});
+let stopWatchEffect = null;
 
+const medals = ref();
 const medalsCards = ref([]);
 const currentIndex = ref(0);
 const cardFront = ref(true);
 
-onMounted(() => {
+onMounted(async () => {
+	stopWatchEffect = watchEffect(() => {
+		if (cardSlideshowApi.value) {
+			cardSlideshowApi.value.on('select', onCardSlideshowSelect);
+
+			cardSlideshowApi.value.scrollTo(currentIndex.value);
+			medalSlideshowApi.value.scrollTo(currentIndex.value);
+		}
+	});
+
+	medals.value = await medalsStore.getMedals(iso);
+
 	const medalCardIndex = medalsCards.value.findIndex((medalCard) => medalCard.id === route.params.id);
 	currentIndex.value = medalCardIndex >= 0 ? medalCardIndex : 0;
+});
 
-	cardSlideshowApi.value.scrollTo(currentIndex.value);
-	medalSlideshowApi.value.scrollTo(currentIndex.value);
+onUnmounted(() => {
+	stopWatchEffect();
 });
 
 const onMedalSlideshowPointerDown = (medalId) => {

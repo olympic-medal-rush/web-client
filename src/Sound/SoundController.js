@@ -47,6 +47,8 @@ class SoundController {
 		this.add('voteClick');
 		this.add('modalOpen');
 		this.add('modalClose');
+
+		this.add('homeAmbient');
 	}
 
 	setGlobal(position, rotation) {
@@ -80,9 +82,9 @@ class SoundController {
 
 		if (!params.replay && sound.howl.playing()) return;
 
-		sound.howl.volume(params.volume || sound.params.volume || 1);
+		sound.howl.volume(params.volume || sound.params.volume || 0);
 
-		if (sound.params.fadeDuration) sound.howl.fade(sound.howl.volume(), 1, sound.params.fadeDuration);
+		if (sound.params.fadeDuration) sound.howl.fade(0, sound.howl.volume(), sound.params.fadeDuration);
 
 		sound.howl.play();
 	}

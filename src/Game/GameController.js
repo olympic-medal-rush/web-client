@@ -66,6 +66,8 @@ class GameController {
 		if (this.currentTeam.pathFindingActivated) state.emit(EVENTS.TOGGLE_PATHFINDING, true);
 
 		state.on(EVENTS.TICK, this.voteStore.updateTime);
+
+		// app.sound.play('homeAmbient');
 	}
 
 	/**

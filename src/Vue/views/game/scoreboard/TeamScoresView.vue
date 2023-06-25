@@ -1,11 +1,11 @@
-<script async setup>
+<script setup>
 import { app } from '@/App';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
 import BlurryPage from '@components/Utils/BlurryPage.vue';
 import { useMedalsStore } from '@stores/medals';
 import { useTeamsStore } from '@stores/teams';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { MEDAL_TYPES } from '@utils/constants';
 
@@ -16,11 +16,15 @@ const iso = route.params.iso?.toUpperCase();
 const medalsStore = useMedalsStore();
 const teamsStore = useTeamsStore();
 
-const medals = await medalsStore.getMedals(iso);
+const medals = ref();
 
 const showGold = ref(true);
 const showSilver = ref(true);
 const showBronze = ref(true);
+
+onMounted(async () => {
+	medals.value = await medalsStore.getMedals(iso);
+});
 
 const onMedalFilterClick = (type) => {
 	app.sound.play('click');
