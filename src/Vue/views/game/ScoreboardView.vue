@@ -71,6 +71,7 @@ const teamsStore = useTeamsStore();
 		top: 0;
 		z-index: -1;
 		width: 100%;
+		transform: translateY(30px);
 
 		@media (min-width: '400px') {
 			width: 400px;
