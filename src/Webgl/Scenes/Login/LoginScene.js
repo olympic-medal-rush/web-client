@@ -10,7 +10,7 @@ class LoginScene extends Scene {
 	constructor() {
 		super();
 
-		this.xOffset = 1.004;
+		this.xOffset = 1.17;
 
 		this.background = new Color().setHex(0xfbf9ec, LinearSRGBColorSpace);
 		this.userData.backgrounds = [this.background, new Color(0x000000)];
@@ -83,6 +83,12 @@ class LoginScene extends Scene {
 			this.updatePlayerMaterial(i, this.pays[i].iso);
 		});
 		this.updateIdPlayers(0);
+
+		gsap.to(this.#players[0].position, {
+			z: this.placementAnnim.selectedPlayer.z,
+			duration: 0.3,
+			// ease: 'in-out-'
+		});
 	}
 
 	onSlideshowScroll(progress, index) {
@@ -94,32 +100,32 @@ class LoginScene extends Scene {
 		if (this.selectedIndex !== index) {
 			this.selectedIndex = index;
 			this.#players[this.playerToId.findIndex((element) => element === index)]?.playAnnim();
+
+			this.idPlayerCenter = index % this.#players.length;
+			this.idPlayerLeft = (index - 1) % this.#players.length >= 0 ? (index - 1) % this.#players.length : this.#players.length + ((index - 1) % this.#players.length);
+			this.idPlayerRight = (index + 1) % this.#players.length;
+			// console.log('Player Left : ' + this.idPlayerLeft);
+			// console.log('Player Center : ' + this.idPlayerCenter);
+			// console.log('Player Right : ' + this.idPlayerRight);
+
+			gsap.to(this.#players[this.idPlayerCenter].position, {
+				z: this.placementAnnim.selectedPlayer.z,
+				duration: 0.3,
+				// ease: 'in-out-'
+			});
+
+			gsap.to(this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalRadius, {
+				value: 0.38,
+				duration: 0.3,
+				onUpdate: () => (this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalRadius.needsUpdate = true),
+			});
+
+			gsap.to(this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalElevation, {
+				value: 0.8,
+				duration: 0.3,
+				onUpdate: () => (this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalElevation.needsUpdate = true),
+			});
 		}
-
-		this.idPlayerCenter = index % this.#players.length;
-		this.idPlayerLeft = (index - 1) % this.#players.length >= 0 ? (index - 1) % this.#players.length : this.#players.length + ((index - 1) % this.#players.length);
-		this.idPlayerRight = (index + 1) % this.#players.length;
-		// console.log('Player Left : ' + this.idPlayerLeft);
-		// console.log('Player Center : ' + this.idPlayerCenter);
-		// console.log('Player Right : ' + this.idPlayerRight);
-
-		gsap.to(this.#players[this.idPlayerCenter].position, {
-			z: this.placementAnnim.selectedPlayer.z,
-			duration: 0.3,
-			// ease: 'in-out-'
-		});
-
-		gsap.to(this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalRadius, {
-			value: 0.38,
-			duration: 0.3,
-			onUpdate: () => (this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalRadius.needsUpdate = true),
-		});
-
-		gsap.to(this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalElevation, {
-			value: 0.8,
-			duration: 0.3,
-			onUpdate: () => (this.#players[this.idPlayerCenter].flames.material.uniforms.uGlobalElevation.needsUpdate = true),
-		});
 
 		this.#players.forEach((player, i) => {
 			if (i !== this.idPlayerCenter) {
@@ -163,13 +169,13 @@ class LoginScene extends Scene {
 		const calcLimitRight = -this.xOffset * limitRight - this.playerToId[id] * this.xOffset + id;
 		if (posTranslate < calcLimitRight) {
 			this.playerToId[id] = this.playerToId[id] + this.#players.length;
-			this.updatePlayerMaterial(id, this.pays[this.playerToId[id]].iso);
+			this.updatePlayerMaterial(id, this.pays[this.playerToId[id]]?.iso);
 		}
 		resultPos = posTranslate + this.xOffset * this.#players.length * Math.floor(this.playerToId[id] / this.#players.length);
 
 		if (resultPos >= 2) {
 			if (this.playerToId[id] - this.#players.length >= 0) this.playerToId[id] = this.playerToId[id] - this.#players.length;
-			this.updatePlayerMaterial(id, this.pays[this.playerToId[id]].iso);
+			this.updatePlayerMaterial(id, this.pays[this.playerToId[id]]?.iso);
 			resultPos = posTranslate + this.xOffset * this.#players.length * Math.floor(this.playerToId[id] / this.#players.length);
 		}
 		return resultPos;

@@ -8,13 +8,14 @@ class Team {
 	 *
 	 * @param {TeamInfos} params
 	 */
-	constructor({ iso, position, boosts = [], medals = { 0: 0, 1: 0, 2: 0 } }) {
+	constructor({ iso, position, boosts = [], medals = { 0: 0, 1: 0, 2: 0 }, player_count }) {
 		this.iso = iso;
 		this.position = new Vector2(position.x, position.y);
 		this.medals = medals;
 		this.medalsCount = medals[0] + medals[1] + medals[2];
 		this.score = medals[0] * MEDAL_POINTS[0] + medals[1] * MEDAL_POINTS[1] + medals[2] * MEDAL_POINTS[2];
 		this.boosts = boosts;
+		this.playerCount = player_count;
 
 		app.sound.add('playerJump', `playerJump-${iso}`);
 		app.sound.add('playerRotation', `playerRotation-${iso}`);

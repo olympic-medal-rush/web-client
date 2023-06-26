@@ -28,7 +28,7 @@ const manifest = {
 
 		flagsAtlas: { path: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas.webp`, mobilePath: `${import.meta.env.BASE_URL}assets/textures/flagsAtlas-mobile.webp` },
 
-		joFlag: { path: `${import.meta.env.BASE_URL}assets/images/flags/JO-FLAG.png` },
+		omrFlag: { path: `${import.meta.env.BASE_URL}assets/images/flags/OMR-FLAG.png` },
 	},
 	envMaps: {
 		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },

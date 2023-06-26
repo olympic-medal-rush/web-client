@@ -5,17 +5,17 @@ import { store } from '@/Store';
 import { useCountry } from '@Vue/composables/useCountry';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import { useTeamsStore } from '@stores/teams';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 import emblaCarouselVue from 'embla-carousel-vue';
-import countries from 'i18n-iso-countries';
 import { onMounted, onUnmounted, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { EVENTS, STORE_KEYS } from '@utils/constants';
 import ButtonOrLink from './../components/Inputs/ButtonOrLink.vue';
 import TheLogo from './../components/TheLogo.vue';
 
 const router = useRouter();
 
-const isos = Object.keys(countries.getAlpha3Codes());
+// const isos = Object.keys(countries.getAlpha3Codes());
+const isos = ['ESP', 'FRA', 'USA', 'JPN', 'PRT', 'DZA'];
 isos.push('BZH');
 
 const allname = [];
@@ -91,7 +91,14 @@ onMounted(() => {
 		<TheLogo />
 		<div ref="slideshow" class="slideshow embla">
 			<div class="slideshow-wrapper embl__container">
-				<RoundFlag v-for="pays in allname" :key="pays.iso" class="slide embla__slide" :class="{ selected: selectedCountry === pays.iso }" :iso="pays.iso" :has-name="true" />
+				<div v-for="pays in allname" :key="pays.iso" class="slide embla__slide" :class="{ selected: selectedCountry === pays.iso }">
+					<RoundFlag :iso="pays.iso" :has-name="true" />
+					<p>
+						{{ !teamsStore.getTeam(pays.iso) ? '0' : teamsStore.getTeam(pays.iso).playerCount }} joueur{{
+							teamsStore.getTeam(pays.iso) && teamsStore.getTeam(pays.iso).playerCount > 1 ? 's' : ''
+						}}
+					</p>
+				</div>
 			</div>
 		</div>
 		<ButtonOrLink class="confirm-btn" @click="login()">Confirmer le pays</ButtonOrLink>
@@ -126,6 +133,15 @@ onMounted(() => {
 				overflow: hidden;
 				transform: translateY(0px) scale(0.8);
 				transition: transform 0.4s ease-in-out;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				p {
+					font-family: 'ApfelGrotezk-Regular';
+					color: gray;
+					margin-top: 5px;
+				}
 
 				&.selected {
 					transform: translateY(40px) scale(1);

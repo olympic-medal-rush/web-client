@@ -90,7 +90,7 @@ class Terrain extends Object3D {
 
 	getWinnerFlag() {
 		if (this.teamsStore.scoreboard[0]?.score > 0) return this.flagLoader.load(`/assets/images/flags/${this.teamsStore.scoreboard[0].iso}.png`);
-		else return app.core.assetsManager.get('joFlag');
+		else return app.core.assetsManager.get('omrFlag');
 	}
 
 	updateFlag = () => {

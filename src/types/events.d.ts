@@ -35,6 +35,7 @@ type TeamInfos = {
 	position: Position;
 	medals?: Record<MedalType, number>;
 	boosts?: { name: 'vote_rate' | 'pathfinding'; value: number }[];
+  player_count: number;
 };
 
 type GameStatePayload = {
