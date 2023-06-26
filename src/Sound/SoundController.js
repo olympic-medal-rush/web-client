@@ -13,6 +13,7 @@ class SoundController {
 	constructor() {
 		state.on(EVENTS.ATTACH, this.#attach);
 		state.on(EVENTS.TICK, this.#update);
+		document.addEventListener('visibilitychange', this.#onVisibilityChange);
 
 		Howler.volume(0.7);
 
@@ -40,7 +41,7 @@ class SoundController {
 	#initAudio() {
 		this.add('collectMedal');
 		this.add('newMedals');
-		this.add('newTeam');
+		this.add('notification');
 		this.add('validated');
 		this.add('click');
 		this.add('voteNoClick');
@@ -48,7 +49,7 @@ class SoundController {
 		this.add('modalOpen');
 		this.add('modalClose');
 
-		this.add('homeAmbient');
+		this.add('gameAmbient');
 	}
 
 	setGlobal(position, rotation) {
@@ -105,6 +106,10 @@ class SoundController {
 		if (params.rate) sound.howl.rate(params.rate);
 		if (params.pos) sound.howl.pos(params.pos.x, params.pos.y, params.pos.z);
 	}
+
+	#onVisibilityChange = () => {
+		Howler.mute(document.visibilityState !== 'visible');
+	};
 
 	#update = () => {
 		if (this.#howlPosition && this.#howlOrientation) {

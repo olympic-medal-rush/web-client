@@ -18,10 +18,10 @@ class MainScene extends Scene {
 		this.add(this.dynamicGroup);
 
 		const halfTerrain = TERRAIN.size * 0.5;
-		const cameraBounds = halfTerrain + 12;
+		const cameraBounds = halfTerrain + 15;
 		this.shadowCamera = new OrthographicCamera(-cameraBounds, cameraBounds, cameraBounds, -cameraBounds, 1, 100);
-		this.shadowCamera.position.set(-3, 40, 5);
-		this.shadowCamera.lookAt(cameraBounds, 0, cameraBounds);
+		this.shadowCamera.position.set(3.7, 40, 3.7);
+		this.shadowCamera.lookAt(halfTerrain, 0, halfTerrain);
 
 		const dynamicRtSize = app.tools.viewport.isMobileAtLaunch ? 2048 : 4096;
 		const staticRtSize = 4096;
@@ -43,6 +43,10 @@ class MainScene extends Scene {
 			uLightPosition: { value: this.shadowCamera.position },
 			uShadowProjectionMatrix: { value: this.shadowCamera.projectionMatrix },
 			uShadowMatrixInverse: { value: this.shadowCamera.matrixWorldInverse },
+		};
+
+		this.commonUniforms = {
+			uFogColor: { value: new Color(0xdfbc95) },
 		};
 	}
 

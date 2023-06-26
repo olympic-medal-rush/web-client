@@ -115,12 +115,9 @@ class Player extends Mesh {
 	updateISO(iso) {
 		this.name = iso;
 		const { color1, color2, color3 } = this.#getTeamColors(iso);
-
-		this.#updateTl?.kill();
-		const tl = (this.#updateTl = gsap.timeline());
-		tl.to(this.uniforms.uColor1.value, { r: color1.r, g: color1.g, b: color1.b, duration: 0.5, ease: 'linear' }, 0);
-		tl.to(this.uniforms.uColor2.value, { r: color2.r, g: color2.g, b: color2.b, duration: 0.5, ease: 'linear' }, 0);
-		tl.to(this.uniforms.uColor3.value, { r: color3.r, g: color3.g, b: color3.b, duration: 0.5, ease: 'linear' }, 0);
+		this.uniforms.uColor1.value = color1;
+		this.uniforms.uColor2.value = color2;
+		this.uniforms.uColor3.value = color3;
 	}
 
 	playAnnim() {

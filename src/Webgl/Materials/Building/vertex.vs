@@ -8,7 +8,7 @@ attribute vec2 uv, uv1;
 uniform mat4 modelViewMatrix, projectionMatrix;
 uniform mat3 normalMatrix;
 
-varying float vDepth;
+varying float vDepth, vFog;
 varying vec2 vUv, vUv1;
 varying vec3 vNormal;
 

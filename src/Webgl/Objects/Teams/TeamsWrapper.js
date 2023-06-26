@@ -1,9 +1,11 @@
 import { app } from '@/App';
+import { state } from '@/State';
 import { frame_count as frameCount, steps } from '@jsons/vat.json';
 import { gsap } from 'gsap';
-import { Vector2 } from 'three';
+import { BoxGeometry, Mesh, MeshBasicMaterial, Raycaster, Vector2 } from 'three';
 import { lerp } from 'three/src/math/MathUtils.js';
 import { Bimap } from '@utils/BiMap';
+import { EVENTS } from '@utils/constants';
 import { InstancedFlags } from './InstancedFlags';
 import { InstancedFlames } from './InstancedFlames';
 import { InstancedReactMoji } from './InstancedReactMoji';
@@ -19,6 +21,9 @@ class TeamsWrapper {
 	};
 	/** @type {Set<import('@Game/Team').Team>} */
 	#justWonMedalTeams = new Set();
+
+	#raycaster = new Raycaster();
+	#raycastCube;
 
 	constructor({ teams = [], maxCount = 50 } = {}) {
 		this.#teams = new Bimap(teams.map((team, i) => [i, team]));
@@ -39,8 +44,13 @@ class TeamsWrapper {
 
 	setCurrentTeam(team) {
 		this.instancedFlags.setIsMyTeam(team);
-
 		app.sound.setGlobal(this.positions.get(team), this.rotationsY.get(team));
+
+		state.on(EVENTS.POINTER_DOWN, this.#onPointerDown);
+
+		this.#raycastCube = new Mesh(new BoxGeometry(1.5, 2, 1.5).translate(0, 1, 0), new MeshBasicMaterial());
+		this.#raycastCube.visible = false;
+		app.webgl.scene.add(this.#raycastCube);
 	}
 
 	/**
@@ -122,6 +132,8 @@ class TeamsWrapper {
 				this.instancedFlags.moveInstanceUpdate({ teamIndex, animatedPosition });
 				this.instancedReactMoji.moveInstanceUpdate({ teamIndex, animatedPosition });
 
+				if (app.game.currentTeam.iso === team.iso) this.#raycastCube.position.set(animatedPosition.x, 0, animatedPosition.y);
+
 				app.sound.setParams(`playerRotation-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
 				app.sound.setParams(`playerJump-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
 				app.sound.setParams(`playerFall-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
@@ -153,6 +165,12 @@ class TeamsWrapper {
 
 		this.#justWonMedalTeams.add(team);
 	}
+
+	#onPointerDown = ({ webgl }) => {
+		this.#raycaster.setFromCamera(webgl, app.webgl.camera);
+		const intersects = this.#raycaster.intersectObject(this.#raycastCube);
+		if (intersects.length > 0) app.webgl.camera.focusPlayer = true;
+	};
 
 	dispose() {
 		this.instancedFlags.dispose();

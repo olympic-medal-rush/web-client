@@ -2,10 +2,11 @@ precision highp float;
 
 uniform bool uEmissiveOnly;
 uniform vec3 uLightPosition;
+uniform vec3 uFogColor;
 uniform sampler2D tColors, tAoMap;
 uniform sampler2D tGrain, tNoise;
 
-varying float vDepth;
+varying float vDepth, vFog;
 varying vec2 vUv, vUv1;
 varying vec3 vNormal;
 

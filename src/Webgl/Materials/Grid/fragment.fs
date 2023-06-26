@@ -2,7 +2,7 @@ precision highp float;
 
 uniform sampler2D tData, tDynamicShadows, tStaticShadows, tPathFinding;
 uniform sampler2D tNoise, tGrain;
-uniform vec3 uWaterColor, uGrassColor, uPathColor, uGroundColor;
+uniform vec3 uWaterColor, uGrassColor, uPathColor, uGroundColor, uFogColor;
 uniform vec3 uLightPosition;
 uniform float uZoom;
 
@@ -63,7 +63,7 @@ void main() {
   float bias = 0.005 * tan(acos(cosTheta));
   bias = clamp(bias, 0.0, 0.01);
 
-  float shadowFactor = step(depthShadowCoord - bias, depthShadowMap);
+  float shadowFactor = step(depthShadowCoord - bias, depthShadowMap) * smoothstep(.3, .2, length(vUv - .5));
 
   float difLight = max(0.0, cosTheta);
   float shading = shadowFactor * difLight;
@@ -73,6 +73,9 @@ void main() {
 	// Final shading
   final = mix(final - .02 * (1. - gridCircle), final + .05, shading);
   final = mix(final, final + .3, pathFindingData * (gridCircle));
+
+  // FOG
+  final = mix(uFogColor, final, smoothstep(.5, .4, length(vUv - .5)));
 
   gl_FragColor = vec4(final, 1.);
 

@@ -94,7 +94,7 @@ class GameController {
 
 		state.emit(EVENTS.CREATE_TEAM, team);
 		this.teamsStore.add(team);
-		app.sound.play('newTeam');
+		app.sound.play('notification');
 	}
 
 	/**
@@ -168,6 +168,7 @@ class GameController {
 	 */
 	countryBuff(countryBuffPayload) {
 		this.teams.get(countryBuffPayload.iso).buff(countryBuffPayload);
+		app.sound.play('notification');
 
 		if (countryBuffPayload.iso !== this.currentTeam?.iso) return;
 

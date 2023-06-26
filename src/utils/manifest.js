@@ -45,8 +45,8 @@ const manifest = {
 	sounds: {
 		// PLAYER
 		playerRotation: { path: `${import.meta.env.BASE_URL}assets/sounds/player_rotation.mp3`, params: { volume: 0.15 } },
-		playerJump: { path: `${import.meta.env.BASE_URL}assets/sounds/player_jump.mp3`, params: { volume: 0.15 } },
-		playerFall: { path: `${import.meta.env.BASE_URL}assets/sounds/player_fall.mp3`, params: { volume: 0.1 } },
+		playerJump: { path: `${import.meta.env.BASE_URL}assets/sounds/player_jump.mp3`, params: { volume: 0.4 } },
+		playerFall: { path: `${import.meta.env.BASE_URL}assets/sounds/player_fall.mp3`, params: { volume: 0.3 } },
 		playerCollect: { path: `${import.meta.env.BASE_URL}assets/sounds/player_collect.mp3`, params: { volume: 2 } },
 
 		// UI
@@ -60,10 +60,10 @@ const manifest = {
 		// GAME EVENTS
 		collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/medal_collect.mp3`, params: { volume: 1 } },
 		newMedals: { path: `${import.meta.env.BASE_URL}assets/sounds/new_medals.mp3`, params: { volume: 0.4 } },
-		newTeam: { path: `${import.meta.env.BASE_URL}assets/sounds/new_team.mp3`, params: { volume: 1 } },
+		notification: { path: `${import.meta.env.BASE_URL}assets/sounds/notification.mp3`, params: { volume: 1 } },
 
 		// AMBIENT SOUNDS
-		homeAmbient: { path: `${import.meta.env.BASE_URL}assets/sounds/home_ambient.mp3`, params: { fadeDuration: 5, volume: 0.2 } },
+		gameAmbient: { path: `${import.meta.env.BASE_URL}assets/sounds/game_ambient.mp3`, params: { fadeDuration: 500, volume: 0.2, loop: true } },
 
 		// bgMusic: { path: `${import.meta.env.BASE_URL}assets/sounds/BG_MUSIC.mp3` },
 		// collectMedal: { path: `${import.meta.env.BASE_URL}assets/sounds/COLLECT_MEDAL.mp3` },

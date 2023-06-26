@@ -6,11 +6,13 @@ import Icon from '@/assets/svgs/BackArrow.svg';
 import DirectiveVoteArrow from '@/assets/svgs/DirectiveVoteArrow.svg';
 import Arrow from '@/assets/svgs/VoteArrow.svg';
 import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
-import terrainData from '@jsons/terrain_data.json';
+import terrainData from '@jsons/path_finding_data.json';
 import { useVotesStore } from '@stores/votes';
 import { gsap } from 'gsap';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { EVENTS, STORE_KEYS } from '@utils/constants';
+
+const terrainDataCopy = JSON.parse(JSON.stringify(terrainData.data));
 
 const focus = ref(true);
 const voteStore = useVotesStore();
@@ -169,26 +171,26 @@ const removeActive = () => {
 const detectObstacles = () => {
 	let up, left, right, down;
 
-	if (terrainData.data[posTeam.value.y - 1] !== undefined && terrainData.data[posTeam.value.y - 1][posTeam.value.x] !== undefined) {
-		up = terrainData.data[posTeam.value.y - 1][posTeam.value.x] === 1;
+	if (terrainDataCopy[posTeam.value.y - 1] !== undefined && terrainDataCopy[posTeam.value.y - 1][posTeam.value.x] !== undefined) {
+		up = terrainDataCopy[posTeam.value.y - 1][posTeam.value.x] === 1;
 	} else {
 		up = true;
 	}
 
-	if (terrainData.data[posTeam.value.y] !== undefined && terrainData.data[posTeam.value.y][posTeam.value.x - 1] !== undefined) {
-		left = terrainData.data[posTeam.value.y][posTeam.value.x - 1] === 1;
+	if (terrainDataCopy[posTeam.value.y] !== undefined && terrainDataCopy[posTeam.value.y][posTeam.value.x - 1] !== undefined) {
+		left = terrainDataCopy[posTeam.value.y][posTeam.value.x - 1] === 1;
 	} else {
 		left = true;
 	}
 
-	if (terrainData.data[posTeam.value.y] !== undefined && terrainData.data[posTeam.value.y][posTeam.value.x + 1] !== undefined) {
-		right = terrainData.data[posTeam.value.y][posTeam.value.x + 1] === 1;
+	if (terrainDataCopy[posTeam.value.y] !== undefined && terrainDataCopy[posTeam.value.y][posTeam.value.x + 1] !== undefined) {
+		right = terrainDataCopy[posTeam.value.y][posTeam.value.x + 1] === 1;
 	} else {
 		right = true;
 	}
 
-	if (terrainData.data[posTeam.value.y + 1] !== undefined && terrainData.data[posTeam.value.y + 1][posTeam.value.x] !== undefined) {
-		down = terrainData.data[posTeam.value.y + 1][posTeam.value.x] === 1;
+	if (terrainDataCopy[posTeam.value.y + 1] !== undefined && terrainDataCopy[posTeam.value.y + 1][posTeam.value.x] !== undefined) {
+		down = terrainDataCopy[posTeam.value.y + 1][posTeam.value.x] === 1;
 	} else {
 		down = true;
 	}
