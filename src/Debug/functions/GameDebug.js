@@ -138,7 +138,8 @@ function debug(_instance) {
 					break;
 			}
 		});
-		const obstacleFlorData = terrainData.data;
+
+		const obstacleFlorData = JSON.parse(JSON.stringify(terrainData.data));
 		obstacleFlorData.forEach((row, i) => {
 			row.forEach((col, j) => {
 				col === 0 ? (obstacleFlorData[i][j] = 1) : (obstacleFlorData[i][j] = 0);

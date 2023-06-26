@@ -104,7 +104,7 @@ watchEffect(() => {
 					<span class="dot" :class="{ active: stepSlider === 5 }"></span>
 				</div>
 				<div class="btns">
-					<ButtonOrLink class="cta" close @click="toggle"> Fermer </ButtonOrLink>
+					<!-- <ButtonOrLink class="cta" close @click="toggle"> Fermer </ButtonOrLink> -->
 					<ButtonOrLink class="cta" @click="() => handleNext()"> {{ stepSlider < 5 ? 'Suivant' : 'Jouer !' }} </ButtonOrLink>
 				</div>
 			</div>
