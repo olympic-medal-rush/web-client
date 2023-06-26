@@ -46,7 +46,7 @@ class MainScene extends Scene {
 		};
 
 		this.commonUniforms = {
-			uFogColor: { value: new Color(0xddebda) },
+			uFogColor: { value: new Color(0xdfbc95) },
 		};
 	}
 
