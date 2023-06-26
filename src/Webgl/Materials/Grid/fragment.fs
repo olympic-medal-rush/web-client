@@ -75,7 +75,7 @@ void main() {
   final = mix(final, final + .3, pathFindingData * (gridCircle));
 
   // FOG
-  final = mix(uFogColor, final, smoothstep(.5, .3, length(vUv - .5)));
+  final = mix(uFogColor, final, smoothstep(.5, .4, length(vUv - .5)));
 
   gl_FragColor = vec4(final, 1.);
 
