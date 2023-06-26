@@ -41,7 +41,6 @@ const manifest = {
 	},
 	jsons: {
 		flagsAtlasData: { path: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas.json`, mobilePath: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas-mobile.json` },
-		terrainData: { path: `${import.meta.env.BASE_URL}assets/jsons/terrain_data.json` },
 	},
 	sounds: {
 		// PLAYER
