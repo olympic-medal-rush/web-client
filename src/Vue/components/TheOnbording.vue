@@ -47,7 +47,7 @@ watchEffect(() => {
 			<div ref="emblaNode" class="embla">
 				<div class="embla__container">
 					<div class="embla__slide">
-						<h2>BIENVENUE !</h2>
+						<h2>Bienvenue !</h2>
 						<p>Tu viens de rejoindre <b>OLYMPIC MEDAL RUSH</b>, l'expérience olympique réinventée !</p>
 						<div class="img-wrapper">
 							<div class="overlay"></div>
@@ -151,7 +151,7 @@ watchEffect(() => {
 		.btns {
 			display: flex;
 			margin: 0 20px;
-			gap: 20px;
+			gap: 10px;
 
 			.cta {
 				width: 100%;
@@ -194,6 +194,7 @@ watchEffect(() => {
 			flex-direction: column;
 			gap: 20px;
 			align-items: center;
+			color: $text-olive-ui;
 
 			h2 {
 				font-family: 'ApfelGrotezk-Fett';

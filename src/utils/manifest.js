@@ -44,7 +44,7 @@ const manifest = {
 	},
 	sounds: {
 		// PLAYER
-		playerRotation: { path: `${import.meta.env.BASE_URL}assets/sounds/player_rotation.mp3`, params: { volume: 0.15 } },
+		playerRotation: { path: `${import.meta.env.BASE_URL}assets/sounds/player_rotation.mp3`, params: { volume: 0.05 } },
 		playerJump: { path: `${import.meta.env.BASE_URL}assets/sounds/player_jump.mp3`, params: { volume: 0.4 } },
 		playerFall: { path: `${import.meta.env.BASE_URL}assets/sounds/player_fall.mp3`, params: { volume: 0.3 } },
 		playerCollect: { path: `${import.meta.env.BASE_URL}assets/sounds/player_collect.mp3`, params: { volume: 2 } },
