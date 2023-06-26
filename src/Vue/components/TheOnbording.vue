@@ -47,37 +47,52 @@ watchEffect(() => {
 			<div ref="emblaNode" class="embla">
 				<div class="embla__container">
 					<div class="embla__slide">
-						<h2>Bienvenue !</h2>
-						<p>Tu viens de prendre part aux Jeux Olympiques alternatifs !</p>
-						<img src="/assets/gifs/mascot-jo.gif" alt="" srcset="" />
+						<h2>BIENVENUE !</h2>
+						<p>Tu viens de rejoindre <b>OLYMPIC MEDAL RUSH</b>, l'expérience olympique réinventée !</p>
+						<div class="img-wrapper">
+							<div class="overlay"></div>
+							<img src="/assets/gifs/flag.gif" alt="" srcset="" />
+						</div>
 					</div>
 					<div class="embla__slide">
-						<h2>OLYMPIC</h2>
-						<p>
-							Devenez des champions !<br />
-							Affronte les autres nations et devient celle la plus médaillée !
-						</p>
-						<img src="/assets/gifs/flags.gif" alt="" srcset="" />
+						<h2>OBJECTIF</h2>
+						<p>Récolte le plus de médailles possible avant la fin des Jeux !</p>
+						<div class="img-wrapper">
+							<div class="overlay"></div>
+							<img src="/assets/gifs/goal.gif" alt="" srcset="" />
+						</div>
 					</div>
 					<div class="embla__slide">
-						<h2>MEDAL</h2>
-						<p>Au cours des 2 semaines, en direct des médailles apparaissent à la fin de chaque épreuves.</p>
-						<img src="/assets/gifs/medals.gif" alt="" srcset="" />
+						<h2>MÉDAILLES</h2>
+						<p>Dès qu'une médaille est remportée par un athlète, elle apparaîtra sur la carte !</p>
+						<div class="img-wrapper">
+							<div class="overlay"></div>
+							<img src="/assets/gifs/medal.gif" alt="" srcset="" />
+						</div>
 					</div>
 					<div class="embla__slide">
-						<h2>RUSH</h2>
-						<p>Soyez les premiers à les récupérer !</p>
-						<img src="/assets/gifs/rush.gif" alt="" srcset="" />
+						<h2>COURSE</h2>
+						<p>Soyez les premiers à la récupérer !</p>
+						<div class="img-wrapper">
+							<div class="overlay"></div>
+							<img src="/assets/gifs/collect.gif" alt="" srcset="" />
+						</div>
 					</div>
 					<div class="embla__slide">
-						<h2>Vote / collaboration</h2>
-						<p>bla bla</p>
-						<img src="/assets/gifs/vote.gif" alt="" srcset="" />
+						<h2>COLLABORATION</h2>
+						<p>Aide ton équipe et vote pour la bonne direction avant la fin du compteur !</p>
+						<div class="img-wrapper">
+							<div class="overlay"></div>
+							<img src="/assets/gifs/votes.gif" alt="" srcset="" />
+						</div>
 					</div>
 					<div class="embla__slide">
-						<h2>zoom / dezoom</h2>
-						<p>bla bla</p>
-						<img src="/assets/gifs/zoom.gif" alt="" srcset="" />
+						<h2>ZOOM</h2>
+						<p>Pince l'écran avec tes deux doigts pour préparer ta stratégie !</p>
+						<div class="img-wrapper">
+							<div class="overlay"></div>
+							<img src="/assets/gifs/zoom.gif" alt="" srcset="" />
+						</div>
 					</div>
 				</div>
 				<div class="dots">
@@ -96,7 +111,6 @@ watchEffect(() => {
 		</div>
 	</div>
 </template>
-
 <style lang="scss" scoped>
 @use '@styles/tools' as *;
 .TheOnbording {
@@ -127,10 +141,10 @@ watchEffect(() => {
 		opacity: 0;
 		transform: translateY(150%);
 		transition: transform 0.7s $immg-posOut, opacity 0.5s linear;
-		max-height: 400px;
+		max-height: 500px;
 
 		@include tablet {
-			width: 400px;
+			width: 500px;
 			left: calc(50% - 400px / 2);
 		}
 
@@ -176,6 +190,10 @@ watchEffect(() => {
 			flex: 0 0 100%;
 			min-width: 0;
 			text-align: center;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			align-items: center;
 
 			h2 {
 				font-family: 'ApfelGrotezk-Fett';
@@ -184,12 +202,17 @@ watchEffect(() => {
 
 			p {
 				font-family: 'ApfelGrotezk-Regular';
-				margin: 10px 0;
+				// margin: 10px 0;
+				width: 90%;
+			}
+
+			b {
+				color: $gold-ui;
 			}
 
 			img {
 				max-width: 100%;
-				max-height: 130px;
+				max-height: 160px;
 				border-radius: 15px;
 			}
 		}
