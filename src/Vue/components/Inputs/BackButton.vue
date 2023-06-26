@@ -17,7 +17,7 @@ defineProps({
 const router = useRouter();
 
 const onClick = () => {
-	const match = router.resolve(window.history.state.back);
+	const match = router.resolve(window.history.state?.back);
 	if (match.matched.length === 0) router.push('/game');
 	else router.back();
 	app.sound.play('click');

@@ -1,6 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import terrainData from '@jsons/terrain_data.json';
+import terrainData from '@jsons/path_finding_data.json';
 import pathfinding from 'pathfinding';
 import { Color, DataTexture, Mesh, PlaneGeometry } from 'three';
 import { EVENTS } from '@utils/constants';
@@ -19,7 +19,7 @@ class Grid extends Mesh {
 		this.dataTex = null;
 
 		// 1. change flor data format
-		this.obstacleFlorData = terrainData.data;
+		this.obstacleFlorData = JSON.parse(JSON.stringify(terrainData)).data;
 		this.obstacleFlorData.forEach((row, i) => {
 			row.forEach((col, j) => {
 				col === 1 ? (this.obstacleFlorData[i][j] = 1) : (this.obstacleFlorData[i][j] = 0);
