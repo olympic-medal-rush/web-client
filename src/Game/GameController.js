@@ -133,6 +133,7 @@ class GameController {
 		state.emit(EVENTS.COLLECT_MEDAL, collectedMedal, medalCollectedTeam);
 
 		this.teamsStore.collectMedal(medalCollectionPayload.iso, collectedMedal);
+		this.medalsInGameStore.removeMedal(collectedMedal);
 		if (medalCollectedTeam.pathFindingActivated) this.countryDebuff({ iso: medalCollectionPayload.iso, buff: 'pathfinding' });
 	}
 
