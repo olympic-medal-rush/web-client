@@ -6,7 +6,7 @@ import Icon from '@/assets/svgs/BackArrow.svg';
 import DirectiveVoteArrow from '@/assets/svgs/DirectiveVoteArrow.svg';
 import Arrow from '@/assets/svgs/VoteArrow.svg';
 import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
-import terrainData from '@jsons/path_finding_data.json';
+import terrainData from '@jsons/terrain_data.json';
 import { useVotesStore } from '@stores/votes';
 import { gsap } from 'gsap';
 import { onMounted, reactive, ref, watch } from 'vue';

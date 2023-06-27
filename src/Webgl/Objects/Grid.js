@@ -1,6 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import terrainData from '@jsons/path_finding_data.json';
+import terrainData from '@jsons/terrain_data.json';
 import pathfinding from 'pathfinding';
 import { Color, DataTexture, Mesh, PlaneGeometry } from 'three';
 import { EVENTS } from '@utils/constants';
