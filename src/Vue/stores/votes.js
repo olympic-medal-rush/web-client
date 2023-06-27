@@ -3,7 +3,7 @@ import { VOTES } from '@utils/config';
 
 export const useVotesStore = defineStore('votes', {
 	state: () => {
-		return { up: 0, right: 0, down: 0, left: 0, currentRate: VOTES.rate + VOTES.animationOffset, rate: VOTES.rate + VOTES.animationOffset };
+		return { up: 0, right: 0, down: 0, left: 0, currentRate: VOTES.rate, rate: VOTES.rate };
 	},
 	actions: {
 		/**
@@ -37,11 +37,11 @@ export const useVotesStore = defineStore('votes', {
 		},
 
 		getLeftTime() {
-			return Math.max(0, Math.floor(this.currentRate / 1000));
+			return 100 - (Math.max(0, this.currentRate) / this.rate) * 100;
 		},
 
 		updateRate(newRate) {
-			this.rate = newRate + VOTES.animationOffset;
+			this.rate = newRate;
 			this.currentRate = this.rate;
 		},
 	},

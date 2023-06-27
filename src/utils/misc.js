@@ -55,7 +55,6 @@ function disposeMesh(mesh) {
 
 function instanciateMesh(reference, meshes, parent) {
 	// console.log('instanciate', reference.material.uuid, reference.name, meshes);
-
 	const instances = new InstancedMesh(reference.geometry, reference.material, meshes.length);
 	instances.material.userData = reference.material?.userData;
 	instances.geometry.userData = reference.geometry.userData;
@@ -81,17 +80,15 @@ function instanciateMesh(reference, meshes, parent) {
 export function applyInstances(object) {
 	const instances = {};
 	let name;
-	const addeds = [];
 
 	object.traverse((child) => {
 		name = child.name.replace('.', '');
 		instances[name] = [child];
 
 		object.traverse((child2) => {
-			if (child.name === child2.name || !child.geometry || !child2.geometry || addeds.indexOf(child2.name) >= 0 || addeds.indexOf(child.name) >= 0 || child.parent !== child2.parent)
-				return;
+			if (child.name === child2.name || !child.geometry || !child2.geometry || child2.instanceApplied || child.instanceApplied || child.parent != child2.parent) return;
 			if (child.geometry.uuid === child2.geometry.uuid) {
-				addeds.push(child2.name);
+				child2.instanceApplied = true;
 				instances[name].push(child2);
 			}
 		});
@@ -100,7 +97,7 @@ export function applyInstances(object) {
 
 	for (const i in instances) {
 		const instanceOf = object.getObjectByName(i);
-		instanciateMesh(instanceOf, instances[i], instanceOf.parent);
+		if (typeof instanceOf !== 'undefined') instanciateMesh(instanceOf, instances[i], instanceOf.parent);
 	}
 }
 
