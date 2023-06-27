@@ -1,19 +1,25 @@
 <script setup>
 import { state } from '@/State';
 import TheLoader from '@components/TheLoader.vue';
-import { EVENTS } from '@utils/constants';
+import TheLogo from '@components/TheLogo.vue';
 import { ref } from 'vue';
 import { RouterView } from 'vue-router';
+import { EVENTS } from '@utils/constants';
 
 const loaded = ref(false);
+const loggedIn = ref(false);
 
 state.on(EVENTS.APP_LOADED, () => (loaded.value = true));
+state.on(EVENTS.JOIN_READY, () => (loggedIn.value = true));
+
+document.documentElement.classList.toggle('mobile-only', import.meta.env.OLYMPIC_MOBILE_ONLY);
 </script>
 
 <template>
 	<div class="container">
 		<main>
 			<TheLoader v-if="!loaded"></TheLoader>
+			<TheLogo v-if="loaded && !loggedIn" />
 			<RouterView v-if="loaded" v-slot="{ Component }">
 				<transition name="route" mode="out-in"> <component :is="Component"></component></transition>
 			</RouterView>

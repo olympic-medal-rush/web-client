@@ -49,6 +49,10 @@ const router = createRouter({
 	],
 });
 
+router.beforeResolve((to) => {
+	if (to.name === 'home' && store.get(STORE_KEYS.USER_ISO)) return false;
+});
+
 router.afterEach((to, _from) => {
 	state.emit(EVENTS.ROUTE_CHANGE, to.name);
 });

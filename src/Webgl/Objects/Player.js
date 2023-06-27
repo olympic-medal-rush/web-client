@@ -37,7 +37,7 @@ class Player extends Mesh {
 
 		this.name = teamIso;
 
-		app.debug?.mapping.add(this.material, 'TeamsMaterial');
+		// app.debug?.mapping.add(this.material, 'TeamsMaterial');
 	}
 
 	#createGeometry({ baseGeometry }) {

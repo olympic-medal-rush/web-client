@@ -5,16 +5,16 @@ import { store } from '@/Store';
 import { useCountry } from '@Vue/composables/useCountry';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import { useTeamsStore } from '@stores/teams';
-import { EVENTS, STORE_KEYS } from '@utils/constants';
 import emblaCarouselVue from 'embla-carousel-vue';
+import { gsap } from 'gsap';
 import { onMounted, onUnmounted, ref, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 import ButtonOrLink from './../components/Inputs/ButtonOrLink.vue';
-import TheLogo from './../components/TheLogo.vue';
 
 const router = useRouter();
 
-const allNames = ['BZH', 'ESP', 'FRA', 'USA', 'JPN', 'PRT', 'DZA'].map((iso) => ({ iso: iso, name: useCountry(iso) }));
+const allNames = ['BZH', 'ESP', 'FRA', 'PRT', 'DZA'].map((iso) => ({ iso: iso, name: useCountry(iso) }));
 
 allNames.sort((a, b) => {
 	if (a.name < b.name) {
@@ -54,6 +54,8 @@ app.webgl.renderLogin = true;
 
 onMounted(() => {
 	state.on(EVENTS.JOIN_READY, onJoinReady);
+	const tl = gsap.timeline();
+	tl.to(app.webgl.postProcessing.uniforms.uFadeProgress, { value: 0, duration: 0.5 }, 0);
 });
 
 onUnmounted(() => {
@@ -67,10 +69,18 @@ const login = () => {
 };
 
 const onJoinReady = () => {
-	app.webgl.renderLogin = false;
-	app.webgl.loginScene.dispose();
 	router.replace('/game');
 };
+
+onBeforeRouteLeave(() => {
+	const tl = gsap.timeline({
+		onComplete: () => {
+			app.webgl.renderLogin = false;
+			app.webgl.loginScene.dispose();
+		},
+	});
+	tl.to(app.webgl.postProcessing.uniforms.uFadeProgress, { value: 1, duration: 0.5 }, 0);
+});
 
 onMounted(() => {
 	setTimeout(() => {
@@ -81,7 +91,6 @@ onMounted(() => {
 
 <template>
 	<div class="Login-container">
-		<TheLogo />
 		<div ref="slideshow" class="slideshow embla">
 			<div class="slideshow-wrapper embl__container">
 				<div v-for="pays in allNames" :key="pays.iso" class="slide embla__slide" :class="{ selected: selectedCountry === pays.iso }">

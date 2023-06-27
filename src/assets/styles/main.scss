@@ -9,6 +9,36 @@ body {
 	@include apfel-grotezk();
 }
 
+@include tablet {
+	.mobile-only {
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: #131313;
+		}
+
+		.global-container {
+			width: 390px;
+			height: 844px;
+
+			position: relative;
+			border-radius: 15px;
+			overflow: hidden;
+		}
+
+		#webgl-app,
+		#vue-app {
+			width: 100%;
+			height: 100%;
+
+			canvas {
+				position: static;
+			}
+		}
+	}
+}
+
 #webgl-app {
 	position: absolute;
 	width: 100%;

@@ -28,4 +28,10 @@ state.on(EVENTS.LOADER_PROGRESS, (value) => (progress.value = value));
 	line-height: 24px;
 	color: $silver-gray;
 }
+
+.mobile-only {
+	.loader {
+		position: static;
+	}
+}
 </style>

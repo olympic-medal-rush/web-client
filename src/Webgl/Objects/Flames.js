@@ -13,7 +13,7 @@ class Flames extends Mesh {
 		this.geometry = this.#createGeometry();
 		this.material = this.#createMaterial({ commonUniforms });
 
-		app.debug?.mapping.add(this.material, 'FlamesMaterial');
+		// app.debug?.mapping.add(this.material, 'FlamesMaterial');
 	}
 
 	#createGeometry() {

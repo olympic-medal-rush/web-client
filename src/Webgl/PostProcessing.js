@@ -1,6 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { BufferGeometry, DepthTexture, Float32BufferAttribute, LinearSRGBColorSpace, Mesh, OrthographicCamera, Vector2, WebGLRenderTarget } from 'three';
+import { BufferGeometry, Color, DepthTexture, Float32BufferAttribute, LinearSRGBColorSpace, Mesh, OrthographicCamera, Vector2, WebGLRenderTarget } from 'three';
 import { globalUniforms } from '@utils/globalUniforms';
 import { PostProcessingMaterial } from './Materials/PostProcessing/material';
 import { EmissivePass } from './Passes/EmissivePass';
@@ -25,6 +25,10 @@ class PostProcessing {
 				// Viewport
 				uResolution: { value: new Vector2() },
 				uRatio: { value: app.tools.viewport.ratio },
+
+				// Animations
+				uFadeColor: { value: new Color(0xfbf9ec) },
+				uFadeProgress: { value: 1 },
 
 				// Render passes
 				uEmissiveIntensity: { value: 0.5 },

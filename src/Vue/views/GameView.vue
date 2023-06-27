@@ -18,8 +18,9 @@ import TheOnbording from '@components/TheOnbording.vue';
 import TheReactMoji from '@components/TheReactMoji.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
-import { EVENTS } from '@utils/constants';
+import { gsap } from 'gsap';
 import { onMounted, ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 
 const isModal = ref(false);
 const idModal = ref(0);
@@ -39,6 +40,9 @@ onMounted(() => {
 	/// #endif
 
 	app.sound.play('gameAmbient');
+
+	const tl = gsap.timeline();
+	tl.to(app.webgl.postProcessing.uniforms.uFadeProgress, { value: 0, duration: 0.5 }, 0);
 });
 </script>
 

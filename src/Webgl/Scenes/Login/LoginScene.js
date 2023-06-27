@@ -10,7 +10,7 @@ class LoginScene extends Scene {
 	constructor() {
 		super();
 
-		this.xOffset = 1.17;
+		this.xOffset = 1.25;
 
 		this.background = new Color().setHex(0xfbf9ec, LinearSRGBColorSpace);
 		this.userData.backgrounds = [this.background, new Color(0x000000)];

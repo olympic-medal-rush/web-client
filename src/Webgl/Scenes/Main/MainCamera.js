@@ -4,7 +4,7 @@ import { store } from '@/Store';
 import { PerspectiveCamera, Vector2 } from 'three';
 import { clamp, damp, mapLinear, smoothstep } from 'three/src/math/MathUtils';
 import { CAMERA, TERRAIN } from '@utils/config';
-import { STORE_KEYS } from '@utils/constants';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 import { globalUniforms } from '../../../utils/globalUniforms';
 
 class MainCamera extends PerspectiveCamera {
@@ -12,10 +12,11 @@ class MainCamera extends PerspectiveCamera {
 	dragEase = CAMERA.dragEase;
 	zoomEase = CAMERA.zoomEase;
 	targetZoom = 0;
-	#lerpedZoom = 0;
+	lerpedZoom = 0;
 	#playerPosition = new Vector2();
 	#targetPosition = new Vector2();
 	#focusPlayer = false;
+	#controlable = false;
 	constructor() {
 		super(CAMERA.baseFov, app.tools.viewport.ratio, CAMERA.near, CAMERA.far);
 		state.register(this);
@@ -28,7 +29,7 @@ class MainCamera extends PerspectiveCamera {
 		app.debug?.mapping.add(this, 'Camera');
 	}
 
-	onDrag(diff) {
+	#onDrag = (diff) => {
 		if (this.focusPlayer) this.focusPlayer = false;
 		this.#resetEases();
 
@@ -36,49 +37,49 @@ class MainCamera extends PerspectiveCamera {
 
 		const cameraHalfWidth = this.getVisibleWidthAtZDepth() * 0.5;
 		const cameraHalfHeight = this.getVisibleHeightAtZDepth() * 0.5;
-		this.#targetPosition.x -= diff.x * cameraHalfWidth * (this.#lerpedZoom + 1);
-		this.#targetPosition.y += diff.y * cameraHalfHeight * (this.#lerpedZoom + 1);
-	}
+		this.#targetPosition.x -= diff.x * cameraHalfWidth * (this.lerpedZoom + 1);
+		this.#targetPosition.y += diff.y * cameraHalfHeight * (this.lerpedZoom + 1);
+	};
 
-	onDragEnd() {
+	#onDragEnd = () => {
 		this.dragEase = CAMERA.dragEase;
-	}
+	};
 
-	onPinch(distance) {
+	#onPinch = (distance) => {
 		if (this.focusPlayer) this.focusPlayer = false;
 		this.#resetEases();
 		this.targetZoom = clamp(this.targetZoom + distance * 0.005, 0, 1);
-	}
+	};
 
-	onWheel(y) {
+	#onWheel = (y) => {
 		if (this.focusPlayer) this.focusPlayer = false;
 		this.#resetEases();
 		this.targetZoom = clamp(this.targetZoom - y * 0.001, 0, 1);
-	}
+	};
 
 	onTick({ dt }) {
 		if (this.orbitControls) return;
 
-		this.#lerpedZoom = damp(this.#lerpedZoom, this.targetZoom, this.zoomEase, dt);
+		this.lerpedZoom = damp(this.lerpedZoom, this.targetZoom, this.zoomEase, dt);
 
-		globalUniforms.uZoom.value = this.#lerpedZoom;
+		globalUniforms.uZoom.value = this.lerpedZoom;
 
-		this.position.y = mapLinear(this.#lerpedZoom, 0, 1, CAMERA.minZoom, CAMERA.maxZoom);
+		this.position.y = mapLinear(this.lerpedZoom, 0, 1, CAMERA.minZoom, CAMERA.maxZoom);
 
-		const borderX = TERRAIN.size * (app.tools.viewport.breakpoint === 'mobile' ? 0.3 : 0.4) * (1 - this.#lerpedZoom);
-		const borderY = TERRAIN.size * (app.tools.viewport.breakpoint === 'mobile' ? 0.4 : 0.3) * (1 - this.#lerpedZoom);
+		const borderX = TERRAIN.size * (app.tools.viewport.breakpoint === 'mobile' ? 0.3 : 0.4) * (1 - this.lerpedZoom);
+		const borderY = TERRAIN.size * (app.tools.viewport.breakpoint === 'mobile' ? 0.4 : 0.3) * (1 - this.lerpedZoom);
 		this.#targetPosition.x = clamp(this.#targetPosition.x, borderX, TERRAIN.size - borderX);
 		this.#targetPosition.y = clamp(this.#targetPosition.y, borderY, TERRAIN.size - borderY);
 
 		if (this.focusPlayer) {
 			this.position.x = damp(this.position.x, this.#playerPosition.x, CAMERA.playerPosEase, dt);
-			this.position.z = damp(this.position.z, this.#playerPosition.y + CAMERA.zoomOffsetY * this.#lerpedZoom, CAMERA.playerPosEase, dt);
+			this.position.z = damp(this.position.z, this.#playerPosition.y + CAMERA.zoomOffsetY * this.lerpedZoom, CAMERA.playerPosEase, dt);
 		} else {
 			this.position.x = damp(this.position.x, this.#targetPosition.x, this.dragEase, dt);
-			this.position.z = damp(this.position.z, this.#targetPosition.y + CAMERA.zoomOffsetY * this.#lerpedZoom, this.dragEase, dt);
+			this.position.z = damp(this.position.z, this.#targetPosition.y + CAMERA.zoomOffsetY * this.lerpedZoom, this.dragEase, dt);
 		}
 
-		this.rotation.x = -Math.PI * 0.5 + smoothstep(this.#lerpedZoom, 0.3, 1) * CAMERA.maxTiltAngle;
+		this.rotation.x = -Math.PI * 0.5 + smoothstep(this.lerpedZoom, 0.3, 1) * CAMERA.maxTiltAngle;
 	}
 
 	onResize({ ratio }) {
@@ -106,7 +107,7 @@ class MainCamera extends PerspectiveCamera {
 	}
 
 	getAngleTo(x, y) {
-		return Math.atan2(y - this.position.z + CAMERA.zoomOffsetY * this.#lerpedZoom, x - this.position.x);
+		return Math.atan2(y - this.position.z + CAMERA.zoomOffsetY * this.lerpedZoom, x - this.position.x);
 	}
 
 	get playerPosition() {
@@ -127,6 +128,20 @@ class MainCamera extends PerspectiveCamera {
 
 	get focusPlayer() {
 		return this.#focusPlayer;
+	}
+
+	set controlable(value) {
+		this.#controlable = value;
+		const eventState = value ? 'on' : 'off';
+
+		state[eventState](EVENTS.DRAG, this.#onDrag);
+		state[eventState](EVENTS.DRAG_END, this.#onDragEnd);
+		state[eventState](EVENTS.PINCH, this.#onPinch);
+		state[eventState](EVENTS.WHEEL, this.#onWheel);
+	}
+
+	get controlable() {
+		return this.#controlable;
 	}
 }
 

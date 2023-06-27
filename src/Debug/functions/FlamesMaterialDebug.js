@@ -8,7 +8,7 @@ import { ColorDebugHelper } from '@Debug/debugConfig';
  * @returns
  */
 function createPane(pane, instance, name) {
-	const folder = pane.addFolder({ title: name, expanded: true });
+	const folder = pane.addFolder({ title: name, expanded: false });
 
 	if (instance.uniforms.uColor) folder.addInput(new ColorDebugHelper(instance.uniforms.uColor, 'value'), 'value');
 	if (instance.uniforms.uAnimationProgress) folder.addInput(instance.uniforms.uAnimationProgress, 'value', { min: 0, max: 1, label: 'uAnimationProgress' });

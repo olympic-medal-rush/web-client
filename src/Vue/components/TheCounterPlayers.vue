@@ -43,7 +43,8 @@ const annimProgressBooster = () => {
 <template>
 	<div class="counterPlayer">
 		<Icon />
-		<span>{{ teamsStore.currentTeamCount }} joueurs </span>
+		<span>{{ teamsStore.currentTeamCount }} joueur{{ teamsStore.currentTeamCount > 1 ? 's' : '' }}</span>
+
 		<div class="nextPowerUp">
 			<svg width="48" height="47" viewBox="0 0 48 47" fill="none">
 				<path
