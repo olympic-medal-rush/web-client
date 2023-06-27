@@ -44,7 +44,7 @@ class SoundController {
 		this.add('notification');
 		this.add('validated');
 		this.add('click');
-		this.add('voteNoClick');
+		this.add('tick');
 		this.add('voteClick');
 		this.add('modalOpen');
 		this.add('modalClose');

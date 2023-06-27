@@ -55,7 +55,7 @@ const manifest = {
 		click: { path: `${import.meta.env.BASE_URL}assets/sounds/click.mp3`, params: { volume: 1 } },
 		validated: { path: `${import.meta.env.BASE_URL}assets/sounds/validated.mp3`, params: { volume: 1 } },
 		voteClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_click.mp3`, params: { volume: 1 } },
-		voteNoClick: { path: `${import.meta.env.BASE_URL}assets/sounds/vote_noclick.mp3`, params: { volume: 1 } },
+		tick: { path: `${import.meta.env.BASE_URL}assets/sounds/tick.mp3`, params: { volume: 0.5 } },
 		modalOpen: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_open.mp3`, params: { volume: 0.8 } },
 		modalClose: { path: `${import.meta.env.BASE_URL}assets/sounds/modal_close.mp3`, params: { volume: 0.6 } },
 

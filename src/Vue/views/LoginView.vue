@@ -30,21 +30,21 @@ app.webgl.loginScene.setPaysArray(allNames, allNames.length);
 
 const teamsStore = useTeamsStore();
 const [slideshow, slideshowApi] = emblaCarouselVue({ skipSnaps: true, align: 'center' });
+let currentIndex = 0;
 
 watchEffect(() => {
 	if (slideshowApi.value) {
 		slideshowApi.value.on('scroll', onSlideshowScroll);
-		slideshowApi.value.on('select', onSlideshowSelect);
 	}
 });
 
 const onSlideshowScroll = () => {
+	const calculatedIndex = Math.ceil(slideshowApi.value.scrollProgress() * allNames.length);
+	if (currentIndex !== calculatedIndex) app.sound.play('tick');
+	currentIndex = calculatedIndex;
+
 	selectedCountry.value = allNames[slideshowApi.value.selectedScrollSnap()].iso;
 	app.webgl.loginScene.onSlideshowScroll(slideshowApi.value.scrollProgress(), slideshowApi.value.selectedScrollSnap());
-};
-
-const onSlideshowSelect = () => {
-	app.sound.play('flame');
 };
 
 const selectedCountry = ref(allNames[0].iso);
@@ -125,13 +125,19 @@ onBeforeRouteLeave(() => {
 			margin-bottom: 40px;
 
 			.slide {
-				flex: 0 0 calc(100% / 3);
+				flex: 0 0 33%;
 				overflow: hidden;
-				transform: translateY(0px) scale(0.8);
-				transition: transform 0.4s ease-in-out;
+				transform: translateY(0) scale(0.9);
+				transition: transform 0.4s $immg-zoomOut, font-size 0.4s $immg-zoomOut;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+
+				span {
+					font-size: 17px;
+					font-family: 'ApfelGrotezk-Fett';
+					opacity: 0.5;
+				}
 
 				p {
 					font-family: 'ApfelGrotezk-Regular';
@@ -140,10 +146,10 @@ onBeforeRouteLeave(() => {
 				}
 
 				&.selected {
-					transform: translateY(40px) scale(1);
+					transform: translateY(20px) scale(1);
 
 					span {
-						font-family: 'ApfelGrotezk-Fett';
+						opacity: 1;
 						font-size: 20px;
 					}
 				}
