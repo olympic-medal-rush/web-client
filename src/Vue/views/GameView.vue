@@ -18,8 +18,8 @@ import TheOnbording from '@components/TheOnbording.vue';
 import TheReactMoji from '@components/TheReactMoji.vue';
 import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
-import { onMounted, ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import { onMounted, ref } from 'vue';
 
 const isModal = ref(false);
 const idModal = ref(0);
@@ -70,11 +70,15 @@ onMounted(() => {
 		<NewCollectMedal />
 		<NewTeam />
 		<NewBoost />
-		<RouterView />
+
+		<RouterView v-slot="{ Component }">
+			<transition name="gameroute" mode="out-in"> <component :is="Component"></component></transition>
+		</RouterView>
 	</div>
 </template>
 
 <style lang="scss" scoped>
+@use '@styles/tools' as *;
 .game {
 	width: 100vw;
 	height: 100%;
@@ -88,5 +92,22 @@ onMounted(() => {
 	top: 20px;
 	left: 13px;
 	width: calc(100% - (2 * 13px));
+}
+
+/** Route transition */
+.gameroute-enter-from {
+	transform: translateX(100%);
+}
+
+.gameroute-enter-active {
+	transition: transform 0.5s $immg-posIn;
+}
+
+.gameroute-leave-to {
+	transform: translateX(100%);
+}
+
+.gameroute-leave-active {
+	transition: transform 0.5s $immg-posOut;
 }
 </style>

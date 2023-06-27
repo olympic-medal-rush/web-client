@@ -5,9 +5,9 @@ import MedalDotCircle from '@components/Medals/MedalDotCircle.vue';
 import BlurryPage from '@components/Utils/BlurryPage.vue';
 import { useMedalsStore } from '@stores/medals';
 import { useTeamsStore } from '@stores/teams';
+import { MEDAL_TYPES } from '@utils/constants';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { MEDAL_TYPES } from '@utils/constants';
 
 const route = useRoute();
 // @ts-ignore

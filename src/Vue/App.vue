@@ -1,9 +1,9 @@
 <script setup>
 import { state } from '@/State';
 import TheLoader from '@components/TheLoader.vue';
+import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
 import { RouterView } from 'vue-router';
-import { EVENTS } from '@utils/constants';
 
 const loaded = ref(false);
 
@@ -33,19 +33,17 @@ main {
 /** Route transition */
 .route-enter-from {
 	opacity: 0;
-	transform: scale(0.5);
 }
 
 .route-enter-active {
-	transition: all 0.3s $immg-zoomOut;
+	transition: opacity 0.3s $immg-zoomOut;
 }
 
 .route-leave-to {
 	opacity: 0;
-	transform: scale(1.5) translateY(-100px);
 }
 
 .route-leave-active {
-	transition: all 0.3s $immg-zoomIn;
+	transition: opacity 0.3s $immg-zoomIn;
 }
 </style>
