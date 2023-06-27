@@ -78,8 +78,8 @@ onMounted(() => {
 		<NewTeam />
 		<NewBoost />
 
-		<RouterView v-slot="{ Component, route }">
-			<transition name="gameroute" mode="out-in"> <component :is="Component" :key="route.fullPath"></component></transition>
+		<RouterView v-slot="{ Component }">
+			<transition name="gameroute" mode="out-in"> <component :is="Component"></component></transition>
 		</RouterView>
 	</div>
 </template>

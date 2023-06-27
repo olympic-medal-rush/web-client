@@ -48,7 +48,6 @@ const onSlideshowScroll = () => {
 };
 
 const selectedCountry = ref(allNames[0].iso);
-// let allBtn;
 
 onMounted(() => {
 	state.on(EVENTS.JOIN_READY, onJoinReady);

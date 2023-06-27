@@ -9,15 +9,13 @@ const isOpen = ref(false);
 const stepSlider = ref(0);
 
 onMounted(() => {
-	setTimeout(() => {
-		emblaApi.value.reInit();
+	emblaApi.value.reInit();
+	toggle();
+	/// #if DEBUG
+	if (app.debug?.urlParams.has('skipTuto')) {
 		toggle();
-		/// #if DEBUG
-		if (app.debug?.urlParams.has('skipTuto')) {
-			toggle();
-		}
-		/// #endif
-	}, 1000);
+	}
+	/// #endif
 });
 
 const toggle = () => {
@@ -44,7 +42,7 @@ watchEffect(() => {
 
 <template>
 	<div class="TheOnbording" :class="{ active: isOpen }">
-		<div class="TheOnbording-bg" @click="() => toggle()"></div>
+		<div class="TheOnbording-bg" @click="toggle()"></div>
 		<div class="TheOnbording-popup">
 			<div ref="emblaNode" class="embla">
 				<div class="embla__container">

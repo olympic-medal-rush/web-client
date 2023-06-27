@@ -20,8 +20,8 @@ state.on(EVENTS.JOIN_READY, () => (loggedIn.value = true));
 			<transition name="fade">
 				<TheLogo v-if="loaded && !loggedIn" />
 			</transition>
-			<RouterView v-if="loaded" v-slot="{ Component, route }">
-				<transition name="route" mode="out-in"> <component :is="Component" :key="route.fullPath"></component></transition>
+			<RouterView v-if="loaded" v-slot="{ Component }">
+				<transition name="route" mode="out-in"> <component :is="Component"></component></transition>
 			</RouterView>
 		</main>
 		<footer></footer>
