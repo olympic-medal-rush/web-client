@@ -6,6 +6,7 @@ import Icon from '@/assets/svgs/BackArrow.svg';
 import DirectiveVoteArrow from '@/assets/svgs/DirectiveVoteArrow.svg';
 import Arrow from '@/assets/svgs/VoteArrow.svg';
 import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
+import TimerCircle from '@components/Utils/TimerCircle.vue';
 import terrainData from '@jsons/terrain_data.json';
 import { useVotesStore } from '@stores/votes';
 import { gsap } from 'gsap';
@@ -103,7 +104,6 @@ state.on(EVENTS.VOTE_RESULTS, (team) => {
 		posTeam.value = team.position;
 		removeActive();
 		detectObstacles();
-		app.sound.play('validated');
 	}
 });
 
@@ -242,10 +242,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => {
 					<button data-dir="3" class="arrow left" :class="{ disable: leftIsDisable, active: leftIsActive, inactive: leftIsInactive }" @click="handleClick">
 						<Arrow />
 					</button>
-					<span class="chrono">
-						<p>{{ voteStore.getLeftTime() }}</p>
-						<span>s</span>
-					</span>
+					<TimerCircle size="30px" :percentage="voteStore.getLeftTime()" />
 					<button data-dir="1" class="arrow right" :class="{ disable: rightIsDisable, active: rightIsActive, inactive: rightIsInactive }" @click="handleClick">
 						<Arrow />
 					</button>
