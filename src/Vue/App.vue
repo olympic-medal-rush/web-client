@@ -12,7 +12,7 @@ const loggedIn = ref(false);
 state.on(EVENTS.APP_LOADED, () => (loaded.value = true));
 state.on(EVENTS.JOIN_READY, () => (loggedIn.value = true));
 
-document.documentElement.classList.toggle('mobile-only', import.meta.env.OLYMPIC_MOBILE_ONLY);
+document.documentElement.classList.toggle('mobile-only', import.meta.env.OLYMPIC_MOBILE_ONLY === 'true');
 </script>
 
 <template>
