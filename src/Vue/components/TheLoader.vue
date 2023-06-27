@@ -27,6 +27,7 @@ state.on(EVENTS.LOADER_PROGRESS, (value) => (progress.value = value));
 	font-size: 28px;
 	line-height: 24px;
 	color: $silver-gray;
+	background-color: #fbf9ec;
 }
 
 .mobile-only {

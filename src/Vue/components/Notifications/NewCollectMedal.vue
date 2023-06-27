@@ -409,6 +409,15 @@ ref="myCountry" class="NewCollectMedal_MyCountry" :class="{ active: myActive }"
 	}
 }
 
+
+.mobile-only {
+	.NewCollectMedal {
+		&_OtherCountry {
+			width: 93.5%;
+		}
+	}
+}
+
 .v-enter-active {
 	transition: opacity 0.5s ease 0.3s;
 }

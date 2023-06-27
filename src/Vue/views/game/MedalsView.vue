@@ -194,10 +194,13 @@ const toggleCards = () => {
 			display: flex;
 			flex-wrap: nowrap;
 			gap: 18px;
-
-			button {
-			}
 		}
+	}
+}
+
+.mobile-only {
+	.medals-container {
+		width: 100%;
 	}
 }
 </style>

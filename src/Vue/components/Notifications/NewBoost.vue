@@ -1,8 +1,8 @@
 <script setup>
 import { state } from '@/State';
 import SvgRect from '@components/Utils/SvgRect.vue';
-import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 
 const isActive = ref(false);
 const currentBoost = ref('vote_rate');
@@ -74,6 +74,13 @@ state.on(EVENTS.NOTIF_BUFF, (e) => {
 		opacity: 1;
 		scale: 1;
 		top: 20px;
+	}
+}
+
+.mobile-only {
+	.NewBoost {
+		width: 93.5%;
+		left: calc(50% - 93.5% / 2);
 	}
 }
 </style>

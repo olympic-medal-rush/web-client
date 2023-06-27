@@ -1,5 +1,6 @@
 <script setup>
 import { app } from '@/App';
+import Close from '@/assets/svgs/Close.svg';
 import Icon from '@/assets/svgs/Settings.svg';
 import { ref } from 'vue';
 
@@ -14,11 +15,22 @@ const toggle = () => {
 
 <template>
 	<div class="settings">
-		<div class="TheSettings" @click="() => toggle()">
+		<div class="TheSettings" @click="toggle()">
 			<Icon />
 		</div>
-		<div class="Popup-bg" :class="{ active: isOpen }" @click="() => toggle()"></div>
+		<div class="Popup-bg" :class="{ active: isOpen }" @click="toggle()"></div>
 		<div class="Popup-container" :class="{ active: isOpen }">
+			<button
+				class="close-btn"
+				@click="
+					(e) => {
+						toggle();
+						app.sound.play('click');
+					}
+				"
+			>
+				<Close />
+			</button>
 			<h2>Crédits</h2>
 			<h3>Design</h3>
 			<p>Simon Gaspar</p>
@@ -71,22 +83,41 @@ const toggle = () => {
 
 	.Popup-container {
 		font-family: 'ApfelGrotezk-Fett';
-		position: absolute;
+		position: relative;
 		background-color: $bg-beige-ui;
 		border-radius: 15px;
 		z-index: 1;
-		opacity: 0;
 		width: 70%;
-		padding: 24px 20px 14px 20px;
-		left: calc(50% - 70% / 2);
-		top: 100%;
-		transform: scale(0.5);
+		padding: 24px;
+		left: 50%;
+		top: 50%;
+		transform: translate3d(-50%, -50%, 0) scale(0.5) rotate(5deg);
+		opacity: 0;
 		pointer-events: none;
-		transition: all 0.6s $immg-posOut;
+		transition: transform 0.3s $immg-zoomOut, opacity 0.3s linear;
 
 		@include tablet {
 			width: 300px;
 			left: calc(50% - 300px / 2);
+		}
+
+		.close-btn {
+			position: absolute;
+			right: 15px;
+			top: 15px;
+			background-color: #e1e1c3;
+			border-radius: 9999px;
+			width: 40px;
+			height: 40px;
+			padding: 7px;
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			&:active {
+				transform: scale(0.95);
+			}
 		}
 
 		div {
@@ -100,7 +131,6 @@ const toggle = () => {
 		}
 
 		h2 {
-			margin-bottom: 10px;
 			text-transform: uppercase;
 		}
 
@@ -117,10 +147,18 @@ const toggle = () => {
 		}
 
 		&.active {
-			transform: scale(1);
-			top: 30%;
 			pointer-events: all;
 			opacity: 1;
+			transform: translate3d(-50%, -50%, 0) scale(1) rotate(0);
+		}
+	}
+}
+
+.mobile-only {
+	.settings {
+		.Popup-container {
+			width: 70%;
+			left: 50%;
 		}
 	}
 }

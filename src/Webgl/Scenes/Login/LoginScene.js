@@ -192,7 +192,7 @@ class LoginScene extends Scene {
 	}
 
 	dispose() {
-		this.#players[0].dispose();
+		this.#players.forEach((player) => player.dispose());
 	}
 }
 

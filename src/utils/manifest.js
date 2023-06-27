@@ -10,7 +10,9 @@ Finally, you can set some item to be criticals if you want your to wait the load
 */
 
 const manifest = {
-	images: {},
+	images: {
+		logo: { path: `${import.meta.env.BASE_URL}assets/images/logo.png` },
+	},
 	textures: {
 		groundData: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/ground.jpg` },
 		buildingsColors: { path: `${import.meta.env.BASE_URL}assets/textures/terrain/colors.png` },

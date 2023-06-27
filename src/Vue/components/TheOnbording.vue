@@ -13,7 +13,9 @@ onMounted(() => {
 		emblaApi.value.reInit();
 		toggle();
 		/// #if DEBUG
-		if (app.debug?.urlParams.has('skipTuto')) toggle();
+		if (app.debug?.urlParams.has('skipTuto')) {
+			toggle();
+		}
 		/// #endif
 	}, 1000);
 });
@@ -171,9 +173,12 @@ watchEffect(() => {
 				border-radius: 9999px;
 				transition: background-color 0.3s;
 				margin: 0 2px;
+				transform: scale(0.7);
+				transition: background-color 0.3s linear, transform 0.3s $immg-zoomOut;
 
 				&.active {
 					background-color: $gold-ui;
+					transform: scale(1);
 				}
 			}
 		}
@@ -229,6 +234,15 @@ watchEffect(() => {
 		.TheOnbording-popup {
 			transform: translateY(0px);
 			opacity: 1;
+		}
+	}
+}
+
+.mobile-only {
+	.TheOnbording {
+		&-popup {
+			width: 93%;
+			left: calc(50% - 93% / 2);
 		}
 	}
 }

@@ -4,8 +4,8 @@ import { state } from '@/State';
 import RoundFlag from '@components/Assets/RoundFlag.vue';
 import SvgRect from '@components/Utils/SvgRect.vue';
 import { useTeamsStore } from '@stores/teams';
-import { EVENTS } from '@utils/constants';
 import { ref } from 'vue';
+import { EVENTS } from '@utils/constants';
 
 const newTeam = ref();
 const nameNewTeam = ref();
@@ -83,6 +83,13 @@ state.on(EVENTS.CREATE_TEAM, (e) => {
 		opacity: 1;
 		scale: 1;
 		top: 20px;
+	}
+}
+
+.mobile-only {
+	.NewTeam {
+		width: 93.5%;
+		left: calc(50% - 93.5% / 2);
 	}
 }
 </style>

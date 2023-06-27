@@ -8,8 +8,10 @@ uniform sampler2D uTex;
 void main() {
 	#include ../Global/chunks/near_discard.glsl;
 
-  vec4 flag = texture2D(uTex, vUv);
-  vec4 black = vec4(vec3(0.), 1.0);
+  vec3 flag = texture2D(uTex, vUv).rgb;
+  vec3 black = vec3(0.);
+  
   float depth = -vWave * 1.2;
-  gl_FragColor = mix(flag, black, depth);
+
+  gl_FragColor = vec4(mix(flag, black, depth), 1.);
 }

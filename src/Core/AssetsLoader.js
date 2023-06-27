@@ -58,6 +58,8 @@ class AssetsLoader {
 	}
 
 	assetProgress(e, key) {
+		if (!e?.total || !(e.total > 0)) return;
+
 		if (!this.assetsInfos.has(key)) this.assetsInfos.set(key, { size: e.total, progress: 0 });
 		const assetInfos = this.assetsInfos.get(key);
 		assetInfos.progress = e.loaded / assetInfos.size;

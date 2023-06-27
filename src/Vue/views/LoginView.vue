@@ -50,10 +50,10 @@ const onSlideshowSelect = () => {
 const selectedCountry = ref(allNames[0].iso);
 // let allBtn;
 
-app.webgl.renderLogin = true;
-
 onMounted(() => {
 	state.on(EVENTS.JOIN_READY, onJoinReady);
+	app.webgl.renderLogin = true;
+
 	const tl = gsap.timeline();
 	tl.to(app.webgl.postProcessing.uniforms.uFadeProgress, { value: 0, duration: 0.5 }, 0);
 });
@@ -81,18 +81,12 @@ onBeforeRouteLeave(() => {
 	});
 	tl.to(app.webgl.postProcessing.uniforms.uFadeProgress, { value: 1, duration: 0.5 }, 0);
 });
-
-onMounted(() => {
-	setTimeout(() => {
-		slideshowApi.value.reInit();
-	}, 500);
-});
 </script>
 
 <template>
 	<div class="Login-container">
 		<div ref="slideshow" class="slideshow embla">
-			<div class="slideshow-wrapper embl__container">
+			<div class="slideshow-wrapper embla__container">
 				<div v-for="pays in allNames" :key="pays.iso" class="slide embla__slide" :class="{ selected: selectedCountry === pays.iso }">
 					<RoundFlag :iso="pays.iso" :has-name="true" />
 					<p>
@@ -157,50 +151,6 @@ onMounted(() => {
 		}
 	}
 }
-
-// .Pays-container {
-// 	display: flex;
-// 	flex-wrap: wrap;
-// 	justify-content: center;
-// 	align-items: center;
-// 	gap: 12px;
-// 	width: 100vw;
-// 	margin-top: auto;
-
-// 	.Pays-item {
-// 		display: flex;
-// 		flex-direction: column;
-// 		justify-content: center;
-// 		align-items: center;
-
-// 		width: 60px;
-// 		height: 60px;
-// 		margin: 20px;
-
-// 		font-family: 'Paris 24';
-// 		cursor: pointer;
-// 		pointer-events: all;
-
-// 		&.select {
-// 			background-color: #f2f2e9a3;
-// 			border-radius: 12px;
-// 			border: solid $gold-ui;
-// 		}
-
-// 		img {
-// 			width: 30px;
-// 			transform: translate(0, -3px);
-// 		}
-
-// 		span {
-// 			font-size: 35px;
-// 		}
-
-// 		p {
-// 			transform: translate(0, -10px);
-// 		}
-// 	}
-// }
 </style>
 
 <style lang="scss">

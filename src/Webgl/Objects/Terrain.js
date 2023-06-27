@@ -60,6 +60,7 @@ class Terrain extends Object3D {
 			uniforms: {
 				uTime: globalUniforms.uTime,
 				uTex: { value: this.getWinnerFlag() },
+				tNoise: { value: app.core.assetsManager.get('noise') },
 			},
 			defines: {
 				NEAR: `${CAMERA.near}.`,

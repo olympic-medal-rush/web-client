@@ -24,7 +24,9 @@ import { EVENTS } from '@utils/constants';
 
 const isModal = ref(false);
 const idModal = ref(0);
-const toggleModal = (id) => {
+const toggleModal = (e, id) => {
+	e?.stopPropagation();
+
 	idModal.value = id;
 	isModal.value = !isModal.value;
 	app.sound.play(`modal${isModal.value ? 'Open' : 'Close'}`);
@@ -40,6 +42,7 @@ onMounted(() => {
 	/// #endif
 
 	app.sound.play('gameAmbient');
+	app.webgl.camera.controlable = true;
 
 	const tl = gsap.timeline();
 	tl.to(app.webgl.postProcessing.uniforms.uFadeProgress, { value: 0, duration: 0.5 }, 0);
@@ -51,9 +54,9 @@ onMounted(() => {
 		<TheSettings />
 		<TheScoreboard />
 		<div class="Header">
-			<TheCounterMedals @click="() => toggleModal(0)" />
-			<TheCounterPlayers @click="() => toggleModal(1)" />
-			<TheNotifications @click="() => toggleModal(2)" />
+			<TheCounterMedals @click="(e) => toggleModal(e, 0)" />
+			<TheCounterPlayers @click="(e) => toggleModal(e, 1)" />
+			<TheNotifications @click="(e) => toggleModal(e, 2)" />
 		</div>
 		<TheReactMoji />
 		<VoteArrows />

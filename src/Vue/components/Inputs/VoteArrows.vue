@@ -2,8 +2,8 @@
 import { app } from '@/App';
 import { state } from '@/State';
 import { store } from '@/Store';
-import Icon from '@/assets/svgs/BackArrow.svg';
 import DirectiveVoteArrow from '@/assets/svgs/DirectiveVoteArrow.svg';
+import GreyArrow from '@/assets/svgs/GreyArrow.svg';
 import Arrow from '@/assets/svgs/VoteArrow.svg';
 import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
 import TimerCircle from '@components/Utils/TimerCircle.vue';
@@ -12,6 +12,7 @@ import { useVotesStore } from '@stores/votes';
 import { gsap } from 'gsap';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { EVENTS, STORE_KEYS } from '@utils/constants';
+import ButtonOrLink from './ButtonOrLink.vue';
 
 const terrainDataCopy = JSON.parse(JSON.stringify(terrainData.data));
 
@@ -230,42 +231,47 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => {
 
 <template>
 	<div>
-		<div v-if="focus" class="VoteArrow">
-			<DirectiveVoteArrow ref="svgDirectiveVoteArrow" class="directive mainBtn" />
-			<BGArrows class="bgSVG mainBtn" />
+		<Transition name="arrows">
+			<div v-if="focus" class="VoteArrow">
+				<DirectiveVoteArrow ref="svgDirectiveVoteArrow" class="directive mainBtn" />
+				<BGArrows class="bgSVG mainBtn" />
 
-			<div class="arrows mainBtn">
-				<button data-dir="0" class="arrow up" :class="{ disable: upIsDisable, active: upIsActive, inactive: upIsInactive }" @click="handleClick">
-					<Arrow />
-				</button>
-				<div class="VoteArrow_horz">
-					<button data-dir="3" class="arrow left" :class="{ disable: leftIsDisable, active: leftIsActive, inactive: leftIsInactive }" @click="handleClick">
+				<div class="arrows mainBtn">
+					<button data-dir="0" class="arrow up" :class="{ disable: upIsDisable, active: upIsActive, inactive: upIsInactive }" @click="handleClick">
 						<Arrow />
 					</button>
-					<TimerCircle size="30px" :percentage="voteStore.getLeftTime()" />
-					<button data-dir="1" class="arrow right" :class="{ disable: rightIsDisable, active: rightIsActive, inactive: rightIsInactive }" @click="handleClick">
+					<div class="VoteArrow_horz">
+						<button data-dir="3" class="arrow left" :class="{ disable: leftIsDisable, active: leftIsActive, inactive: leftIsInactive }" @click="handleClick">
+							<Arrow />
+						</button>
+						<TimerCircle size="30px" :percentage="voteStore.getLeftTime()" />
+						<button data-dir="1" class="arrow right" :class="{ disable: rightIsDisable, active: rightIsActive, inactive: rightIsInactive }" @click="handleClick">
+							<Arrow />
+						</button>
+					</div>
+					<button data-dir="2" class="arrow down" :class="{ disable: downIsDisable, active: downIsActive, inactive: downIsInactive }" @click="handleClick">
 						<Arrow />
 					</button>
 				</div>
-				<button data-dir="2" class="arrow down" :class="{ disable: downIsDisable, active: downIsActive, inactive: downIsInactive }" @click="handleClick">
-					<Arrow />
-				</button>
+				<div class="nbVotes">{{ tweened.number.toFixed(0) }} vote{{ voteStore.getTotalCount() > 1 ? 's' : '' }}</div>
 			</div>
-			<div class="nbVotes">{{ tweened.number.toFixed(0) }} vote{{ voteStore.getTotalCount() > 1 ? 's' : '' }}</div>
-		</div>
-		<div
-			v-else
-			class="FocusBtn"
-			@click="
-				() => {
-					app.webgl.camera.focusPlayer = true;
-					removeActive();
-					detectObstacles();
-				}
-			"
-		>
-			Aller à la vue du pays <Icon />
-		</div>
+			<ButtonOrLink
+				v-else
+				class="FocusBtn"
+				icon-position="left"
+				@click="
+					() => {
+						app.webgl.camera.focusPlayer = true;
+						removeActive();
+						detectObstacles();
+					}
+				"
+				><template #icon>
+					<GreyArrow class="grey-arrow" />
+				</template>
+				Retour au jeu
+			</ButtonOrLink>
+		</Transition>
 	</div>
 </template>
 
@@ -274,8 +280,9 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => {
 .VoteArrow {
 	width: 300px;
 	position: absolute;
-	left: calc(50vw - 150px);
-	bottom: 40px;
+	left: 50%;
+	transform: translate3d(-50%, 0, 0);
+	bottom: 18px;
 	touch-action: manipulation;
 
 	.mainBtn {
@@ -337,8 +344,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => {
 		display: block;
 		width: max-content;
 		margin: auto;
-		margin-top: 0px;
-		transform: translateY(20px);
+		margin-top: 30px;
 		border-radius: 9999px;
 		padding: 4px 7px;
 	}
@@ -401,18 +407,40 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => {
 
 .FocusBtn {
 	position: absolute;
-	bottom: 59px;
-	left: calc(50% - 106px);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 11px;
-	background-color: $light-black;
-	color: $white;
-	font-family: 'Paris 24';
-	padding: 19px 23px;
-	border-radius: 30px;
-	pointer-events: all;
-	cursor: pointer;
+	bottom: 50px;
+	left: 50%;
+	transform: translate3d(-50%, 0, 0);
+	width: 50%;
+
+	@include tablet {
+		width: 200px;
+	}
+}
+
+.arrows-enter-active,
+.arrows-leave-active {
+	transition: transform 0.3s $immg-zoomOut, opacity 0.1s linear;
+}
+
+.arrows-enter-from,
+.arrows-leave-to {
+	opacity: 0;
+	transform: translate3d(-50%, 0, 0) scale(0.9);
+}
+</style>
+
+<style lang="scss">
+@use '@styles/tools' as *;
+
+.FocusBtn {
+	.grey-arrow {
+		transform: rotate(90deg);
+		height: 7px;
+
+		path {
+			stroke: $white;
+			stroke-width: 3px;
+		}
+	}
 }
 </style>

@@ -11,17 +11,17 @@ const loggedIn = ref(false);
 
 state.on(EVENTS.APP_LOADED, () => (loaded.value = true));
 state.on(EVENTS.JOIN_READY, () => (loggedIn.value = true));
-
-document.documentElement.classList.toggle('mobile-only', import.meta.env.OLYMPIC_MOBILE_ONLY === 'true');
 </script>
 
 <template>
 	<div class="container">
 		<main>
-			<TheLoader v-if="!loaded"></TheLoader>
-			<TheLogo v-if="loaded && !loggedIn" />
-			<RouterView v-if="loaded" v-slot="{ Component }">
-				<transition name="route" mode="out-in"> <component :is="Component"></component></transition>
+			<TheLoader v-if="!loaded" />
+			<transition name="fade">
+				<TheLogo v-if="loaded && !loggedIn" />
+			</transition>
+			<RouterView v-if="loaded" v-slot="{ Component, route }">
+				<transition name="route" mode="out-in"> <component :is="Component" :key="route.fullPath"></component></transition>
 			</RouterView>
 		</main>
 		<footer></footer>
@@ -42,7 +42,7 @@ main {
 }
 
 .route-enter-active {
-	transition: opacity 0.3s $immg-zoomOut;
+	transition: opacity 0.3s linear;
 }
 
 .route-leave-to {
@@ -50,6 +50,26 @@ main {
 }
 
 .route-leave-active {
-	transition: opacity 0.3s $immg-zoomIn;
+	transition: opacity 0.3s linear;
+}
+
+/*
+  Enter and leave animations can use different
+  durations and timing functions.
+*/
+.fade-enter-active {
+	transition: opacity 0.8s linear, transform 0.3s $immg-posIn;
+}
+
+.fade-leave-active {
+	transition: opacity 0.3s linear, transform 0.3s $immg-zoomOut;
+}
+
+.fade-enter-from {
+	transform: scale(0);
+}
+.fade-leave-to {
+	opacity: 0;
+	transform: scale(1);
 }
 </style>
