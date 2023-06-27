@@ -11,6 +11,7 @@
 				/>
 			</svg>
 		</div>
+		<div class="distance">{{ distance }} m</div>
 	</div>
 </template>
 
@@ -26,7 +27,8 @@ import MedalImg from './Assets/MedalImg.vue';
 
 // Needed in script tag
 const teamsStore = useTeamsStore();
-const viewportMargin = 10;
+const viewportMargin = 12;
+const distanceMargin = 20;
 const size = new Vector2();
 
 const compassEl = ref();
@@ -35,6 +37,7 @@ const circleEl = ref();
 // Used in template tag
 const transform = ref({ x: 0, y: 0, angle: 0 });
 const type = ref(0);
+const distance = ref(0);
 const typeStr = ref('');
 
 onMounted(() => {
@@ -62,12 +65,13 @@ const calculateScreenPosition = () => {
 	const { screenPosition: position } = closestMedal;
 	type.value = closestMedal.type;
 	typeStr.value = closestMedal.typeStr;
+	distance.value = position.distanceTo(app.game.currentTeam.position).toFixed(0);
 
 	const xPixels = position.x * app.tools.viewport.width - size.x * 0.5;
 	const yPixels = (1 - position.y) * app.tools.viewport.height - size.y * 0.5;
 
 	const xMax = app.tools.viewport.width - viewportMargin - size.x;
-	const yMax = app.tools.viewport.height - viewportMargin - size.y;
+	const yMax = app.tools.viewport.height - viewportMargin - size.y - distanceMargin;
 
 	transform.value.x = clamp(xPixels, viewportMargin, xMax);
 	transform.value.y = clamp(yPixels, viewportMargin, yMax);
@@ -91,6 +95,18 @@ const getClosestMedal = () => {
 $width: 50px;
 $height: 50px;
 
+$border-gold: #d0be65;
+$bg-gold: #edda79;
+$color-gold: #ae9617;
+
+$border-silver: #cac9c0;
+$bg-silver: #e3e3e3;
+$color-silver: #ababab;
+
+$border-bronze: #cc9962;
+$bg-bronze: #edaa79;
+$color-bronze: #ae6917;
+
 .compass-wrapper {
 	// z-index: 1;
 	position: absolute;
@@ -100,6 +116,7 @@ $height: 50px;
 	height: $height;
 	opacity: 0;
 	transition: opacity 0.15s linear;
+	border-radius: 50%;
 
 	.compass-circle {
 		position: absolute;
@@ -109,7 +126,7 @@ $height: 50px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding: 2px;
+		padding: 5px;
 	}
 
 	.pin-wrapper {
@@ -126,35 +143,70 @@ $height: 50px;
 		transform: translate3d(-20px, 0, 0) rotate(-90deg) scale(0.7);
 	}
 
+	.distance {
+		position: absolute;
+		bottom: -30px;
+		left: 50%;
+		transform: translate3d(-50%, 0, 0);
+		padding: 5px 8px;
+		font-size: 12px;
+		border-radius: 20px;
+		color: $white;
+		width: max-content;
+	}
+
 	&.visible {
 		opacity: 1;
 	}
 
 	&.bronze {
+		background-color: rgba($bg-bronze, 0.5);
 		.compass-circle {
-			border: $bronze-ui 5px solid;
+			border: $bg-bronze 5px solid;
 		}
 
 		.pin-wrapper path {
-			fill: $bronze-ui;
+			fill: $bg-bronze;
+		}
+
+		.distance {
+			background-color: $bg-bronze;
+			border: 2px solid $border-bronze;
+			color: $color-bronze;
 		}
 	}
 
 	&.silver {
+		background-color: rgba($bg-silver, 0.5);
 		.compass-circle {
-			border: $silver-ui 5px solid;
+			border: $bg-silver 5px solid;
 		}
+
 		.pin-wrapper path {
-			fill: $silver-ui;
+			fill: $bg-silver;
+		}
+
+		.distance {
+			background-color: $bg-silver;
+			border: 2px solid $border-silver;
+			color: $color-silver;
 		}
 	}
 
 	&.gold {
+		background-color: rgba($bg-gold, 0.5);
 		.compass-circle {
-			border: $gold-ui 5px solid;
+			border: $bg-gold 5px solid;
 		}
+
 		.pin-wrapper path {
-			fill: $gold-ui;
+			fill: $bg-gold;
+		}
+
+		.distance {
+			background-color: $bg-gold;
+			border: 2px solid $border-gold;
+			color: $color-gold;
 		}
 	}
 }
