@@ -98,7 +98,6 @@ const toggle = () => {
 
 		@include tablet {
 			width: 300px;
-			left: calc(50% - 300px / 2);
 		}
 
 		.close-btn {

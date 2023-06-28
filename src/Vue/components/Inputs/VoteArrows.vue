@@ -9,9 +9,9 @@ import BGArrows from '@/assets/svgs/bgVoteArrows.svg';
 import TimerCircle from '@components/Utils/TimerCircle.vue';
 import terrainData from '@jsons/terrain_data.json';
 import { useVotesStore } from '@stores/votes';
+import { EVENTS, STORE_KEYS } from '@utils/constants';
 import { gsap } from 'gsap';
 import { onMounted, reactive, ref, watch } from 'vue';
-import { EVENTS, STORE_KEYS } from '@utils/constants';
 import ButtonOrLink from './ButtonOrLink.vue';
 
 const terrainDataCopy = JSON.parse(JSON.stringify(terrainData.data));
@@ -269,7 +269,7 @@ store.watch(STORE_KEYS.FOCUS_PLAYER, (value) => {
 				><template #icon>
 					<GreyArrow class="grey-arrow" />
 				</template>
-				Retour au jeu
+				Retour au vote
 			</ButtonOrLink>
 		</Transition>
 	</div>

@@ -2,8 +2,8 @@
 import { app } from '@/App';
 import { state } from '@/State';
 import HandWaving from '@/assets/svgs/HandWaving.svg';
-import { ref } from 'vue';
 import { EVENTS } from '@utils/constants';
+import { ref } from 'vue';
 
 const isOpen = ref(false);
 const popup = ref();
@@ -97,11 +97,6 @@ document.addEventListener('click', (e) => {
 			margin-bottom: 60px;
 
 			transform-origin: center;
-
-			@include tablet {
-				margin-right: 60px;
-				margin-bottom: 55px;
-			}
 
 			svg {
 				position: absolute;

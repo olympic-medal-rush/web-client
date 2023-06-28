@@ -145,7 +145,7 @@ watchEffect(() => {
 
 		@include tablet {
 			width: 500px;
-			left: calc(50% - 400px / 2);
+			left: calc(50% - 500px / 2);
 		}
 
 		.btns {
