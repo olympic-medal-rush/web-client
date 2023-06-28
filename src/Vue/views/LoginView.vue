@@ -78,6 +78,7 @@ onBeforeRouteLeave(() => {
 			app.webgl.loginScene.dispose();
 		},
 	});
+	tl.to(slideshow.value, { opacity: 0, duration: 0.1 }, 0);
 	tl.to(app.webgl.postProcessing.uniforms.uFadeProgress, { value: 1, duration: 0.5 }, 0);
 });
 </script>

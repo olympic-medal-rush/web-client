@@ -20,8 +20,10 @@ import TheScoreboard from '@components/TheScoreboard.vue';
 import TheSettings from '@components/TheSettings.vue';
 import { gsap } from 'gsap';
 import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { EVENTS } from '@utils/constants';
 
+const route = useRoute();
 const isModal = ref(false);
 const idModal = ref(0);
 const toggleModal = (e, id) => {
@@ -116,5 +118,21 @@ onMounted(() => {
 
 .gameroute-leave-active {
 	transition: transform 0.5s $immg-posOut;
+}
+
+.gamefade-enter-from {
+	opacity: 0;
+}
+
+.gamefade-enter-active {
+	transition: opacity 0s linear;
+}
+
+.gamefade-leave-to {
+	opacity: 0;
+}
+
+.gamefade-leave-active {
+	transition: opacity 0s linear;
 }
 </style>
