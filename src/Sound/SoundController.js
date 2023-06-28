@@ -1,5 +1,6 @@
 import { app } from '@/App';
 import { state } from '@/State';
+import { gsap } from 'gsap';
 import { Howl, Howler } from 'howler';
 import { Euler, Vector2 } from 'three';
 import { EVENTS } from '@utils/constants';
@@ -15,7 +16,8 @@ class SoundController {
 		state.on(EVENTS.TICK, this.#update);
 		document.addEventListener('visibilitychange', this.#onVisibilityChange);
 
-		Howler.volume(0.7);
+		this.defaultVolume = 0.7;
+		Howler.volume(this.defaultVolume);
 
 		/**
 		 * @type {Object.<string, {howl: Howl, params: Object}>}
@@ -29,6 +31,7 @@ class SoundController {
 
 		// this.isInit = false;
 		this.howlPosition = null;
+		this.isFaded = false;
 	}
 
 	#attach = () => {
@@ -110,6 +113,19 @@ class SoundController {
 	#onVisibilityChange = () => {
 		Howler.mute(document.visibilityState !== 'visible');
 	};
+
+	fadeGlobal() {
+		const volume = { value: Howler.volume() };
+
+		gsap.to(volume, {
+			value: this.isFaded ? this.defaultVolume : 0.2,
+			duration: 0.5,
+			onUpdate: () => {
+				Howler.volume(volume.value);
+			},
+		});
+		this.isFaded = !this.isFaded;
+	}
 
 	#update = () => {
 		if (this.#howlPosition && this.#howlOrientation) {
