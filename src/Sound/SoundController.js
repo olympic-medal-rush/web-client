@@ -1,6 +1,5 @@
 import { app } from '@/App';
 import { state } from '@/State';
-import { gsap } from 'gsap';
 import { Howl, Howler } from 'howler';
 import { Euler, Vector2 } from 'three';
 import { EVENTS } from '@utils/constants';
@@ -115,16 +114,18 @@ class SoundController {
 	};
 
 	fadeGlobal() {
-		const volume = { value: Howler.volume() };
+		if (this.isFaded) this.#soundUp();
+		else this.#soundDown();
 
-		gsap.to(volume, {
-			value: this.isFaded ? this.defaultVolume : 0.1,
-			duration: 0.5,
-			onUpdate: () => {
-				Howler.volume(volume.value);
-			},
-		});
 		this.isFaded = !this.isFaded;
+	}
+
+	#soundDown() {
+		Object.keys(this.sounds).forEach((key) => key !== 'click' && this.sounds[key].howl.fade(this.sounds[key].howl.volume(), 0.4, 500));
+	}
+
+	#soundUp() {
+		Object.keys(this.sounds).forEach((key) => key !== 'click' && this.sounds[key].howl.fade(this.sounds[key].howl.volume(), 1, 500));
 	}
 
 	#update = () => {
