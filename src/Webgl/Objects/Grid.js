@@ -137,6 +137,7 @@ class Grid extends Mesh {
 		} else {
 			state.off(EVENTS.VOTE_RESULTS, this.#findPath);
 			this.#resetPath();
+			this.#updatePathfindingTexture();
 		}
 	};
 

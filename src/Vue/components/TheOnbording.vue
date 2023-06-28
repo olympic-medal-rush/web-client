@@ -20,8 +20,8 @@ onMounted(() => {
 
 const toggle = () => {
 	isOpen.value = !isOpen.value;
-	app.sound.fadeGlobal();
 	app.sound.play(`modal${isOpen.value ? 'Open' : 'Close'}`);
+	app.sound.fadeGlobal();
 };
 
 const onSlideshowSelect = () => {
