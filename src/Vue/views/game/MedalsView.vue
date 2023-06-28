@@ -27,22 +27,25 @@ const currentIndex = ref(0);
 const cardFront = ref(true);
 
 onMounted(async () => {
-	medals.value = await medalsStore.getMedals(iso);
+	const medalsData = await medalsStore.getMedals(iso);
 
 	watchEffect(() => {
 		if (cardSlideshowApi.value) {
 			cardSlideshowApi.value.on('select', onCardSlideshowSelect);
+			cardSlideshowApi.value.on('init', onCardSlideshowInit);
 		}
 	});
 
-	const medalIndex = medals.value.findIndex((medalCard) => medalCard.id === route.params.id);
+	const medalIndex = medalsData.findIndex((medalCard) => medalCard.id === route.params.id);
 	currentIndex.value = medalIndex >= 0 ? medalIndex : 0;
 
-	if (cardSlideshowApi.value && medalSlideshowApi.value) {
-		cardSlideshowApi.value.scrollTo(currentIndex.value);
-		medalSlideshowApi.value.scrollTo(currentIndex.value);
-	}
+	medals.value = medalsData;
 });
+
+const onCardSlideshowInit = () => {
+	cardSlideshowApi.value.scrollTo(currentIndex.value);
+	medalSlideshowApi.value.scrollTo(currentIndex.value);
+};
 
 const onMedalSlideshowPointerDown = (medalId) => {
 	app.sound.play('click');
