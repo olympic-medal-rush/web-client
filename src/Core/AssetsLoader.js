@@ -59,6 +59,7 @@ class AssetsLoader {
 
 	assetProgress(e, key) {
 		const total = e.total > 0 ? e.total : this.manifest[key].size;
+		console.log(total);
 
 		if (!total) return;
 
