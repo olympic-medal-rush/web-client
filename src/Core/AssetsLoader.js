@@ -59,13 +59,17 @@ class AssetsLoader {
 
 	assetProgress(e, key) {
 		const total = e.total > 0 ? e.total : this.manifest[key].size;
-		console.log(total);
+		// console.log(total);
 
 		if (!total) return;
 
 		if (!this.assetsInfos.has(key)) this.assetsInfos.set(key, { size: total, progress: 0 });
 		const assetInfos = this.assetsInfos.get(key);
-		assetInfos.progress = e.loaded / assetInfos.size;
+
+		// Make sure the progress doesn't exceed 100%
+		const progress = Math.min(e.loaded / assetInfos.size, 1);
+
+		assetInfos.progress = progress;
 		this.progressCallback?.();
 	}
 }
