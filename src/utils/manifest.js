@@ -33,13 +33,13 @@ const manifest = {
 		omrFlag: { path: `${import.meta.env.BASE_URL}assets/images/flags/OMR-FLAG.png` },
 	},
 	envMaps: {
-		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr` },
+		envmap: { path: `${import.meta.env.BASE_URL}assets/textures/envmap.hdr`, size: 119_808 },
 		// ...
 	},
 	models: {
-		terrain: { path: `${import.meta.env.BASE_URL}assets/models/terrain.glb` },
-		player: { path: `${import.meta.env.BASE_URL}assets/models/character.glb` },
-		medal: { path: `${import.meta.env.BASE_URL}assets/models/medal.glb` },
+		terrain: { path: `${import.meta.env.BASE_URL}assets/models/terrain.glb`, size: 80_192 },
+		player: { path: `${import.meta.env.BASE_URL}assets/models/character.glb`, size: 805_376 },
+		medal: { path: `${import.meta.env.BASE_URL}assets/models/medal.glb`, size: 103_424 },
 	},
 	jsons: {
 		flagsAtlasData: { path: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas.json`, mobilePath: `${import.meta.env.BASE_URL}assets/jsons/flagsAtlas-mobile.json` },
