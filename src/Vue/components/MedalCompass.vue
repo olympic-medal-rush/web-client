@@ -37,7 +37,7 @@ const circleEl = ref();
 // Used in template tag
 const transform = ref({ x: 0, y: 0, angle: 0 });
 const type = ref(0);
-const distance = ref(0);
+const distance = ref('0');
 const typeStr = ref('');
 
 onMounted(() => {
@@ -62,13 +62,13 @@ const calculateScreenPosition = () => {
 	compassEl.value.classList.remove('visible');
 	if (!closestMedal) return;
 
-	const { screenPosition: position } = closestMedal;
+	const { screenPosition, position } = closestMedal;
 	type.value = closestMedal.type;
 	typeStr.value = closestMedal.typeStr;
 	distance.value = position.distanceTo(app.game.currentTeam.position).toFixed(0);
 
-	const xPixels = position.x * app.tools.viewport.width - size.x * 0.5;
-	const yPixels = (1 - position.y) * app.tools.viewport.height - size.y * 0.5;
+	const xPixels = screenPosition.x * app.tools.viewport.width - size.x * 0.5;
+	const yPixels = (1 - screenPosition.y) * app.tools.viewport.height - size.y * 0.5;
 
 	const xMax = app.tools.viewport.width - viewportMargin - size.x;
 	const yMax = app.tools.viewport.height - viewportMargin - size.y - distanceMargin;

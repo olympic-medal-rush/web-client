@@ -24,8 +24,22 @@ class Medal {
 	}
 
 	#onTick = () => {
+		const positionInCameraSpace = this.scenePosition.clone().applyMatrix4(app.webgl.camera.matrixWorldInverse);
+
 		this.#projectedPosition.copy(this.scenePosition).project(app.webgl.camera).multiplyScalar(0.5).addScalar(0.5);
-		this.screenPosition.set(this.#projectedPosition.x, this.#projectedPosition.y);
+
+		if (positionInCameraSpace.z > 0) {
+			// object is behind the camera
+			// if the x position is outside of the NDC range, it's likely due to being behind the camera, so we don't update it
+			if (Math.abs(this.#projectedPosition.x) <= 1) {
+				this.screenPosition.x = this.#projectedPosition.x;
+			}
+		} else {
+			// object is in front of the camera, update both axes
+			this.screenPosition.set(this.#projectedPosition.x, this.#projectedPosition.y);
+		}
+		// this.#projectedPosition.copy(this.scenePosition).project(app.webgl.camera).multiplyScalar(0.5).addScalar(0.5);
+		// this.screenPosition.set(this.#projectedPosition.x, this.#projectedPosition.y);
 	};
 
 	dispose() {
