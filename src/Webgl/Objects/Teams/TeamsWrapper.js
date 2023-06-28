@@ -154,7 +154,6 @@ class TeamsWrapper {
 		tl.to(t, { positionProgress: 1, ease: 'power3.inOut', duration: 0.6 }, '<');
 		tl.add(() => app.sound.play(`playerFall-${team.iso}`), '>+.15');
 		if (hasWonMedal) tl.add(() => app.sound.play(`playerCollect-${team.iso}`), '>');
-		console.log(tl.totalDuration());
 	}
 
 	/**

@@ -26,12 +26,17 @@ void main() {
 
 	vec3 color = texture2D(tColors, vUv).rgb + grain * .05;
 
+	float xLight = step(0.3, vUv.x) - step(0.4, vUv.x);
+	float yLight = step(.3, vUv.y) - step(.6, vUv.y);
+	float isLight = xLight * yLight;
 
 	float ao = texture2D(tAoMap, vUv1).r;
-	color.rgb *= mix(1., ao, .25);
+	color.rgb *= mix(1., ao, .25 * (1. - isLight));
 
 	color = mix(color - .5, color + .1, difLight);
 
 	gl_FragColor = vec4(color, 1.);
+
 	gl_FragColor.rgb *= (1. - float(uEmissiveOnly));
+	gl_FragColor.rgb = mix(gl_FragColor.rgb * (1. - float(uEmissiveOnly)), vec3(isLight * .3), float(uEmissiveOnly));
 }
