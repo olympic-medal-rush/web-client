@@ -118,7 +118,7 @@ class SoundController {
 		const volume = { value: Howler.volume() };
 
 		gsap.to(volume, {
-			value: this.isFaded ? this.defaultVolume : 0.2,
+			value: this.isFaded ? this.defaultVolume : 0.1,
 			duration: 0.5,
 			onUpdate: () => {
 				Howler.volume(volume.value);

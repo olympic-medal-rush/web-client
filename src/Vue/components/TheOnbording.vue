@@ -49,7 +49,7 @@ watchEffect(() => {
 				<div class="embla__container">
 					<div class="embla__slide">
 						<h2>Bienvenue !</h2>
-						<p>Tu viens de rejoindre <b>OLYMPIC MEDAL RUSH</b>, l'expérience olympique réinventée !</p>
+						<p>Tu viens de rejoindre <b>OLYMPIC MEDAL RUSH</b>, l'expérience olympique réinventée&nbsp;!</p>
 						<div class="img-wrapper">
 							<div class="overlay"></div>
 							<img src="/assets/gifs/flag.gif" alt="" srcset="" />
