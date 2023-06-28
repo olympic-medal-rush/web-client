@@ -2,7 +2,7 @@ import { app } from '@/App';
 import { state } from '@/State';
 import terrainStructure from '@jsons/terrain_data.json';
 import { useTeamsStore } from '@stores/teams';
-import { NearestFilter, Object3D, TextureLoader } from 'three';
+import { DoubleSide, NearestFilter, Object3D, TextureLoader } from 'three';
 import { CAMERA } from '@utils/config';
 import { EVENTS } from '@utils/constants';
 import { globalUniforms } from '@utils/globalUniforms';
@@ -62,6 +62,7 @@ class Terrain extends Object3D {
 				uTex: { value: this.getWinnerFlag() },
 				tNoise: { value: app.core.assetsManager.get('noise') },
 			},
+			side: DoubleSide,
 			defines: {
 				NEAR: `${CAMERA.near}.`,
 				FAR: `${CAMERA.far}.`,

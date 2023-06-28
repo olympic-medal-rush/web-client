@@ -21,7 +21,8 @@ void main() {
   
   vec4 instancePosition = vec4(position, 1.);
 
-  instancePosition *= rotation3d(vec3(0., 1., 0.), uTime * .005);
+  instancePosition *= rotation3d(vec3(0., 1., 0.), uTime * .004 * (aMedalType + 1.));
+  instancePosition.y += (sin(uTime * .005 * (aMedalType + 1.)) + 1.) * .1;
   instancePosition.xz += aInstancePosition;
 
   vec4 mvPosition = modelViewMatrix * instancePosition;
