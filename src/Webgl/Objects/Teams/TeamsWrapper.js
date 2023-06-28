@@ -132,7 +132,7 @@ class TeamsWrapper {
 				this.instancedFlags.moveInstanceUpdate({ teamIndex, animatedPosition });
 				this.instancedReactMoji.moveInstanceUpdate({ teamIndex, animatedPosition });
 
-				if (app.game.currentTeam.iso === team.iso) this.#raycastCube.position.set(animatedPosition.x, 0, animatedPosition.y);
+				if (app.game.currentTeam?.iso === team.iso) this.#raycastCube.position.set(animatedPosition.x, 0, animatedPosition.y);
 
 				app.sound.setParams(`playerRotation-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
 				app.sound.setParams(`playerJump-${team.iso}`, { pos: { x: animatedPosition.x, y: 0, z: animatedPosition.y } });
