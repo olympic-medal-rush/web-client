@@ -48,23 +48,23 @@ class LoginScene extends Scene {
 		this.#players[0].position.x = 0;
 		this.#players[0].scale.setScalar(0.7);
 
-		this.#players[1].position.y = -1;
+		this.#players[1].position.y = -1.5;
 		// this.#players[1].rotation.y = Math.PI * 0.1;
 		this.#players[1].position.x = this.xOffset;
 		// this.#players[1].scale.setScalar(1);
 		this.#players[1].scale.setScalar(0.7);
 
-		this.#players[2].position.y = -1;
+		this.#players[2].position.y = -1.5;
 		// this.#players[2].rotation.y = Math.PI * 0.1;
 		this.#players[2].position.x = this.xOffset * 2;
 		this.#players[2].scale.setScalar(0.7);
 
-		this.#players[3].position.y = -1;
+		this.#players[3].position.y = -1.5;
 		// this.#players[3].rotation.y = Math.PI * 0.1;
 		this.#players[3].position.x = this.xOffset * 3;
 		this.#players[3].scale.setScalar(0.7);
 
-		this.#players[4].position.y = -1;
+		this.#players[4].position.y = -1.5;
 		// this.#players[4].rotation.y = Math.PI * 0.1;
 		this.#players[4].position.x = this.xOffset * 4;
 		this.#players[4].scale.setScalar(0.7);
