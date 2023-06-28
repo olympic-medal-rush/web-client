@@ -25,7 +25,7 @@ div {
 	pointer-events: none;
 
 	img {
-		width: 300px;
+		width: 250px;
 	}
 
 	// h1 {
