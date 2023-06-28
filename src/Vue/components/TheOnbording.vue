@@ -73,7 +73,7 @@ watchEffect(() => {
 					</div>
 					<div class="embla__slide">
 						<h2>COURSE</h2>
-						<p>Soyez les premiers à la récupérer !</p>
+						<p>Soyez les premiers à la récupérer ! Attention, l'or est plus précieux que le bronze</p>
 						<div class="img-wrapper">
 							<div class="overlay"></div>
 							<img src="/assets/gifs/collect.gif" alt="" srcset="" />
