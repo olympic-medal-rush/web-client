@@ -49,6 +49,14 @@ onMounted(() => {
 	const tl = gsap.timeline();
 	tl.to(app.webgl.postProcessing.uniforms.uFadeProgress, { value: 0, duration: 0.5 }, 0);
 });
+
+const afterTransitionEnter = () => {
+	app.core.ticker.pause();
+};
+
+const beforeTransitionLeave = () => {
+	app.core.ticker.play();
+};
 </script>
 
 <template>
@@ -81,7 +89,7 @@ onMounted(() => {
 		<NewBoost />
 
 		<RouterView v-slot="{ Component }">
-			<transition name="gameroute" mode="out-in"> <component :is="Component"></component></transition>
+			<transition name="gameroute" mode="out-in" @after-enter="afterTransitionEnter" @before-leave="beforeTransitionLeave"> <component :is="Component"></component></transition>
 		</RouterView>
 	</div>
 </template>

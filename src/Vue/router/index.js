@@ -1,8 +1,7 @@
-import { state } from '@/State';
 import { store } from '@/Store';
 import { createRouter, createWebHistory } from 'vue-router';
 import { DEBUG } from '@utils/config';
-import { EVENTS, STORE_KEYS } from '@utils/constants';
+import { STORE_KEYS } from '@utils/constants';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 
@@ -54,10 +53,6 @@ const router = createRouter({
 
 router.beforeResolve((to) => {
 	if (to.name === 'home' && store.get(STORE_KEYS.USER_ISO)) return false;
-});
-
-router.afterEach((to, _from) => {
-	state.emit(EVENTS.ROUTE_CHANGE, to.name);
 });
 
 export default router;
