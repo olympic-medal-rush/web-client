@@ -114,18 +114,21 @@ class SoundController {
 	};
 
 	fadeGlobal() {
-		if (this.isFaded) this.#soundUp();
-		else this.#soundDown();
+		this.sounds['validated'].howl.mute(!this.isFaded);
+		// const volume = { value: 1 };
+
+		// gsap.to(volume, {
+		// 	value: this.isFaded ? 1 : 0,
+		// 	duration: 0.5,
+		// 	onUpdate: () => {
+		// 		for (const key in this.sounds) {
+		// 			this.sounds[key].howl.volume(volume.value * this.sounds[key].params.volume);
+		// 			// console.log(this.sounds[key].howl.volume());
+		// 		}
+		// 	},
+		// });
 
 		this.isFaded = !this.isFaded;
-	}
-
-	#soundDown() {
-		Object.keys(this.sounds).forEach((key) => key !== 'click' && this.sounds[key].howl.fade(this.sounds[key].howl.volume(), 0.4, 500));
-	}
-
-	#soundUp() {
-		Object.keys(this.sounds).forEach((key) => key !== 'click' && this.sounds[key].howl.fade(this.sounds[key].howl.volume(), 1, 500));
 	}
 
 	#update = () => {
